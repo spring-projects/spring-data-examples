@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>spring-data-jpa-examples</artifactId>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.springframework.data.examples</groupId>
+		<artifactId>spring-data-examples</artifactId>
+		<version>1.0.0.BUILD-SNAPSHOT</version>
+	</parent>
+
+	<name>Spring Data JPA - Examples</name>
+	<description>Sample projects for Spring Data JPA</description>
+	<url>http://www.springframework.org/spring-data</url>
+	<inceptionYear>2011</inceptionYear>
+
+	<modules>
+		<module>spring-data-jpa-example</module>
+		<module>spring-data-jpa-showcase</module>
+		<module>spring-data-jpa-interceptors</module>
+		<module>spring-data-jpa-java8-auditing</module>
+	</modules>
+
+	<properties>
+		<spring-data-jpa.version>1.5.0.RC1</spring-data-jpa.version>
+		<hibernate-entitymanager.version>4.3.1.Final</hibernate-entitymanager.version>
+	</properties>
+
+	<dependencies>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>

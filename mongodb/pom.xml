@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>spring-data-mongodb-example</artifactId>
+
+	<name>Spring Data MongoDB - Example</name>
+
+	<parent>
+		<groupId>org.springframework.data.examples</groupId>
+		<artifactId>spring-data-examples</artifactId>
+		<version>1.0.0.BUILD-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<spring-data-mongo.version>1.4.0.DATAMONGO-838-SNAPSHOT</spring-data-mongo.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-mongodb</artifactId>
+			<version>${querydsl.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>${apt.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.mysema.querydsl</groupId>
+						<artifactId>querydsl-apt</artifactId>
+						<version>${querydsl.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/generated-sources/annotations</outputDirectory>
+							<processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<repositories>
+		<repository>
+			<id>spring-libs-snapshot</id>
+			<url>http://repo.spring.io/libs-snapshot</url>
+		</repository>
+	</repositories>
+
+</project>

@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>org.springframework.data.examples</groupId>
+	<artifactId>spring-data-examples</artifactId>
+	<version>1.0.0.BUILD-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Spring Data - Examples</name>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.0.0.RC1</version>
+	</parent>
+
+	<modules>
+		<module>jpa</module>
+		<module>mongodb</module>
+	</modules>
+
+	<properties>
+
+		<spring.version>4.0.1.RELEASE</spring.version>
+		<querydsl.version>3.3.0</querydsl.version>
+		<apt.version>1.1.1</apt.version>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+	</properties>
+
+	<developers>
+		<developer>
+			<id>ogierke</id>
+			<name>Oliver Gierke</name>
+			<email>ogierke@gopivotal.com</email>
+		</developer>
+		<developer>
+			<id>tdarimont</id>
+			<name>Thomas Darimont</name>
+			<email>tdarimont@gopivotal.com</email>
+		</developer>
+	</developers>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.12.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Test dependencies -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-libs-milestone</id>
+			<url>http://repo.spring.io/libs-milestone</url>
+		</repository>
+	</repositories>
+
+</project>
