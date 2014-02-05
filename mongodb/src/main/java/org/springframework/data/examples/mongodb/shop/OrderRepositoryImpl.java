@@ -34,7 +34,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class OrderRepositoryImpl implements OrderRepositoryCustom {
 
-	private MongoOperations operations;
+	private final MongoOperations operations;
 
 	private double taxRate = 0.19;
 
