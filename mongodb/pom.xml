@@ -53,6 +53,7 @@
 						<configuration>
 							<outputDirectory>target/generated-sources/annotations</outputDirectory>
 							<processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
+							<logOnlyOnError>true</logOnlyOnError>
 						</configuration>
 					</execution>
 				</executions>

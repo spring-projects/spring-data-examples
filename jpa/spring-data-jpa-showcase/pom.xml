@@ -116,6 +116,7 @@
 								<configuration>
 									<outputDirectory>target/generated-sources/queries</outputDirectory>
 									<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+									<logOnlyOnError>true</logOnlyOnError>
 								</configuration>
 							</execution>
 						</executions>
