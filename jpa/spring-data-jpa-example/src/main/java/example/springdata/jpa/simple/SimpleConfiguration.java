@@ -17,13 +17,10 @@ package example.springdata.jpa.simple;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * @author Oliver Gierke
  */
 @Configuration
 @EnableAutoConfiguration
-// TODO: Remove once Boot can work with Codd
-@EnableJpaRepositories
 class SimpleConfiguration {}

@@ -21,15 +21,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.jpa.java8.Customer;
-import example.springdata.jpa.java8.CustomerRepository;
 
 /**
  * Integration test to show the usage of Java 8 date time APIs with Spring Data JPA auditing.
@@ -37,16 +30,8 @@ import example.springdata.jpa.java8.CustomerRepository;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration(classes = AuditingConfiguration.class)
 public class Java8AuditingIntegrationTests {
-
-	@Configuration
-	@EnableAutoConfiguration
-	@EnableJpaRepositories
-	@EnableJpaAuditing
-	static class Config {
-
-	}
 
 	@Autowired CustomerRepository repository;
 

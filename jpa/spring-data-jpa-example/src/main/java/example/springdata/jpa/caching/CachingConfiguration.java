@@ -25,7 +25,6 @@ import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * Java config to use Spring Data JPA alongside the Spring caching support.
@@ -36,8 +35,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableCaching
 @EnableAutoConfiguration
-// TODO: Remove once Boot can work with Codd
-@EnableJpaRepositories
 class CachingConfiguration {
 
 	@Bean

@@ -32,7 +32,8 @@ import org.springframework.data.querydsl.QSort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import example.springdata.mongodb.TestConfiguration;
+import example.springdata.mongodb.ApplicationConfiguration;
+
 
 /**
  * Integration test for {@link CustomerRepository}.
@@ -40,7 +41,7 @@ import example.springdata.mongodb.TestConfiguration;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfiguration.class)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
 public class CustomerRepositoryIntegrationTest {
 
 	@Autowired CustomerRepository repository;

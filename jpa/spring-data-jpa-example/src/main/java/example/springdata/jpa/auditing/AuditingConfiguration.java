@@ -21,7 +21,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -32,16 +31,13 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @Configuration
 @EnableAutoConfiguration
 @EnableJpaAuditing
-@EnableJpaRepositories
-// TODO: Remove once Boot can work with Codd
 class AuditingConfiguration {
 
 	/**
 	 * We need to configure a {@link LocalContainerEntityManagerFactoryBean} manually here as Spring does <em>not</em>
 	 * automatically add the {@code orm.xml} <em>if</em> a {@code persistence.xml} is located right beside it. This is
-	 * necessary to get the {@link example.springdata.jpa.basics.BasicFactorySetup} sample
-	 * working. However, in a {code persistence.xml}-less codebase you can rely on Spring Boot on setting the correct
-	 * defaults.
+	 * necessary to get the {@link example.springdata.jpa.basics.BasicFactorySetup} sample working. However, in a {code
+	 * persistence.xml}-less codebase you can rely on Spring Boot on setting the correct defaults.
 	 * 
 	 * @return
 	 */
