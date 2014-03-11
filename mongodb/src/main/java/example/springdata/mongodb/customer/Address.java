@@ -18,7 +18,7 @@ package example.springdata.mongodb.customer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.mongodb.core.geo.Point;
+import org.springframework.data.geo.Point;
 
 /**
  * A domain object to capture addresses.

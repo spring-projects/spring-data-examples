@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.0.0.RC3</version>
+		<version>1.0.0.RC4</version>
 	</parent>
 
 	<modules>
@@ -23,7 +23,7 @@
 	<properties>
 
 		<spring.version>4.0.1.RELEASE</spring.version>
-		<querydsl.version>3.3.0</querydsl.version>
+		<querydsl.version>3.3.1</querydsl.version>
 		<apt.version>1.1.1</apt.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.12.2</version>
+			<version>1.12.4</version>
 			<scope>provided</scope>
 		</dependency>
 
