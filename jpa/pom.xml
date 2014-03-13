@@ -24,7 +24,7 @@
 	</modules>
 
 	<properties>
-		<spring-data-jpa.version>1.5.0.RELEASE</spring-data-jpa.version>
+		<spring-data-jpa.version>1.5.1.RELEASE</spring-data-jpa.version>
 		<hibernate-entitymanager.version>4.3.4.Final</hibernate-entitymanager.version>
 	</properties>
 
