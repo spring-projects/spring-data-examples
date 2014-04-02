@@ -18,7 +18,6 @@ package example.springdata.mongodb.customer;
 import lombok.Data;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.Assert;
 
@@ -34,7 +33,6 @@ public class Customer {
 	private ObjectId id;
 	private String firstname, lastname;
 
-	@GeoSpatialIndexed(name = "address.location")//
 	private Address address;
 
 	/**

@@ -28,6 +28,8 @@ import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.querydsl.QSort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -44,6 +46,7 @@ import example.springdata.mongodb.ApplicationConfiguration;
 public class CustomerRepositoryIntegrationTest {
 
 	@Autowired CustomerRepository repository;
+	@Autowired MongoOperations operations;
 
 	Customer dave, oliver, carter;
 
@@ -86,6 +89,12 @@ public class CustomerRepositoryIntegrationTest {
 	 */
 	@Test
 	public void exposesGeoSpatialFunctionality() {
+
+		GeospatialIndex indexDefinition = new GeospatialIndex("address.location");
+		indexDefinition.getIndexOptions().put("min", -180);
+		indexDefinition.getIndexOptions().put("max", 180);
+
+		operations.indexOps(Customer.class).ensureIndex(indexDefinition);
 
 		Customer ollie = new Customer("Oliver", "Gierke");
 		ollie.setAddress(new Address(new Point(52.52548, 13.41477)));
