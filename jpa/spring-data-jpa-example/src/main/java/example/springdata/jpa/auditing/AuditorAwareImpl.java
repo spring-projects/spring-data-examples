@@ -21,14 +21,11 @@ import org.springframework.data.domain.AuditorAware;
  * Dummy implementation of {@link AuditorAware}. It will return the configured {@link AuditableUser} as auditor on every
  * call to {@link #getCurrentAuditor()}. Normally you would access the applications security subsystem to return the
  * current user.
- * <p>
- * TODO: change back to {@code AuditorAware<AuditableUser>} after SD Commons 1.7 RC1 as generic autowiring with Spring 4
- * will work with that version again.
  * 
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-public class AuditorAwareImpl implements AuditorAware<Object> {
+public class AuditorAwareImpl implements AuditorAware<AuditableUser> {
 
 	private AuditableUser auditor;
 
