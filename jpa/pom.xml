@@ -17,14 +17,14 @@
 	<inceptionYear>2011</inceptionYear>
 
 	<modules>
-		<module>spring-data-jpa-example</module>
-		<module>spring-data-jpa-showcase</module>
-		<module>spring-data-jpa-interceptors</module>
-		<module>spring-data-jpa-java8-auditing</module>
+		<module>example</module>
+		<module>showcase</module>
+		<module>interceptors</module>
+		<module>java8</module>
 	</modules>
 
 	<properties>
-		<spring-data-jpa.version>1.5.1.RELEASE</spring-data-jpa.version>
+		<spring-data-jpa.version>1.6.0.BUILD-SNAPSHOT</spring-data-jpa.version>
 		<hibernate-entitymanager.version>4.3.4.Final</hibernate-entitymanager.version>
 	</properties>
 
@@ -46,5 +46,12 @@
 		</dependency>
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>spring-libs-snapshot</id>
+			<url>http:/repo.spring.io/libs-snapshot</url>
+		</repository>
+	</repositories>
 
 </project>
