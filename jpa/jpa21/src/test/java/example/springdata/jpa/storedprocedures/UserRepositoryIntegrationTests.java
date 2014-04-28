@@ -55,7 +55,7 @@ public class UserRepositoryIntegrationTests {
 	 */
 	@Test
 	public void invokeDerivedStoredProcedure() {
-		assertThat(repository.derivedStoredProcedureDeclaration(1), is(2));
+		assertThat(repository.plus1inout(1), is(2));
 	}
 
 	// This is what it would look like implemented manually.

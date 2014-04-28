@@ -42,6 +42,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	 * Directly map the method to the stored procedure in the database (to avoid the annotation madness on your domain
 	 * classes).
 	 */
-	@Procedure("plus1inout")
-	Integer derivedStoredProcedureDeclaration(Integer arg);
+	@Procedure
+	Integer plus1inout(Integer arg);
 }

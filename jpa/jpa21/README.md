@@ -44,11 +44,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
   Integer plus1BackedByOtherNamedStoredProcedure(@Param("arg") Integer arg);
 
   // Directly map the method to the stored procedure in the database (to avoid the annotation madness on your domain classes).
-  @Procedure("plus1inout")
-  Integer derivedStoredProcedureDeclaration(Integer arg);
+  @Procedure
+  Integer plus1inout(Integer arg);
 }
 ```
 
 Calling `UserRepository.plus1BackedByOtherNamedStoredProcedure(…)` will execute the stored procedure `plus1inout` using the meta-data declared on the `User` domain class.
 
-`UserRepository.derivedStoredProcedureDeclaration(…)` will use the stored procedure name declared in the annotation and default to positional parameter binding and expect a single output parameter of the backing stored procedure.
+`UserRepository.plus1inout(…)` will derive stored procedure metadata from the repository and default to positional parameter binding and expect a single output parameter of the backing stored procedure.

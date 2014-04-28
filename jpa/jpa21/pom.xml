@@ -12,7 +12,7 @@
     <name>Spring Data JPA - JPA 2.1 specific features</name>
     
     <properties>
-    	<spring-data-jpa.version>1.6.0.DATAJPA-455-SNAPSHOT</spring-data-jpa.version>
+    	<spring-data-jpa.version>1.6.0.BUILD-SNAPSHOT</spring-data-jpa.version>
     </properties>
 
 </project>
