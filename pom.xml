@@ -18,6 +18,7 @@
 	<modules>
 		<module>jpa</module>
 		<module>mongodb</module>
+		<module>rest</module>
 	</modules>
 
 	<properties>

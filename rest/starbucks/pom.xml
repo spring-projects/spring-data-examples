@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>spring-data-rest-starbucks</artifactId>
+
+	<name>Spring Data REST - Starbucks Example</name>
+
+	<parent>
+		<groupId>org.springframework.data.examples</groupId>
+		<artifactId>spring-data-rest-examples</artifactId>
+		<version>1.0.0.BUILD-SNAPSHOT</version>
+	</parent>
+	
+	<properties>
+		<mongodb.version>2.12.1</mongodb.version>
+		<spring-data-mongodb.version>1.5.0.RC1</spring-data-mongodb.version>
+		<spring-data-rest.version>2.1.0.RC1</spring-data-rest.version>
+		<spring-hateoas.version>0.11.0.RELEASE</spring-hateoas.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-core</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>
