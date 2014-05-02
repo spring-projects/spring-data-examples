@@ -13,7 +13,7 @@
 	</parent>
 
 	<properties>
-		<spring-data-mongodb.version>1.5.0.M1</spring-data-mongodb.version>
+		<spring-data-mongodb.version>1.5.0.RC1</spring-data-mongodb.version>
 	</properties>
 
 	<dependencies>

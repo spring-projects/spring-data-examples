@@ -25,7 +25,7 @@
 	</modules>
 
 	<properties>
-		<spring-data-jpa.version>1.6.0.BUILD-SNAPSHOT</spring-data-jpa.version>
+		<spring-data-jpa.version>1.6.0.RC1</spring-data-jpa.version>
 		<hibernate-entitymanager.version>4.3.4.Final</hibernate-entitymanager.version>
 	</properties>
 
@@ -50,8 +50,8 @@
 
 	<repositories>
 		<repository>
-			<id>spring-libs-snapshot</id>
-			<url>http:/repo.spring.io/libs-snapshot</url>
+			<id>spring-libs-milestone</id>
+			<url>http:/repo.spring.io/libs-milestone</url>
 		</repository>
 	</repositories>
 
