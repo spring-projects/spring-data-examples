@@ -18,6 +18,12 @@
 			<artifactId>spring-aspects</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.extended</artifactId>
+			<version>3.2.0.GA</version>
+		</dependency>
+		
 	</dependencies>
 	
 </project>

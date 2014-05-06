@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -33,10 +34,10 @@ public class AbstractEntity {
 	@Id @GeneratedValue Long id;
 
 	@CreatedDate//
-	// @Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentZonedDateTime")//
+	@Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")//
 	ZonedDateTime createdDate;
 
 	@LastModifiedDate//
-	// @Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentZonedDateTime")//
+	@Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")//
 	ZonedDateTime modifiedDate;
 }
