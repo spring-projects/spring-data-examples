@@ -13,8 +13,8 @@
 
 	<name>Spring Data JPA - Examples</name>
 	<description>Sample projects for Spring Data JPA</description>
-	<url>http://www.springframework.org/spring-data</url>
-	<inceptionYear>2011</inceptionYear>
+	<url>http://projects.spring.io/spring-data-jpa</url>
+	<inceptionYear>2011-2014</inceptionYear>
 
 	<modules>
 		<module>example</module>
@@ -25,34 +25,27 @@
 	</modules>
 
 	<properties>
-		<spring-data-jpa.version>1.6.0.RC1</spring-data-jpa.version>
+		<spring-data-jpa.version>1.6.0.RELEASE</spring-data-jpa.version>
 		<hibernate-entitymanager.version>4.3.4.Final</hibernate-entitymanager.version>
 	</properties>
 
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 		</dependency>
 
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>spring-libs-milestone</id>
-			<url>http:/repo.spring.io/libs-milestone</url>
-		</repository>
-	</repositories>
 
 </project>

@@ -23,8 +23,9 @@
 
 	<properties>
 
-		<querydsl.version>3.3.2</querydsl.version>
 		<apt.version>1.1.1</apt.version>
+		<querydsl.version>3.3.4</querydsl.version>
+		<spring.version>4.0.5.RELEASE</spring.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -75,12 +76,5 @@
 
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>spring-libs-milestone</id>
-			<url>http://repo.spring.io/libs-milestone</url>
-		</repository>
-	</repositories>
 
 </project>

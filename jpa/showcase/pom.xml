@@ -83,7 +83,7 @@
 					<artifactId>querydsl-jpa</artifactId>
 					<version>${querydsl.version}</version>
 				</dependency>
-				
+
 			</dependencies>
 
 			<repositories>

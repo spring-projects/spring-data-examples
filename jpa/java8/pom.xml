@@ -10,20 +10,20 @@
 
 	<artifactId>spring-data-jpa-java8</artifactId>
 	<name>Spring Data JPA - Java 8 specific features</name>
-	
+
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jadira.usertype</groupId>
 			<artifactId>usertype.extended</artifactId>
 			<version>3.2.0.GA</version>
 		</dependency>
-		
+
 	</dependencies>
-	
+
 </project>
