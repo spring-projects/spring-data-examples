@@ -12,10 +12,6 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<spring-data-mongodb.version>1.5.0.RELEASE</spring-data-mongodb.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
@@ -33,7 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>

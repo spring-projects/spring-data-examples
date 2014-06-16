@@ -18,8 +18,6 @@ package example.stores;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 
 /**
  * Spring configuration class main application bootstrap point.
@@ -28,8 +26,6 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
  */
 @EnableAutoConfiguration
 @ComponentScan
-// Activates Spring Data REST
-@Import(RepositoryRestMvcConfiguration.class)
 public class StoreApp {
 
 	public static void main(String[] args) {

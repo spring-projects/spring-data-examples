@@ -12,13 +12,6 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<mongodb.version>2.12.1</mongodb.version>
-		<spring-data-mongodb.version>1.5.0.RELEASE</spring-data-mongodb.version>
-		<spring-data-rest.version>2.1.0.RELEASE</spring-data-rest.version>
-		<spring-hateoas.version>0.12.0.RELEASE</spring-hateoas.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
@@ -34,6 +27,13 @@
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>0.9.1</version>
+			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>
