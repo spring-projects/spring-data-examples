@@ -56,4 +56,14 @@ public class Java8IntegrationTests {
 		assertThat(customer.createdDate, is(notNullValue()));
 		assertThat(customer.modifiedDate, is(notNullValue()));
 	}
+
+	@Test
+	public void invokesDefaultMethod() {
+
+		Customer customer = repository.save(new Customer("Dave", "Matthews"));
+		Optional<Customer> result = repository.findByLastname(customer);
+
+		assertThat(result.isPresent(), is(true));
+		assertThat(result.get(), is(customer));
+	}
 }

@@ -36,4 +36,10 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	Optional<Customer> findOne(Long id);
 
 	<S extends Customer> S save(S customer);
+
+	Optional<Customer> findByLastname(String lastname);
+
+	default Optional<Customer> findByLastname(Customer customer) {
+		return findByLastname(customer.lastname);
+	}
 }
