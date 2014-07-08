@@ -12,6 +12,10 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+	    <tomcat.version>8.0.9</tomcat.version>
+	</properties>
+
 	<dependencies>
 
 		<dependency>
