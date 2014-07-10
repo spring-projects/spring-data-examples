@@ -18,4 +18,15 @@
 		<module>starbucks</module>
 	</modules>
 
+	<properties>
+		<tomcat.version>8.0.9</tomcat.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+	</dependencies>
+
 </project>
