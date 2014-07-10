@@ -22,6 +22,7 @@
 		<module>interceptors</module>
 		<module>java8</module>
 		<module>jpa21</module>
+		<module>security</module>
 	</modules>
 
 	<properties>

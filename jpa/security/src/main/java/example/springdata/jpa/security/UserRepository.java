@@ -18,10 +18,7 @@ package example.springdata.jpa.security;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Repository to manage {@link Customer} instances.
- * 
- * @author Oliver Gierke
+ * @author Thomas Darimont
  */
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
-
+public interface UserRepository extends CrudRepository<User,Long>{
 }

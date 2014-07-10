@@ -10,6 +10,7 @@ We have separate folders for the samples of individual modules:
 * `java8` - Example of how to use Spring Data JPA auditing with Java 8 date time types as well as the usage of `Optional` as return type for repository methods. Note, this project requires to be build with JDK 8.
 * `showcase` - Refactoring show case of how to improve a plain-JPA-based persistence layer by using Spring Data JPA (read: removing close to all of the implementation code). Follow the `demo.txt` file for detailed instructions.
 * `interceptors` - Example of how to enrich the repositories with AOP.
+* `security` - Example of how to integrate Spring Data JPA Repositories with Spring Security.
 
 ## Spring Data MongoDB
 
