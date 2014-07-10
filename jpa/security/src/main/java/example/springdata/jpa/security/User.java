@@ -20,17 +20,36 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * @author Oliver Gierke
+ * @author Thomas Darimont
  */
 @Entity
-public class Customer {
+public class User {
 
 	@Id @GeneratedValue Long id;
-	String firstname, lastname;
 
-	public Customer(String firstname, String lastname) {
+	String firstname;
+	String lastname;
+	String emailAddress;
 
+	public User(String firstname, String lastname, String emailAddress) {
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.emailAddress = emailAddress;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
 	}
 }

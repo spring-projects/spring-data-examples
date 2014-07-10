@@ -15,15 +15,16 @@
  */
 package example.springdata.jpa.security;
 
-import java.util.Collections;
-import java.util.Map;
-
 import org.springframework.data.repository.query.spi.EvaluationContextExtension;
 import org.springframework.data.repository.query.spi.EvaluationContextExtensionSupport;
+import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * {@link EvaluationContextExtension} to expose Spring Security's principal via a SpEL property.
+ *
+ * Note that this is just for the sake of demonstration - Spring Security will eventually provide its
+ * own EvaluationContext extension.
  * 
  * @author Oliver Gierke
  */
@@ -38,12 +39,12 @@ class SecurityEvaluationContextExtension extends EvaluationContextExtensionSuppo
 		return "security";
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.query.spi.EvaluationContextExtensionSupport#getProperties()
+	 * @see org.springframework.data.repository.query.spi.EvaluationContextExtension#getRootObject()
 	 */
 	@Override
-	public Map<String, Object> getProperties() {
-		return Collections.singletonMap("principal", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+	public SecurityExpressionRoot getRootObject() {
+		return new SecurityExpressionRoot(SecurityContextHolder.getContext().getAuthentication()) {};
 	}
 }

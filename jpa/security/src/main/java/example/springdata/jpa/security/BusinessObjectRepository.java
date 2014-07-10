@@ -15,21 +15,13 @@
  */
 package example.springdata.jpa.security;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.repository.query.spi.EvaluationContextExtension;
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * @author Oliver Gierke
+ * Repository to manage {@link BusinessObject} instances.
+ *
  * @author Thomas Darimont
  */
-@Configuration
-@EnableAutoConfiguration
-class SecurityConfiguration {
+public interface BusinessObjectRepository extends CrudRepository<BusinessObject, Long> {
 
-	@Bean
-	EvaluationContextExtension securityExtension() {
-		return new SecurityEvaluationContextExtension();
-	}
 }
