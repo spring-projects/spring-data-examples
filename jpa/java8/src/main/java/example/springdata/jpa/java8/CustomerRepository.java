@@ -35,11 +35,29 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	 */
 	Optional<Customer> findOne(Long id);
 
+	/**
+	 * Saves the given {@link Customer}.
+	 * 
+	 * @param customer
+	 * @return
+	 */
 	<S extends Customer> S save(S customer);
 
+	/**
+	 * Sample method to derive a query from using JDK 8's {@link Optional} as return type.
+	 * 
+	 * @param lastname
+	 * @return
+	 */
 	Optional<Customer> findByLastname(String lastname);
 
+	/**
+	 * Sample default method to show JDK 8 feature support.
+	 * 
+	 * @param customer
+	 * @return
+	 */
 	default Optional<Customer> findByLastname(Customer customer) {
-		return findByLastname(customer.lastname);
+		return findByLastname(customer == null ? null : customer.lastname);
 	}
 }
