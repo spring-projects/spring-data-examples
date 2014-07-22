@@ -55,7 +55,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractShowcaseTest {
 		Page<Customer> customers = repository.findByLastname("Matthews", new PageRequest(0, 2));
 
 		assertThat(customers.getContent().size(), is(2));
-		assertFalse(customers.hasPreviousPage());
+		assertFalse(customers.hasPrevious());
 	}
 
 	@Test
