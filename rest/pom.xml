@@ -16,6 +16,7 @@
 
 	<modules>
 		<module>starbucks</module>
+		<module>multi-store</module>
 	</modules>
 
 	<properties>
