@@ -1,4 +1,4 @@
-= Mixing Spring Data JPA and Spring Data MongoDB (with Spring Data REST for extra)
+= Spring Data REST - Multi-store example
 
 This example app shows how to mix together several Spring Data projects.
 
@@ -40,16 +40,8 @@ public class Application {
     }
 
     treasureRepository.deleteAll();
-
-    Treasure sting = new Treasure();
-    sting.setName("Sting");
-    sting.setDescription("Made by the Elves");
-    treasureRepository.save(sting);
-
-    Treasure ring = new Treasure();
-    ring.setName("Sauron's ring");
-    ring.setDescription("One ring to rule them all");
-    treasureRepository.save(ring);
+    treasureRepository.save(new Treasure("Sting", "Made by the Elves"));
+    treasureRepository.save(new Treasure("Sauron's ring", "One ring to rule them all"));
 
     for (Treasure treasure : treasureRepository.findAll()) {
       log.info("Found treasure " + treasure.toString());
@@ -120,12 +112,15 @@ You can easily create a new entry:
 [source, bash]
 ----
 $ curl -X POST -i -H "Content-Type:application/json" -d '{"firstName":"Greg", "lastName":"Turnquist"}' http://localhost:8080/persons
+
 HTTP/1.1 201 Created
 Server: Apache-Coyote/1.1
 Location: http://localhost:8080/persons/3
 Content-Length: 0
 Date: Tue, 22 Jul 2014 22:26:17 GMT
-
+----
+[source, bash]
+----
 $ curl http://localhost:8080/persons/3
 ----
 [source, javascript]
