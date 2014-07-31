@@ -14,8 +14,14 @@ We have separate folders for the samples of individual modules:
 
 ## Spring Data MongoDB
 
-* `example` - Example project for general repository functionality as well as aggregation framework support.
+* `geo-spatial` - Example project for general repository functionality (including geo-spatial functionality) and Querydsl integration
+* `aggregation` - Example project to showcase the MongoDB aggregation framework support.
 
 ## Spring Data REST
 
-* `starbucks` - A sample REST webservice built with Spring Data REST and MongoDB.
+* `starbucks` - A sample REST web-service built with Spring Data REST and MongoDB.
+* `multi-store` - A sample REST web-service based on both Spring Data JPA and Spring Data MongoDB.
+
+## Miscellaneous
+
+* `multi-store` - Example project to use both Spring Data MongoDB and Spring Data JPA in one project.
