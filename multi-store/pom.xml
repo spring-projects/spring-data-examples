@@ -4,7 +4,7 @@
 
 	<artifactId>spring-data-multi-store-example</artifactId>
 
-	<name>Spring Data MongoDB - Example</name>
+	<name>Spring Data - Multi-store example</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
