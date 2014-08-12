@@ -4,7 +4,7 @@
 
 	<artifactId>spring-data-mongodb-geospatial</artifactId>
 
-	<name>Spring Data MongoDB - Geo-spatial &amp; Queryldsl</name>
+	<name>Spring Data MongoDB - Geo-spatial &amp; Querydsl</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>

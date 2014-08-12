@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.1.4.RELEASE</version>
+		<version>1.1.5.RELEASE</version>
 	</parent>
 
 	<modules>
@@ -25,7 +25,7 @@
 	<properties>
 
 		<apt.version>1.1.1</apt.version>
-		<querydsl.version>3.4.1</querydsl.version>
+		<querydsl.version>3.4.2</querydsl.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
