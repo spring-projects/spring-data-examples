@@ -10,10 +10,6 @@
 
 	<artifactId>spring-data-jpa-java8</artifactId>
 	<name>Spring Data JPA - Java 8 specific features</name>
-	
-	<properties>
-		<spring-data-releasetrain.version>Evans-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
 
 	<dependencies>
 
@@ -24,18 +20,5 @@
 		</dependency>
 
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

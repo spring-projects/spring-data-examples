@@ -11,10 +11,6 @@
 		<artifactId>spring-data-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
-	
-	<properties>
-		<spring-data-releasetrain.version>Evans-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
 
 	<dependencies>
 
@@ -27,7 +23,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>

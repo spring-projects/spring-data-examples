@@ -25,11 +25,6 @@
 		<module>security</module>
 	</modules>
 
-	<properties>
-		<spring-data-jpa.version>1.6.0.RELEASE</spring-data-jpa.version>
-		<hibernate-entitymanager.version>4.3.4.Final</hibernate-entitymanager.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>

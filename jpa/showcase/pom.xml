@@ -72,7 +72,9 @@
 
 	<profiles>
 		<profile>
+
 			<id>querydsl</id>
+
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -85,14 +87,6 @@
 				</dependency>
 
 			</dependencies>
-
-			<repositories>
-				<repository>
-					<id>querydsl</id>
-					<name>QueryDsl</name>
-					<url>http://source.mysema.com/maven2/releases</url>
-				</repository>
-			</repositories>
 
 			<build>
 				<plugins>

@@ -28,6 +28,7 @@
 		<querydsl.version>3.4.2</querydsl.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-data-releasetrain.version>Evans-RC1</spring-data-releasetrain.version>
 
 	</properties>
 
@@ -69,12 +70,19 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-libs-milestone</id>
+			<url>https://repo.spring.io/libs-milestone</url>
+		</repository>
+	</repositories>
 
 </project>

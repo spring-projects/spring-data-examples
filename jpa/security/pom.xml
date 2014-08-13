@@ -11,10 +11,6 @@
 	<artifactId>spring-data-jpa-security</artifactId>
 	<name>Spring Data JPA - Spring Security integration</name>
 
-    <properties>
-        <spring-data-releasetrain.version>Evans-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-    </properties>
-	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

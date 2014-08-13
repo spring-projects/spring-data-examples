@@ -13,11 +13,6 @@
 		<artifactId>spring-data-rest-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
-	
-	<properties>
-		<spring-data-releasetrain.version>Evans-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-		<spring-hateoas.version>0.16.0.RELEASE</spring-hateoas.version>
-	</properties>
 
 	<dependencies>
 
