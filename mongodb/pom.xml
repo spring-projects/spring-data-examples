@@ -19,6 +19,7 @@
 	<modules>
 		<module>geo-spatial</module>
 		<module>aggregation</module>
+		<module>text-search</module>
 	</modules>
 
 	<dependencies>

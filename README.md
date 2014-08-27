@@ -16,6 +16,7 @@ We have separate folders for the samples of individual modules:
 
 * `geo-spatial` - Example project for general repository functionality (including geo-spatial functionality) and Querydsl integration
 * `aggregation` - Example project to showcase the MongoDB aggregation framework support.
+* `text-search` - Example project showing usage of MongoDB text search feature.
 
 ## Spring Data REST
 
