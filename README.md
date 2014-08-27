@@ -25,6 +25,11 @@ We have separate folders for the samples of individual modules:
 * `starbucks` - A sample REST web-service built with Spring Data REST and MongoDB.
 * `multi-store` - A sample REST web-service based on both Spring Data JPA and Spring Data MongoDB.
 
+## Spring Data Redis
+
+* `example` - Example for basic Sprign Data Redis setup.
+* `cluster-sentinel` - Example for Redis cluster and Sentinel support.
+
 ## Miscellaneous
 
 * `multi-store` - Example project to use both Spring Data MongoDB and Spring Data JPA in one project.
