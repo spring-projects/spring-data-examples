@@ -20,6 +20,7 @@
 		<module>jpa</module>
 		<module>mongodb</module>
 		<module>rest</module>
+		<module>redis</module>
 	</modules>
 
 	<properties>
