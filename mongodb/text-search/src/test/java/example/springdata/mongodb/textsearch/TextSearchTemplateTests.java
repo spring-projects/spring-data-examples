@@ -22,13 +22,13 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.autoconfigure.mongo.MongoProperties;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition.TextIndexDefinitionBuilder;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.core.query.TextQuery;
-
-import com.mongodb.MongoClient;
 
 import example.springdata.mongodb.util.BlogPostInitializer;
 
@@ -37,16 +37,19 @@ import example.springdata.mongodb.util.BlogPostInitializer;
  */
 public class TextSearchTemplateTests {
 
-	MongoTemplate template;
+	MongoOperations operations;
 
 	@Before
 	public void setUp() throws Exception {
 
-		template = new MongoTemplate(new MongoClient(), MongoTestConfiguration.DATABASE_NAME);
-		template.dropCollection(BlogPost.class);
+		MongoProperties properties = new MongoProperties();
+
+		operations = new MongoTemplate(properties.createMongoClient(null), properties.getMongoClientDatabase());
+		operations.dropCollection(BlogPost.class);
 
 		createIndex();
-		loadTestData();
+
+		BlogPostInitializer.INSTANCE.initialize(this.operations);
 	}
 
 	/**
@@ -57,7 +60,8 @@ public class TextSearchTemplateTests {
 	public void findAllBlogPostsWithRelease() {
 
 		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny("release");
-		List<BlogPost> blogPosts = template.find(query(criteria), BlogPost.class);
+		List<BlogPost> blogPosts = operations.find(query(criteria), BlogPost.class);
+
 		printResult(blogPosts, criteria);
 	}
 
@@ -73,7 +77,8 @@ public class TextSearchTemplateTests {
 		query.setScoreFieldName("score");
 		query.sortByScore();
 
-		List<BlogPost> blogPosts = template.find(query, BlogPost.class);
+		List<BlogPost> blogPosts = operations.find(query, BlogPost.class);
+
 		printResult(blogPosts, criteria);
 	}
 
@@ -106,13 +111,6 @@ public class TextSearchTemplateTests {
 				.onField("categories") //
 				.build();
 
-		template.indexOps(BlogPost.class).ensureIndex(textIndex);
+		operations.indexOps(BlogPost.class).ensureIndex(textIndex);
 	}
-
-	private void loadTestData() throws Exception {
-
-		BlogPostInitializer initializer = new BlogPostInitializer(MongoTestConfiguration.BLOG_POST_ATOM_FEED_SOURCE);
-		initializer.initialize(this.template);
-	}
-
 }

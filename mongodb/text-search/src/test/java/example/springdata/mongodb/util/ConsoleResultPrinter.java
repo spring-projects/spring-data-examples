@@ -36,7 +36,7 @@ public class ConsoleResultPrinter {
 		for (BlogPost blogPost : blogPosts) {
 			System.out.println(blogPost);
 		}
+
 		System.out.println("XXXXXXXXXXXX -- XXXXXXXXXXXX -- XXXXXXXXXXXX\r\n");
 	}
-
 }

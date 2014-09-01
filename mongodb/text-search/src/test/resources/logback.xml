@@ -10,5 +10,7 @@
 	<root level="warn">
 		<appender-ref ref="console" />
 	</root>
+	
+	<logger name="example.springdata" level="info" />
 
 </configuration>
