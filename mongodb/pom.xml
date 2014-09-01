@@ -17,7 +17,7 @@
 	<inceptionYear>2011-2014</inceptionYear>
 
 	<modules>
-		<module>geo-spatial</module>
+		<module>example</module>
 		<module>aggregation</module>
 		<module>text-search</module>
 	</modules>

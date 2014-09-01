@@ -28,4 +28,4 @@ import com.mongodb.MongoClient;
  */
 @Configuration
 @EnableAutoConfiguration
-public class ApplicationConfiguration {}
+class ApplicationConfiguration {}

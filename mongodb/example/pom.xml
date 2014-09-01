@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-mongodb-geospatial</artifactId>
+	<artifactId>spring-data-mongodb-example</artifactId>
 
-	<name>Spring Data MongoDB - Geo-spatial &amp; Querydsl</name>
+	<name>Spring Data MongoDB - Example</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
