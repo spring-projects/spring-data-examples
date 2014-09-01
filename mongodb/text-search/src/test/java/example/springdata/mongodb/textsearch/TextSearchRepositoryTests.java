@@ -22,12 +22,16 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.TextScore;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
+ * Integration tests showing the text search functionality using repositories.
+ * 
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MongoTestConfiguration.class })
@@ -44,6 +48,7 @@ public class TextSearchRepositoryTests {
 
 		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny("release");
 		List<BlogPost> blogPosts = repo.findAllBy(criteria);
+
 		printResult(blogPosts, criteria);
 	}
 
@@ -55,6 +60,7 @@ public class TextSearchRepositoryTests {
 
 		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny("release").notMatching("engineering");
 		List<BlogPost> blogPosts = repo.findAllBy(criteria);
+
 		printResult(blogPosts, criteria);
 	}
 
@@ -66,17 +72,19 @@ public class TextSearchRepositoryTests {
 
 		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release candidate");
 		List<BlogPost> blogPosts = repo.findAllBy(criteria);
+
 		printResult(blogPosts, criteria);
 	}
 
 	/**
-	 * Sort by relevance relying on the value marked with {@link org.springframework.data.mongodb.core.mapping.TextScore}.
+	 * Sort by relevance relying on the value marked with {@link TextScore}.
 	 */
 	@Test
 	public void findAllBlogPostsByPhraseSortByScore() {
 
 		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release candidate");
 		List<BlogPost> blogPosts = repo.findAllByOrderByScoreDesc(criteria);
+
 		printResult(blogPosts, criteria);
 	}
 }

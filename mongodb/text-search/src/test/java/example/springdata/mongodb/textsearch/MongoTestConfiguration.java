@@ -15,46 +15,35 @@
  */
 package example.springdata.mongodb.textsearch;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 import example.springdata.mongodb.util.BlogPostInitializer;
 
 /**
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
 @Configuration
-@EnableMongoRepositories
-public class MongoTestConfiguration extends AbstractMongoConfiguration {
+@EnableAutoConfiguration
+public class MongoTestConfiguration {
 
-	static final String DATABASE_NAME = "s2gx2014-blog";
-	static final String BLOG_POST_ATOM_FEED_SOURCE = "https://spring.io/blog.atom";
-
-	@Override
-	protected String getDatabaseName() {
-		return DATABASE_NAME;
-	}
-
-	@Override
-	public Mongo mongo() throws Exception {
-		return new MongoClient();
-	}
+	@Autowired MongoOperations operations;
 
 	/**
 	 * Initializes the repository with a predefined set of entities.
 	 * 
 	 * @return
+	 * @throws Exception
 	 */
-	@Bean
-	public BlogPostInitializer initializer() {
-		return new BlogPostInitializer(BLOG_POST_ATOM_FEED_SOURCE);
+	@PostConstruct
+	void initialize() throws Exception {
+		BlogPostInitializer.INSTANCE.initialize(operations);
 	}
 
 	/**
@@ -63,8 +52,7 @@ public class MongoTestConfiguration extends AbstractMongoConfiguration {
 	 * @throws Exception
 	 */
 	@PreDestroy
-	public void dropTestDB() throws Exception {
-		mongo().dropDatabase(getDatabaseName());
+	void dropTestDB() throws Exception {
+		operations.dropCollection(BlogPost.class);
 	}
-
 }
