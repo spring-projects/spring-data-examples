@@ -16,11 +16,12 @@
 	</parent>
 
 	<modules>
-		<module>multi-store</module>
 		<module>jpa</module>
 		<module>mongodb</module>
+		<module>multi-store</module>
 		<module>rest</module>
 		<module>redis</module>
+		<module>solr</module>
 	</modules>
 
 	<properties>
