@@ -18,6 +18,7 @@ package example.springdata.jpa.simple;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -29,10 +30,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Intergration test showing the basic usage of {@link SimpleUserRepository}.
+ * Integration test showing the basic usage of {@link SimpleUserRepository}.
  * 
  * @author Oliver Gierke
  * @author Thomas Darimont
+ * @author Christoph Strobl
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -88,5 +90,22 @@ public class SimpleUserRepositoryTests {
 		repository.save(user);
 
 		assertThat(repository.findByUsername("foobar").isPresent(), is(true));
+	}
+
+	@Test
+	public void removeByLastname() {
+
+		// create a 2nd user with the same lastname as user
+		User user2 = new User();
+		user2.setLastname(user.getLastname());
+
+		// create a 3rd user as control group
+		User user3 = new User();
+		user3.setLastname("no-positive-match");
+
+		repository.save(Arrays.asList(user, user2, user3));
+
+		assertThat(repository.removeByLastname(user.getLastname()), is(2L));
+		assertThat(repository.exists(user3.getId()), is(true));
 	}
 }

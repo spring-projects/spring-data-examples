@@ -29,6 +29,7 @@ import com.google.common.base.Optional;
  * 
  * @author Oliver Gierke
  * @author Thomas Darimont
+ * @author Christoph Strobl
  */
 public interface SimpleUserRepository extends CrudRepository<User, Long> {
 
@@ -72,4 +73,12 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 */
 	@Query("select u from User u where u.firstname = :name or u.lastname = :name")
 	List<User> findByFirstnameOrLastname(@Param("name") String name);
+
+	/**
+	 * Returns the total number of entries deleted as their lastnames match the given one.
+	 * 
+	 * @param lastname
+	 * @return
+	 */
+	Long removeByLastname(String lastname);
 }
