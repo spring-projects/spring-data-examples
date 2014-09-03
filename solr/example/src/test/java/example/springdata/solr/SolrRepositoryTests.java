@@ -17,6 +17,7 @@ package example.springdata.solr;
 
 import java.util.Iterator;
 
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,16 @@ import org.springframework.data.solr.core.query.result.Cursor;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import example.springdata.solr.test.util.RequiresSolrServer;
+
 /**
  * @author Christoph Strobl
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { SolrTestConfiguration.class })
 public class SolrRepositoryTests {
+
+	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
 
 	@Autowired ProductRepository repo;
 

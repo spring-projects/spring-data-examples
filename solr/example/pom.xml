@@ -10,5 +10,14 @@
 
 	<artifactId>spring-data-solr-example</artifactId>
 	<name>Spring Data Solr - Examples</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>spring-data-solr-example-utils</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 </project>

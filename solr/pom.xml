@@ -17,6 +17,7 @@
 	<inceptionYear>2012-2014</inceptionYear>
 
 	<modules>
+		<module>util</module>
 		<module>example</module>
 		<module>managed-schema</module>
 	</modules>
