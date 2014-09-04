@@ -17,6 +17,7 @@ package example.springdata.jpa.simple;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -81,4 +82,21 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 * @return
 	 */
 	Long removeByLastname(String lastname);
+
+	/**
+	 * Return the first 2 users ordered by their lastname asc.
+	 * <pre>
+	 * Example for findFirstK / findTopK functionality.
+	 * </pre>
+	 * @return
+	 */
+	List<User> findFirst2ByOrderByLastnameAsc();
+
+	/**
+	 * Return the first 2 users ordered by the given {@code sort} definition.
+	 * @param sort
+	 * @return
+	 */
+	List<User> findTop2By(Sort sort);
+	
 }
