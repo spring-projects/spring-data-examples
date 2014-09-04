@@ -17,6 +17,7 @@
 	<inceptionYear>2011-2014</inceptionYear>
 
 	<modules>
+	    <module>util</module>
 		<module>cluster-sentinel</module>
 		<module>example</module>
 	</modules>

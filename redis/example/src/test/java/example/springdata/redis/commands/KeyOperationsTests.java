@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import example.springdata.redis.RedisTestConfiguration;
+import example.springdata.redis.test.util.RequiresRedisServer;
 
 /**
  * Show usage of operations on redis keys using low level API provided by {@link RedisConnection}.
@@ -42,6 +44,9 @@ import example.springdata.redis.RedisTestConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { RedisTestConfiguration.class })
 public class KeyOperationsTests {
+
+	// we only want to run this tests when redis is up an running
+	public static @ClassRule RequiresRedisServer requiresServer = RequiresRedisServer.onLocalhost();
 
 	private static final String PREFIX = KeyOperationsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";

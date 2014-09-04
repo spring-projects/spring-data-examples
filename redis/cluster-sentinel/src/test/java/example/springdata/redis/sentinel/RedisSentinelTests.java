@@ -25,7 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.StopWatch;
 
-import example.springdata.redis.util.RedisSentinelRule;
+import example.springdata.redis.test.util.RequiresRedisSentinel;
 
 /**
  * @author Christoph Strobl
@@ -35,7 +35,7 @@ import example.springdata.redis.util.RedisSentinelRule;
 public class RedisSentinelTests {
 
 	// we only want to run this tests when at least one active sentinel can be found for provided configuration
-	public static @ClassRule RedisSentinelRule requiresRunningSentinels = RedisSentinelRule.forConfig(
+	public static @ClassRule RequiresRedisSentinel requiresRunningSentinels = RequiresRedisSentinel.forConfig(
 			RedisSentinelApplicationConfig.SENTINEL_CONFIG).oneActive();
 
 	@Autowired RedisConnectionFactory factory;

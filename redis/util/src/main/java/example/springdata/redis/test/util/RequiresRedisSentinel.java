@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.redis.util;
+package example.springdata.redis.test.util;
 
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.rules.TestRule;
@@ -27,7 +27,7 @@ import redis.clients.jedis.Jedis;
 /**
  * @author Christoph Strobl
  */
-public class RedisSentinelRule implements TestRule {
+public class RequiresRedisSentinel implements TestRule {
 
 	public enum SentinelsAvailable {
 		ALL_ACTIVE, ONE_ACTIVE, NONE_ACTIVE
@@ -39,7 +39,7 @@ public class RedisSentinelRule implements TestRule {
 	private RedisSentinelConfiguration sentinelConfig;
 	private SentinelsAvailable requiredSentinels;
 
-	protected RedisSentinelRule(RedisSentinelConfiguration config) {
+	protected RequiresRedisSentinel(RedisSentinelConfiguration config) {
 		this.sentinelConfig = config;
 	}
 
@@ -49,8 +49,8 @@ public class RedisSentinelRule implements TestRule {
 	 * @param config
 	 * @return
 	 */
-	public static RedisSentinelRule forConfig(RedisSentinelConfiguration config) {
-		return new RedisSentinelRule(config != null ? config : DEFAULT_SENTINEL_CONFIG);
+	public static RequiresRedisSentinel forConfig(RedisSentinelConfiguration config) {
+		return new RequiresRedisSentinel(config != null ? config : DEFAULT_SENTINEL_CONFIG);
 	}
 
 	/**
@@ -58,11 +58,11 @@ public class RedisSentinelRule implements TestRule {
 	 * 
 	 * @return
 	 */
-	public static RedisSentinelRule withDefaultConfig() {
-		return new RedisSentinelRule(DEFAULT_SENTINEL_CONFIG);
+	public static RequiresRedisSentinel withDefaultConfig() {
+		return new RequiresRedisSentinel(DEFAULT_SENTINEL_CONFIG);
 	}
 
-	public RedisSentinelRule sentinelsDisabled() {
+	public RequiresRedisSentinel sentinelsDisabled() {
 
 		this.requiredSentinels = SentinelsAvailable.NONE_ACTIVE;
 		return this;
@@ -73,7 +73,7 @@ public class RedisSentinelRule implements TestRule {
 	 * 
 	 * @return
 	 */
-	public RedisSentinelRule allActive() {
+	public RequiresRedisSentinel allActive() {
 
 		this.requiredSentinels = SentinelsAvailable.ALL_ACTIVE;
 		return this;
@@ -84,7 +84,7 @@ public class RedisSentinelRule implements TestRule {
 	 * 
 	 * @return
 	 */
-	public RedisSentinelRule oneActive() {
+	public RequiresRedisSentinel oneActive() {
 
 		this.requiredSentinels = SentinelsAvailable.ONE_ACTIVE;
 		return this;
@@ -96,7 +96,7 @@ public class RedisSentinelRule implements TestRule {
 	 * 
 	 * @return
 	 */
-	public RedisSentinelRule dynamicModeSelection() {
+	public RequiresRedisSentinel dynamicModeSelection() {
 		this.requiredSentinels = null;
 		return this;
 	}
@@ -110,12 +110,12 @@ public class RedisSentinelRule implements TestRule {
 			public void evaluate() throws Throwable {
 
 				if (description.isTest()) {
-					if (RedisSentinelRule.this.requiredSentinels != null) {
-						verify(RedisSentinelRule.this.requiredSentinels);
+					if (RequiresRedisSentinel.this.requiredSentinels != null) {
+						verify(RequiresRedisSentinel.this.requiredSentinels);
 					}
 
 				} else {
-					verify(RedisSentinelRule.this.requiredSentinels);
+					verify(RequiresRedisSentinel.this.requiredSentinels);
 				}
 
 				base.evaluate();
