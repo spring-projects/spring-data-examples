@@ -18,9 +18,9 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.java.dev.rome</groupId>
+			<groupId>com.rometools</groupId>
 			<artifactId>rome</artifactId>
-			<version>1.0.0</version>
+			<version>1.5.0</version>
 		</dependency>
 	</dependencies>
 </project>
