@@ -18,6 +18,7 @@ package example.springdata.jpa.simple;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.collection.IsIterableContainingInOrder.*;
 import static org.junit.Assert.*;
+import static org.springframework.data.domain.Sort.Direction.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -135,5 +137,52 @@ public class SimpleUserRepositoryTests {
 		Slice<User> users = repository.findByLastnameOrderByUsernameAsc(this.user.getLastname(), new PageRequest(1, 5));
 
 		assertThat(users, contains(source.subList(5, 10).toArray()));
+	}
+
+	@Test
+	public void findFirst2ByOrderByLastnameAsc() {
+
+		User user0 = new User();
+		user0.setLastname("lastname-0");
+
+		User user1 = new User();
+		user1.setLastname("lastname-1");
+
+		User user2 = new User();
+		user2.setLastname("lastname-2");
+
+		// we deliberatly save the items in reverse
+		repository.save(Arrays.asList(user2, user1, user0));
+
+		List<User> result = repository.findFirst2ByOrderByLastnameAsc();
+
+		assertThat(result.size(), is(2));
+		assertThat(result, hasItems(user0, user1));
+	}
+
+	@Test
+	public void findTop2ByWithSort() {
+
+		User user0 = new User();
+		user0.setLastname("lastname-0");
+
+		User user1 = new User();
+		user1.setLastname("lastname-1");
+
+		User user2 = new User();
+		user2.setLastname("lastname-2");
+
+		// we deliberately save the items in reverse
+		repository.save(Arrays.asList(user2, user1, user0));
+
+		List<User> resultAsc = repository.findTop2By(new Sort(ASC, "lastname"));
+
+		assertThat(resultAsc.size(), is(2));
+		assertThat(resultAsc, hasItems(user0, user1));
+
+		List<User> resultDesc = repository.findTop2By(new Sort(DESC, "lastname"));
+
+		assertThat(resultDesc.size(), is(2));
+		assertThat(resultDesc, hasItems(user1, user2));
 	}
 }

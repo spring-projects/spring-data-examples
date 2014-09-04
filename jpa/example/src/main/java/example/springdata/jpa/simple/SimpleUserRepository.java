@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -93,4 +94,28 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 * @return
 	 */
 	Slice<User> findByLastnameOrderByUsernameAsc(String lastname, Pageable page);
+
+	/**
+	 * Return the first 2 users ordered by their lastname asc.
+	 * 
+	 * <pre>
+	 * Example for findFirstK / findTopK functionality.
+	 * </pre>
+	 * 
+	 * @return
+	 */
+	List<User> findFirst2ByOrderByLastnameAsc();
+
+	/**
+	 * Return the first 2 users ordered by the given {@code sort} definition.
+	 * 
+	 * <pre>
+	 * This variant is very flexible because one can ask for the first K results when a ASC ordering
+	 * is used as well as for the last K results when a DESC ordering is used.
+	 * </pre>
+	 * 
+	 * @param sort
+	 * @return
+	 */
+	List<User> findTop2By(Sort sort);
 }
