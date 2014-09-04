@@ -15,12 +15,14 @@
  */
 package example.springdata.mongodb.customer;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import org.hamcrest.number.IsCloseTo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -108,6 +110,6 @@ public class CustomerRepositoryIntegrationTest {
 
 		Distance distanceToFirstStore = result.getContent().get(0).getDistance();
 		assertThat(distanceToFirstStore.getMetric(), is(Metrics.KILOMETERS));
-		assertThat(distanceToFirstStore.getValue(), IsCloseTo.closeTo(0.862, 0.001));
+		assertThat(distanceToFirstStore.getValue(), closeTo(0.862, 0.001));
 	}
 }

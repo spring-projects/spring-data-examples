@@ -15,12 +15,13 @@
  */
 package example.springdata.mongodb.textsearch;
 
-import static example.springdata.mongodb.util.ConsoleResultPrinter.*;
-import static org.springframework.data.mongodb.core.query.Query.*;
+import static example.springdata.mongodb.util.ConsoleResultPrinter.printResult;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -29,15 +30,20 @@ import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition.TextIndexDefinitionBuilder;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.core.query.TextQuery;
+import org.springframework.data.util.Version;
 
 import example.springdata.mongodb.util.BlogPostInitializer;
+import example.springdata.mongodb.util.MongoVersionRule;
 
 /**
  * @author Christoph Strobl
+ * @author Thomas Darimont
  */
 public class TextSearchTemplateTests {
 
 	MongoOperations operations;
+
+	@ClassRule public static MongoVersionRule versionRule = MongoVersionRule.atLeast(new Version(2, 6));
 
 	@Before
 	public void setUp() throws Exception {
