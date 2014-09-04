@@ -94,9 +94,13 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 
 	/**
 	 * Return the first 2 users ordered by the given {@code sort} definition.
+	 * <pre>
+	 * This variant is very flexible because one can ask for the first K results when a ASC ordering
+	 * is used as well as for the last K results when a DESC ordering is used.
+	 * </pre>
 	 * @param sort
 	 * @return
 	 */
 	List<User> findTop2By(Sort sort);
-	
+
 }
