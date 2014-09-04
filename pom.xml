@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.1.9.RELEASE</version>
+		<version>1.2.0.BUILD-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -73,9 +73,16 @@
 
 	<repositories>
 		<repository>
-			<id>spring-libs-milestone</id>
-			<url>https://repo.spring.io/libs-milestone</url>
+			<id>spring-libs-snapshot</id>
+			<url>https://repo.spring.io/libs-snapshot</url>
 		</repository>
 	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-libs-snapshot</id>
+			<url>https://repo.spring.io/libs-snapshot</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 </project>
