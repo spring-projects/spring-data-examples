@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.hamcrest.number.IsCloseTo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,6 +105,9 @@ public class CustomerRepositoryIntegrationTest {
 		GeoResults<Customer> result = repository.findByAddressLocationNear(referenceLocation, oneKilometer);
 
 		assertThat(result.getContent(), hasSize(1));
-		assertThat(result.getContent().get(0).getDistance(), is(new Distance(0.8624842788060683, Metrics.KILOMETERS)));
+
+		Distance distanceToFirstStore = result.getContent().get(0).getDistance();
+		assertThat(distanceToFirstStore.getMetric(), is(Metrics.KILOMETERS));
+		assertThat(distanceToFirstStore.getValue(), IsCloseTo.closeTo(0.862, 0.001));
 	}
 }
