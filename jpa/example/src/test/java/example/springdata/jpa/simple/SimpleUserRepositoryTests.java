@@ -16,8 +16,10 @@
 package example.springdata.jpa.simple;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.collection.IsIterableContainingInOrder.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +27,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,5 +111,29 @@ public class SimpleUserRepositoryTests {
 
 		assertThat(repository.removeByLastname(user.getLastname()), is(2L));
 		assertThat(repository.exists(user3.getId()), is(true));
+	}
+
+	@Test
+	public void useSliceToLoadContent() {
+
+		repository.deleteAll();
+
+		// int repository with some values that can be ordered
+		int totalNumberUsers = 11;
+		List<User> source = new ArrayList<User>(totalNumberUsers);
+
+		for (int i = 1; i <= totalNumberUsers; i++) {
+
+			User user = new User();
+			user.setLastname(this.user.getLastname());
+			user.setUsername(user.getLastname() + "-" + String.format("%03d", i));
+			source.add(user);
+		}
+
+		repository.save(source);
+
+		Slice<User> users = repository.findByLastnameOrderByUsernameAsc(this.user.getLastname(), new PageRequest(1, 5));
+
+		assertThat(users, contains(source.subList(5, 10).toArray()));
 	}
 }

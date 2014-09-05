@@ -17,6 +17,8 @@ package example.springdata.jpa.simple;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -81,4 +83,14 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 * @return
 	 */
 	Long removeByLastname(String lastname);
+
+	/**
+	 * Returns a {@link Slice} counting a maximum number of {@link Pageable#getPageSize()} users matching given criteria
+	 * starting at {@link Pageable#getOffset()} without prior count of the total number of elements available.
+	 * 
+	 * @param lastname
+	 * @param page
+	 * @return
+	 */
+	Slice<User> findByLastnameOrderByUsernameAsc(String lastname, Pageable page);
 }
