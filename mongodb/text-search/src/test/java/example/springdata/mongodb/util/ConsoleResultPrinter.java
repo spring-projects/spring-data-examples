@@ -17,7 +17,7 @@ package example.springdata.mongodb.util;
 
 import java.util.Collection;
 
-import org.springframework.data.mongodb.core.query.TextCriteria;
+import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 
 import example.springdata.mongodb.textsearch.BlogPost;
 
@@ -28,7 +28,7 @@ import example.springdata.mongodb.textsearch.BlogPost;
  */
 public class ConsoleResultPrinter {
 
-	public static void printResult(Collection<BlogPost> blogPosts, TextCriteria criteria) {
+	public static void printResult(Collection<BlogPost> blogPosts, CriteriaDefinition criteria) {
 
 		System.out.println(String.format("XXXXXXXXXXXX -- Found %s blogPosts matching '%s' --XXXXXXXXXXXX",
 				blogPosts.size(), criteria != null ? criteria.getCriteriaObject() : ""));

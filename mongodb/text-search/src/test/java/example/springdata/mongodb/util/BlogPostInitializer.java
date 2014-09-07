@@ -21,9 +21,13 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.repository.init.Jackson2ResourceReader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import com.rometools.rome.feed.atom.Category;
@@ -52,10 +56,20 @@ public enum BlogPostInitializer {
 	 * Initializes the given {@link MongoOperations} with {@link BlogPost}s from the Spring Blog.
 	 * 
 	 * @param operations must not be {@literal null}.
+	 * @throws Exception
 	 */
-	public void initialize(MongoOperations operations) {
+	public void initialize(MongoOperations operations) throws Exception {
 
 		Assert.notNull(operations, "MongoOperations must not be null!");
+
+		try {
+			loadFromOnlineSource(operations);
+		} catch (HttpServerErrorException | ResourceAccessException error) {
+			loadFromClasspathSource(operations);
+		}
+	}
+
+	private void loadFromOnlineSource(MongoOperations operations) {
 
 		ResponseEntity<Feed> feed = restTemplate.getForEntity(url, Feed.class);
 		int count = 0;
@@ -70,6 +84,23 @@ public enum BlogPostInitializer {
 		}
 
 		log.info("Imported {} blog posts from spring.io!", count);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void loadFromClasspathSource(MongoOperations operations) throws Exception {
+
+		Jackson2ResourceReader reader = new Jackson2ResourceReader();
+
+		Object source = reader.readFrom(new ClassPathResource(
+				"/example/springdata/mongodb/textsearch/spring-blog.atom.json"), this.getClass().getClassLoader());
+
+		if (source instanceof Iterable) {
+			((Iterable) source).forEach(element -> operations.save(element));
+		} else {
+			operations.save(source);
+		}
+
+		log.info("Imported 20 blog posts from classpath!");
 	}
 
 	/**
