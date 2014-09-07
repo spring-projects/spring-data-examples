@@ -15,15 +15,16 @@
  */
 package example.springdata.mongodb.textsearch;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoOperations;
-
-import example.springdata.mongodb.util.BlogPostInitializer;
+import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 
 /**
  * @author Christoph Strobl
@@ -35,15 +36,12 @@ public class MongoTestConfiguration {
 
 	@Autowired MongoOperations operations;
 
-	/**
-	 * Initializes the repository with a predefined set of entities.
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@PostConstruct
-	void initialize() throws Exception {
-		BlogPostInitializer.INSTANCE.initialize(operations);
+	@Bean
+	public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
+
+		Jackson2RepositoryPopulatorFactoryBean factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
+		factoryBean.setResources(new Resource[] { new ClassPathResource("spring-blog.atom.json") });
+		return factoryBean;
 	}
 
 	/**

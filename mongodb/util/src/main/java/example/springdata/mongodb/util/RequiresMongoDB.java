@@ -15,6 +15,8 @@
  */
 package example.springdata.mongodb.util;
 
+import java.net.UnknownHostException;
+
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.internal.AssumptionViolatedException;
@@ -37,7 +39,7 @@ import com.mongodb.MongoClient;
  * @author Christoph Strobl
  * @since 1.6
  */
-public class MongoVersionRule implements TestRule {
+public class RequiresMongoDB implements TestRule {
 
 	private String host = "localhost";
 	private int port = 27017;
@@ -47,24 +49,24 @@ public class MongoVersionRule implements TestRule {
 
 	private Version currentVersion;
 
-	public MongoVersionRule(Version min, Version max) {
+	public RequiresMongoDB(Version min, Version max) {
 		this.minVersion = min;
 		this.maxVersion = max;
 	}
 
-	public static MongoVersionRule any() {
-		return new MongoVersionRule(new Version(0, 0, 0), new Version(9999, 9999, 9999));
+	public static RequiresMongoDB anyVersion() {
+		return new RequiresMongoDB(new Version(0, 0, 0), new Version(9999, 9999, 9999));
 	}
 
-	public static MongoVersionRule atLeast(Version minVersion) {
-		return new MongoVersionRule(minVersion, new Version(9999, 9999, 9999));
+	public static RequiresMongoDB atLeast(Version minVersion) {
+		return new RequiresMongoDB(minVersion, new Version(9999, 9999, 9999));
 	}
 
-	public static MongoVersionRule atMost(Version maxVersion) {
-		return new MongoVersionRule(new Version(0, 0, 0), maxVersion);
+	public static RequiresMongoDB atMost(Version maxVersion) {
+		return new RequiresMongoDB(new Version(0, 0, 0), maxVersion);
 	}
 
-	public MongoVersionRule withServerRunningAt(String host, int port) {
+	public RequiresMongoDB serverRunningAt(String host, int port) {
 		this.host = host;
 		this.port = port;
 
@@ -99,8 +101,8 @@ public class MongoVersionRule implements TestRule {
 				DB db = client.getDB("test");
 				CommandResult result = db.command(new BasicDBObjectBuilder().add("buildInfo", 1).get());
 				this.currentVersion = Version.parse(result.get("version").toString());
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (com.mongodb.MongoTimeoutException | UnknownHostException e) {
+				throw new AssumptionViolatedException("Seems as mongodb server is not running.", e);
 			}
 		}
 

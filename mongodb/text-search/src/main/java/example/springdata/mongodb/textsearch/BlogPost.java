@@ -39,4 +39,9 @@ public class BlogPost {
 	private @TextIndexed(weight = 2) String content;
 	private @TextIndexed List<String> categories;
 	private @TextScore Float score;
+
+	@Override
+	public String toString() {
+		return "BlogPost [id=" + id + ", score=" + score + ", title=" + title + ", categories=" + categories + "]";
+	}
 }

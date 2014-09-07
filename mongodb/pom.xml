@@ -17,9 +17,10 @@
 	<inceptionYear>2011-2014</inceptionYear>
 
 	<modules>
+	    <module>aggregation</module>
 		<module>example</module>
-		<module>aggregation</module>
 		<module>text-search</module>
+		<module>util</module>
 	</modules>
 
 	<dependencies>

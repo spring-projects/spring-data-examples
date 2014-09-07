@@ -15,21 +15,12 @@
  */
 package example.springdata.mongodb.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.repository.init.Jackson2ResourceReader;
 import org.springframework.util.Assert;
-import org.springframework.web.client.RestTemplate;
-
-import com.rometools.rome.feed.atom.Category;
-import com.rometools.rome.feed.atom.Content;
-import com.rometools.rome.feed.atom.Entry;
-import com.rometools.rome.feed.atom.Feed;
 
 import example.springdata.mongodb.textsearch.BlogPost;
 
@@ -44,73 +35,31 @@ public enum BlogPostInitializer {
 
 	INSTANCE;
 
-	private final RestTemplate restTemplate = new RestTemplate();
-	private final Converter<Entry, BlogPost> converter = EntryConverter.INSTANCE;
-	private final String url = "https://spring.io/blog.atom";
-
 	/**
 	 * Initializes the given {@link MongoOperations} with {@link BlogPost}s from the Spring Blog.
 	 * 
 	 * @param operations must not be {@literal null}.
+	 * @throws Exception
 	 */
-	public void initialize(MongoOperations operations) {
+	public void initialize(MongoOperations operations) throws Exception {
 
 		Assert.notNull(operations, "MongoOperations must not be null!");
-
-		ResponseEntity<Feed> feed = restTemplate.getForEntity(url, Feed.class);
-		int count = 0;
-
-		if (feed.hasBody()) {
-			for (Object entry : feed.getBody().getEntries()) {
-				if (entry instanceof Entry) {
-					operations.save(converter.convert((Entry) entry));
-					count++;
-				}
-			}
-		}
-
-		log.info("Imported {} blog posts from spring.io!", count);
+		loadFromClasspathSource(operations);
 	}
 
-	/**
-	 * {@link Converter} implementation capable of converting atom feed {@link Entry} into {@link BlogPost}.
-	 * 
-	 * @author Christoph Strobl
-	 * @author Oliver Gierke
-	 */
-	private enum EntryConverter implements Converter<Entry, BlogPost> {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void loadFromClasspathSource(MongoOperations operations) throws Exception {
 
-		INSTANCE;
+		Jackson2ResourceReader reader = new Jackson2ResourceReader();
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-		 */
-		@Override
-		public BlogPost convert(Entry source) {
+		Object source = reader.readFrom(new ClassPathResource("spring-blog.atom.json"), this.getClass().getClassLoader());
 
-			BlogPost post = new BlogPost();
-
-			post.setId(source.getId());
-			post.setTitle(source.getTitle());
-
-			for (Object content : source.getContents()) {
-				if (content instanceof Content) {
-					post.setContent(((Content) content).getValue());
-				}
-			}
-
-			List<String> categories = new ArrayList<String>();
-
-			for (Object category : source.getCategories()) {
-				if (category instanceof Category) {
-					categories.add(((Category) category).getLabel());
-				}
-			}
-
-			post.setCategories(categories);
-
-			return post;
+		if (source instanceof Iterable) {
+			((Iterable) source).forEach(element -> operations.save(element));
+		} else {
+			operations.save(source);
 		}
+
+		log.info("Imported blog posts from classpath!");
 	}
 }

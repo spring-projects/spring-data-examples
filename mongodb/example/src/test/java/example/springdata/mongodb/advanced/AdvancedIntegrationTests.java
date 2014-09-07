@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Meta;
+import org.springframework.data.util.Version;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.mongodb.BasicDBObject;
@@ -33,6 +35,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import example.springdata.mongodb.customer.Customer;
+import example.springdata.mongodb.util.RequiresMongoDB;
 
 /**
  * @author Christoph Strobl
@@ -40,6 +43,8 @@ import example.springdata.mongodb.customer.Customer;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
 public class AdvancedIntegrationTests {
+
+	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.atLeast(new Version(2, 6));
 
 	@Autowired AdvancedRepository repository;
 	@Autowired MongoOperations operations;

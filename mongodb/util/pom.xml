@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-mongodb-text-search</artifactId>
+	<artifactId>spring-data-mongodb-utils</artifactId>
 
-	<name>Spring Data MongoDB - Text Search</name>
+	<name>Spring Data MongoDB - Example utilities</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
@@ -14,14 +14,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>spring-data-mongodb-utils</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
 </project>
