@@ -15,8 +15,8 @@
  */
 package example.springdata.mongodb.textsearch;
 
-import static example.springdata.mongodb.util.ConsoleResultPrinter.printResult;
-import static org.springframework.data.mongodb.core.query.Query.query;
+import static example.springdata.mongodb.util.ConsoleResultPrinter.*;
+import static org.springframework.data.mongodb.core.query.Query.*;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import org.springframework.data.mongodb.core.query.TextQuery;
 import org.springframework.data.util.Version;
 
 import example.springdata.mongodb.util.BlogPostInitializer;
-import example.springdata.mongodb.util.MongoVersionRule;
+import example.springdata.mongodb.util.RequiresMongoDB;
 
 /**
  * @author Christoph Strobl
@@ -43,7 +43,7 @@ public class TextSearchTemplateTests {
 
 	MongoOperations operations;
 
-	@ClassRule public static MongoVersionRule versionRule = MongoVersionRule.atLeast(new Version(2, 6));
+	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.atLeast(new Version(2, 6));
 
 	@Before
 	public void setUp() throws Exception {

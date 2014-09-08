@@ -15,7 +15,7 @@
  */
 package example.springdata.mongodb.textsearch;
 
-import static example.springdata.mongodb.util.ConsoleResultPrinter.printResult;
+import static example.springdata.mongodb.util.ConsoleResultPrinter.*;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import org.springframework.data.util.Version;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import example.springdata.mongodb.util.MongoVersionRule;
+import example.springdata.mongodb.util.RequiresMongoDB;
 
 /**
  * Integration tests showing the text search functionality using repositories.
@@ -44,7 +44,7 @@ public class TextSearchRepositoryTests {
 
 	@Autowired BlogPostRepository repo;
 
-	@ClassRule public static MongoVersionRule versionRule = MongoVersionRule.atLeast(new Version(2, 6));
+	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.atLeast(new Version(2, 6));
 
 	/**
 	 * Show how to do simple matching. <br />
