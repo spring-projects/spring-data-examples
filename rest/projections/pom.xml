@@ -2,33 +2,28 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-rest-examples</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>spring-data-rest-projections</artifactId>
+
+	<name>Spring Data REST - Projections Example</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
-		<artifactId>spring-data-examples</artifactId>
+		<artifactId>spring-data-rest-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<name>Spring Data REST - Examples</name>
-	<description>Sample projects for Spring Data REST</description>
-
-	<modules>
-		<module>starbucks</module>
-		<module>multi-store</module>
-		<module>projections</module>
-	</modules>
-
-	<properties>
-		<tomcat.version>8.0.9</tomcat.version>
-	</properties>
-
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-rest</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

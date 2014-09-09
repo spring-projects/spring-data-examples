@@ -27,7 +27,6 @@
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
-			<version>0.9.1</version>
 			<scope>runtime</scope>
 		</dependency>
 
