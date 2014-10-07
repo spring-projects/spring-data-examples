@@ -22,6 +22,7 @@
 		<module>rest</module>
 		<module>redis</module>
 		<module>solr</module>
+		<module>cassandra</module>
 	</modules>
 
 	<properties>
