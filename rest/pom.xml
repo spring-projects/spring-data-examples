@@ -18,6 +18,7 @@
 		<module>starbucks</module>
 		<module>multi-store</module>
 		<module>projections</module>
+		<module>security</module>
 	</modules>
 
 	<properties>
