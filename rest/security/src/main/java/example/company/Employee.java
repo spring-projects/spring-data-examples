@@ -20,10 +20,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Greg Turnquist
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee {
 
 	@Id @GeneratedValue

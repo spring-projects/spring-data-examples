@@ -62,6 +62,9 @@ public class Application {
 
 		itemRepository.save(new Item("Sting"));
 		itemRepository.save(new Item("the one ring"));
+
+		//SecurityContextHolder.getContext().setAuthentication(null);
+		SecurityContextHolder.clearContext();
 	}
 
 }
