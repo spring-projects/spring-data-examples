@@ -13,20 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.company;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
- * This repository shows interface and method-level security. The entire repository requires ROLE_USER,
- * while certain operations require ROLE_ADMIN.
+ * This repository shows interface and method-level security. The entire repository requires ROLE_USER, while certain
+ * operations require ROLE_ADMIN.
  *
  * @author Greg Turnquist
  */
 @PreAuthorize("hasRole('ROLE_USER')")
-public interface ItemRepository extends CrudRepository<Item, Long>  {
+public interface ItemRepository extends CrudRepository<Item, Long> {
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Override

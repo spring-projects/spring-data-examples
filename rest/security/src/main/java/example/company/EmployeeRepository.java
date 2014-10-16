@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.company;
 
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * This repository has no method-level security annotations. That's because it's secured
- * at the URL level inside {@link example.company.SecurityConfiguration}.
+ * This repository has no method-level security annotations. That's because it's secured at the URL level inside
+ * {@link example.company.SecurityConfiguration}.
  *
  * @author Greg Turnquist
  */

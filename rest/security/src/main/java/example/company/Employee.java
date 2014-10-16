@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.company;
 
 import javax.persistence.Entity;
@@ -21,56 +20,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
+ * Domain object for an employee.
+ *
  * @author Greg Turnquist
  */
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
+@RequiredArgsConstructor
 public class Employee {
 
-	@Id @GeneratedValue
-	private Long id;
+	@Id @GeneratedValue private Long id;
+	private final String firstName, lastName, title;
 
-	private String firstName;
-	private String lastName;
-	private String title;
+	Employee() {
 
-	/**
-	 * This constructor is needed to support JPA, but made
-	 * private to force clients to use the other one.
-	 */
-	private Employee() {
-
+		this.firstName = null;
+		this.lastName = null;
+		this.title = null;
 	}
 
-	public Employee(String firstName, String lastName, String title) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.title = title;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
 }

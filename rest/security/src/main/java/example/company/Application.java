@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.company;
 
 import javax.annotation.PostConstruct;
@@ -22,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -53,17 +50,14 @@ public class Application {
 		employeeRepository.save(new Employee("Gandalf", "the Wizard", "servant of the Secret Fire"));
 
 		/**
-		 * Due to method-level protections on {@link example.company.ItemRepository}, the security
-		 * context must be loaded with an authentication token containing the necessary privileges.
+		 * Due to method-level protections on {@link example.company.ItemRepository}, the security context must be loaded
+		 * with an authentication token containing the necessary privileges.
 		 */
-		SecurityContextHolder.getContext().setAuthentication(
-				new UsernamePasswordAuthenticationToken("system", "system",
-						AuthorityUtils.createAuthorityList("ROLE_ADMIN")));
+		SecurityUtils.runAs("system", "system", "ROLE_ADMIN");
 
 		itemRepository.save(new Item("Sting"));
 		itemRepository.save(new Item("the one ring"));
 
-		//SecurityContextHolder.getContext().setAuthentication(null);
 		SecurityContextHolder.clearContext();
 	}
 

@@ -15,29 +15,20 @@
  */
 package example.company;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * Domain object for an item managed by the company.
+ * Some convenient security utilities.
  *
  * @author Greg Turnquist
  */
-@Entity
-@Data
-@RequiredArgsConstructor
-public class Item {
+public class SecurityUtils {
 
-	@Id @GeneratedValue private Long id;
+	public static void runAs(String username, String password, String... roles) {
 
-	private final String description;
-
-	Item() {
-		this.description = null;
+		SecurityContextHolder.getContext().setAuthentication(
+			new UsernamePasswordAuthenticationToken(username, password, AuthorityUtils.createAuthorityList(roles)));
 	}
-
 }

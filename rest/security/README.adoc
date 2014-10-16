@@ -80,7 +80,7 @@ NOTE: These code examples use Spring Security's more modern http://docs.spring.i
 
 To fine tune security policies, `save(Item)` and `delete(Item)` are overrides of `CrudRepository`, allowing us to further restrict these operations to require **ROLE_ADMIN*.
 
-NOTE: Spring Security 4.0.0.CI-SNAPSHOT is required for interface-level security annotations to work with Spring Data repositories.
+NOTE: This issue was fixed in 3.2.6, but hasn't been published yet as an artifact for consumption. Spring Security 4.0.0.CI-SNAPSHOT does have the fix in place.
 
 === Writing a security policy
 
