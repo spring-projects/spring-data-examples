@@ -60,5 +60,4 @@ public class Application {
 
 		SecurityContextHolder.clearContext();
 	}
-
 }

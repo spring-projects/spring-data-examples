@@ -19,29 +19,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Domain object for an employee.
  *
  * @author Greg Turnquist
  */
-@Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
+@Entity
 @RequiredArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee {
 
-	@Id @GeneratedValue private Long id;
+	private @Id @GeneratedValue Long id;
 	private final String firstName, lastName, title;
 
 	Employee() {
-
 		this.firstName = null;
 		this.lastName = null;
 		this.title = null;
 	}
-
 }

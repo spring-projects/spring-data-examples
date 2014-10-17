@@ -26,18 +26,17 @@ import lombok.RequiredArgsConstructor;
  * Domain object for an item managed by the company.
  *
  * @author Greg Turnquist
+ * @author Oliver Gierke
  */
 @Entity
 @Data
 @RequiredArgsConstructor
 public class Item {
 
-	@Id @GeneratedValue private Long id;
-
+	private @Id @GeneratedValue Long id;
 	private final String description;
 
 	Item() {
 		this.description = null;
 	}
-
 }

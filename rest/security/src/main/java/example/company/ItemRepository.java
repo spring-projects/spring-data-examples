@@ -23,15 +23,24 @@ import org.springframework.security.access.prepost.PreAuthorize;
  * operations require ROLE_ADMIN.
  *
  * @author Greg Turnquist
+ * @author Oliver Gierke
  */
 @PreAuthorize("hasRole('ROLE_USER')")
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.data.repository.CrudRepository#save(S)
+	 */
 	@Override
-	Item save(Item s);
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	<S extends Item> S save(S s);
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.data.repository.CrudRepository#delete(java.io.Serializable)
+	 */
 	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	void delete(Long aLong);
 }

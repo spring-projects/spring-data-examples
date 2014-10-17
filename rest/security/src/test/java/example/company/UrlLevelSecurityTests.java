@@ -17,164 +17,124 @@ package example.company;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.http.HttpEntity;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.codec.Base64;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Test cases that verify the URL level of security by using RestTemplate.
+ * Test cases that verify the URL level of security by using the Spring MVC test framework.
  *
  * @author Greg Turnquist
+ * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { Application.class, SecurityConfiguration.class })
 @WebAppConfiguration
-@IntegrationTest("server.port:0")
+@SpringApplicationConfiguration(classes = { Application.class, SecurityConfiguration.class })
 public class UrlLevelSecurityTests {
 
-	private String baseUrl;
+	static final String PAYLOAD = "{\"firstName\": \"Saruman\", \"lastName\": \"the White\", " + "\"title\": \"Wizard\"}";
 
-	@Value("${local.server.port}") private int port;
+	@Autowired WebApplicationContext context;
+	@Autowired FilterChainProxy filterChain;
+
+	MockMvc mvc;
 
 	@Before
 	public void setUp() {
 
-		this.baseUrl = "http://localhost:" + port;
+		this.mvc = webAppContextSetup(context).addFilters(filterChain).build();
+
 		SecurityContextHolder.clearContext();
 	}
 
 	@Test
-	public void testUrlSecurityForNoCreds() {
+	public void allowsAccessToRootResource() throws Exception {
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", "application/hal+json");
-
-		HttpEntity<MultiValueMap<String, Object>> baseRequest = new HttpEntity<>(headers);
-
-		RestTemplate rest = new RestTemplate();
-
-		System.out.println("============= GET " + baseUrl);
-
-		ResponseEntity<JsonNode> baseResponse = rest.exchange(baseUrl, HttpMethod.GET, baseRequest, JsonNode.class);
-		baseResponse.getHeaders().entrySet().stream()//
-				.map(e -> e.getKey() + ": " + e.getValue())//
-				.forEach(header -> System.out.println(header));
-		assertThat(baseResponse.getHeaders().get("Content-Type"), hasItems("application/hal+json"));
-		assertThat(baseResponse.getStatusCode(), equalTo(HttpStatus.OK));
-		System.out.println();
-		System.out.println(baseResponse.getBody());
-
-		System.out.println("============= POST " + baseUrl + "/employees");
-
-		HttpEntity<String> newEmployee = new HttpEntity<>("{firstName: Saruman, lastName: the White, title: Wizard}",
-				headers);
-
-		try {
-			rest.exchange(baseUrl + "/employees", HttpMethod.POST, newEmployee, JsonNode.class);
-			fail("Expected a security error");
-		} catch (HttpClientErrorException e) {
-			assertThat(e.getStatusCode(), equalTo(HttpStatus.UNAUTHORIZED));
-		}
+		mvc.perform(get("/").//
+				accept(MediaTypes.HAL_JSON)).//
+				andExpect(header().string("Content-Type", MediaTypes.HAL_JSON.toString())).//
+				andExpect(status().isOk()).//
+				andDo(print());
 	}
 
 	@Test
-	public void testUrlSecurityForUsers() {
+	public void rejectsPostAccessToCollectionResource() throws Exception {
 
-		System.out.println("============= GET " + baseUrl + "/employees");
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", "application/hal+json");
-
-		String userCreds = new String(Base64.encode(("greg:turnquist").getBytes()));
-		headers.set("Authorization", "Basic " + userCreds);
-		headers.set("Accept", "application/hal+json");
-
-		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(headers);
-
-		RestTemplate rest = new RestTemplate();
-
-		ResponseEntity<JsonNode> employeesResponse = rest.exchange(baseUrl + "/employees", HttpMethod.GET, request,
-				JsonNode.class);
-		employeesResponse.getHeaders().entrySet().stream()//
-				.map(e -> e.getKey() + ": " + e.getValue())//
-				.forEach(header -> System.out.println(header));
-		assertThat(employeesResponse.getHeaders().get("Content-Type"), hasItems("application/hal+json"));
-		assertThat(employeesResponse.getStatusCode(), equalTo(HttpStatus.OK));
-		System.out.println();
-		System.out.println(employeesResponse.getBody());
-
-		System.out.println("============= POST " + baseUrl + "/employees");
-
-		HttpEntity<String> newEmployee = new HttpEntity<>("{\"firstName\": \"Saruman\", " + "\"lastName\": \"the White\", "
-				+ "\"title\": \"Wizard\"}", headers);
-
-		try {
-			rest.exchange(baseUrl + "/employees", HttpMethod.POST, newEmployee, JsonNode.class);
-			fail("Expected a security error");
-		} catch (HttpClientErrorException e) {
-			assertThat(e.getStatusCode(), equalTo(HttpStatus.FORBIDDEN));
-		}
+		mvc.perform(post("/employees").//
+				content(PAYLOAD).//
+				accept(MediaTypes.HAL_JSON)).//
+				andExpect(status().isUnauthorized()).//
+				andDo(print());
 	}
 
 	@Test
-	public void testUrlSecurityForAdmins() {
-
-		System.out.println("============= GET " + baseUrl + "/employees");
+	public void allowsGetRequestsButRejectsPostForUser() throws Exception {
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", "application/hal+json");
+		headers.add(HttpHeaders.ACCEPT, MediaTypes.HAL_JSON.toString());
+		headers.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(Base64.encode(("greg:turnquist").getBytes())));
 
-		String userCreds = new String(Base64.encode(("ollie:gierke").getBytes()));
-		headers.set("Authorization", "Basic " + userCreds);
-		headers.set("Accept", "application/hal+json");
+		mvc.perform(get("/employees").//
+				headers(headers)).//
+				andExpect(content().contentType(MediaTypes.HAL_JSON)).//
+				andExpect(status().isOk()).//
+				andDo(print());
 
-		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(headers);
+		mvc.perform(post("/employees").//
+				headers(headers)).//
+				andExpect(status().isForbidden()).//
+				andDo(print());
+	}
 
-		RestTemplate rest = new RestTemplate();
+	@Test
+	public void allowsPostRequestForAdmin() throws Exception {
 
-		ResponseEntity<JsonNode> employeesResponse = rest.exchange(baseUrl + "/employees", HttpMethod.GET, request,
-				JsonNode.class);
-		employeesResponse.getHeaders().entrySet().stream()//
-				.map(e -> e.getKey() + ": " + e.getValue())//
-				.forEach(header -> System.out.println(header));
-		assertThat(employeesResponse.getHeaders().get("Content-Type"), hasItems("application/hal+json"));
-		assertThat(employeesResponse.getStatusCode(), equalTo(HttpStatus.OK));
-		System.out.println();
-		System.out.println(employeesResponse.getBody());
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.ACCEPT, "application/hal+json");
+		headers.set(HttpHeaders.AUTHORIZATION, "Basic " + new String(Base64.encode(("ollie:gierke").getBytes())));
 
-		System.out.println("============= POST " + baseUrl + "/employees");
+		mvc.perform(get("/employees").//
+				headers(headers)).//
+				andExpect(content().contentType(MediaTypes.HAL_JSON)).//
+				andExpect(status().isOk()).//
+				andDo(print());
 
-		headers.add("Content-Type", "application/json");
+		headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
-		HttpEntity<String> newEmployee = new HttpEntity<>("{\"firstName\": \"Saruman\", " + "\"lastName\": \"the White\", "
-				+ "\"title\": \"Wizard\"}", headers);
+		String location = mvc.perform(post("/employees").//
+				content(PAYLOAD).//
+				headers(headers)).//
+				andExpect(status().isCreated()).//
+				andDo(print()).//
+				andReturn().getResponse().getHeader(HttpHeaders.LOCATION);
 
-		ResponseEntity<JsonNode> response = rest.exchange(baseUrl + "/employees", HttpMethod.POST, newEmployee,
-				JsonNode.class);
-		assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
-		String location = response.getHeaders().get("Location").get(0);
-		Employee employee = rest.getForObject(location, Employee.class);
-		assertThat(employee.getFirstName(), equalTo("Saruman"));
-		assertThat(employee.getLastName(), equalTo("the White"));
-		assertThat(employee.getTitle(), equalTo("Wizard"));
-		System.out.println(rest.getForObject(location, String.class));
+		ObjectMapper mapper = new ObjectMapper();
+
+		String content = mvc.perform(get(location)).//
+				andReturn().getResponse().getContentAsString();
+		Employee employee = mapper.readValue(content, Employee.class);
+
+		assertThat(employee.getFirstName(), is("Saruman"));
+		assertThat(employee.getLastName(), is("the White"));
+		assertThat(employee.getTitle(), is("Wizard"));
 	}
 }
