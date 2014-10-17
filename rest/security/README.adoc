@@ -74,9 +74,9 @@ public interface ItemRepository extends CrudRepository<Item, Long>  {
 
 This repository is simple in its functionality, but it has been marked up with Spring Security annotations (`@PreAuthorize`). The repository at the top level requires that the user have *ROLE_USER* before ANYTHING is granted.
 
-NOTE: These code examples use Spring Security's more modern http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#method-security-expressions[]@PreAuthorize] annotations. But you can also use http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#enableglobalmethodsecurity[@Secured] or JSR-250's security annotations. (Be advised, that JSR-250 annotations do NOT work at the interface level.)
+NOTE: These code examples use Spring Security's more modern http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#method-security-expressions[@PreAuthorize] annotations. But you can also use http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#enableglobalmethodsecurity[@Secured] or JSR-250's security annotations. (Be advised, that JSR-250 annotations do NOT work at the interface level.)
 
-To fine tune security policies, `save(Item)` and `delete(Item)` are overrides of `CrudRepository`, allowing us to further restrict these operations to require **ROLE_ADMIN*.
+To fine tune security policies, `save(Item)` and `delete(Item)` are overrides of `CrudRepository`, allowing us to further restrict these operations to require *ROLE_ADMIN*.
 
 NOTE: This issue was fixed in 3.2.6, but hasn't been published yet as an artifact for consumption. Spring Security 4.0.0.CI-SNAPSHOT does have the fix in place.
 
