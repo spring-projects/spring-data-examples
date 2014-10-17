@@ -13,13 +13,13 @@ For a basic Spring Data REST application, we need to define some domain objects.
 @Entity
 public class Employee {
 
-	@Id @GeneratedValue
-	private Long id;
+  private @Id @GeneratedValue Long id;
+  private String firstName;
+  private String lastName;
+  private String title;
 
-	private String firstName;
-	private String lastName;
-	private String title;
-...
+  …
+}
 ----
 ====
 
@@ -30,11 +30,11 @@ public class Employee {
 @Entity
 public class Item {
 
-	@Id @GeneratedValue
-	private Long id;
+  private @Id @GeneratedValue Long id;
+  private String description;
 
-	private String description;
-...
+  …
+}
 ----
 ====
 
@@ -46,9 +46,7 @@ Spring Data is based on the repository paradigm. In this case, we are defining a
 ====
 [source,java]
 ----
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-
-}
+public interface EmployeeRepository extends CrudRepository<Employee, Long> {}
 ----
 ====
 
@@ -63,13 +61,13 @@ Now let's look at the next repository:
 @PreAuthorize("hasRole('ROLE_USER')")
 public interface ItemRepository extends CrudRepository<Item, Long>  {
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@Override
-	Item save(Item s);
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @Override
+  Item save(Item s);
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@Override
-	void delete(Long aLong);
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @Override
+  void delete(Long aLong);
 }
 ----
 ====
@@ -94,38 +92,38 @@ The final bit that is needed is a security policy. By default, when using Spring
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	/**
-	 * This section defines the user accounts which can be used for 
-	 * authentication as well as the roles each user has.
-	 */
-	@Autowired
-	public void configureAuth(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("greg").password("turnquist").roles("USER").and()
-			.withUser("ollie").password("gierke").roles("USER", "ADMIN");
-	}
+  /**
+   * This section defines the user accounts which can be used for
+   * authentication as well as the roles each user has.
+   */
+  @Override
+  public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-	/**
-	 * This section defines the security policy for the app.
-	 * - BASIC authentication is supported (enough for this REST-based demo)
-	 * - /employees is secured using URL security shown below
-	 * - CSRF headers are disabled since we are only testing the REST interface, 
-	 *   not a web one.
-	 *
-	 * NOTE: GET is not shown which defaults to permitted.
-	 */
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.httpBasic()
-				.and()
-			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN")
-				.antMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN")
-				.antMatchers(HttpMethod.PATCH, "/employees/**").hasRole("ADMIN")
-				.and()
-			.csrf().disable();
-	}
+    auth.inMemoryAuthentication()
+      .withUser("greg").password("turnquist").roles("USER").and()
+      .withUser("ollie").password("gierke").roles("USER", "ADMIN");
+  }
+
+  /**
+   * This section defines the security policy for the app.
+   * - BASIC authentication is supported (enough for this REST-based demo)
+   * - /employees is secured using URL security shown below
+   * - CSRF headers are disabled since we are only testing the REST interface,
+   *   not a web one.
+   *
+   * NOTE: GET is not shown which defaults to permitted.
+   */
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+
+    http
+      .httpBasic().and()
+      .authorizeRequests()
+        .antMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN")
+        .antMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN")
+        .antMatchers(HttpMethod.PATCH, "/employees/**").hasRole("ADMIN").and()
+      .csrf().disable();
+  }
 }
 ----
 ====
@@ -136,7 +134,7 @@ The second section shows the URL restrictions that have been applied. Note that 
 
 === Testing things out
 
-You can drill down into `Application.java` to find the data that is preloaded. 
+You can drill down into `Application.java` to find the data that is preloaded.
 
 . Run the app.
 +

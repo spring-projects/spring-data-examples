@@ -24,6 +24,8 @@ We have separate folders for the samples of individual modules:
 
 * `starbucks` - A sample REST web-service built with Spring Data REST and MongoDB.
 * `multi-store` - A sample REST web-service based on both Spring Data JPA and Spring Data MongoDB.
+* `projections` - A sample REST web-service showing how to use projections.
+* `security` - A sample REST web-service secured using Spring Security.
 
 ## Spring Data Redis
 
