@@ -25,5 +25,11 @@ import org.springframework.data.solr.core.query.result.Cursor;
  */
 public interface ProductRepositoryCustom {
 
+	/**
+	 * Use a {@link Cursor} to scroll through documents in index. <br />
+	 * <strong>NOTE:</strong> Requires at least Solr 4.7.
+	 * 
+	 * @return
+	 */
 	Cursor<Product> findAllUsingCursor();
 }

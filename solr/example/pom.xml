@@ -13,6 +13,10 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-solr</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>spring-data-solr-example-utils</artifactId>
 			<version>${project.version}</version>
