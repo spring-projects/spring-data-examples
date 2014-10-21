@@ -33,7 +33,7 @@ import org.springframework.data.solr.core.SolrTemplate;
 @EnableAutoConfiguration
 public class SolrTestConfiguration {
 
-	@Autowired CrudRepository<Product, String> repo;
+	private @Autowired CrudRepository<Product, String> repo;
 
 	@Bean
 	public SolrTemplate solrTemplate() {
@@ -53,6 +53,10 @@ public class SolrTestConfiguration {
 	 */
 	@PostConstruct
 	public void initWithTestData() {
+		doInitTestData(repo);
+	}
+
+	protected void doInitTestData(CrudRepository<Product, String> repository) {
 
 		for (int i = 0; i < 100; i++) {
 
@@ -60,7 +64,7 @@ public class SolrTestConfiguration {
 			p.setId("p-" + i);
 			p.setName("foobar");
 
-			repo.save(p);
+			repository.save(p);
 		}
 	}
 }
