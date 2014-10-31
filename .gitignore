@@ -7,3 +7,9 @@ target/
 #IntelliJ Stuff
 .idea
 *.iml
+
+##ignore local node data files for unit tests
+/data
+/.DS_Store
+/elasticsearch/example/data
+/elasticsearch/example/.DS_Store
