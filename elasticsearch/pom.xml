@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>spring-data-elasticsearch-examples</artifactId>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.springframework.data.examples</groupId>
+		<artifactId>spring-data-examples</artifactId>
+		<version>1.0.0.BUILD-SNAPSHOT</version>
+	</parent>
+
+	<name>Spring Data Elasticsearch - Examples</name>
+	<description>Sample projects for Spring Data Elasticsearch</description>
+	<url>https://github.com/spring-projects/spring-data-elasticsearch</url>
+
+	<modules>
+		<module>example</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

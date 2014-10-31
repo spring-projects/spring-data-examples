@@ -24,6 +24,7 @@
 		<module>redis</module>
 		<module>solr</module>
 		<module>cassandra</module>
+		<module>elasticsearch</module>
 	</modules>
 
 	<properties>
