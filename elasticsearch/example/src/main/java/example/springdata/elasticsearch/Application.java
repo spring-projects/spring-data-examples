@@ -1,37 +1,36 @@
 package example.springdata.elasticsearch;
 
+import java.io.IOException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.IOException;
-
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class Application {
-    
-    public static void main(String[] args) throws IOException {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
 
-        ExampleService example = ctx.getBean("exampleService", ExampleService.class);
+	public static void main(String[] args) throws IOException {
+		ApplicationContext ctx = SpringApplication.run(Application.class, args);
 
-        //simple search on text
-        example.textSearch();
+		ExampleService example = ctx.getBean("exampleService", ExampleService.class);
 
-        //simple search on geo location
-        example.geoSearch();
+		//simple search on text
+		example.textSearch();
 
-        //facets - terms on keywords
-        example.termFacetOnKeywords();
+		//simple search on geo location
+		example.geoSearch();
 
-        //facets - histogram on date per month
-        example.histogramFacetOnDate();
+		//facets - terms on keywords
+		example.termFacetOnKeywords();
 
-        System.out.println("\nPress 'ctrl' + 'c' to exit");
-        System.in.read();
-    }
+		//facets - histogram on date per month
+		example.histogramFacetOnDate();
 
+		System.out.println("\nPress 'ctrl' + 'c' to exit");
+		System.in.read();
+	}
 }

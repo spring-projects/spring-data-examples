@@ -5,7 +5,7 @@ Requirements:
  * [Maven](http://maven.apache.org/download.cgi) - required.
  * [Elasticsearch](http://www.elasticsearch.org/overview/elkdownloads) - optional.
 
-To run example execute: ``` ./run-me.sh ```
+To run example execute: ```mvn spring-boot:run```
 
 
 To use local elasticsearch cluster:
