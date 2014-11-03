@@ -2,17 +2,17 @@ package example.springdata.elasticsearch;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import example.springdata.elasticsearch.model.Conference;
-import example.springdata.elasticsearch.model.ConferenceBuilder;
 import example.springdata.elasticsearch.repository.ConferenceRepository;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.FacetedPage;
 import org.springframework.data.elasticsearch.core.facet.request.HistogramFacetRequestBuilder;
@@ -24,43 +24,24 @@ import org.springframework.data.elasticsearch.core.facet.result.TermResult;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.stereotype.Service;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@Service
-public class ExampleService {
+/**
+ * @author Artur Konczak
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = TestsConfiguration.class)
+public class BasicOperationsTest {
 
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	@Autowired
-	private ElasticsearchTemplate template;
+	ElasticsearchTemplate template;
 
 	@Autowired
-	private ConferenceRepository repository;
+	ConferenceRepository repository;
 
-	@PreDestroy
-	public void deleteIndex() {
-		template.deleteIndex(Conference.class);
-	}
-
-	@PostConstruct
-	public void insertDataSample() {
-		//remove all documents
-		repository.deleteAll();
-		template.refresh(Conference.class, true);
-
-		//save data sample
-		repository.save(new ConferenceBuilder().date("2014-11-06").name("Spring eXchange 2014 - London").keyword("java", "spring").location("51.500152, -0.126236").build());
-		repository.save(new ConferenceBuilder().date("2014-12-07").name("Scala eXchange 2014 - London").keyword("scala", "play", "java").location("51.500152, -0.126236").build());
-		repository.save(new ConferenceBuilder().date("2014-11-20").name("Elasticsearch 2014 - Berlin").keyword("java", "elasticsearch", "kibana").location("52.5234051, 13.4113999").build());
-		repository.save(new ConferenceBuilder().date("2014-11-12").name("AWS London 2014").keyword("cloud", "aws").location("51.500152, -0.126236").build());
-		repository.save(new ConferenceBuilder().date("2014-10-04").name("JDD14 - Cracow").keyword("java", "spring").location("50.0646501, 19.9449799").build());
-		//display data
-		System.out.println("\nAll available data");
-		for (Conference c : repository.findAll()) {
-			System.out.println(c);
-		}
-	}
-
+	@Test
 	public void textSearch() {
 		String expectedDate = "2014-10-29";
 		String expectedWord = "java";
@@ -76,7 +57,8 @@ public class ExampleService {
 		}
 	}
 
-	public void geoSearch() {
+	@Test
+	public void getspatialSearch() {
 		String startLocation = "50.0646501,19.9449799";
 		String range = "330mi";
 		System.out.printf("%nSimple search using geospatial values, startPoint '%s' and range '%s'%n", startLocation, range);
@@ -91,7 +73,8 @@ public class ExampleService {
 		}
 	}
 
-	public void termFacetOnKeywords() {
+	@Test
+	public void termFacet() {
 		String termField = "keywords";
 		String facetName = "all-keywords";
 		System.out.printf("%nTerm facets for '%s' field%n", termField);
@@ -103,6 +86,7 @@ public class ExampleService {
 		}
 	}
 
+	@Test
 	public void histogramFacetOnDate() {
 		String termField = "date";
 		int interval = 30;

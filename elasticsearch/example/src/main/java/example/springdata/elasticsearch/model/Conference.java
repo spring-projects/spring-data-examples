@@ -2,16 +2,20 @@ package example.springdata.elasticsearch.model;
 
 import static org.springframework.data.elasticsearch.annotations.FieldType.*;
 
-import java.util.Arrays;
+import java.util.List;
 
+import lombok.Data;
+import lombok.experimental.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.GeoPointField;
 
 /**
- * Created by akonczak on 14/10/2014.
+ * @author Artur Konczak
  */
+@Data
+@Builder
 @Document(indexName = "conference-index", shards = 1, replicas = 0, indexStoreType = "memory", refreshInterval = "-1")
 public class Conference {
 
@@ -20,67 +24,22 @@ public class Conference {
 	private String name;
 	@Field(type = Date)
 	private String date;
-	private String[] keywords;
 	@GeoPointField
 	private String location;
+	private List<String> keywords;
 
-	public String getName() {
-		return name;
+	//do not remove it
+	public Conference() {
+
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	//do not remove it - work around for lombok generated constructor for all params
+	public Conference(String id, String name, String date, String location, List<String> keywords) {
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public String[] getKeywords() {
-		return keywords;
-	}
-
-	public void setKeywords(String[] keywords) {
-		this.keywords = keywords;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public Conference copy() {
-		Conference newConference = new Conference();
-		newConference.setName(name);
-		newConference.setDate(date);
-		newConference.setLocation(location);
-		newConference.setKeywords(keywords);
-		return newConference;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
 		this.id = id;
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return "Conference{" +
-				"id='" + id + '\'' +
-				", name='" + name + '\'' +
-				", date='" + date + '\'' +
-				", keywords=" + Arrays.toString(keywords) +
-				", location='" + location + '\'' +
-				'}';
+		this.name = name;
+		this.date = date;
+		this.location = location;
+		this.keywords = keywords;
 	}
 }
