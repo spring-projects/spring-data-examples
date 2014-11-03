@@ -32,6 +32,10 @@ We have separate folders for the samples of individual modules:
 * `example` - Example for basic Sprign Data Redis setup.
 * `cluster-sentinel` - Example for Redis cluster and Sentinel support.
 
+## Spring Data Elasticsearch
+
+* `example` - Example how to use basic text search, geo-spatial search and facets.
+
 ## Miscellaneous
 
 * `multi-store` - Example project to use both Spring Data MongoDB and Spring Data JPA in one project.

@@ -41,10 +41,5 @@ public class TestsConfiguration {
 		repository.save(Conference.builder().date("2014-11-20").name("Elasticsearch 2014 - Berlin").keywords(Arrays.asList("java", "elasticsearch", "kibana")).location("52.5234051, 13.4113999").build());
 		repository.save(Conference.builder().date("2014-11-12").name("AWS London 2014").keywords(Arrays.asList("cloud", "aws")).location("51.500152, -0.126236").build());
 		repository.save(Conference.builder().date("2014-10-04").name("JDD14 - Cracow").keywords(Arrays.asList("java", "spring")).location("50.0646501, 19.9449799").build());
-		//display data
-		System.out.println("\nAll available data");
-		for (Conference c : repository.findAll()) {
-			System.out.println(c);
-		}
 	}
 }
