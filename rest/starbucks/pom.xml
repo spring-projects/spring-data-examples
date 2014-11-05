@@ -39,6 +39,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<mainClass>example.stores.StoreApp</mainClass>
+					<layout>JAR</layout>
 				</configuration>
 			</plugin>
 		</plugins>

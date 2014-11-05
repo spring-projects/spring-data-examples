@@ -42,5 +42,18 @@
 			<url>https://repo.spring.io/libs-snapshot</url>
 		</repository>
 	</repositories>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>example.company.Application</mainClass>
+					<layout>JAR</layout>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
