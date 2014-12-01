@@ -35,7 +35,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 	<repositories>
 		<repository>
 			<id>spring-libs-snapshot</id>
