@@ -26,7 +26,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
  * Collection of test cases used to verify method-level security.
@@ -35,7 +34,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 @SpringApplicationConfiguration(classes = { Application.class, SecurityConfiguration.class })
 public class MethodLevelSecurityTests {
 
