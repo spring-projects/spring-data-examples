@@ -15,8 +15,7 @@
  */
 package example.springdata.jpa.simple;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.collection.IsIterableContainingInOrder.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.data.domain.Sort.Direction.*;
 
@@ -184,5 +183,28 @@ public class SimpleUserRepositoryTests {
 
 		assertThat(resultDesc.size(), is(2));
 		assertThat(resultDesc, hasItems(user1, user2));
+	}
+
+	@Test
+	public void findByFirstnameOrLastnameUsingSpEL() {
+
+		User first = new User();
+		first.setLastname("lastname");
+
+		User second = new User();
+		second.setFirstname("firstname");
+
+		User third = new User();
+
+		repository.save(Arrays.asList(first, second, third));
+
+		User reference = new User();
+		reference.setFirstname("firstname");
+		reference.setLastname("lastname");
+
+		Iterable<User> users = repository.findByFirstnameOrLastname(reference);
+
+		assertThat(users, is(iterableWithSize(2)));
+		assertThat(users, hasItems(first, second));
 	}
 }

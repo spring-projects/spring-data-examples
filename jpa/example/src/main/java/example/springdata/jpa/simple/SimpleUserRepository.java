@@ -118,4 +118,13 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 * @return
 	 */
 	List<User> findTop2By(Sort sort);
+
+	/**
+	 * Return all the users with the given firstname or lastname. Makes use of SpEL (Spring Expression Language).
+	 *
+	 * @param user
+	 * @return
+	 */
+	@Query("select u from User u where u.firstname = :#{#user.firstname} or u.lastname = :#{#user.lastname}")
+	Iterable<User> findByFirstnameOrLastname(@Param("user") User user);
 }
