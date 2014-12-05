@@ -185,4 +185,15 @@ public class SimpleUserRepositoryTests {
 		assertThat(resultDesc.size(), is(2));
 		assertThat(resultDesc, hasItems(user1, user2));
 	}
+
+	@Test
+	public void findByUsernameOrFirstnameOrLastname() throws Exception {
+
+		user = repository.save(user);
+
+		List<User> users = repository.findByUsernameOrFirstnameOrLastname(user);
+
+		assertThat(users, contains(user));
+	}
+
 }
