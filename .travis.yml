@@ -1,11 +1,18 @@
 language: java
+
 jdk:
   - oraclejdk8
+
 services:
   - mongodb
   - redis-server
+
 cache:
   directories:
     - $HOME/.m2
+
+sudo: false
+
 install: true
+
 script: "mvn clean dependency:list test -Dsort"
