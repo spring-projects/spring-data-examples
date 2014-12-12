@@ -27,11 +27,4 @@
 
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>spring-libs-snapshot</id>
-			<url>https://repos.spring.io/libs-snapshot</url>
-		</repository>
-	</repositories>
-
 </project>
