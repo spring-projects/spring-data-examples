@@ -13,8 +13,7 @@
 	</parent>
 
 	<properties>
-		<!-- This version of Spring Security contains SEC-2150, a necessary for Spring Data support -->
-		<spring-security.version>4.0.0.CI-SNAPSHOT</spring-security.version>
+		<spring-security.version>4.0.0.RC1</spring-security.version>
 	</properties>
 
 	<dependencies>
@@ -35,12 +34,5 @@
 		</dependency>
 
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>spring-libs-snapshot</id>
-			<url>https://repo.spring.io/libs-snapshot</url>
-		</repository>
-	</repositories>
 
 </project>
