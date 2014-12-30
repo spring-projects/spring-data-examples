@@ -15,13 +15,12 @@
  */
 package example.springdata.jpa.java8;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -33,11 +32,6 @@ public class AbstractEntity {
 
 	@Id @GeneratedValue Long id;
 
-	@CreatedDate//
-	@Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")//
-	ZonedDateTime createdDate;
-
-	@LastModifiedDate//
-	@Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")//
-	ZonedDateTime modifiedDate;
+	@CreatedDate LocalDateTime createdDate;
+	@LastModifiedDate LocalDateTime modifiedDate;
 }
