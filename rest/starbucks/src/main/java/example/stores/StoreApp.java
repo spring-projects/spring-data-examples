@@ -16,16 +16,15 @@
 package example.stores;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Spring configuration class main application bootstrap point.
  * 
  * @author Oliver Gierke
+ * @author Thomas Darimont
  */
-@EnableAutoConfiguration
-@ComponentScan
+@SpringBootApplication
 public class StoreApp {
 
 	public static void main(String[] args) {

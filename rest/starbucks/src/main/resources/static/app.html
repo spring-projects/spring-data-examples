@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Starbucks Storefinder</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          href="/webjars/bootstrap/3.3.1/css/bootstrap.min.css"/>
+
+    <style type="text/css">
+
+        #txtSearchLocation {
+            width: 200px;
+        }
+
+        #selDistance {
+            width: 90px;
+        }
+
+        #mapdiv {
+            height: 400px;
+            width: 400px;
+            background-image: url("/img/map-525349_1280.png");
+            background-size: 400px 300px;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-fluid">
+    <h3>Starbucks Storefinder</h3>
+
+    <div class="row">
+        <div class="input-group">
+            <input id="txtSearchLocation" type="text" class="form-control" placeholder="location lat,long"
+                   onchange="starbucks.performStoreSearch()">
+            <button type="button" class="btn btn-default"
+                    onclick="starbucks.performStoreSearch('nearby')">Nearby
+            </button>
+            <button type="button" class="btn btn-default"
+                    onclick="starbucks.performStoreSearch('timeSquare')">Timesquare NY
+            </button>
+            <button type="button" class="btn btn-default"
+                    onclick="starbucks.performStoreSearch('pivotal_sf')">Pivotal SF
+            </button>
+            <select id="selDistance" class="form-control" onchange="starbucks.performStoreSearch()">
+                <option value="0.5miles">0.5 Miles</option>
+                <option value="1.0miles">1 Mile</option>
+                <option value="2.0miles">2 Miles</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="resultList" class="col-md-4"></div>
+        <div id="mapdiv" class="col-md-4"></div>
+    </div>
+</div>
+<script id="result-list-template" type="text/x-handlebars-template">
+    <h3>Found {{stores.length}} results.</h3>
+    <ol class="search-results">
+        {{#each stores}}
+        <li class="search-result">
+            <a href="#">
+                {{name}}
+            </a>
+        </li>
+        {{else}}
+        <li class="search-result no-results">No Results</li>
+        {{/each}}
+    </ol>
+</script>
+
+<script type="text/javascript"
+        src="/webjars/jquery/2.1.3/jquery.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/URI.js/1.12.0/URI.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/q/1.0.1/q.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/handlebars/2.0.0-alpha.2/handlebars.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/hyperagent/0.4.0/hyperagent.js"></script>
+
+<script type="text/javascript"
+        src="//maps.google.com/maps/api/js?sensor=false"></script>
+
+<script type="text/javascript">
+    (function () {
+        "use strict";
+
+        function initApp() {
+
+
+            function createSearchResult(searchResponse) {
+
+                var page = searchResponse.props.page;
+                var stores = !page.totalElements ? [] : searchResponse.embedded["stores"].map(function (storeResource) {
+
+                    var store = $.extend({
+                        id: storeResource.links.self.props.href.split('/').pop(),
+                        self: storeResource.links.self.props
+                    }, storeResource.props);
+
+                    return store;
+                });
+
+                return {
+                    page: page,
+                    stores: stores
+                };
+            }
+
+            function handleSearchResult(searchResponse) {
+
+                var storeSearchResult = createSearchResult(searchResponse);
+
+                $("#resultList").html(starbucks.ui.templates.resultList(storeSearchResult));
+
+                if (!starbucks.ui.map) {
+                    return;
+                }
+
+                while (starbucks.ui.markers.length) {
+                    var marker = starbucks.ui.markers.pop();
+                    marker.setMap(null);
+                }
+
+                storeSearchResult.stores.forEach(function (store) {
+                    starbucks.ui.markers.push(new google.maps.Marker({position: {lat: store.address.location.y, lng: store.address.location.x}, map: starbucks.ui.map}));
+                });
+            }
+
+            window.starbucks = {
+
+                ui: {
+                    markers: [],
+                    templates: {},
+                    map: null
+                },
+
+                storeSearchResult: {},
+
+                defaultLocations: {
+                    timeSquare: {
+                        latitude: 40.740337,
+                        longitude: -73.995146
+                    }, pivotal_sf: {
+                        latitude: 37.7819286,
+                        longitude: -122.4041764
+                    }
+                },
+
+                updateSearchLocation: function (where) {
+
+                    var searchLocation = starbucks.defaultLocations[where];
+                    var searchLatLong = searchLocation ? searchLocation.latitude + "," + searchLocation.longitude : where;
+
+                    $("#txtSearchLocation").val(searchLatLong);
+
+                    if (!starbucks.ui.map) {
+                        return;
+                    }
+
+                    var searchLocationLatLng = {lat: parseFloat(searchLatLong.split(",")[0]), lng: parseFloat(searchLatLong.split(",")[1])};
+                    starbucks.ui.map.setCenter(searchLocationLatLng);
+                    new google.maps.Marker({position: searchLocationLatLng, map: starbucks.ui.map});
+                },
+
+                performStoreSearch: function (where) {
+
+                    starbucks.updateSearchLocation(where ? where : $("#txtSearchLocation").val());
+
+                    var searchRequest = {
+                        "location": $("#txtSearchLocation").val(),
+                        "distance": $("#selDistance").val(),
+                        "size": 100,
+                        "page": 0
+                    };
+
+                    this.searchResource //
+                            .link("by-location", searchRequest) //
+                            .fetch() //
+                            .then(handleSearchResult);
+                }
+            };
+
+            (function discoverStoreSearchResource() {
+
+                //we provide the /stores resource as entry point
+                new Hyperagent.Resource("/stores").fetch().then(function (root) {
+
+                    console.log("API root resolved:", root);
+
+                    //then we navigate via named links in the hal response
+                    root.links["search"].fetch().then(function (search) {
+
+                        console.log("SearchResource resolved:", search);
+
+                        //we cache the found search resource for later use
+                        starbucks.searchResource = search;
+
+                    }).then(function () {
+
+                        //populate the result with the default search
+                        starbucks.performStoreSearch("nearby");
+                    });
+
+                }, function (err) {
+                    console.warn("Error fetching API root", err);
+                });
+            })();
+
+            (function configureMaps() {
+
+                var mapOptions = {
+                    zoom: 13
+                };
+
+                starbucks.ui.map = new google.maps.Map(document.getElementById("mapdiv"), mapOptions);
+            })();
+
+            (function configureNearbyLocationWithFallback(fallbackLocation) {
+
+                starbucks.defaultLocations.nearby = fallbackLocation;
+
+                if (!navigator.geolocation) {
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(function (position) {
+
+                    var coords = position.coords;
+                    starbucks.defaultLocations.nearby = {
+                        latitude: coords.latitude.toFixed(5),
+                        longitude: coords.longitude.toFixed(5)
+                    };
+                });
+            })(starbucks.defaultLocations.timeSquare);
+
+
+            (function initHtmlTemplates(sb) {
+                starbucks.ui.templates.resultList = Handlebars.compile($("#result-list-template").html());
+            })();
+        }
+
+        $(initApp);
+    })();
+</script>
+</body>
+</html>
