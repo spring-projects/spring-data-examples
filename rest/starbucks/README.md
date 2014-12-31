@@ -7,11 +7,15 @@ This sample app exposes 10843 Starbucks coffee shops via a RESTful API that allo
 1. Install MongoDB (http://www.mongodb.org/downloads, unzip, run `bin/mongod --dbpath=data`)
 2. Build and run the app (`mvn spring-boot:run`)
 3. Access the root resource (`curl http://localhost:8080`) and traverse hyperlinks.
-4. Or access the location search directly (e.g. `localhost:8080/stores/search/findByAddressLocationNear?location=40.740337,-73.995146&distance=0.5miles`)
+4. Or access the location search directly (e.g. `http://localhost:8080/stores/search/findByAddressLocationNear?location=40.740337,-73.995146&distance=0.5miles`)
 
-## API exploration
+## Web UI
 
-The module uses the HAL Browser module of Spring Data REST which serves a UI to explore the resources exposed. Point your browser to `http://localhost:8080` to see it.
+The application provides a custom web UI using the exposed REST API to display the search result on a Google Map. Point you browser to `http://localhost:8080`. The UI is rendered using Thymeleaf, driven by the `StoresController`. A tiny JavaScript progressively enhances the view by picking up and enhancing a URI template rendered into the view (`<div id="map" data-uri="…" />`).
+
+![Starbucks Web UI](webui.png "Starbucks Web UI")
+
+The API itself can be discovered using the HAL browser pulled in through the corresponding Spring Data REST module (`spring-data-rest-hal-browser`). It's exposed at the API root at `http://localhost:8080/api`.
 
 ## Technologies used
 
