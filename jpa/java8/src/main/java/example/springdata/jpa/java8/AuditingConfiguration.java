@@ -18,7 +18,7 @@ package example.springdata.jpa.java8;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.domain.support.Jsr310JpaConverters;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Configuration
