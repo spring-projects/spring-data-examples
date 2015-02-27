@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
@@ -32,6 +31,5 @@ import org.springframework.data.rest.core.annotation.RestResource;
 public interface StoreRepository extends PagingAndSortingRepository<Store, String> {
 
 	@RestResource(rel = "by-location")
-	Page<Store> findByAddressLocationNear(//
-			@Param("location") Point location, @Param("distance") Distance distance, Pageable pageable);
+	Page<Store> findByAddressLocationNear(Point location, Distance distance, Pageable pageable);
 }

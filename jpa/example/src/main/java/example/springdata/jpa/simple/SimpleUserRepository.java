@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2013-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import com.google.common.base.Optional;
 
@@ -63,19 +62,18 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 * @param firstname
 	 * @return
 	 */
-	@Query("select u from User u where u.firstname = ?")
+	@Query("select u from User u where u.firstname = :firstname")
 	List<User> findByFirstname(String firstname);
 
 	/**
-	 * Returns all users with the given name as first- or lastname. Makes use of the {@link Param} annotation to use named
-	 * parameters in queries. This makes the query to method relation much more refactoring safe as the order of the
-	 * method parameters is completely irrelevant.
+	 * Returns all users with the given name as first- or lastname. This makes the query to method relation much more
+	 * refactoring safe as the order of the method parameters is completely irrelevant.
 	 * 
 	 * @param name
 	 * @return
 	 */
 	@Query("select u from User u where u.firstname = :name or u.lastname = :name")
-	List<User> findByFirstnameOrLastname(@Param("name") String name);
+	List<User> findByFirstnameOrLastname(String name);
 
 	/**
 	 * Returns the total number of entries deleted as their lastnames match the given one.
@@ -126,5 +124,5 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 * @return
 	 */
 	@Query("select u from User u where u.firstname = :#{#user.firstname} or u.lastname = :#{#user.lastname}")
-	Iterable<User> findByFirstnameOrLastname(@Param("user") User user);
+	Iterable<User> findByFirstnameOrLastname(User user);
 }
