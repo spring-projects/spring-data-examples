@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,20 +18,19 @@ package example.stores;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.StreamSupport;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.PagedResources.PageMetadata;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.client.Traverson;
+import org.springframework.hateoas.mvc.TypeReferences.PagedResourcesType;
 
 /**
  * @author Oliver Gierke
  */
 public class StarbucksClient {
-
-	private static final ParameterizedTypeReference<PagedResources<Resource<Store>>> TYPE_REFERENCE = new ParameterizedTypeReference<PagedResources<Resource<Store>>>() {};
 
 	public static void main(String[] args) {
 
@@ -44,19 +43,16 @@ public class StarbucksClient {
 		PagedResources<Resource<Store>> resources = traverson. //
 				follow("stores", "search", "by-location").//
 				withTemplateParameters(parameters).//
-				toObject(TYPE_REFERENCE);
+				toObject(new PagedResourcesType<Resource<Store>>() {});
 
 		PageMetadata metadata = resources.getMetadata();
 
 		System.out.println(String.format("Got %s of %s stores: ", resources.getContent().size(),
 				metadata.getTotalElements()));
 
-		for (Resource<Store> resource : resources) {
-
-			Store store = resource.getContent();
-
-			System.out.println(String.format("- %s - %s", store.name, store.address));
-		}
+		StreamSupport.stream(resources.spliterator(), false).//
+				map(Resource::getContent).//
+				forEach(store -> String.format("- %s - %s", store.name, store.address));
 	}
 
 	static class Store {

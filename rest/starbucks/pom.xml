@@ -12,6 +12,10 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<spring-hateoas.version>0.17.0.BUILD-SNAPSHOT</spring-hateoas.version>
+	</properties>
+
 	<dependencies>
 
 		<dependency>
