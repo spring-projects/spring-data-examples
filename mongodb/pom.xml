@@ -14,12 +14,13 @@
 	<name>Spring Data MongoDB - Examples</name>
 	<description>Sample projects for Spring Data MongoDB</description>
 	<url>http://projects.spring.io/spring-data-mongodb</url>
-	<inceptionYear>2011-2014</inceptionYear>
+	<inceptionYear>2011-2015</inceptionYear>
 
 	<modules>
 	    <module>aggregation</module>
 		<module>example</module>
 		<module>text-search</module>
+		<module>java8</module>
 		<module>util</module>
 	</modules>
 
