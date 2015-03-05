@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package example.springdata.mongodb.customer;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -29,7 +28,7 @@ import org.springframework.data.repository.CrudRepository;
  * 
  * @author Oliver Gierke
  */
-public interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
+public interface CustomerRepository extends CrudRepository<Customer, String> {
 
 	/**
 	 * Derived query using dynamic sort information.
@@ -41,7 +40,7 @@ public interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
 	List<Customer> findByLastname(String lastname, Sort sort);
 
 	/**
-	 * Showcase for a repository query using geo-spatial functionality.
+	 * Show case for a repository query using geo-spatial functionality.
 	 * 
 	 * @param point
 	 * @param distance
