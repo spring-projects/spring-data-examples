@@ -17,7 +17,6 @@ package example.springdata.mongodb.customer;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -29,7 +28,7 @@ import org.springframework.data.repository.CrudRepository;
  * 
  * @author Oliver Gierke
  */
-public interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
+public interface CustomerRepository extends CrudRepository<Customer, String> {
 
 	/**
 	 * Derived query using dynamic sort information.
