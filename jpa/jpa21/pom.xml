@@ -10,9 +10,5 @@
 
 	<artifactId>spring-data-jpa-jpa21</artifactId>
 	<name>Spring Data JPA - JPA 2.1 specific features</name>
-	
-	<properties>
-		<spring-data-releasetrain.version>Fowler-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
 
 </project>

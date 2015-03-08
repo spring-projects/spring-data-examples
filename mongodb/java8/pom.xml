@@ -11,10 +11,6 @@
 	<artifactId>spring-data-mongodb-java8</artifactId>
 	<name>Spring Data MongoDB - Java 8 specific features</name>
 
-	<properties>
-		<spring-data-releasetrain.version>Fowler-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
