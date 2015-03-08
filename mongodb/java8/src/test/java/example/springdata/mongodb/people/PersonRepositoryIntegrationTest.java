@@ -15,6 +15,8 @@
  */
 package example.springdata.mongodb.people;
 
+import java.util.stream.Stream;
+
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -31,6 +33,7 @@ import example.springdata.mongodb.util.RequiresMongoDB;
  * Integration test for {@link PersonRepository}.
  * 
  * @author Thomas Darimont
+ * @authot Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
@@ -67,6 +70,9 @@ public class PersonRepositoryIntegrationTest {
 	 */
 	@Test
 	public void shouldPerformConversionDuringJava8StreamProcessing() {
-		repository.findAllByCustomQueryWithStream().forEach(System.out::println);
+
+		try (Stream<Person> result = repository.findAllByCustomQueryWithStream()) {
+			result.forEach(System.out::println);
+		}
 	}
 }
