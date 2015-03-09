@@ -16,6 +16,7 @@
 package example.springdata.jpa.java8;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
@@ -60,4 +61,16 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	default Optional<Customer> findByLastname(Customer customer) {
 		return findByLastname(customer == null ? null : customer.lastname);
 	}
+
+	/**
+	 * Sample method to demonstrate support for {@link Stream} as a return type.
+	 * <p>
+	 * The query is executed in a streaming fashion which means that the method returns as soon, as the first results are
+	 * ready.
+	 * <p>
+	 * Note since the resulting {@link Stream} contains state it needs to be closed explicitly after use!
+	 * 
+	 * @return
+	 */
+	Stream<Customer> readAllBy();
 }
