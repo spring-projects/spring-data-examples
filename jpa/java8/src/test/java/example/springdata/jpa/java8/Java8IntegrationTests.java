@@ -18,8 +18,12 @@ package example.springdata.jpa.java8;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +69,19 @@ public class Java8IntegrationTests {
 
 		assertThat(result.isPresent(), is(true));
 		assertThat(result.get(), is(customer));
+	}
+
+	@Test
+	public void useJava8StreamsDirectly() {
+
+		Customer customer1 = repository.save(new Customer("Customer1", "Foo"));
+		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
+
+		try (Stream<Customer> stream = repository.readAllBy()) {
+
+			List<Customer> customers = stream.collect(Collectors.toList());
+
+			assertThat(customers, IsCollectionContaining.<Customer> hasItems(customer1, customer2));
+		}
 	}
 }
