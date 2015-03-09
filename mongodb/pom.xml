@@ -22,6 +22,7 @@
 		<module>text-search</module>
 		<module>java8</module>
 		<module>util</module>
+		<module>geo-json</module>
 	</modules>
 
 	<dependencies>
