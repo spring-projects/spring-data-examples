@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2013-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
  */
 package example.springdata.jpa.java8;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
@@ -24,6 +26,7 @@ import org.springframework.data.repository.Repository;
  * Repository to manage {@link Customer} instances.
  * 
  * @author Oliver Gierke
+ * @author Thomas Darimont
  */
 public interface CustomerRepository extends Repository<Customer, Long> {
 
@@ -59,5 +62,21 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	 */
 	default Optional<Customer> findByLastname(Customer customer) {
 		return findByLastname(customer == null ? null : customer.lastname);
+	}
+
+	/**
+	 * Returns all customers as a {@link List}.
+	 * 
+	 * @return
+	 */
+	List<Customer> findAll();
+
+	/**
+	 * Returns all customers as a {@link Stream} wrapping the result of {@link #findAll()}.
+	 * 
+	 * @return
+	 */
+	default Stream<Customer> findAllAsStream() {
+		return findAll().stream();
 	}
 }
