@@ -36,6 +36,10 @@ We have separate folders for the samples of individual modules:
 
 * `example` - Example how to use basic text search, geo-spatial search and facets.
 
+## Spring Data web support
+
+* `web` - Example for Spring Data web integration (binding `Pageable` instances to Spring MVC controller methods, using interfaces to bind Spring MVCrequest payloads).
+
 ## Miscellaneous
 
 * `multi-store` - Example project to use both Spring Data MongoDB and Spring Data JPA in one project.
