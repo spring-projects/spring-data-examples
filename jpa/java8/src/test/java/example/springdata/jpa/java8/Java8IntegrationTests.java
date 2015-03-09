@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2013-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,12 @@ package example.springdata.jpa.java8;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration test to show the usage of Java 8 date time APIs with Spring Data JPA auditing.
  * 
  * @author Oliver Gierke
+ * @author Thomas Darimont
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = AuditingConfiguration.class)
@@ -65,5 +70,23 @@ public class Java8IntegrationTests {
 
 		assertThat(result.isPresent(), is(true));
 		assertThat(result.get(), is(customer));
+	}
+
+	/**
+	 * Streaming data from the store by using a repsoitory method that returns a {@link Stream}. Note, that since the
+	 * resulting {@link Stream} contains state it needs to be closed explicitly after use!
+	 */
+	@Test
+	public void useJava8StreamsDirectly() {
+
+		Customer customer1 = repository.save(new Customer("Customer1", "Foo"));
+		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
+
+		try (Stream<Customer> stream = repository.streamAllCustomers()) {
+
+			List<Customer> customers = stream.collect(Collectors.toList());
+
+			assertThat(customers, IsCollectionContaining.<Customer> hasItems(customer1, customer2));
+		}
 	}
 }
