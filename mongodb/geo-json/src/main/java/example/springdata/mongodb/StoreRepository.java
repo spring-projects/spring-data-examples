@@ -21,10 +21,18 @@ import org.springframework.data.geo.Polygon;
 import org.springframework.data.repository.CrudRepository;
 
 /**
+ * Spring Data repository interface to manage {@link Store} instances.
+ * 
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
-public interface StoreRepository extends CrudRepository<Store, String> {
+interface StoreRepository extends CrudRepository<Store, String> {
 
+	/**
+	 * Returns all {@link Store}s located withing the given {@link Polygon}.
+	 * 
+	 * @param polygon must not be {@literal null}.
+	 * @return
+	 */
 	List<Store> findByLocationWithin(Polygon polygon);
-
 }

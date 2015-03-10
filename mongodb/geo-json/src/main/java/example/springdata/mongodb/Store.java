@@ -33,7 +33,7 @@ public class Store {
 	String city;
 
 	/**
-	 * location is stored in GeoJSON format.
+	 * {@code location} is stored in GeoJSON format.
 	 * 
 	 * <pre>
 	 * <code>

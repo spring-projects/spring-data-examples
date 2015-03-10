@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>spring-data-mongodb-geojson</artifactId>
-	<name>Spring Data MongoDB - GeoJson specific features</name>
+	<name>Spring Data MongoDB - GeoJson support</name>
 
 	<dependencies>
 		<dependency>
@@ -18,7 +18,7 @@
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>

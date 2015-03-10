@@ -22,7 +22,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.geo.GeoModule;
+import org.springframework.data.mongodb.core.geo.GeoJson;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.repository.init.AbstractRepositoryPopulatorFactoryBean;
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
@@ -31,13 +31,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * Spring Boot sample application to show the usage of {@link GeoJson} types with Spring Data MongoDB.
+ * 
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
 @SpringBootApplication
-public class App {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 	/**
@@ -48,7 +51,7 @@ public class App {
 	public @Bean AbstractRepositoryPopulatorFactoryBean repositoryPopulator() {
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new GeoJsonModule());
+		mapper.addMixIn(GeoJsonPoint.class, GeoJsonPointMixin.class);
 		mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		Jackson2RepositoryPopulatorFactoryBean factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
@@ -56,22 +59,6 @@ public class App {
 		factoryBean.setMapper(mapper);
 
 		return factoryBean;
-
-	}
-
-	/**
-	 * Creates a new {@link GeoJsonModule} registering mixins for common and MongoDB geo-spatial types. <br />
-	 * This should be part of Spring Data MongoDB.
-	 */
-	static class GeoJsonModule extends GeoModule {
-
-		private static final long serialVersionUID = 6239912797617786302L;
-
-		public GeoJsonModule() {
-			super();
-
-			setMixInAnnotation(GeoJsonPoint.class, GeoJsonPointMixin.class);
-		}
 	}
 
 	static abstract class GeoJsonPointMixin {
