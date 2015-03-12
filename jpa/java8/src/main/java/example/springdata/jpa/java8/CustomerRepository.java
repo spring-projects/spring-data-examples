@@ -18,6 +18,8 @@ package example.springdata.jpa.java8;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
@@ -26,6 +28,7 @@ import org.springframework.data.repository.Repository;
  * Repository to manage {@link Customer} instances.
  * 
  * @author Oliver Gierke
+ * @author Thomas Darimont
  */
 public interface CustomerRepository extends Repository<Customer, Long> {
 
@@ -64,11 +67,23 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	}
 
 	/**
-	 * Sample method to demonstrate support for {@link Stream} as a return type. The query is executed in a streaming
-	 * fashion which means that the method returns as soon as the first results are ready.
+	 * Sample method to demonstrate support for {@link Stream} as a return type with a custom query. The query is executed
+	 * in a streaming fashion which means that the method returns as soon as the first results are ready.
 	 * 
 	 * @return
 	 */
 	@Query("select c from Customer c")
 	Stream<Customer> streamAllCustomers();
+
+	/**
+	 * Sample method to demonstrate support for {@link Stream} as a return type with a derived query. The query is
+	 * executed in a streaming fashion which means that the method returns as soon as the first results are ready.
+	 * <p>
+	 * Note that we cannot just name the method {@link CrudRepository#findAll()} since this wouldn't allow us to perform
+	 * real streaming since the query is executed directly in SimpleJpaRepository. {@code findAllBy} however creates a
+	 * {@link CriteriaQuery} that we can transform to a streaming query.
+	 * 
+	 * @return
+	 */
+	Stream<Customer> findAllBy();
 }

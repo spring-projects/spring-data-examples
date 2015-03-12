@@ -73,16 +73,34 @@ public class Java8IntegrationTests {
 	}
 
 	/**
-	 * Streaming data from the store by using a repsoitory method that returns a {@link Stream}. Note, that since the
+	 * Streaming data from the store by using a repository method that returns a {@link Stream}. Note, that since the
 	 * resulting {@link Stream} contains state it needs to be closed explicitly after use!
 	 */
 	@Test
-	public void useJava8StreamsDirectly() {
+	public void useJava8StreamsDirectlyWithCustomQuery() {
 
 		Customer customer1 = repository.save(new Customer("Customer1", "Foo"));
 		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
 
 		try (Stream<Customer> stream = repository.streamAllCustomers()) {
+
+			List<Customer> customers = stream.collect(Collectors.toList());
+
+			assertThat(customers, IsCollectionContaining.<Customer> hasItems(customer1, customer2));
+		}
+	}
+
+	/**
+	 * Streaming data from the store by using a repository method that returns a {@link Stream} with a derived query.
+	 * Note, that since the resulting {@link Stream} contains state it needs to be closed explicitly after use!
+	 */
+	@Test
+	public void useJava8StreamsDirectlyWithDerivedQuery() {
+
+		Customer customer1 = repository.save(new Customer("Customer1", "Foo"));
+		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
+
+		try (Stream<Customer> stream = repository.findAllBy()) {
 
 			List<Customer> customers = stream.collect(Collectors.toList());
 
