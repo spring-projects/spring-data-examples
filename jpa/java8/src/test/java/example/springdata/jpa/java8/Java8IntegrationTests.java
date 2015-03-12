@@ -100,7 +100,7 @@ public class Java8IntegrationTests {
 		Customer customer1 = repository.save(new Customer("Customer1", "Foo"));
 		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
 
-		try (Stream<Customer> stream = repository.findAllBy()) {
+		try (Stream<Customer> stream = repository.findAllByLastnameIsNotNull()) {
 
 			List<Customer> customers = stream.collect(Collectors.toList());
 
