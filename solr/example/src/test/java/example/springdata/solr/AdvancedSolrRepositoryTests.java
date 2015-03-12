@@ -20,9 +20,7 @@ import static org.junit.Assert.*;
 import static org.springframework.data.solr.core.query.Criteria.*;
 import static org.springframework.data.solr.core.query.ExistsFunction.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -44,6 +42,7 @@ import example.springdata.solr.test.util.RequiresSolrServer;
 
 /**
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -57,22 +56,18 @@ public class AdvancedSolrRepositoryTests {
 		@Override
 		protected void doInitTestData(CrudRepository<Product, String> repository) {
 
-			Product playstation = new ProductBuilder().withId("id-1").named("Playstation")
-					.withDescription("The Sony playstation was the top selling gaming system in 1994.").withPopularity(5).build();
-
-			Product playstation2 = new ProductBuilder().withId("id-2").named("Playstation Two")
-					.withDescription("Playstation two is the successor of playstation in 2000.").build();
-
-			Product superNES = new ProductBuilder().withId("id-3").named("Super Nintendo").withPopularity(3).build();
-
-			Product nintendo64 = new ProductBuilder().withId("id-4").named("N64").withDescription("Nintendo 64")
-					.withPopularity(2).build();
+			Product playstation = Product.builder().id("id-1").name("Playstation")
+					.description("The Sony playstation was the top selling gaming system in 1994.").popularity(5).build();
+			Product playstation2 = Product.builder().id("id-2").name("Playstation Two")
+					.description("Playstation two is the successor of playstation in 2000.").build();
+			Product superNES = Product.builder().id("id-3").name("Super Nintendo").popularity(3).build();
+			Product nintendo64 = Product.builder().id("id-4").name("N64").description("Nintendo 64").popularity(2).build();
 
 			repository.save(Arrays.asList(playstation, playstation2, superNES, nintendo64));
 		}
 	}
 
-	@Autowired ProductRepository repo;
+	@Autowired ProductRepository repository;
 	@Autowired SolrOperations operations;
 
 	/**
@@ -82,7 +77,7 @@ public class AdvancedSolrRepositoryTests {
 	@Test
 	public void annotationBasedHighlighting() {
 
-		HighlightPage<Product> products = repo.findByDescriptionStartingWith("play", new PageRequest(0, 10));
+		HighlightPage<Product> products = repository.findByDescriptionStartingWith("play", new PageRequest(0, 10));
 
 		products.getHighlighted().forEach(
 				entry -> entry.getHighlights().forEach(
@@ -96,9 +91,7 @@ public class AdvancedSolrRepositoryTests {
 	 */
 	@Test
 	public void annotationBasedBoosting() {
-
-		repo.findTop10ByNameOrDescription("Nintendo", "Nintendo") //
-				.forEach(System.out::println);
+		repository.findTop10ByNameOrDescription("Nintendo", "Nintendo").forEach(System.out::println);
 	}
 
 	/**
@@ -109,9 +102,9 @@ public class AdvancedSolrRepositoryTests {
 	@Test
 	public void influcenceScoreWithFunctions() {
 
-		operations.queryForPage(new SimpleQuery(where(exists("popularity"))).addProjectionOnFields("*", "score"),
-				Product.class) //
-				.forEach(System.out::println);
+		Query query = new SimpleQuery(where(exists("popularity"))).addProjectionOnFields("*", "score");
+
+		operations.queryForPage(query, Product.class).forEach(System.out::println);
 	}
 
 	/**
@@ -121,8 +114,7 @@ public class AdvancedSolrRepositoryTests {
 	@Test
 	public void useRealtimeGetToReadUncommitedDocuments() throws InterruptedException {
 
-		Product xbox = new ProductBuilder().withId("id-5").named("XBox").withDescription("Microsift XBox")
-				.withPopularity(2).build();
+		Product xbox = Product.builder().id("id-5").name("XBox").description("Microsift XBox").popularity(2).build();
 		Query query = new SimpleQuery(where("id").is(xbox.getId()));
 
 		// add document but delay commit for 3 seconds
@@ -137,53 +129,5 @@ public class AdvancedSolrRepositoryTests {
 		// wait a little so that changes get committed to the index - normal query will now be able to find the document.
 		Thread.sleep(3010);
 		assertThat(operations.queryForObject(query, Product.class), notNullValue());
-	}
-
-	static class ProductBuilder {
-
-		private Product product;
-
-		public ProductBuilder() {
-			this.product = new Product();
-		}
-
-		public ProductBuilder withId(String id) {
-			this.product.setId(id);
-			return this;
-		}
-
-		public ProductBuilder named(String name) {
-			this.product.setName(name);
-			return this;
-		}
-
-		public ProductBuilder withDescription(String description) {
-			this.product.setDescription(description);
-			return this;
-		}
-
-		public ProductBuilder withPopularity(Integer popularity) {
-			this.product.setPopularity(popularity);
-			return this;
-		}
-
-		public ProductBuilder inCategory(String category) {
-
-			List<String> categories = new ArrayList<>();
-			categories.add(category);
-
-			if (this.product.getCategory() == null) {
-				categories.addAll(this.product.getCategory());
-			}
-
-			this.product.setCategory(categories);
-			return this;
-
-		}
-
-		public Product build() {
-			return this.product;
-		}
-
 	}
 }

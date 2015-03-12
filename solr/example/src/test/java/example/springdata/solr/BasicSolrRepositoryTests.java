@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,15 +33,14 @@ public class BasicSolrRepositoryTests {
 
 	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
 
-	@Autowired ProductRepository repo;
+	@Autowired ProductRepository repository;
 
 	/**
 	 * Finds all entries using a single request.
 	 */
 	@Test
 	public void findAll() {
-		repo.findAll()//
-				.forEach(System.out::println);
+		repository.findAll().forEach(System.out::println);
 	}
 
 	/**
@@ -49,8 +48,6 @@ public class BasicSolrRepositoryTests {
 	 */
 	@Test
 	public void findAllUsingDeepPagination() {
-		repo.findAllUsingCursor()//
-				.forEachRemaining(System.out::println);
+		repository.findAllUsingCursor().forEachRemaining(System.out::println);
 	}
-
 }
