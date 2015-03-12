@@ -15,15 +15,13 @@
  */
 package example.springdata.jpa.java8;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,20 +71,32 @@ public class Java8IntegrationTests {
 	}
 
 	/**
-	 * Streaming data from the store by using a repsoitory method that returns a {@link Stream}. Note, that since the
+	 * Streaming data from the store by using a repository method that returns a {@link Stream}. Note, that since the
 	 * resulting {@link Stream} contains state it needs to be closed explicitly after use!
 	 */
 	@Test
-	public void useJava8StreamsDirectly() {
+	public void useJava8StreamsWithCustomQuery() {
 
 		Customer customer1 = repository.save(new Customer("Customer1", "Foo"));
 		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
 
 		try (Stream<Customer> stream = repository.streamAllCustomers()) {
+			assertThat(stream.collect(Collectors.toList()), hasItems(customer1, customer2));
+		}
+	}
 
-			List<Customer> customers = stream.collect(Collectors.toList());
+	/**
+	 * Streaming data from the store by using a repository method that returns a {@link Stream} with a derived query.
+	 * Note, that since the resulting {@link Stream} contains state it needs to be closed explicitly after use!
+	 */
+	@Test
+	public void useJava8StreamsWithDerivedQuery() {
 
-			assertThat(customers, IsCollectionContaining.<Customer> hasItems(customer1, customer2));
+		Customer customer1 = repository.save(new Customer("Customer1", "Foo"));
+		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
+
+		try (Stream<Customer> stream = repository.findAllByLastnameIsNotNull()) {
+			assertThat(stream.collect(Collectors.toList()), hasItems(customer1, customer2));
 		}
 	}
 }

@@ -26,6 +26,7 @@ import org.springframework.data.repository.Repository;
  * Repository to manage {@link Customer} instances.
  * 
  * @author Oliver Gierke
+ * @author Thomas Darimont
  */
 public interface CustomerRepository extends Repository<Customer, Long> {
 
@@ -64,11 +65,19 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	}
 
 	/**
-	 * Sample method to demonstrate support for {@link Stream} as a return type. The query is executed in a streaming
-	 * fashion which means that the method returns as soon as the first results are ready.
+	 * Sample method to demonstrate support for {@link Stream} as a return type with a custom query. The query is executed
+	 * in a streaming fashion which means that the method returns as soon as the first results are ready.
 	 * 
 	 * @return
 	 */
 	@Query("select c from Customer c")
 	Stream<Customer> streamAllCustomers();
+
+	/**
+	 * Sample method to demonstrate support for {@link Stream} as a return type with a derived query. The query is
+	 * executed in a streaming fashion which means that the method returns as soon as the first results are ready.
+	 * 
+	 * @return
+	 */
+	Stream<Customer> findAllByLastnameIsNotNull();
 }
