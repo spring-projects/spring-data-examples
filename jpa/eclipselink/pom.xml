@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>org.springframework.data.examples</groupId>
+		<artifactId>spring-data-jpa-examples</artifactId>
+		<version>1.0.0.BUILD-SNAPSHOT</version>
+	</parent>
+
+	<repositories>
+		<repository>
+			<id>com.ethlo.eclipselink.tools</id>
+			<url>http://ethlo.com/maven</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>com.ethlo.eclipselink.tools</id>
+			<url>http://ethlo.com/maven</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>example.springdata.jpa</groupId>
+	<artifactId>eclipselink</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>Spring Data JPA - Spring Data JPA w/ Eclipse Link and Static Weaving</name>
+	<description>Example Spring Data JPA Project using EclipseLink and Static Weaving</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>example.springdata.jpa.eclipselink.SpringDataJpaEclipseLinkApplication</start-class>
+		<java.version>1.8</java.version>
+		<eclipselink.version>2.6.0</eclipselink.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa</artifactId>
+			<version>${eclipselink.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Static weaver for EclipseLink -->
+			<plugin>
+					<groupId>com.ethlo.persistence.tools</groupId>
+					<artifactId>eclipselink-maven-plugin</artifactId>
+					<version>1.1-SNAPSHOT</version>
+					<executions>
+						<execution>
+							<phase>process-classes</phase>
+							<goals>
+								<goal>weave</goal>
+							</goals>
+						</execution>
+					</executions>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.persistence</groupId>
+						<artifactId>org.eclipse.persistence.jpa</artifactId>
+						<version>${eclipselink.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
