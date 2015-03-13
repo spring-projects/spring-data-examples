@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Jeremy Rickard
  */
-public interface ParticipantRepository  extends CrudRepository<Participant,String> {
+public interface ParticipantRepository extends CrudRepository<Participant, String> {
 
     @Query("SELECT p from Participant p")
     List<Participant> findAll();

@@ -21,13 +21,14 @@ package example.springdata.jpa.eclipselink.repositories;
  *
  * @author Jeremy Rickard
  */
+
 import example.springdata.jpa.eclipselink.domain.Race;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Date;
 import java.util.List;
 
-public interface RaceRepository extends CrudRepository<Race,String> {
+public interface RaceRepository extends CrudRepository<Race, String> {
 
     List<Race> findByName(String name);
 

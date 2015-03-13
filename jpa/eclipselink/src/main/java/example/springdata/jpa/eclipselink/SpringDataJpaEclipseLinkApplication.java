@@ -37,6 +37,7 @@ import java.util.Map;
  * Spring Boot application with Spring Java Config annotations that use EclipseLink as the JPA Provider
  * and turn on Static Weaving of the entity classes by disabling dynamic weaving and utilizing a maven
  * build that includes a static weaving plugin.
+ *
  * @author Jeremy Rickard
  */
 
@@ -72,9 +73,9 @@ public class SpringDataJpaEclipseLinkApplication {
      * Otherwise, you'll get: Cannot apply class transformer without LoadTimeWeaver specified
      */
     @Bean
-    public Map<String,String> jpaProperties() {
-        Map<String,String> props = new HashMap<>();
-        props.put("eclipselink.weaving","false");
+    public Map<String, String> jpaProperties() {
+        Map<String, String> props = new HashMap<>();
+        props.put("eclipselink.weaving", "false");
         return props;
     }
 
@@ -85,7 +86,6 @@ public class SpringDataJpaEclipseLinkApplication {
         jpaVendorAdapter.setGenerateDdl(true);
         return jpaVendorAdapter;
     }
-
 
 
     public static void main(String[] args) {

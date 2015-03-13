@@ -24,19 +24,17 @@ package example.springdata.jpa.eclipselink.domain;
  * @author Jeremy Rickard
  */
 
-import javax.persistence.*;
-
 import org.eclipse.persistence.annotations.UuidGenerator;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Race {
     @Id
-    @UuidGenerator(name="UUID")
-    @GeneratedValue(generator="UUID")
+    @UuidGenerator(name = "UUID")
+    @GeneratedValue(generator = "UUID")
     private String uuid;
 
     private double distance;
@@ -52,9 +50,9 @@ public class Race {
     private String description;
 
     @ManyToMany
-    @JoinTable(name="RACE_REG",
-               joinColumns={ @JoinColumn(name="RACE_ID", referencedColumnName="uuid") },
-               inverseJoinColumns={ @JoinColumn(name="PART_ID", referencedColumnName="uuid", unique=true)})
+    @JoinTable(name = "RACE_REG",
+            joinColumns = {@JoinColumn(name = "RACE_ID", referencedColumnName = "uuid")},
+            inverseJoinColumns = {@JoinColumn(name = "PART_ID", referencedColumnName = "uuid", unique = true)})
     private List<Participant> registrations;
 
     public String getUuid() {
@@ -106,21 +104,21 @@ public class Race {
     }
 
     public boolean equals(Object obj) {
-        if(null == obj) {
+        if (null == obj) {
             return false;
-        } else if(this == obj) {
+        } else if (this == obj) {
             return true;
-        } else if(!this.getClass().equals(obj.getClass())) {
+        } else if (!this.getClass().equals(obj.getClass())) {
             return false;
         } else {
-            Race that = (Race)obj;
-            return null == this.getUuid()?false:this.getUuid().equals(that.getUuid());
+            Race that = (Race) obj;
+            return null == this.getUuid() ? false : this.getUuid().equals(that.getUuid());
         }
     }
 
     public int hashCode() {
         byte hashCode = 17;
-        int hashCode1 = hashCode + (null == this.getUuid()?0:this.getUuid().hashCode() * 31);
+        int hashCode1 = hashCode + (null == this.getUuid() ? 0 : this.getUuid().hashCode() * 31);
         return hashCode1;
     }
 }

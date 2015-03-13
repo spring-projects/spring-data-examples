@@ -31,8 +31,8 @@ import java.util.List;
 @Entity
 public class Participant {
     @Id
-    @UuidGenerator(name="UUID")
-    @GeneratedValue(generator="UUID")
+    @UuidGenerator(name = "UUID")
+    @GeneratedValue(generator = "UUID")
     private String uuid;
 
     private String firstName;
@@ -48,7 +48,7 @@ public class Participant {
     @Enumerated
     private Gender gender;
 
-    @ManyToMany(mappedBy="registrations")
+    @ManyToMany(mappedBy = "registrations")
     private List<Race> raceRegistrations;
 
     public String getUuid() {
@@ -116,21 +116,21 @@ public class Participant {
     }
 
     public boolean equals(Object obj) {
-        if(null == obj) {
+        if (null == obj) {
             return false;
-        } else if(this == obj) {
+        } else if (this == obj) {
             return true;
-        } else if(!this.getClass().equals(obj.getClass())) {
+        } else if (!this.getClass().equals(obj.getClass())) {
             return false;
         } else {
-            Participant that = (Participant)obj;
-            return null == this.getUuid()?false:this.getUuid().equals(that.getUuid());
+            Participant that = (Participant) obj;
+            return null == this.getUuid() ? false : this.getUuid().equals(that.getUuid());
         }
     }
 
     public int hashCode() {
         byte hashCode = 17;
-        int hashCode1 = hashCode + (null == this.getUuid()?0:this.getUuid().hashCode() * 31);
+        int hashCode1 = hashCode + (null == this.getUuid() ? 0 : this.getUuid().hashCode() * 31);
         return hashCode1;
     }
 }
