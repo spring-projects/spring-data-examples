@@ -21,14 +21,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Oliver Gierke
  */
 @Entity
-@Data
+@Getter
+@EqualsAndHashCode(of = "id")
+@ToString
 @RequiredArgsConstructor
 public class LineItem {
 

@@ -21,10 +21,6 @@
 		<module>security</module>
 	</modules>
 
-	<properties>
-		<tomcat.version>8.0.15</tomcat.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

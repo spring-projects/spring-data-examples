@@ -20,39 +20,65 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
+import lombok.extern.slf4j.Slf4j;
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.PagedResources.PageMetadata;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.client.Traverson;
+import org.springframework.hateoas.client.Traverson.TraversalBuilder;
 import org.springframework.hateoas.mvc.TypeReferences.PagedResourcesType;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
+ * A test case to discover the search resource and execute a predefined search with it.
+ * 
  * @author Oliver Gierke
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration
+@Slf4j
 public class StarbucksClient {
 
-	public static void main(String[] args) {
+	@Configuration
+	static class Config {}
+
+	@Test
+	@Ignore
+	public void discoverStoreSearch() {
 
 		Traverson traverson = new Traverson(URI.create("http://localhost:8080"), MediaTypes.HAL_JSON);
+
+		// Set up path traversal
+		TraversalBuilder builder = traverson. //
+				follow("stores", "search", "by-location");
+
+		// Log discovered
+		log.info("");
+		log.info("Discovered link: {}", builder.asTemplatedLink());
+		log.info("");
 
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("location", "40.740337,-73.995146");
 		parameters.put("distance", "0.5miles");
 
-		PagedResources<Resource<Store>> resources = traverson. //
-				follow("stores", "search", "by-location").//
+		PagedResources<Resource<Store>> resources = builder.//
 				withTemplateParameters(parameters).//
 				toObject(new PagedResourcesType<Resource<Store>>() {});
 
 		PageMetadata metadata = resources.getMetadata();
 
-		System.out.println(String.format("Got %s of %s stores: ", resources.getContent().size(),
-				metadata.getTotalElements()));
+		log.info("Got {} of {} stores: ", resources.getContent().size(), metadata.getTotalElements());
 
 		StreamSupport.stream(resources.spliterator(), false).//
 				map(Resource::getContent).//
-				forEach(store -> String.format("- %s - %s", store.name, store.address));
+				forEach(store -> log.info("{} - {}", store.name, store.address));
 	}
 
 	static class Store {
