@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.query.spi.EvaluationContextExtension;
+import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 
 /**
  * @author Oliver Gierke
