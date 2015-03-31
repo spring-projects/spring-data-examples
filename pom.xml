@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.2.RELEASE</version>
+		<version>1.2.3.RELEASE</version>
 	</parent>
 
 	<modules>
@@ -52,6 +52,11 @@
 			<id>cstrobl</id>
 			<name>Christoph Strobl</name>
 			<email>cstrobl@pivotal.io</email>
+		</developer>
+		<developer>
+			<id>gturnquist</id>
+			<name>Greg Turnquist</name>
+			<email>gturnquist@pivotal.io</email>
 		</developer>
 	</developers>
 
