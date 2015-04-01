@@ -29,6 +29,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Test for Spring Data JPA EclipseLink w/ Static Weaving example
+ *
+ * @author Jeremy Rickard
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringDataJpaEclipseLinkApplication.class)
 public class SpringDataJpaEclipseLinkApplicationTests {
