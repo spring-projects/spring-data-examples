@@ -13,28 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.jpa.eclipselink.repositories;
-
-
-import example.springdata.jpa.eclipselink.domain.Participant;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+package example.springdata.jpa.multipleds.order;
 
 import java.util.List;
 
+import org.springframework.data.repository.CrudRepository;
+
+import example.springdata.jpa.multipleds.customer.Customer;
+import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
+
 /**
- * Repository to manage {@link example.springdata.jpa.eclipselink.domain.Participant} instances.
- *
- * @author Jeremy Rickard
+ * Spring Data repository managing {@link Order}s.
+ * 
+ * @author Oliver Gierke
  */
-public interface ParticipantRepository extends CrudRepository<Participant, String> {
+public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    @Query("SELECT p from Participant p")
-    List<Participant> findAll();
-
-    List<Participant> findByLastName(String lastName);
-
-    List<Participant> findByAgeLessThan(int age);
-
-    List<Participant> findByAgeBetween(int age1, int age2);
+	/**
+	 * Returns all {@link Order}s for the {@link Customer} with the given identifier.
+	 * 
+	 * @param id must not be {@literal null}.
+	 * @return
+	 */
+	List<Order> findByCustomer(CustomerId id);
 }

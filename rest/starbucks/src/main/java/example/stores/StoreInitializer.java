@@ -24,16 +24,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindException;
 
 /**
  * Component initializing a hand full of Starbucks stores and persisting them through a {@link StoreRepository}.
@@ -80,8 +77,16 @@ public class StoreInitializer {
 		tokenizer.setStrict(false);
 
 		DefaultLineMapper<Store> lineMapper = new DefaultLineMapper<Store>();
+		lineMapper.setFieldSetMapper(fields -> {
+
+			Point location = new Point(fields.readDouble("Longitude"), fields.readDouble("Latitude"));
+			Address address = new Address(fields.readString("Street Address"), fields.readString("City"), fields
+					.readString("Zip"), location);
+
+			return new Store(fields.readString("Name"), address);
+		});
+
 		lineMapper.setLineTokenizer(tokenizer);
-		lineMapper.setFieldSetMapper(StoreFieldSetMapper.INSTANCE);
 		itemReader.setLineMapper(lineMapper);
 		itemReader.setRecordSeparatorPolicy(new DefaultRecordSeparatorPolicy());
 		itemReader.setLinesToSkip(1);
@@ -101,24 +106,5 @@ public class StoreInitializer {
 		} while (store != null);
 
 		return stores;
-	}
-
-	private static enum StoreFieldSetMapper implements FieldSetMapper<Store> {
-
-		INSTANCE;
-
-		/* 
-		 * (non-Javadoc)
-		 * @see org.springframework.batch.item.file.mapping.FieldSetMapper#mapFieldSet(org.springframework.batch.item.file.transform.FieldSet)
-		 */
-		@Override
-		public Store mapFieldSet(FieldSet fields) throws BindException {
-
-			Point location = new Point(fields.readDouble("Longitude"), fields.readDouble("Latitude"));
-			Address address = new Address(fields.readString("Street Address"), fields.readString("City"),
-					fields.readString("Zip"), location);
-
-			return new Store(fields.readString("Name"), address);
-		}
 	}
 }

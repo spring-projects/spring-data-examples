@@ -23,7 +23,7 @@
 		<module>java8</module>
 		<module>jpa21</module>
 		<module>security</module>
-                <module>eclipselink</module>
+		<module>eclipselink</module>
 	</modules>
 
 	<dependencies>

@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.2.RELEASE</version>
+		<version>1.2.3.RELEASE</version>
 	</parent>
 
 	<modules>
@@ -32,8 +32,8 @@
 
 		<apt.version>1.1.3</apt.version>
 		<java.version>1.8</java.version>
-		<querydsl.version>3.6.1</querydsl.version>
-		<spring-data-releasetrain.version>Fowler-RC1</spring-data-releasetrain.version>
+		<querydsl.version>3.6.2</querydsl.version>
+		<spring-data-releasetrain.version>Fowler-RELEASE</spring-data-releasetrain.version>
 
 	</properties>
 
@@ -52,6 +52,11 @@
 			<id>cstrobl</id>
 			<name>Christoph Strobl</name>
 			<email>cstrobl@pivotal.io</email>
+		</developer>
+		<developer>
+			<id>gturnquist</id>
+			<name>Greg Turnquist</name>
+			<email>gturnquist@pivotal.io</email>
 		</developer>
 	</developers>
 

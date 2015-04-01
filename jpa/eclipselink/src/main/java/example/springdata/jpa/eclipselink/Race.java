@@ -13,28 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.jpa.eclipselink.repositories;
-
+package example.springdata.jpa.eclipselink;
 
 /**
- * Repository to manage {@link example.springdata.jpa.eclipselink.domain.Race} instances.
+ * Simple entity for Eclipselink Example
  *
  * @author Jeremy Rickard
  */
+import lombok.*;
 
-import example.springdata.jpa.eclipselink.domain.Race;
-import org.springframework.data.repository.CrudRepository;
-
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
-public interface RaceRepository extends CrudRepository<Race, String> {
+@Entity
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@RequiredArgsConstructor @ToString
+public class Race {
 
-    List<Race> findByName(String name);
+	private @Id @GeneratedValue Long id;
 
-    List<Race> findByDate(Date date);
+	private double distance;
 
-    List<Race> findByDateBefore(Date date);
+	@Column(nullable = false) @Temporal(TemporalType.DATE) private Date date;
 
-    List<Race> findByDistanceBetween(double start, double end);
+	@Column(nullable = false) private String name;
+
+	@Column(nullable = false, length = 5000) private String description;
+
 }

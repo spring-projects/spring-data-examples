@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.orders;
+package example.springdata.jpa.multipleds.customer;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,23 +26,42 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.Value;
 
 /**
+ * Simple domain class representing a {@link Customer}.
+ * 
  * @author Oliver Gierke
  */
 @Entity
-@Getter
 @EqualsAndHashCode(of = "id")
-@ToString
+@Getter
 @RequiredArgsConstructor
-public class LineItem {
+@ToString
+public class Customer {
 
-	private @GeneratedValue @Id Long id;
-	private final String description;
-	private final BigDecimal price;
+	private @Id @GeneratedValue Long id;
+	private final String firstname, lastname;
 
-	LineItem() {
-		this.description = null;
-		this.price = null;
+	Customer() {
+		this.firstname = null;
+		this.lastname = null;
+	}
+
+	public CustomerId getId() {
+		return new CustomerId(id);
+	}
+
+	@Value
+	@Embeddable
+	@RequiredArgsConstructor
+	@SuppressWarnings("serial")
+	public static class CustomerId implements Serializable {
+
+		private final Long customerId;
+
+		CustomerId() {
+			this.customerId = null;
+		}
 	}
 }

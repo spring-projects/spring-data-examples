@@ -1,5 +1,3 @@
-package example.springdata.jpa.eclipselink.domain;
-
 /*
  * Copyright 2015 the original author or authors.
  *
@@ -15,13 +13,18 @@ package example.springdata.jpa.eclipselink.domain;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package example.springdata.jpa.multipleds.customer;
 
+import java.util.Optional;
+
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * @author Jeremy Rickard
+ * Spring Data repository to manage {@link Customer}s.
+ * 
+ * @author Oliver Gierke
  */
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
-public enum Gender {
-    FEMALE,
-    MALE
+	Optional<Customer> findByLastname(String lastname);
 }
