@@ -9,6 +9,11 @@ This sample app exposes 10843 Starbucks coffee shops via a RESTful API that allo
 3. Access the root resource (`curl http://localhost:8080`) and traverse hyperlinks.
 4. Or access the location search directly (e.g. `localhost:8080/stores/search/findByAddressLocationNear?location=40.740337,-73.995146&distance=0.5miles`)
 
+## Web UI
+
+Point your browser to (`http://localhost:8080/app.html`) and play with the `jQuery based webui`.
+![Starbucks Web UI](/webui.png "Starbucks Web UI")
+
 ## Technologies used
 
 - Spring Data REST & Spring Data MongoDB

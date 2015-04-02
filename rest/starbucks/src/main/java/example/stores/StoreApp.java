@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Spring configuration class main application bootstrap point.
  * 
  * @author Oliver Gierke
+ * @author Thomas Darimont
  */
 @SpringBootApplication
 public class StoreApp {
