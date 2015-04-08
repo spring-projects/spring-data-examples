@@ -16,6 +16,7 @@
 package example.orders;
 
 import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.RestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,6 +29,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.restdocs.config.RestDocumentationConfigurer;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -51,7 +53,10 @@ public class WebIntegrationTests {
 
 	@Before
 	public void setUp() {
-		this.mvc = MockMvcBuilders.webAppContextSetup(context).build();
+
+		this.mvc = MockMvcBuilders.webAppContextSetup(context).//
+				apply(new RestDocumentationConfigurer()).//
+				build();
 	}
 
 	@Test
@@ -67,11 +72,13 @@ public class WebIntegrationTests {
 		// ETag-based
 
 		mvc.perform(get(uri).header(IF_NONE_MATCH, response.getHeader(ETAG))).//
-				andExpect(status().isNotModified());
+				andExpect(status().isNotModified()).//
+				andDo(document("if-none-match"));
 
 		// Last-modified-based
 
 		mvc.perform(get(uri).header(IF_MODIFIED_SINCE, response.getHeader(LAST_MODIFIED))).//
-				andExpect(status().isNotModified());
+				andExpect(status().isNotModified()).//
+				andDo(document("if-modified-since"));
 	}
 }
