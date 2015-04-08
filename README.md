@@ -28,6 +28,7 @@ We have separate folders for the samples of individual modules:
 * `multi-store` - A sample REST web-service based on both Spring Data JPA and Spring Data MongoDB.
 * `projections` - A sample REST web-service showing how to use projections.
 * `security` - A sample REST web-service secured using Spring Security.
+* `headeres` - A sample showing the population of HTTP headers and the usage of them to perform conditional `GET` requests.
 
 ## Spring Data Redis
 

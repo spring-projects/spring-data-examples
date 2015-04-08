@@ -19,6 +19,7 @@
 		<module>multi-store</module>
 		<module>projections</module>
 		<module>security</module>
+		<module>headers</module>
 	</modules>
 
 	<dependencies>
