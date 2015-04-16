@@ -1,8 +1,10 @@
 = Spring Data - Release Train BOM example
 
-This project shows the usage of the Spring Data release train in a non-Spring-Boot project. It basically consists of the `pom.xml` with the following noteworthy sections:
+This project shows the usage of the Spring Data release train in a non-Spring-Boot project with both Maven and Gradle.
 
-- the `<properties />` element has properties for both the Spring and Spring Data. For Spring Framework we use a plain version, for Spring Data we name the release train release. The names for that follow the following convention:
+== Properties
+
+In both Maven and Gradle a couple of properties are used to define the versions of Spring Framework and Spring Data to use. For Spring Framework a plain version is used. For Spring Data we refer to a particular revision of a release train. The naming of Spring Data releases uses the following conventions:
 
 ** `${release-train}-M1` -> Milestones
 ** …
@@ -10,9 +12,21 @@ This project shows the usage of the Spring Data release train in a non-Spring-Bo
 ** …
 ** `${release-train}-RELEASE` -> GA version
 ** `${release-train}-SR1` -> Services release (bugfixes) for that release train
-** …
 
-- the `<dependencyManagement />` section now declares dependencies to the BOMs for both Spring and Spring Data, using the import scope and pom type.
-- the standard `<dependencies />` section can now list Spring and Spring Data dependencies without declaring a version and still be sure all libraries are in matching versions.
+== Maven
 
-Note, that we don't declare a Spring dependency here. Declaring the BOM nonetheless makes sure we control the version of all transitive Spring dependencies pulled in by the Spring Data modules.
+The `<dependencyManagement />` section declares dependencies to the BOMs for both Spring and Spring Data, using the `import` scope and `pom` type.
+
+The standard `<dependencies />` section can now list Spring Framework and Spring Data dependencies without declaring a version and still be sure all libraries are in matching versions.
+
+Note, that we don't declare a Spring Framework dependency here. The import of the Spring Framework BOM nonetheless makes sure we control the version of all transitive Spring Framework dependencies pulled in by the Spring Data modules.
+
+== Gradle
+
+Gradle does not support Maven BOMs out of the box so the first thing to do is to declare a buildscript dependency on the https://github.com/spring-gradle-plugins/dependency-management-plugin[dependency management plugin] and apply it to the project.
+
+With the plugin applied, the `dependencyManagement` section can be used to import the Spring Framework and Spring Data BOMs.
+
+The standard `dependencies` section can now list Spring and Spring Data dependencies without declaring a version and still be sure all libraries are in matching versions.
+
+Note, that we don't declare a Spring Framework dependency here. The dependency management plugin and Spring Framework BOM nonetheless makes sure we control the version of all transitive Spring Framework dependencies pulled in by the Spring Data modules.
