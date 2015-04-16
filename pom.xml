@@ -26,6 +26,7 @@
 		<module>cassandra</module>
 		<module>elasticsearch</module>
 		<module>web</module>
+		<module>bom</module>
 	</modules>
 
 	<properties>

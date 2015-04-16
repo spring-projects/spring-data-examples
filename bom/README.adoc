@@ -1,0 +1,18 @@
+= Spring Data - Release Train BOM example
+
+This project shows the usage of the Spring Data release train in a non-Spring-Boot project. It basically consists of the `pom.xml` with the following noteworthy sections:
+
+- the `<properties />` element has properties for both the Spring and Spring Data. For Spring Framework we use a plain version, for Spring Data we name the release train release. The names for that follow the following convention:
+
+** `${release-train}-M1` -> Milestones
+** …
+** `${release-train}-RC1` -> Release candidate
+** …
+** `${release-train}-RELEASE` -> GA version
+** `${release-train}-SR1` -> Services release (bugfixes) for that release train
+** …
+
+- the `<dependencyManagement />` section now declares dependencies to the BOMs for both Spring and Spring Data, using the import scope and pom type.
+- the standard `<dependencies />` section can now list Spring and Spring Data dependencies without declaring a version and still be sure all libraries are in matching versions.
+
+Note, that we don't declare a Spring dependency here. Declaring the BOM nonetheless makes sure we control the version of all transitive Spring dependencies pulled in by the Spring Data modules.

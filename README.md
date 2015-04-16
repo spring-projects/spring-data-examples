@@ -45,4 +45,5 @@ We have separate folders for the samples of individual modules:
 
 ## Miscellaneous
 
+* `bom` - Example project how to use the Spring Data release train bom in non-Spring-Boot scenarios.
 * `multi-store` - Example project to use both Spring Data MongoDB and Spring Data JPA in one project.
