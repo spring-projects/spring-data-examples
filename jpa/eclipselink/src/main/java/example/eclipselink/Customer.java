@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.jpa.eclipselink.repositories;
+package example.eclipselink;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
- * Repository to manage {@link example.springdata.jpa.eclipselink.domain.Race} instances.
- *
- * @author Jeremy Rickard
+ * @author Oliver Gierke
  */
+@Data
+@Entity
+@RequiredArgsConstructor
+public class Customer {
 
-import example.springdata.jpa.eclipselink.domain.Race;
-import org.springframework.data.repository.CrudRepository;
+	private @Id @GeneratedValue Long id;
+	private final String firstname, lastname;
 
-import java.util.Date;
-import java.util.List;
-
-public interface RaceRepository extends CrudRepository<Race, String> {
-
-    List<Race> findByName(String name);
-
-    List<Race> findByDate(Date date);
-
-    List<Race> findByDateBefore(Date date);
-
-    List<Race> findByDistanceBetween(double start, double end);
+	Customer() {
+		this.firstname = null;
+		this.lastname = null;
+	}
 }

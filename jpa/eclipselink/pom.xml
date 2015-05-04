@@ -2,44 +2,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-jpa-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<repositories>
-		<repository>
-			<id>com.ethlo.eclipselink.tools</id>
-			<url>http://ethlo.com/maven</url>
-		</repository>
-	</repositories>
+	<artifactId>spring-data-jpa-eclipselink</artifactId>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>com.ethlo.eclipselink.tools</id>
-			<url>http://ethlo.com/maven</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>example.springdata.jpa</groupId>
-	<artifactId>eclipselink</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	<name>Spring Data JPA - Spring Data JPA w/ Eclipse Link and Static Weaving</name>
-	<description>Example Spring Data JPA Project using EclipseLink and Static Weaving</description>
+	<name>Spring Data JPA - EclipseLink setup example</name>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>example.springdata.jpa.eclipselink.SpringDataJpaEclipseLinkApplication</start-class>
-		<java.version>1.8</java.version>
 		<eclipselink.version>2.6.0</eclipselink.version>
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.jpa</artifactId>
@@ -47,35 +38,121 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<!-- Static weaver for EclipseLink -->
-			<plugin>
-					<groupId>com.ethlo.persistence.tools</groupId>
-					<artifactId>eclipselink-maven-plugin</artifactId>
-					<version>1.1-SNAPSHOT</version>
-					<executions>
-						<execution>
-							<phase>process-classes</phase>
-							<goals>
-								<goal>weave</goal>
-							</goals>
-						</execution>
-					</executions>
+	<profiles>
+		<profile>
 
-				<dependencies>
-					<dependency>
-						<groupId>org.eclipse.persistence</groupId>
-						<artifactId>org.eclipse.persistence.jpa</artifactId>
-						<version>${eclipselink.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
-	</build>
+			<!--
+
+			Sets up the build to run the EclipseLink Maven plugin at compile time and instrument
+			domain types. This will prevent the need for load-time weaving when running the app.
+
+			-->
+
+			<id>static-weaving</id>
+
+			<build>
+				<plugins>
+
+					<!-- Static weaver for EclipseLink -->
+					<plugin>
+						<groupId>com.ethlo.persistence.tools</groupId>
+						<artifactId>eclipselink-maven-plugin</artifactId>
+						<version>1.1-SNAPSHOT</version>
+						<executions>
+							<execution>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>weave</goal>
+								</goals>
+							</execution>
+						</executions>
+
+						<dependencies>
+							<dependency>
+								<groupId>org.eclipse.persistence</groupId>
+								<artifactId>org.eclipse.persistence.jpa</artifactId>
+								<version>${eclipselink.version}</version>
+							</dependency>
+						</dependencies>
+
+					</plugin>
+				</plugins>
+			</build>
+
+			<repositories>
+				<repository>
+					<id>com.ethlo.eclipselink.tools</id>
+					<url>http://ethlo.com/maven</url>
+				</repository>
+			</repositories>
+
+			<pluginRepositories>
+				<pluginRepository>
+					<id>com.ethlo.eclipselink.tools</id>
+					<url>http://ethlo.com/maven</url>
+				</pluginRepository>
+			</pluginRepositories>
+
+		</profile>
+
+		<profile>
+
+			<!--
+
+			Sets up the build to use load-time weaving by configuring the Surefire and Boot
+			plugins to run with Spring's instrumentation agent. They will automatically pick
+			up the EclipseLink weaver and instrument domain types at load time.
+
+			-->
+
+			<id>load-time-weaving</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<dependencies>
+							<dependency>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-instrument</artifactId>
+								<version>${spring.version}</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<argLine>-javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar</argLine>
+						</configuration>
+					</plugin>
+					<plugin>
+
+						<!--
+
+						Not strictly required by the project but needed if you actually want to
+						run the application.
+
+						-->
+
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<dependencies>
+							<dependency>
+								<groupId>org.springframework</groupId>
+								<artifactId>spring-instrument</artifactId>
+								<version>${spring.version}</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<agent>${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar</agent>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
 
 </project>
