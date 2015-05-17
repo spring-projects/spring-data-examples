@@ -53,7 +53,7 @@ public class StarbucksClient {
 	@Ignore
 	public void discoverStoreSearch() {
 
-		Traverson traverson = new Traverson(URI.create("http://localhost:8080"), MediaTypes.HAL_JSON);
+		Traverson traverson = new Traverson(URI.create("http://localhost:8080/api"), MediaTypes.HAL_JSON);
 
 		// Set up path traversal
 		TraversalBuilder builder = traverson. //
