@@ -15,26 +15,42 @@
  */
 package example.stores;
 
+import static org.springframework.hateoas.MediaTypes.*;
+import static org.springframework.http.HttpMethod.*;
+
 import java.net.URI;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.PagedResources.PageMetadata;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.client.Traverson;
 import org.springframework.hateoas.client.Traverson.TraversalBuilder;
 import org.springframework.hateoas.mvc.TypeReferences.PagedResourcesType;
+import org.springframework.hateoas.mvc.TypeReferences.ResourceType;
+import org.springframework.hateoas.mvc.TypeReferences.ResourcesType;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.RequestEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * A test case to discover the search resource and execute a predefined search with it.
@@ -42,18 +58,28 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration
 @Slf4j
 public class StarbucksClient {
 
-	@Configuration
-	static class Config {}
+	@SpringBootApplication
+	static class Config {
+
+		@Bean
+		public RestTemplate restTemplate() {
+			return new RestTemplate();
+		}
+	}
+
+	@Value("${local.server.port}") String port;
+
+	private static final String SERVICE_URI = "http://localhost:%s/api";
 
 	@Test
-	@Ignore
 	public void discoverStoreSearch() {
 
-		Traverson traverson = new Traverson(URI.create("http://localhost:8080/api"), MediaTypes.HAL_JSON);
+		Traverson traverson = new Traverson(URI.create(String.format(SERVICE_URI, port)), MediaTypes.HAL_JSON);
 
 		// Set up path traversal
 		TraversalBuilder builder = traverson. //
@@ -79,6 +105,29 @@ public class StarbucksClient {
 		StreamSupport.stream(resources.spliterator(), false).//
 				map(Resource::getContent).//
 				forEach(store -> log.info("{} - {}", store.name, store.address));
+	}
+
+	@Autowired RestOperations restOperations;
+
+	@Test
+	public void accessServiceUsingRestTemplate() {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(Arrays.asList(HAL_JSON));
+
+		// Access root resource
+
+		RequestEntity<Object> request = new RequestEntity<>(headers, GET, URI.create(String.format(SERVICE_URI, port)));
+		Resource<Object> rootLinks = restOperations.exchange(request, new ResourceType<Object>() {}).getBody();
+		Links links = new Links(rootLinks.getLinks());
+
+		// Follow stores link
+
+		Link storesLink = links.getLink("stores").expand();
+		request = new RequestEntity<>(headers, GET, URI.create(storesLink.getHref()));
+		Resources<Store> stores = restOperations.exchange(request, new ResourcesType<Store>() {}).getBody();
+
+		stores.getContent().forEach(store -> log.info("{} - {}", store.name, store.address));
 	}
 
 	static class Store {
