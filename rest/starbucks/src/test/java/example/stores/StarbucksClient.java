@@ -16,10 +16,8 @@
 package example.stores;
 
 import static org.springframework.hateoas.MediaTypes.*;
-import static org.springframework.http.HttpMethod.*;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.StreamSupport;
@@ -46,7 +44,6 @@ import org.springframework.hateoas.client.Traverson.TraversalBuilder;
 import org.springframework.hateoas.mvc.TypeReferences.PagedResourcesType;
 import org.springframework.hateoas.mvc.TypeReferences.ResourceType;
 import org.springframework.hateoas.mvc.TypeReferences.ResourcesType;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestOperations;
@@ -112,19 +109,17 @@ public class StarbucksClient {
 	@Test
 	public void accessServiceUsingRestTemplate() {
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(HAL_JSON));
-
 		// Access root resource
 
-		RequestEntity<Object> request = new RequestEntity<>(headers, GET, URI.create(String.format(SERVICE_URI, port)));
+		URI uri = URI.create(String.format(SERVICE_URI, port));
+		RequestEntity<Void> request = RequestEntity.get(uri).accept(HAL_JSON).build();
 		Resource<Object> rootLinks = restOperations.exchange(request, new ResourceType<Object>() {}).getBody();
 		Links links = new Links(rootLinks.getLinks());
 
 		// Follow stores link
 
 		Link storesLink = links.getLink("stores").expand();
-		request = new RequestEntity<>(headers, GET, URI.create(storesLink.getHref()));
+		request = RequestEntity.get(URI.create(storesLink.getHref())).accept(HAL_JSON).build();
 		Resources<Store> stores = restOperations.exchange(request, new ResourcesType<Store>() {}).getBody();
 
 		stores.getContent().forEach(store -> log.info("{} - {}", store.name, store.address));
