@@ -13,6 +13,7 @@
 	</parent>
 
 	<properties>
+		<spring.version>4.2.0.BUILD-SNAPSHOT</spring.version>
 		<spring-hateoas.version>0.18.0.BUILD-SNAPSHOT</spring-hateoas.version>
 	</properties>
 
@@ -66,6 +67,13 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>URI.js</artifactId>
 			<version>1.14.1</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+			<version>0.22</version>
 			<scope>runtime</scope>
 		</dependency>
 
