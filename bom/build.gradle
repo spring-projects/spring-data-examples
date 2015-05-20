@@ -1,0 +1,32 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'io.spring.gradle:dependency-management-plugin:0.5.0.RELEASE'
+	}
+}
+
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+
+ext {
+	springVersion = '4.1.6.RELEASE'
+	springDataVersion = 'Fowler-RELEASE'
+}
+
+repositories {
+	jcenter()
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+		mavenBom "org.springframework.data:spring-data-releasetrain:${springDataVersion}"
+	}
+}
+
+dependencies {
+	compile 'org.springframework.data:spring-data-rest-webmvc'
+	compile 'org.springframework.data:spring-data-mongodb'
+}
