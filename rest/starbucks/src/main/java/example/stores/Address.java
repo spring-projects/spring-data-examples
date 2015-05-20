@@ -15,6 +15,8 @@
  */
 package example.stores;
 
+import static org.springframework.data.mongodb.core.index.GeoSpatialIndexType.*;
+
 import lombok.Value;
 
 import org.springframework.data.geo.Point;
@@ -29,7 +31,7 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 public class Address {
 
 	private final String street, city, zip;
-	private final @GeoSpatialIndexed Point location;
+	private final @GeoSpatialIndexed(type = GEO_2DSPHERE) Point location;
 
 	/*
 	 * (non-Javadoc)
