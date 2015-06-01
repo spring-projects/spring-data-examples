@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.net.URI;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class WebIntegrationTests {
 	}
 
 	@Test
+	@Ignore // see https://jira.spring.io/browse/SPR-13090
 	public void executeConditionalGetRequests() throws Exception {
 
 		Customer customer = customers.findAll().iterator().next();
