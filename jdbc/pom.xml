@@ -24,6 +24,19 @@
 		<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
 	</properties>
 
+	<profiles>
+
+		<!-- Override property as the module always needs Lovelace -->
+
+		<profile>
+			<id>spring-data-next</id>
+			<properties>
+				<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+			</properties>
+		</profile>
+
+	</profiles>
+
 	<dependencies>
 
 		<dependency>

@@ -34,10 +34,29 @@
 	</modules>
 
 	<properties>
-
 		<apt.version>1.1.3</apt.version>
-
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>spring-data-next</id>
+			<properties>
+				<spring-data-releasetrain.version>Kay-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+			</properties>
+		</profile>
+		<profile>
+			<id>spring-data-next-releasetrain</id>
+			<properties>
+				<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+			</properties>
+		</profile>
+		<profile>
+			<id>spring-data-next-releasetrain-released</id>
+			<properties>
+				<spring-data-releasetrain.version>Lovelace-M1</spring-data-releasetrain.version>
+			</properties>
+		</profile>
+	</profiles>
 
 	<developers>
 		<developer>
