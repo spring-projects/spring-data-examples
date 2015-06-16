@@ -6,8 +6,8 @@ This sample app exposes 10843 Starbucks coffee shops via a RESTful API that allo
 
 1. Install MongoDB (http://www.mongodb.org/downloads, unzip, run `mkdir data`, run `bin/mongod --dbpath=data`)
 2. Build and run the app (`mvn spring-boot:run`)
-3. Access the root resource (`curl http://localhost:8080`) and traverse hyperlinks.
-4. Or access the location search directly (e.g. `http://localhost:8080/stores/search/findByAddressLocationNear?location=40.740337,-73.995146&distance=0.5miles`)
+3. Access the root resource (`curl http://localhost:8080/api`) and traverse hyperlinks.
+4. Or access the location search directly (e.g. `http://localhost:8080/api/stores/search/findByAddressLocationNear?location=40.740337,-73.995146&distance=0.5miles`)
 
 ## Web UI
 
