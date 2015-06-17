@@ -18,6 +18,7 @@ package example.eclipselink;
 import java.util.Collections;
 import java.util.Map;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
 import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
@@ -50,5 +51,13 @@ public class Application extends JpaBaseConfiguration {
 
 		// Turn off dynamic weaving to disable LTW lookup in static weaving mode
 		return Collections.singletonMap("eclipselink.weaving", "false");
+	}
+	
+	public static void main(String[] args) {
+		
+		CustomerRepository repository = SpringApplication.run(Application.class, args).getBean(CustomerRepository.class);
+		repository.save(new Customer("Richard", "Feynman"));
+		
+		System.out.println(repository.findAll());
 	}
 }
