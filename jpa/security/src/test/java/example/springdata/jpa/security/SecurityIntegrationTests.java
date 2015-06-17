@@ -15,11 +15,10 @@
  */
 package example.springdata.jpa.security;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.assertThat;
+import static java.util.Collections.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -57,11 +56,11 @@ public class SecurityIntegrationTests {
 	BusinessObject object3;
 
 	@Before
-	public void setup(){
+	public void setup() {
 
-		tom = userRepository.save(new User("thomas","darimont","tdarimont@example.org"));
-		olli = userRepository.save(new User("oliver","gierke","ogierke@example.org"));
-		admin = userRepository.save(new User("admin","admin","admin@example.org"));
+		tom = userRepository.save(new User("thomas", "darimont", "tdarimont@example.org"));
+		olli = userRepository.save(new User("oliver", "gierke", "ogierke@example.org"));
+		admin = userRepository.save(new User("admin", "admin", "admin@example.org"));
 
 		object1 = businessObjectRepository.save(new BusinessObject("object1", olli));
 		object2 = businessObjectRepository.save(new BusinessObject("object2", olli));
@@ -69,31 +68,63 @@ public class SecurityIntegrationTests {
 	}
 
 	@Test
-	public void findBusinessObjectsForCurrentUserShouldReturnOnlyBusinessObjectsWhereCurrentUserIsOwner(){
+	public void findBusinessObjectsForCurrentUserShouldReturnOnlyBusinessObjectsWhereCurrentUserIsOwner() {
 
-		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(tom,"x"));
+		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(tom, "x"));
 
 		List<BusinessObject> businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUser();
 
-		assertThat(businessObjects,hasSize(1));
-		assertThat(businessObjects,contains(object3));
+		assertThat(businessObjects, hasSize(1));
+		assertThat(businessObjects, contains(object3));
 
-		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(olli,"x"));
+		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(olli, "x"));
 
 		businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUser();
 
-		assertThat(businessObjects,hasSize(2));
-		assertThat(businessObjects,contains(object1,object2));
+		assertThat(businessObjects, hasSize(2));
+		assertThat(businessObjects, contains(object1, object2));
 	}
 
 	@Test
-	public void findBusinessObjectsForCurrentUserShouldReturnAllObjectsForAdmin(){
+	public void findBusinessObjectsForCurrentUserShouldReturnAllObjectsForAdmin() {
 
-		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(admin,"x", Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))));
+		SecurityContextHolder.getContext().setAuthentication(
+				new UsernamePasswordAuthenticationToken(admin, "x", singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))));
 
 		List<BusinessObject> businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUser();
 
-		assertThat(businessObjects,hasSize(3));
-		assertThat(businessObjects,contains(object1,object2, object3));
+		assertThat(businessObjects, hasSize(3));
+		assertThat(businessObjects, contains(object1, object2, object3));
+	}
+
+	@Test
+	public void findBusinessObjectsForCurrentUserByIdShouldReturnOnlyBusinessObjectsWhereCurrentUserIsOwner() {
+
+		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(tom, "x"));
+
+		List<BusinessObject> businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUserById();
+
+		assertThat(businessObjects, hasSize(1));
+		assertThat(businessObjects, contains(object3));
+
+		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(olli, "x"));
+
+		businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUserById();
+
+		assertThat(businessObjects, hasSize(2));
+		assertThat(businessObjects, contains(object1, object2));
+	}
+
+	@Test
+	public void findBusinessObjectsForCurrentUserByIdShouldReturnAllObjectsForAdmin() {
+
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(admin, "x",
+				singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
+		SecurityContextHolder.getContext().setAuthentication(auth);
+
+		List<BusinessObject> businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUserById();
+
+		assertThat(businessObjects, hasSize(3));
+		assertThat(businessObjects, contains(object1, object2, object3));
 	}
 }

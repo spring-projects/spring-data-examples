@@ -43,4 +43,12 @@ public interface SecureBusinessObjectRepository extends Repository<BusinessObjec
 	 */
 	@Query("select o from BusinessObject o where o.owner.emailAddress like ?#{hasRole('ROLE_ADMIN') ? '%' : principal.emailAddress}")
 	List<BusinessObject> findBusinessObjectsForCurrentUser();
+	
+	/**
+	 * Here we apply a dynamic filter condition in there query depending of the role of the current principal.
+	 * 
+	 * @return
+	 */
+	@Query("select o from BusinessObject o where o.owner.id = ?#{principal.id} or 1=?#{hasRole('ROLE_ADMIN') ? 1 : 0}")
+	List<BusinessObject> findBusinessObjectsForCurrentUserById();
 }
