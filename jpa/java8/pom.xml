@@ -15,4 +15,5 @@
 
 	<artifactId>spring-data-jpa-java8</artifactId>
 	<name>Spring Data JPA - Java 8 specific features</name>
+	
 </project>

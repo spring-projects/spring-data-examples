@@ -18,6 +18,8 @@ package example.springdata.jpa.java8;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AuditingConfiguration.class)
 @Transactional
+@Slf4j
 public class Java8IntegrationTests {
 
 	@Autowired CustomerRepository repository;
@@ -104,10 +107,8 @@ public class Java8IntegrationTests {
 	}
 
 	/**
-	 * Here we demonstrate the usage of CompletableFuture as a result wrapper for asynchronous 
-	 * Repository query methods.
-	 * 
-	 * Note that we need to disable the surrounding TX to be able to asynchronously read the wirtten 
+	 * Here we demonstrate the usage of {@link CompletableFuture} as a result wrapper for asynchronous repository query
+	 * methods. Note, that we need to disable the surrounding transaction to be able to asynchronously read the written
 	 * data from from another thread within the same test method.
 	 */
 	@Test
@@ -118,19 +119,19 @@ public class Java8IntegrationTests {
 		repository.save(new Customer("Customer2", "Bar"));
 
 		CompletableFuture<Void> future = repository.readAllBy().thenAccept(customers -> {
-			
+
 			assertThat(customers, hasSize(2));
-			
-			customers.forEach(System.out::println);
-			System.out.println("Completed!");
+			customers.forEach(customer -> log.info(customer.toString()));
+			log.info("Completed!");
 		});
 
 		while (!future.isDone()) {
-			System.out.println("waiting...");
+			log.info("Waiting for the CompletableFuture to finish...");
 			TimeUnit.MILLISECONDS.sleep(500);
 		}
 
 		future.get();
-		System.out.println("Done");
+
+		log.info("Done!");
 	}
 }
