@@ -24,7 +24,7 @@ interface CustomerRepository extends Repository<Customer, Long> {
 
 ## Support for JDK 8' `Stream` in repository methods
 
-JPA repositories can now use `Stream` as return type for query methods to trigger streamed execution of the query. This will cause Spring Data JPA to use persistnce provider specific API to traverse the query result one-by-one.
+JPA repositories can now use `Stream` as return type for query methods to trigger streamed execution of the query. This will cause Spring Data JPA to use persistence provider specific API to traverse the query result one-by-one.
 
 ```java
 interface CustomerRepository extends Repository<Customer, Long> {
@@ -39,3 +39,27 @@ try (Stream<Customer> customers = repository.streamAllCustomers()) {
 ```
 
 Note how the returned `Stream` has to be used in a try-with-resources clause as the underlying resources have to be closed once we finished iterating over the result.
+
+
+## Support for JDK 8' `CompletableFuture` in `@Asnyc` repository methods
+
+JPA repositories can now use `CompletableFuture` as return type for query methods for async execution of the query with support for fluent processing.
+
+Note that: Support for `CompletableFuture` in combination with `@Asnyc` is available in Spring Framework 4.2.x.
+
+```java
+interface CustomerRepository extends Repository<Customer, Long> {
+
+  @Async
+  CompletableFuture<List<Customer>> readAllBy();
+}
+
+CompletableFuture<List<Customer>> future = repository.readAllBy().thenApply(this::doSomethingWithCustomers);
+
+while (!future.isDone()) {
+	log.info("Waiting for the CompletableFuture to finish...");
+	TimeUnit.MILLISECONDS.sleep(500);
+}
+
+List<Customer> processedCustomers = future.get();
+```
