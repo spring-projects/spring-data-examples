@@ -15,19 +15,26 @@
  */
 package example.springdata.jpa.java8;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
 import javax.persistence.Entity;
 
 /**
  * @author Oliver Gierke
+ * @author Thomas Darimont
  */
 @Entity
+@Getter
+@ToString
+@AllArgsConstructor
 public class Customer extends AbstractEntity {
 
 	String firstname, lastname;
 
-	public Customer(String firstname, String lastname) {
-
-		this.firstname = firstname;
-		this.lastname = lastname;
+	protected Customer() {
+		this.firstname = null;
+		this.lastname = null;
 	}
 }

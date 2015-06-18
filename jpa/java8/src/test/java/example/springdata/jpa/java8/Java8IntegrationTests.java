@@ -19,14 +19,17 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Thomas Darimont
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AuditingConfiguration.class)
+@SpringApplicationConfiguration(classes = AuditingConfiguration.class)
 @Transactional
 public class Java8IntegrationTests {
 
@@ -98,5 +101,36 @@ public class Java8IntegrationTests {
 		try (Stream<Customer> stream = repository.findAllByLastnameIsNotNull()) {
 			assertThat(stream.collect(Collectors.toList()), hasItems(customer1, customer2));
 		}
+	}
+
+	/**
+	 * Here we demonstrate the usage of CompletableFuture as a result wrapper for asynchronous 
+	 * Repository query methods.
+	 * 
+	 * Note that we need to disable the surrounding TX to be able to asynchronously read the wirtten 
+	 * data from from another thread within the same test method.
+	 */
+	@Test
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public void supportsCompletableFuturesAsReturnTypeWrapper() throws Exception {
+
+		repository.save(new Customer("Customer1", "Foo"));
+		repository.save(new Customer("Customer2", "Bar"));
+
+		CompletableFuture<Void> future = repository.readAllBy().thenAccept(customers -> {
+			
+			assertThat(customers, hasSize(2));
+			
+			customers.forEach(System.out::println);
+			System.out.println("Completed!");
+		});
+
+		while (!future.isDone()) {
+			System.out.println("waiting...");
+			TimeUnit.MILLISECONDS.sleep(500);
+		}
+
+		future.get();
+		System.out.println("Done");
 	}
 }

@@ -15,12 +15,15 @@
  */
 package example.springdata.jpa.java8;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * Repository to manage {@link Customer} instances.
@@ -80,4 +83,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	 * @return
 	 */
 	Stream<Customer> findAllByLastnameIsNotNull();
+
+	@Async
+	CompletableFuture<List<Customer>> readAllBy();
 }
