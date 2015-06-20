@@ -21,6 +21,7 @@
 		<module>example</module>
 		<module>text-search</module>
 		<module>java8</module>
+		<module>security</module>
 		<module>util</module>
 		<module>geo-json</module>
 	</modules>
