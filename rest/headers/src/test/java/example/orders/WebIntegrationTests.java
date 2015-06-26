@@ -15,10 +15,10 @@
  */
 package example.orders;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.restdocs.RestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.net.URI;
@@ -66,19 +66,25 @@ public class WebIntegrationTests {
 		URI uri = new UriTemplate("/customers/{id}").expand(customer.getId());
 
 		MockHttpServletResponse response = mvc.perform(get(uri)).//
-				andDo(print()).//
+				andExpect(header().string(ETAG, is(notNullValue()))).//
+				andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
 				andReturn().getResponse();
 
 		// ETag-based
 
-		mvc.perform(get(uri).header(IF_NONE_MATCH, response.getHeader(ETAG))).//
+		response = mvc.perform(get(uri).header(IF_NONE_MATCH, response.getHeader(ETAG))).//
 				andExpect(status().isNotModified()).//
-				andDo(document("if-none-match"));
+				andExpect(header().string(ETAG, is(notNullValue()))).//
+				andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
+				andDo(document("if-none-match")).//
+				andReturn().getResponse();
 
 		// Last-modified-based
 
 		mvc.perform(get(uri).header(IF_MODIFIED_SINCE, response.getHeader(LAST_MODIFIED))).//
 				andExpect(status().isNotModified()).//
+				andExpect(header().string(ETAG, is(notNullValue()))).//
+				andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
 				andDo(document("if-modified-since"));
 	}
 }
