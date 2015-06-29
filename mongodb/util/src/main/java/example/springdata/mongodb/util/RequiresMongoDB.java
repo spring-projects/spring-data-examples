@@ -17,12 +17,11 @@ package example.springdata.mongodb.util;
 
 import java.net.UnknownHostException;
 
+import org.junit.AssumptionViolatedException;
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.junit.internal.AssumptionViolatedException;
+import org.junit.rules.ExternalResource;
 import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
 import org.springframework.data.util.Version;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -39,7 +38,7 @@ import com.mongodb.MongoClient;
  * @author Christoph Strobl
  * @since 1.6
  */
-public class RequiresMongoDB implements TestRule {
+public class RequiresMongoDB extends ExternalResource {
 
 	private String host = "localhost";
 	private int port = 27017;
@@ -74,22 +73,12 @@ public class RequiresMongoDB implements TestRule {
 	}
 
 	@Override
-	public Statement apply(final Statement base, Description description) {
-
+	protected void before() throws Throwable {
 		initCurrentVersion();
-		return new Statement() {
-
-			@Override
-			public void evaluate() throws Throwable {
-				if (currentVersion != null) {
-					if (currentVersion.isLessThan(minVersion) || currentVersion.isGreaterThan(maxVersion)) {
-						throw new AssumptionViolatedException(String.format(
-								"Expected mongodb server to be in range %s to %s but found %s", minVersion, maxVersion, currentVersion));
-					}
-				}
-				base.evaluate();
-			}
-		};
+		if (currentVersion.isLessThan(minVersion) || currentVersion.isGreaterThan(maxVersion)) {
+			throw new AssumptionViolatedException(String.format(
+					"Expected mongodb server to be in range %s to %s but found %s", minVersion, maxVersion, currentVersion));
+		}
 	}
 
 	private void initCurrentVersion() {
