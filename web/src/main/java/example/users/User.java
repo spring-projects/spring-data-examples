@@ -21,6 +21,9 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -41,8 +44,8 @@ import lombok.RequiredArgsConstructor;
 public class User {
 
 	private @GeneratedValue @Id Long id;
-	private final Username username;
-	private final Password password;
+	private @JsonUnwrapped final Username username;
+	private @JsonIgnore final Password password;
 
 	User() {
 		this.username = null;

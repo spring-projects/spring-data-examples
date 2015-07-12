@@ -18,6 +18,7 @@ package example.users;
 import javax.persistence.Embeddable;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import org.springframework.util.StringUtils;
 
@@ -30,7 +31,7 @@ import org.springframework.util.StringUtils;
 @Embeddable
 public class Username {
 
-	private final String username;
+	private @Getter final String username;
 
 	Username() {
 		this.username = null;
