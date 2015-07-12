@@ -1,10 +1,15 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  data-ng-app="spring-data-web-example">
 	<head>
 		<title>Users</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
 		<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/webjars/trNgGrid/3.1.2/trNgGrid.min.css}" type="text/css" />
+		<script type="text/javascript" th:src="@{/webjars/angularjs/1.4.2/angular.min.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/angularjs/1.4.2/angular-route.min.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/trNgGrid/3.1.2/trNgGrid.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/users.js}"></script>		
 	</head>
 	<body>
 		<h1>Users</h1>
@@ -49,5 +54,31 @@
 			</div>
 			<input type="submit" class="btn btn-default" value="Register user" />
 		</form>
+		
+		<hr />
+		<div data-ng-controller="UsersCtrl">
+			<div class="table-responsive">
+			    <table tr-ng-grid=""
+				   items="page.content" 
+				   page-items="page.size" 
+				   total-items="page.totalElements" 
+				   selection-mode="SingleRow"
+				   enable-filtering="false"
+				   locale="de-de"
+				   order-by="page.sort[0].property"
+				   filter-by="additionalParams.onlyActive"
+				   order-by-reverse="true"
+				   on-data-required="onServerSideItemsRequested(currentPage, pageItems, filterByFields, orderBy, orderByReverse)"
+				   on-data-required-delay="500"
+				   >
+					<thead>
+					    <tr>		    
+						<th field-name="username" enable-filtering="true" />
+						<th field-name="password" enable-filtering="true"/>								   
+					    </tr>
+					</thead>    						
+		    	</table>
+			</div>
+		</div>
 	</body>
 </html>
