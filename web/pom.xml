@@ -12,6 +12,11 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<angularjs.version>1.4.2</angularjs.version>
+		<trNgGrid.version>3.1.2</trNgGrid.version>
+	</properties>
+		
 	<dependencies>
 
 		<dependency>
@@ -37,6 +42,18 @@
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>angularjs</artifactId>
+			<version>${angularjs.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>trNgGrid</artifactId>
+			<version>${trNgGrid.version}</version>
 		</dependency>
 
 	</dependencies>
