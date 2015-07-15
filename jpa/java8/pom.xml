@@ -9,7 +9,6 @@
 	</parent>
 
 	<properties>
-		<spring.version>4.2.0.BUILD-SNAPSHOT</spring.version>
 		<spring-data-releasetrain.version>Gosling-BUILD-SNAPSHOT</spring-data-releasetrain.version>
 	</properties>
 

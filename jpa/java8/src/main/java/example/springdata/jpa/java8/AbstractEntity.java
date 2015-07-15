@@ -28,7 +28,7 @@ import org.springframework.data.annotation.LastModifiedDate;
  * @author Oliver Gierke
  */
 @MappedSuperclass
-public class AbstractEntity {
+public abstract class AbstractEntity {
 
 	@Id @GeneratedValue Long id;
 
