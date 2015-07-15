@@ -15,27 +15,44 @@
  */
 package example.users;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 
 /**
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
-@Configuration
-public class WebConfig extends WebMvcConfigurerAdapter {
+@SpringBootApplication
+public class Application extends WebMvcConfigurerAdapter {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+		// Configure resource handler explicitly to enable non-versioned
+		// Webjars in Thymeleaf templates
 		registry.addResourceHandler("/webjars/**").//
 				addResourceLocations("classpath:/META-INF/resources/webjars/").//
 				resourceChain(true);
 	}
 
-	@Bean
-	public ResourceUrlEncodingFilter resourceUrlEncodingFilter() {
-		return new ResourceUrlEncodingFilter();
+	@Autowired UserRepository repo;
+
+	@PostConstruct
+	void initialize() throws Exception {
+
+		// Import demo users from local CSV
+		new UserInitializer(repo).initLocally();
+
+		// Import demo users from remote service
+		// new UserInitializer(repo).initRemote(100);
 	}
 }

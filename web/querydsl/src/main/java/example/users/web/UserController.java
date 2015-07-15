@@ -15,6 +15,8 @@
  */
 package example.users.web;
 
+import example.users.User;
+import example.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +24,37 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.querydsl.QuerydslPredicate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mysema.query.types.Predicate;
 
-import example.users.User;
-import example.users.UserRepository;
-
 /**
+ * Controller to handle web requests for {@link User}s.
+ * 
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
 @Controller
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class UserController {
+@RequiredArgsConstructor(onConstructor = @__(@Autowired) )
+class UserController {
 
 	private final UserRepository repository;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	String index(Model model, @QuerydslPredicate(root = User.class) Predicate predicate, Pageable pageable) {
+	String index(Model model, //
+			@QuerydslPredicate(root = User.class) Predicate predicate, Pageable pageable, //
+			@RequestParam MultiValueMap<String, String> parameters) {
 
+		ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest();
+		builder.replaceQueryParam("page", new Object[0]);
+
+		model.addAttribute("baseUri", builder.build().toUri());
 		model.addAttribute("users", repository.findAll(predicate, pageable));
+
 		return "index";
 	}
-
 }

@@ -16,6 +16,7 @@
 package example.users;
 
 import lombok.Data;
+import lombok.Value;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,19 +26,26 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 /**
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
 @Data
 @Document
 public class User {
 
-	@Id private String username;
-	private String firstname;
-	private String lastname;
-	private String email;
-	private String nationality;
-	@JsonIgnore private String password;
+	private @Id String username;
+	private String firstname, lastname, email, nationality;
+	private @JsonIgnore String password;
 
-	@JsonUnwrapped private Address address;
+	private @JsonUnwrapped Address address;
 	private Picture picture;
 
+	@Value
+	public static class Address {
+		String city, street, zip;
+	}
+
+	@Value
+	public static class Picture {
+		String large, medium, small;
+	}
 }

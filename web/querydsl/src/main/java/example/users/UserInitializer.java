@@ -15,13 +15,19 @@
  */
 package example.users;
 
+import static org.springframework.util.StringUtils.*;
+
+import example.users.User.Address;
+import example.users.User.Picture;
+import lombok.RequiredArgsConstructor;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
@@ -29,23 +35,40 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.util.StringUtils;
+import org.springframework.web.util.UriTemplate;
 
 /**
+ * Initialize {@link UserRepository} with sample data.
+ * 
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
+@RequiredArgsConstructor
 public class UserInitializer {
+
+	private static final UriTemplate REMOTE_TEMPLATE = new UriTemplate(
+			"https://randomuser.me/api/?results={numberOfUsers}&format=csv&nat=US");
 
 	private final UserRepository repository;
 
-	public enum Datasource {
-		LOCAL, REMOTE;
+	public void initLocally() throws Exception {
+
+		List<User> users = readUsers(new ClassPathResource("randomuser.me.csv"));
+
+		repository.deleteAll();
+		repository.save(users);
 	}
 
-	public UserInitializer(UserRepository repository) throws UnexpectedInputException, ParseException, Exception {
-		this.repository = repository;
+	public void initRemote(int numberOfUsers) throws Exception {
+
+		List<User> users = readUsers(new UrlResource(REMOTE_TEMPLATE.expand(numberOfUsers)));
+
+		repository.deleteAll();
+		repository.save(users);
 	}
 
-	private List<User> readUsers(Resource resource, int nrUsers) throws Exception {
+	private static List<User> readUsers(Resource resource) throws Exception {
 
 		Scanner scanner = new Scanner(resource.getInputStream());
 		String line = scanner.nextLine();
@@ -64,25 +87,33 @@ public class UserInitializer {
 			User user = new User();
 
 			user.setEmail(fields.readString("email"));
-			user.setFirstname(fields.readString("first"));
-			user.setLastname(fields.readString("last"));
+			user.setFirstname(capitalize(fields.readString("first")));
+			user.setLastname(capitalize(fields.readString("last")));
 			user.setNationality(fields.readString("nationality"));
 
+			String city = Arrays.stream(fields.readString("city").split(" "))//
+					.map(StringUtils::capitalize)//
+					.collect(Collectors.joining(" "));
+			String street = Arrays.stream(fields.readString("street").split(" "))//
+					.map(StringUtils::capitalize)//
+					.collect(Collectors.joining(" "));
+
 			try {
-				user.setAddress(new Address(fields.readString("city"), fields.readString("street"), fields.readString("zip")));
+				user.setAddress(new Address(city, street, fields.readString("zip")));
 			} catch (IllegalArgumentException e) {
-				user.setAddress(new Address(fields.readString("city"), fields.readString("street"), fields
-						.readString("postcode")));
+				user.setAddress(new Address(city, street, fields.readString("postcode")));
 			}
 
-			user.setPicture(new Picture(fields.readString("large"), fields.readString("medium"), fields
-					.readString("thumbnail")));
+			user.setPicture(
+					new Picture(fields.readString("large"), fields.readString("medium"), fields.readString("thumbnail")));
 			user.setUsername(fields.readString("username"));
 			user.setPassword(fields.readString("password"));
+
 			return user;
 		});
 
 		lineMapper.setLineTokenizer(tokenizer);
+
 		reader.setLineMapper(lineMapper);
 		reader.setRecordSeparatorPolicy(new DefaultRecordSeparatorPolicy());
 		reader.setLinesToSkip(1);
@@ -91,7 +122,6 @@ public class UserInitializer {
 		List<User> users = new ArrayList<>();
 		User user = null;
 
-		int count = 0;
 		do {
 
 			user = reader.read();
@@ -100,23 +130,8 @@ public class UserInitializer {
 				users.add(user);
 			}
 
-		} while (user != null && ++count < nrUsers);
+		} while (user != null);
 
 		return users;
-	}
-
-	public void init(int nrUsers, Datasource source) throws Exception {
-
-		if (repository.count() != nrUsers) {
-
-			Resource resource = Datasource.LOCAL.equals(source) ? new ClassPathResource("randomuser.me.csv")
-					: new UrlResource("https://randomuser.me/api/?results=" + nrUsers + "&format=csv");
-
-			List<User> users = readUsers(resource, nrUsers);
-			if (!users.isEmpty()) {
-				repository.deleteAll();
-				repository.save(users);
-			}
-		}
 	}
 }

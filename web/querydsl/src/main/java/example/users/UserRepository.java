@@ -23,11 +23,20 @@ import org.springframework.data.repository.CrudRepository;
 import com.mysema.query.types.path.StringPath;
 
 /**
+ * Repository to manage {@link User}s. Also implements {@link QueryDslPredicateExecutor} to enable predicate filtering
+ * on Spring MVC controllers as well as {@link QuerydslBinderCustomizer} to tweak the way predicates are created for
+ * properties.
+ * 
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
-public interface UserRepository extends CrudRepository<User, String>, QueryDslPredicateExecutor<User>,
-		QuerydslBinderCustomizer<QUser> {
+public interface UserRepository
+		extends CrudRepository<User, String>, QueryDslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.data.querydsl.binding.QuerydslBinderCustomizer#customize(org.springframework.data.querydsl.binding.QuerydslBindings, com.mysema.query.types.EntityPath)
+	 */
 	@Override
 	default public void customize(QuerydslBindings bindings, QUser root) {
 
