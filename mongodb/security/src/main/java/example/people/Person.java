@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.mongodb.people;
+package example.people;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 /**
- * An entity to represent a Person.
+ * An entity to represent a {@link Person}.
  * 
  * @author Thomas Darimont
  */

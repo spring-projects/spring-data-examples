@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.mongodb.people;
+package example.people;
 
 import java.util.List;
 
@@ -25,9 +25,7 @@ import org.springframework.data.repository.CrudRepository;
  * 
  * @author Thomas Darimont
  */
-public interface PersonRepository extends CrudRepository<Person, String> {
-
-	List<Person> findAll();
+interface PersonRepository extends CrudRepository<Person, String> {
 
 	@Query("{id: ?#{ hasRole('ROLE_ADMIN') ? {$exists:true} : principal.id}}")
 	List<Person> findAllForCurrentUserById();

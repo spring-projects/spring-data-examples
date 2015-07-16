@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.mongodb.people;
+package example.people;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +28,8 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
  * @author Thomas Darimont
  */
 @SpringBootApplication
-class ApplicationConfiguration {
+class Application {
 
-	public @Bean LoggingEventListener mongoEventListener() {
-		return new LoggingEventListener();
-	}
- 
 	@Bean
 	public EvaluationContextExtension securityExtension() {
 		return new SecurityEvaluationContextExtension();

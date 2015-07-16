@@ -11,7 +11,12 @@
 	<artifactId>spring-data-mongodb-security</artifactId>
 	<name>Spring Data MongoDB - Spring Security Integration</name>
 
+	<properties>
+		<spring-data-releasetrain.version>Gosling-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+	</properties>
+
 	<dependencies>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>spring-data-mongodb-utils</artifactId>
@@ -20,20 +25,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.8.0.DATAMONGO-1244-SNAPSHOT</version>
-		</dependency>
-		
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-data</artifactId>
 		</dependency>
+
 	</dependencies>
 
 </project>

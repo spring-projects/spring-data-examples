@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.mongodb.people;
+package example.people;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+
+import example.springdata.mongodb.util.RequiresMongoDB;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,13 +29,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.mongodb.util.RequiresMongoDB;
 
 /**
  * Integration test for {@link PersonRepository}.
@@ -43,13 +41,12 @@ import example.springdata.mongodb.util.RequiresMongoDB;
  * @authot Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
+@SpringApplicationConfiguration(classes = Application.class)
 public class PersonRepositoryIntegrationTest {
 
 	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.anyVersion();
 
 	@Autowired PersonRepository repository;
-	@Autowired MongoOperations operations;
 
 	Person dave, oliver, carter, admin;
 
@@ -66,11 +63,11 @@ public class PersonRepositoryIntegrationTest {
 
 	@Test
 	public void nonAdminCallingShouldReturnOnlyItSelfAsPerson() throws Exception {
-		
+
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(dave, "x"));
 
 		List<Person> persons = repository.findAllForCurrentUserById();
-		
+
 		assertThat(persons, hasSize(1));
 		assertThat(persons, contains(dave));
 	}
@@ -83,7 +80,7 @@ public class PersonRepositoryIntegrationTest {
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
 		List<Person> persons = repository.findAllForCurrentUserById();
-		
+
 		assertThat(persons, hasSize(4));
 		assertThat(persons, containsInAnyOrder(admin, dave, carter, oliver));
 	}
