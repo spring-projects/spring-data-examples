@@ -4,7 +4,7 @@
 
 	<artifactId>spring-data-map-repositories-example</artifactId>
 
-	<name>Spring Data - Map repositories example</name>
+	<name>Spring Data KeyValue - Map repositories example</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
@@ -22,7 +22,6 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-keyvalue</artifactId>
-			<version>0.1.0.BUILD-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
