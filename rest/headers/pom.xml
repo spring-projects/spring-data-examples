@@ -12,10 +12,6 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<spring.version>4.2.0.BUILD-SNAPSHOT</spring.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
@@ -36,7 +32,7 @@
 		<dependency>
 			<groupId>org.springframework.restdocs</groupId>
 			<artifactId>spring-restdocs</artifactId>
-			<version>0.1.0.BUILD-SNAPSHOT</version>
+			<version>1.0.0.M1</version>
 			<scope>test</scope>
 		</dependency>
 
