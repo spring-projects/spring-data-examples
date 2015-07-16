@@ -17,7 +17,6 @@ package example.springdata.mongodb.customer;
 
 import lombok.Data;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.Assert;
 
@@ -30,7 +29,7 @@ import org.springframework.util.Assert;
 @Document
 public class Customer {
 
-	private ObjectId id;
+	private String id;
 	private String firstname, lastname;
 
 	private Address address;
