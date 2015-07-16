@@ -38,6 +38,8 @@ import org.springframework.data.solr.repository.Boost;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import example.springdata.solr.product.Product;
+import example.springdata.solr.product.ProductRepository;
 import example.springdata.solr.test.util.RequiresSolrServer;
 
 /**

@@ -15,6 +15,8 @@
  */
 package example.springdata.solr;
 
+import example.springdata.solr.product.Product;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 

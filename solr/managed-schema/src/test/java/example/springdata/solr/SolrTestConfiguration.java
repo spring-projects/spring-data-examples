@@ -15,6 +15,8 @@
  */
 package example.springdata.solr;
 
+import example.springdata.solr.product.ProductRepository;
+
 import javax.annotation.PreDestroy;
 
 import org.apache.solr.client.solrj.SolrServer;
