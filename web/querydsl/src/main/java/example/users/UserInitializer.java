@@ -1,0 +1,122 @@
+/*
+ * Copyright 2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package example.users;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ParseException;
+import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+
+/**
+ * @author Christoph Strobl
+ */
+public class UserInitializer {
+
+	private final UserRepository repository;
+
+	public enum Datasource {
+		LOCAL, REMOTE;
+	}
+
+	public UserInitializer(UserRepository repository) throws UnexpectedInputException, ParseException, Exception {
+		this.repository = repository;
+	}
+
+	private List<User> readUsers(Resource resource, int nrUsers) throws Exception {
+
+		Scanner scanner = new Scanner(resource.getInputStream());
+		String line = scanner.nextLine();
+		scanner.close();
+
+		FlatFileItemReader<User> reader = new FlatFileItemReader<User>();
+		reader.setResource(resource);
+
+		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+		tokenizer.setNames(line.split(","));
+		tokenizer.setStrict(false);
+
+		DefaultLineMapper<User> lineMapper = new DefaultLineMapper<User>();
+		lineMapper.setFieldSetMapper(fields -> {
+
+			User user = new User();
+
+			user.setEmail(fields.readString("email"));
+			user.setFirstname(fields.readString("first"));
+			user.setLastname(fields.readString("last"));
+			user.setNationality(fields.readString("nationality"));
+
+			try {
+				user.setAddress(new Address(fields.readString("city"), fields.readString("street"), fields.readString("zip")));
+			} catch (IllegalArgumentException e) {
+				user.setAddress(new Address(fields.readString("city"), fields.readString("street"), fields
+						.readString("postcode")));
+			}
+
+			user.setPicture(new Picture(fields.readString("large"), fields.readString("medium"), fields
+					.readString("thumbnail")));
+			user.setUsername(fields.readString("username"));
+			user.setPassword(fields.readString("password"));
+			return user;
+		});
+
+		lineMapper.setLineTokenizer(tokenizer);
+		reader.setLineMapper(lineMapper);
+		reader.setRecordSeparatorPolicy(new DefaultRecordSeparatorPolicy());
+		reader.setLinesToSkip(1);
+		reader.open(new ExecutionContext());
+
+		List<User> users = new ArrayList<>();
+		User user = null;
+
+		int count = 0;
+		do {
+
+			user = reader.read();
+
+			if (user != null) {
+				users.add(user);
+			}
+
+		} while (user != null && ++count < nrUsers);
+
+		return users;
+	}
+
+	public void init(int nrUsers, Datasource source) throws Exception {
+
+		if (repository.count() != nrUsers) {
+
+			Resource resource = Datasource.LOCAL.equals(source) ? new ClassPathResource("randomuser.me.csv")
+					: new UrlResource("https://randomuser.me/api/?results=" + nrUsers + "&format=csv");
+
+			List<User> users = readUsers(resource, nrUsers);
+			if (!users.isEmpty()) {
+				repository.deleteAll();
+				repository.save(users);
+			}
+		}
+	}
+}

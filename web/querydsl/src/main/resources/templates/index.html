@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>User Center</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	<link rel="stylesheet"
+		th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet"
+		th:href="@{/bootstrap-table/bootstrap-table.min.css}" />
+</head>
+
+<body>
+	<div class="container-fluid">
+		<h1>User Center</h1>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Search</h3>
+			</div>
+			<div class="panel-body">
+
+				<form action="/" class="form-horizontal">
+					 <div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">Lastname:</label>
+						<div class="col-sm-2">
+							<input id="lastname" name="lastname" th:value="${#httpServletRequest.getParameter('lastname')}" 
+								type="text" class="form-control" placeholder="lastname" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="address.city" class="col-sm-2 control-label">City:</label>
+						<div class="col-sm-2">
+							<input id="address.city" name="address.city" th:value="${#httpServletRequest.getParameter('address.city')}"
+								type="text" class="form-control" placeholder="city" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="address.street" class="col-sm-2 control-label">Street:</label>
+						<div class="col-sm-2">
+							<input id="address.street" name="address.street" th:value="${#httpServletRequest.getParameter('address.street')}"
+								type="text" class="form-control" placeholder="street" value=""/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="nationality" class="col-sm-2 control-label">Nationality:</label>
+						<div class="col-sm-2">
+							<input id="nationality" name="nationality" th:value="${#httpServletRequest.getParameter('nationality')}"
+								type="text" class="form-control" placeholder="nationality" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button id="submit" type="submit" class="btn btn-default">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<table id="table-pagination" data-height="680" data-pagination="true" data-side-pagination="server" data-response-handler="responseHandler">
+		    <thead>
+		        <tr>
+		        	<th data-field="picture" data-formatter="imageFormatter" data-align="center">Me</th> 
+		            <th data-field="firstname" data-align="left">Firstname</th>
+		            <th data-field="lastname" data-align="left">Lastname</th>
+		            <th data-field="city" data-align="left">City</th>
+		            <th data-field="street" data-align="left">Steet</th>
+		            <th data-field="email" data-align="right">EMail</th>
+		        </tr>
+		    </thead>
+		</table>
+		
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{/bootstrap-table/bootstrap-table.js}"></script>
+		
+		<script type="text/javascript">
+		
+				function responseHandler(res) {
+					return {
+			            rows: res._embedded["users"],
+			            total: res.page.totalElements,
+			            pageNumber:  (res.page.number + 1),
+			            pageSize: res.page.size
+			        }
+			    }
+				
+				function imageFormatter(value) {
+			        return '<img src="'+ value.small + '" class="img-circle" height="40" />';
+			    }
+				
+	        	$('#table-pagination').bootstrapTable({
+				    url: "api/users"+ window.location.href.slice(window.location.href.indexOf('?')),
+			   });			
+		</script>
+		
+	</div>
+	
+
+</body>
+</html>

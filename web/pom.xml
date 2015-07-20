@@ -2,9 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-web-example</artifactId>
-
-	<name>Spring Data - Web support example</name>
+	<artifactId>spring-data-web-examples</artifactId>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
@@ -12,31 +11,20 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
+	<name>Spring Data Web - Examples</name>
+	<description>Sample projects for Spring Data Web Support</description>
+	<inceptionYear>2015</inceptionYear>
+
+	<modules>
+	    <module>example</module>
+		<module>querydsl</module>
+	</modules>
+
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
 	</dependencies>
