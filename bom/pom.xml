@@ -9,7 +9,7 @@
 	<name>Spring Data - Using the BOM for dependency management</name>
 
 	<properties>
-		<spring.version>4.1.6.RELEASE</spring.version>
+		<spring.version>4.2.0.RELEASE</spring.version>
 		<spring-data.version>Fowler-RELEASE</spring-data.version>
 	</properties>
 

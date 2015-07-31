@@ -33,8 +33,8 @@
 
 		<apt.version>1.1.3</apt.version>
 		<java.version>1.8</java.version>
-		<spring.version>4.2.0.RC3</spring.version>
-		<querydsl.version>3.6.4</querydsl.version>
+		<spring.version>4.2.0.RELEASE</spring.version>
+		<querydsl.version>3.6.5</querydsl.version>
 		<spring-data-releasetrain.version>Gosling-M1</spring-data-releasetrain.version>
 
 	</properties>
