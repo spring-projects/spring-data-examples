@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,32 +50,25 @@ public class SecurityIntegrationTests {
 	@Autowired SecureBusinessObjectRepository secureBusinessObjectRepository;
 	@Autowired EntityManager em;
 
-	User tom;
-	User olli;
-	User admin;
-	
-	UsernamePasswordAuthenticationToken olliAuth;
-	UsernamePasswordAuthenticationToken tomAuth;
-	UsernamePasswordAuthenticationToken adminAuth;
-
-	BusinessObject object1;
-	BusinessObject object2;
-	BusinessObject object3;
+	User tom, ollie, admin;
+	UsernamePasswordAuthenticationToken olliAuth, tomAuth, adminAuth;
+	BusinessObject object1, object2, object3;
 
 	@Before
 	public void setup() {
 
 		tom = userRepository.save(new User("thomas", "darimont", "tdarimont@example.org"));
-		olli = userRepository.save(new User("oliver", "gierke", "ogierke@example.org"));
+		ollie = userRepository.save(new User("oliver", "gierke", "ogierke@example.org"));
 		admin = userRepository.save(new User("admin", "admin", "admin@example.org"));
 
-		object1 = businessObjectRepository.save(new BusinessObject("object1", olli));
-		object2 = businessObjectRepository.save(new BusinessObject("object2", olli));
+		object1 = businessObjectRepository.save(new BusinessObject("object1", ollie));
+		object2 = businessObjectRepository.save(new BusinessObject("object2", ollie));
 		object3 = businessObjectRepository.save(new BusinessObject("object3", tom));
-		
-		olliAuth = new UsernamePasswordAuthenticationToken(olli, "x");
+
+		olliAuth = new UsernamePasswordAuthenticationToken(ollie, "x");
 		tomAuth = new UsernamePasswordAuthenticationToken(tom, "x");
-		adminAuth = new UsernamePasswordAuthenticationToken(admin, "x", singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
+		adminAuth = new UsernamePasswordAuthenticationToken(admin, "x",
+				singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
 	}
 
 	@Test
@@ -88,7 +81,7 @@ public class SecurityIntegrationTests {
 		assertThat(businessObjects, hasSize(1));
 		assertThat(businessObjects, contains(object3));
 
-		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(olli, "x"));
+		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(ollie, "x"));
 
 		businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUser();
 
@@ -135,23 +128,23 @@ public class SecurityIntegrationTests {
 		assertThat(businessObjects, hasSize(3));
 		assertThat(businessObjects, contains(object1, object2, object3));
 	}
-	
+
 	@Test
 	public void customUpdateStatementShouldAllowToUseSecurityContextInformationViaSpelParameters() {
-		
+
 		SecurityContextHolder.getContext().setAuthentication(adminAuth);
-		
-		//Detaching items to get them out of the query cache in order to see the updated values.
-		em.detach(object1); 
+
+		// Detaching items to get them out of the query cache in order to see the updated values.
+		em.detach(object1);
 		em.detach(object2);
 		em.detach(object3);
-		
+
 		secureBusinessObjectRepository.modifiyDataWithRecordingSecurityContext();
-		
-		for(BusinessObject bo : businessObjectRepository.findAll()) {
-				
+
+		for (BusinessObject bo : businessObjectRepository.findAll()) {
+
 			assertThat(bo.getLastModifiedDate(), is(notNullValue()));
-			assertThat(bo.getLastModifiedByUsername(), is("admin"));
+			assertThat(bo.getLastModifiedBy().getFirstname(), is("admin"));
 		}
 	}
 }

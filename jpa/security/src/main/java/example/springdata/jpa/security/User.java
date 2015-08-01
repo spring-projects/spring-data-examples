@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  */
 package example.springdata.jpa.security;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,33 +27,18 @@ import javax.persistence.Id;
  * @author Thomas Darimont
  */
 @Entity
+@Data
+@RequiredArgsConstructor
 public class User {
 
-	@Id @GeneratedValue Long id;
+	private @Id @GeneratedValue @Getter Long id;
+	private final String firstname, lastname, emailAddress;
 
-	String firstname;
-	String lastname;
-	String emailAddress;
+	@SuppressWarnings("unused")
+	private User() {
 
-	public User(String firstname, String lastname, String emailAddress) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.emailAddress = emailAddress;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public String getEmailAddress() {
-		return emailAddress;
+		this.firstname = null;
+		this.lastname = null;
+		this.emailAddress = null;
 	}
 }

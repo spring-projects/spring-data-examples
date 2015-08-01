@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,9 @@ import org.springframework.data.repository.Repository;
 
 /**
  * @author Thomas Darimont
+ * @auhtor Oliver Gierke
  */
-public interface SecureBusinessObjectRepository extends Repository<BusinessObject,Long>{
+interface SecureBusinessObjectRepository extends Repository<BusinessObject, Long> {
 
 	/**
 	 * Here we demonstrate the usage of SpEL expression within a custom query.
@@ -44,7 +45,7 @@ public interface SecureBusinessObjectRepository extends Repository<BusinessObjec
 	 */
 	@Query("select o from BusinessObject o where o.owner.emailAddress like ?#{hasRole('ROLE_ADMIN') ? '%' : principal.emailAddress}")
 	List<BusinessObject> findBusinessObjectsForCurrentUser();
-	
+
 	/**
 	 * Here we apply a dynamic filter condition in there query depending of the role of the current principal.
 	 * 
@@ -52,11 +53,11 @@ public interface SecureBusinessObjectRepository extends Repository<BusinessObjec
 	 */
 	@Query("select o from BusinessObject o where o.owner.id = ?#{principal.id} or 1=?#{hasRole('ROLE_ADMIN') ? 1 : 0}")
 	List<BusinessObject> findBusinessObjectsForCurrentUserById();
-	
+
 	/**
-	 * Here we demonstrate the use of SecurityContext information in dynamic SPEL parameters in a JPAQL update statement.
+	 * Here we demonstrate the use of SecurityContext information in dynamic SpEL parameters in a JPQL update statement.
 	 */
 	@Modifying
-	@Query("update BusinessObject b set b.data = upper(b.data), b.lastModifiedByUsername = :#{#security.principal.firstname}, b.lastModifiedDate = :#{new java.util.Date()}")
+	@Query("update BusinessObject b set b.data = upper(b.data), b.lastModifiedBy = :#{#security.principal}, b.lastModifiedDate = :#{new java.util.Date()}")
 	void modifiyDataWithRecordingSecurityContext();
 }
