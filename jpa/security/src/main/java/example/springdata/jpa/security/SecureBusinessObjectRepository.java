@@ -17,6 +17,7 @@ package example.springdata.jpa.security;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
@@ -51,4 +52,11 @@ public interface SecureBusinessObjectRepository extends Repository<BusinessObjec
 	 */
 	@Query("select o from BusinessObject o where o.owner.id = ?#{principal.id} or 1=?#{hasRole('ROLE_ADMIN') ? 1 : 0}")
 	List<BusinessObject> findBusinessObjectsForCurrentUserById();
+	
+	/**
+	 * Here we demonstrate the use of SecurityContext information in dynamic SPEL parameters in a JPAQL update statement.
+	 */
+	@Modifying
+	@Query("update BusinessObject b set b.data = upper(b.data), b.lastModifiedByUsername = :#{#security.principal.firstname}, b.lastModifiedDate = :#{new java.util.Date()}")
+	void modifiyDataWithRecordingSecurityContext();
 }
