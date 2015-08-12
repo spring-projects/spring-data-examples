@@ -15,8 +15,8 @@
  */
 package example.springdata.jpa.storedprocedures;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Intergration test showing the usage of JPA 2.1 stored procedures support through Spring Data repositories.
+ * Integration test showing the usage of JPA 2.1 stored procedures support through Spring Data repositories.
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
