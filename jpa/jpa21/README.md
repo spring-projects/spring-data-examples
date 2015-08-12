@@ -2,6 +2,28 @@
 
 This project contains samples of JPA 2.1 specific features of Spring Data JPA.
 
+## Support for declarative Fetch Graphs customization
+
+You can customize the loading of entity associations via EntityGraphs. JPA 2.1 provides the `NamedEntityGraph` annotation
+that allows you define fetching behavior in a flexible way.
+
+In Spring Data JPA we support to specify which fetch-graph to use for a repository query method via the `EntityGraph` annotation.
+
+You can refer to a fetch graph by name like in the following example.
+```java
+@EntityGraph("product-with-tags")
+Product findOneById(Long id);
+```
+
+We also offer an alternative and more concise way to declarativly specify a fetch graph for a repository query method in an 
+ad-hoc manner:
+```java
+@EntityGraph(attributePaths = "tags")
+Product getOneById(Long id);
+```
+By explicitly specifying which associations to fetch via the `attributePaths` attribute you don't need to specify a 
+`NamedEntityGraph` annotation on your entity :)
+
 ## Support for stored procedure execution
 
 You can execute stored procedures either predefined using the JPA 2.1 mapping annotations or dynamically let the stored procedure definition be derived from the repository method name.
