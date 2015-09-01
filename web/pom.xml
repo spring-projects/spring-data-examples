@@ -11,7 +11,7 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<name>Spring Data Web - Examples</name>
+	<name>Spring Data - Web examples</name>
 	<description>Sample projects for Spring Data Web Support</description>
 	<inceptionYear>2015</inceptionYear>
 

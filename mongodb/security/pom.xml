@@ -11,10 +11,6 @@
 	<artifactId>spring-data-mongodb-security</artifactId>
 	<name>Spring Data MongoDB - Spring Security Integration</name>
 
-	<properties>
-		<spring-data-releasetrain.version>Gosling-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>

@@ -8,11 +8,7 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<spring-data-releasetrain.version>Gosling-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
-
 	<artifactId>spring-data-jpa-java8</artifactId>
 	<name>Spring Data JPA - Java 8 specific features</name>
-	
+
 </project>

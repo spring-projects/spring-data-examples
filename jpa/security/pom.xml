@@ -11,10 +11,6 @@
 	<artifactId>spring-data-jpa-security</artifactId>
 	<name>Spring Data JPA - Spring Security integration</name>
 
-	<properties>
-		<spring-security.version>4.0.0.RELEASE</spring-security.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
