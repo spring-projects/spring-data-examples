@@ -22,10 +22,6 @@
 		<module>headers</module>
 	</modules>
 
-	<properties>
-		<spring-hateoas.version>0.18.0.RELEASE</spring-hateoas.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

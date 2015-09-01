@@ -4,18 +4,13 @@
 
 	<artifactId>spring-data-web-querydsl</artifactId>
 
-	<name>Spring Data Web - QueryDSL Example</name>
+	<name>Spring Data - QueryDSL web example</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-web-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 	</parent>
-
-	<properties>
-		<spring-hateoas.version>0.18.0.BUILD-SNAPSHOT</spring-hateoas.version>
-		<spring-data-releasetrain.version>Gosling-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
 
 	<dependencies>
 
@@ -80,12 +75,12 @@
 
 	<build>
 		<plugins>
-			
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>com.mysema.maven</groupId>
 				<artifactId>apt-maven-plugin</artifactId>

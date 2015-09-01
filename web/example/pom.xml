@@ -4,7 +4,7 @@
 
 	<artifactId>spring-data-web-example</artifactId>
 
-	<name>Spring Data - Web support example</name>
+	<name>Spring Data - Basic web example</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
