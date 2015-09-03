@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.neo4j.domain;
+package example.springdata.neo4j;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import org.neo4j.ogm.annotation.EndNode;
 import org.neo4j.ogm.annotation.GraphId;
@@ -22,40 +27,17 @@ import org.neo4j.ogm.annotation.StartNode;
 
 /**
  * A Role relationship entity between an actor and movie.
+ * 
  * @author Luanne Misquitta
  */
 @RelationshipEntity(type = "ACTED_IN")
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
+@Getter
 public class Role {
 
-	@GraphId 	private Long id;
-	@StartNode 	private Actor actor;
-	@EndNode 	private Movie movie;
-	private String role;
-
-	public Role() {
-	}
-
-	public Actor getActor() {
-		return actor;
-	}
-
-	public void setActor(Actor actor) {
-		this.actor = actor;
-	}
-
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
+	private @GraphId Long id;
+	private final @StartNode Actor actor;
+	private final String role;
+	private final @EndNode Movie movie;
 }

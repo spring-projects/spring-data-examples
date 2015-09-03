@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.neo4j.repo;
+package example.springdata.neo4j;
 
-import example.springdata.neo4j.domain.Actor;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 /**
- * GraphRepository for Actors.
+ * {@link GraphRepository} for {@link Actor}s.
+ * 
  * @author Luanne Misquitta
  */
-public interface ActorRepository extends GraphRepository<Actor> {
-
-}
+public interface ActorRepository extends GraphRepository<Actor> {}

@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-package example.springdata.neo4j.domain;
+package example.springdata.neo4j;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,37 +29,26 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 /**
- * A Movie node entity.
+ * An Actor node entity.
  *
  * @author Luanne Misquitta
+ * @author Oliver Gierke
  */
-@NodeEntity(label = "Movie")
-public class Movie {
+@NodeEntity(label = "Actor")
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
+@Getter
+public class Actor {
 
-	@GraphId private Long id;
-	private String title;
+	private @GraphId Long id;
+	private final String name;
+	private final @Relationship(type = "ACTED_IN") Set<Role> roles = new HashSet<>();
 
-	@Relationship(type = "ACTED_IN", direction = "INCOMING")
-	private Set<Role> roles = new HashSet<>();
+	public void actedIn(Movie movie, String roleName) {
 
-	public Movie() {
+		Role role = new Role(this, roleName, movie);
+
+		roles.add(role);
+		movie.getRoles().add(role);
 	}
-
-	public Movie(String title) {
-		this.title = title;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	@Relationship(type = "ACTED_IN", direction = "INCOMING")
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
 }

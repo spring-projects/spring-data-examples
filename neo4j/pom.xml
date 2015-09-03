@@ -2,24 +2,24 @@
 
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-data-neo4j-examples</artifactId>
-    <packaging>pom</packaging>
+	<artifactId>spring-data-neo4j-examples</artifactId>
+	<packaging>pom</packaging>
 
-    <parent>
-        <groupId>org.springframework.data.examples</groupId>
-        <artifactId>spring-data-examples</artifactId>
-        <version>1.0.0.BUILD-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.springframework.data.examples</groupId>
+		<artifactId>spring-data-examples</artifactId>
+		<version>1.0.0.BUILD-SNAPSHOT</version>
+	</parent>
 
-    <name>Spring Data Neo4j 4 - Examples</name>
-    <description>Sample projects for Spring Data Neo4j 4</description>
+	<name>Spring Data Neo4j 4 - Examples</name>
+	<description>Sample projects for Spring Data Neo4j 4</description>
 
-    <modules>
-        <module>example</module>
-    </modules>
+	<modules>
+		<module>example</module>
+	</modules>
 
 </project>
