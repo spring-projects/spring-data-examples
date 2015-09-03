@@ -27,6 +27,7 @@
 		<module>elasticsearch</module>
 		<module>web</module>
 		<module>bom</module>
+		<module>neo4j</module>
 	</modules>
 
 	<properties>
