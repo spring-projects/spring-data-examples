@@ -22,6 +22,7 @@ import static org.springframework.data.domain.Sort.Direction.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -88,13 +89,13 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void useGuavaOptionalInsteadOfNulls() {
+	public void useOptionalAsReturnAndParameterType() {
 
-		assertThat(repository.findByUsername("foobar").isPresent(), is(false));
+		assertThat(repository.findByUsername(Optional.of("foobar")), is(Optional.empty()));
 
 		repository.save(user);
 
-		assertThat(repository.findByUsername("foobar").isPresent(), is(true));
+		assertThat(repository.findByUsername(Optional.of("foobar")).isPresent(), is(true));
 	}
 
 	@Test

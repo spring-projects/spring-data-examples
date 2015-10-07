@@ -16,14 +16,13 @@
 package example.springdata.jpa.simple;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-
-import com.google.common.base.Optional;
 
 /**
  * Simple repository interface for {@link User} instances. The interface is used to declare so called query methods,
@@ -44,7 +43,13 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 */
 	User findByTheUsersName(String username);
 
-	Optional<User> findByUsername(String username);
+	/**
+	 * Uses {@link Optional} as return and parameter type.
+	 * 
+	 * @param username
+	 * @return
+	 */
+	Optional<User> findByUsername(Optional<String> username);
 
 	/**
 	 * Find all users with the given lastname. This method will be translated into a query by constructing it directly
@@ -67,7 +72,7 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 
 	/**
 	 * Returns all users with the given name as first- or lastname. This makes the query to method relation much more
-	 * refactoring safe as the order of the method parameters is completely irrelevant.
+	 * refactoring-safe as the order of the method parameters is completely irrelevant.
 	 * 
 	 * @param name
 	 * @return
