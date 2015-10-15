@@ -41,11 +41,11 @@ try (Stream<Customer> customers = repository.streamAllCustomers()) {
 Note how the returned `Stream` has to be used in a try-with-resources clause as the underlying resources have to be closed once we finished iterating over the result.
 
 
-## Support for JDK 8' `CompletableFuture` in `@Asnyc` repository methods
+## Support for JDK 8' `CompletableFuture` in `@Async` repository methods
 
 JPA repositories can now use `CompletableFuture` as return type for query methods for async execution of the query with support for fluent processing.
 
-Note that: Support for `CompletableFuture` in combination with `@Asnyc` is available in Spring Framework 4.2.x.
+Note that: Support for `CompletableFuture` in combination with `@Async` is available in Spring Framework 4.2.x.
 
 ```java
 interface CustomerRepository extends Repository<Customer, Long> {
