@@ -15,4 +15,4 @@ If you run `ApplicationConfigurationTest` you should see the following output:
 … DEBUG … - Spring Data MongoDB - Registering repository: orderRepository - Interface: example.springdata.multistore.shop.OrderRepository - Factory: org.springframework.data.mongodb.repository.support.MongoRepositoryFactoryBean
 ```
 
-As you can see, Spring Data detects the fact that the application runs on multiple Spring Data modules. This triggers the strict configuration mode in which only repository interfaces will be detected that can be uniquely can be assigned to the module currently scanning. By default this is assignment is detected by inspecting the managed domain type for store specific annotations (e.g. `@Entity` for JPA or `@Document` for MongoDB).  
+As you can see, Spring Data detects the fact that the application runs on multiple Spring Data modules. This triggers the strict configuration mode in which only repository interfaces will be detected that can be uniquely assigned to the module currently scanned. By default this assignment is detected by inspecting the managed domain type for store specific annotations (e.g. `@Entity` for JPA or `@Document` for MongoDB).  
