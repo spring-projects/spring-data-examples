@@ -32,7 +32,7 @@ We have separate folders for the samples of individual modules:
 
 ## Spring Data Redis
 
-* `example` - Example for basic Sprign Data Redis setup.
+* `example` - Example for basic Spring Data Redis setup.
 * `cluster-sentinel` - Example for Redis cluster and Sentinel support.
 
 ## Spring Data Elasticsearch
