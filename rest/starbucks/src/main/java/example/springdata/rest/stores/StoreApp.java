@@ -17,6 +17,10 @@ package example.springdata.rest.stores;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 /**
  * Spring configuration class main application bootstrap point.
@@ -28,5 +32,10 @@ public class StoreApp {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StoreApp.class, args);
+	}
+
+	// Workaround for https://github.com/spring-projects/spring-boot/issues/4336
+	public @Bean Module namesModule() {
+		return new ParameterNamesModule();
 	}
 }

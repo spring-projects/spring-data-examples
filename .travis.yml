@@ -4,7 +4,6 @@ jdk:
   - oraclejdk8
 
 services:
-  - mongodb
   - redis-server
 
 cache:

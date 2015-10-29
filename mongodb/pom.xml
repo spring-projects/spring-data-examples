@@ -22,7 +22,6 @@
 		<module>text-search</module>
 		<module>java8</module>
 		<module>security</module>
-		<module>util</module>
 		<module>geo-json</module>
 	</modules>
 
@@ -42,6 +41,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>

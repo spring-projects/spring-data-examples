@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,47 +20,41 @@ import static org.springframework.data.mongodb.core.query.Query.*;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
-import org.springframework.boot.autoconfigure.mongo.MongoProperties;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.TextIndexDefinition;
-import org.springframework.data.mongodb.core.index.TextIndexDefinition.TextIndexDefinitionBuilder;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.core.query.TextQuery;
-import org.springframework.data.util.Version;
-
-import example.springdata.mongodb.util.BlogPostInitializer;
-import example.springdata.mongodb.util.RequiresMongoDB;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author Christoph Strobl
  * @author Thomas Darimont
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { MongoTestConfiguration.class })
 public class TextSearchTemplateTests {
 
-	MongoOperations operations;
+	@Autowired MongoOperations operations;
 
-	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.atLeast(new Version(2, 6));
-
-	@Before
-	public void setUp() throws Exception {
-
-		MongoProperties properties = new MongoProperties();
-
-		operations = new MongoTemplate(properties.createMongoClient(null), properties.getMongoClientDatabase());
-		operations.dropCollection(BlogPost.class);
-
-		createIndex();
-
-		BlogPostInitializer.INSTANCE.initialize(this.operations);
-	}
+	// @Before
+	// public void setUp() throws Exception {
+	//
+	// MongoProperties properties = new MongoProperties();
+	//
+	// operations = new MongoTemplate(properties.createMongoClient(null), properties.getMongoClientDatabase());
+	// operations.dropCollection(BlogPost.class);
+	//
+	// createIndex();
+	//
+	// BlogPostInitializer.INSTANCE.initialize(this.operations);
+	// }
 
 	/**
-	 * Show how to do simple matching. <br />
-	 * Note that text search is case insensitive and will also find entries like {@literal releases}.
+	 * Show how to do simple matching. Note that text search is case insensitive and will also find entries like
+	 * {@literal releases}.
 	 */
 	@Test
 	public void findAllBlogPostsWithRelease() {
@@ -86,37 +80,5 @@ public class TextSearchTemplateTests {
 		List<BlogPost> blogPosts = operations.find(query, BlogPost.class);
 
 		printResult(blogPosts, criteria);
-	}
-
-	/**
-	 * Creates the mongodb text index for {@link BlogPost}. <br />
-	 * 
-	 * <pre>
-	 * <code>
-	 * db.collection.ensureIndex(
-	 * {
-	 *     "title" : "text" 
-	 *     "content" : "text"
-	 *     "categories" : "text",
-	 * },
-	 * {
-	 *     weights : {
-	 *         "title" : 3,
-	 *         "content" : 2
-	 *     }
-	 * }
-	 * )
-	 * </code>
-	 * </pre>
-	 */
-	private void createIndex() {
-
-		TextIndexDefinition textIndex = new TextIndexDefinitionBuilder()//
-				.onField("title", 3F) //
-				.onField("content", 2F) //
-				.onField("categories") //
-				.build();
-
-		operations.indexOps(BlogPost.class).ensureIndex(textIndex);
 	}
 }

@@ -11,19 +11,4 @@
 	<artifactId>spring-data-mongodb-java8</artifactId>
 	<name>Spring Data MongoDB - Java 8 specific features</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>spring-data-mongodb-utils</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-		</dependency>
-
-	</dependencies>
-
 </project>

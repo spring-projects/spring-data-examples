@@ -17,7 +17,6 @@ package example.springdata.mongodb.geojson;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.*;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
@@ -37,11 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Oliver Gierke
  */
 @SpringBootApplication
-public class Application {
-
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+public class ApplicationConfiguration {
 
 	/**
 	 * Read JSON data from disk and insert those stores.

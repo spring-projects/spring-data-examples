@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +19,13 @@ import static example.springdata.mongodb.util.ConsoleResultPrinter.*;
 
 import java.util.List;
 
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.TextScore;
 import org.springframework.data.mongodb.core.query.TextCriteria;
-import org.springframework.data.util.Version;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.mongodb.util.RequiresMongoDB;
 
 /**
  * Integration tests showing the text search functionality using repositories.
@@ -43,8 +39,6 @@ import example.springdata.mongodb.util.RequiresMongoDB;
 public class TextSearchRepositoryTests {
 
 	@Autowired BlogPostRepository repo;
-
-	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.atLeast(new Version(2, 6));
 
 	/**
 	 * Show how to do simple matching. <br />

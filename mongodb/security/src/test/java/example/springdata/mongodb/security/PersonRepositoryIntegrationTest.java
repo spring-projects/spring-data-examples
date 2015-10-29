@@ -18,16 +18,10 @@ package example.springdata.mongodb.security;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import example.springdata.mongodb.security.Application;
-import example.springdata.mongodb.security.Person;
-import example.springdata.mongodb.security.PersonRepository;
-import example.springdata.mongodb.util.RequiresMongoDB;
-
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +35,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Integration test for {@link PersonRepository}.
  * 
  * @author Thomas Darimont
- * @authot Oliver Gierke
+ * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
 public class PersonRepositoryIntegrationTest {
-
-	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.anyVersion();
 
 	@Autowired PersonRepository repository;
 

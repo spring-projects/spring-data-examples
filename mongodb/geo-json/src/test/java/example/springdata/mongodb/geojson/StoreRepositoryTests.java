@@ -15,7 +15,6 @@
  */
 package example.springdata.mongodb.geojson;
 
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +27,10 @@ import org.springframework.data.mongodb.core.geo.GeoJson;
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.util.Version;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-
-import example.springdata.mongodb.geojson.Application;
-import example.springdata.mongodb.geojson.Store;
-import example.springdata.mongodb.geojson.StoreRepository;
-import example.springdata.mongodb.util.RequiresMongoDB;
 
 /**
  * Integration tests for {@link StoreRepository}.
@@ -46,13 +39,11 @@ import example.springdata.mongodb.util.RequiresMongoDB;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { Application.class })
+@SpringApplicationConfiguration(classes = { ApplicationConfiguration.class })
 public class StoreRepositoryTests {
 
 	private static final GeoJsonPolygon GEO_JSON_POLYGON = new GeoJsonPolygon(new Point(-73.992514, 40.758934),
 			new Point(-73.961138, 40.760348), new Point(-73.991658, 40.730006), new Point(-73.992514, 40.758934));
-
-	public static @ClassRule RequiresMongoDB requiresMongoDB_2_6 = RequiresMongoDB.atLeast(new Version(2, 6, 0));
 
 	@Autowired StoreRepository repository;
 	@Autowired MongoOperations operations;
@@ -114,9 +105,8 @@ public class StoreRepositoryTests {
 	 */
 	@Test
 	public void findWithinLegacyPolygon() {
-		repository.findByLocationWithin(
-				new Polygon(new Point(-73.992514, 40.758934), new Point(-73.961138, 40.760348),
-						new Point(-73.991658, 40.730006))).forEach(System.out::println);
+		repository.findByLocationWithin(new Polygon(new Point(-73.992514, 40.758934), new Point(-73.961138, 40.760348),
+				new Point(-73.991658, 40.730006))).forEach(System.out::println);
 	}
 
 	/**
@@ -130,8 +120,8 @@ public class StoreRepositoryTests {
 
 		operations.getConverter().write(GEO_JSON_POLYGON, geoJsonDbo);
 
-		BasicQuery bq = new BasicQuery(new BasicDBObject("location", new BasicDBObject("$geoIntersects", new BasicDBObject(
-				"$geometry", geoJsonDbo))));
+		BasicQuery bq = new BasicQuery(
+				new BasicDBObject("location", new BasicDBObject("$geoIntersects", new BasicDBObject("$geometry", geoJsonDbo))));
 
 		operations.find(bq, Store.class).forEach(System.out::println);
 	}

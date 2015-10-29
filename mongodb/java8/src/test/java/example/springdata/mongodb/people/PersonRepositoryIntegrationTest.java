@@ -18,7 +18,6 @@ package example.springdata.mongodb.people;
 import java.util.stream.Stream;
 
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.mongodb.util.RequiresMongoDB;
 
 /**
  * Integration test for {@link PersonRepository}.
@@ -38,8 +35,6 @@ import example.springdata.mongodb.util.RequiresMongoDB;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
 public class PersonRepositoryIntegrationTest {
-
-	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.anyVersion();
 
 	@Autowired PersonRepository repository;
 	@Autowired MongoOperations operations;

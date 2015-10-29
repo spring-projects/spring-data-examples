@@ -21,7 +21,6 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,6 @@ import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.querydsl.QSort;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import example.springdata.mongodb.util.RequiresMongoDB;
-
 /**
  * Integration test for {@link CustomerRepository}.
  * 
@@ -45,8 +42,6 @@ import example.springdata.mongodb.util.RequiresMongoDB;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
 public class CustomerRepositoryIntegrationTest {
-
-	@ClassRule public static RequiresMongoDB mongodbAvailable = RequiresMongoDB.anyVersion();
 
 	@Autowired CustomerRepository repository;
 	@Autowired MongoOperations operations;

@@ -28,7 +28,7 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
  * @author Thomas Darimont
  */
 @SpringBootApplication
-class Application {
+class ApplicationConfiguration {
 
 	@Bean
 	public EvaluationContextExtension securityExtension() {
