@@ -1,0 +1,25 @@
+= Spring Data REST URI customizations
+
+This example shows how to customize which property of the domain type shall be used to create URIs for item resources. This is achieved by implementing an `EntityLookup` and declaring it as Spring bean:
+
+[source, java]
+----
+@Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired) )
+public class UserEntityLookup extends EntityLookupSupport<User> {
+
+    private final @NonNull UserRepository repository;
+
+    @Override
+    public Serializable getResourceIdentifier(User entity) {
+        return entity.getUsername();
+    }
+
+    @Override
+    public Object lookupEntity(Serializable id) {
+        return repository.findByUsername(id.toString());
+    }
+}
+----
+
+As you can see the customization consists of two methods that need to be symmetric in their functionality. `getResourceIdentifier(…)` returns the property that's supposed to be used in the URI while `lookupEntity(…)` uses the value to lookup an entity via a query method for exactly that property.

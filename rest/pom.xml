@@ -20,6 +20,7 @@
 		<module>projections</module>
 		<module>security</module>
 		<module>headers</module>
+		<module>uri-customization</module>
 	</modules>
 
 	<dependencies>
