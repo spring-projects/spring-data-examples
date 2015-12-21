@@ -18,8 +18,9 @@ package example.springdata.redis.test.util;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-import org.junit.internal.AssumptionViolatedException;
+import org.junit.AssumptionViolatedException;
 import org.junit.rules.ExternalResource;
+import org.springframework.util.StringUtils;
 
 /**
  * Implementation of junit rule {@link ExternalResource} to verify Redis (or at least something on the defined host and
@@ -42,6 +43,10 @@ public class RequiresRedisServer extends ExternalResource {
 
 	public static RequiresRedisServer onLocalhost() {
 		return new RequiresRedisServer("localhost", 6379);
+	}
+
+	public static RequiresRedisServer listeningAt(String host, int port) {
+		return new RequiresRedisServer(StringUtils.hasText(host) ? host : "127.0.0.1", port);
 	}
 
 	/*
