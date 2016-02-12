@@ -15,16 +15,16 @@
  */
 package example.springdata.solr;
 
-import example.springdata.solr.product.ProductRepository;
-
 import javax.annotation.PreDestroy;
 
-import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
+
+import example.springdata.solr.product.ProductRepository;
 
 /**
  * {@link Configuration} class enabling schema support for solr.<br />
@@ -41,8 +41,8 @@ public class SolrTestConfiguration {
 	@Autowired ProductRepository repo;
 
 	@Bean
-	public SolrServer solrServer() {
-		return new HttpSolrServer("http://localhost:8983/solr");
+	public SolrClient solrServer() {
+		return new HttpSolrClient("http://localhost:8983/solr");
 	}
 
 	/**
