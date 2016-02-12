@@ -26,20 +26,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-neo4j</artifactId>
-			<version>4.1.0.BUILD-SNAPSHOT</version>
-			<type>test-jar</type>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-ogm-test</artifactId>
-			<version>${neo4j-ogm.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
