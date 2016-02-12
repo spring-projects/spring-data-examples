@@ -18,6 +18,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-redis</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>spring-data-redis-example-utils</artifactId>
@@ -25,12 +26,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- remove this one when DATAREDIS-315 has been merged -->
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
-			<version>1.7.0.DATAREDIS-315-SNAPSHOT</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
+		
 	</dependencies>
 
 </project>
