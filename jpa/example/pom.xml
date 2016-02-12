@@ -13,9 +13,6 @@
 
 	<name>Spring Data JPA - Example</name>
 	<description>Small sample project showing the usage of Spring Data JPA.</description>
-	<properties>
-		<spring-data-releasetrain.version>Hopper-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
 
 	<build>
 		<plugins>

@@ -20,12 +20,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
-import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import com.mysema.query.types.path.StringPath;
+import com.querydsl.core.types.dsl.StringPath;
 
 /**
  * Repository interface for out-of-the-box paginating access to {@link Store}s and a query method to find stores by
@@ -33,8 +32,7 @@ import com.mysema.query.types.path.StringPath;
  * 
  * @author Oliver Gierke
  */
-public interface StoreRepository extends PagingAndSortingRepository<Store, String>, QueryDslPredicateExecutor<Store>,
-		QuerydslBinderCustomizer<QStore> {
+public interface StoreRepository extends PagingAndSortingRepository<Store, String>, QueryDslPredicateExecutor<Store> {
 
 	@RestResource(rel = "by-location")
 	Page<Store> findByAddressLocationNear(Point location, Distance distance, Pageable pageable);

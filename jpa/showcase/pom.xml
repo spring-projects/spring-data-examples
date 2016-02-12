@@ -81,7 +81,7 @@
 			<dependencies>
 
 				<dependency>
-					<groupId>com.mysema.querydsl</groupId>
+					<groupId>com.querydsl</groupId>
 					<artifactId>querydsl-jpa</artifactId>
 					<version>${querydsl.version}</version>
 				</dependency>
@@ -96,7 +96,7 @@
 						<version>${apt.version}</version>
 						<dependencies>
 							<dependency>
-								<groupId>com.mysema.querydsl</groupId>
+								<groupId>com.querydsl</groupId>
 								<artifactId>querydsl-apt</artifactId>
 								<version>${querydsl.version}</version>
 							</dependency>
@@ -109,7 +109,7 @@
 								</goals>
 								<configuration>
 									<outputDirectory>target/generated-sources/queries</outputDirectory>
-									<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+									<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
 									<logOnlyOnError>true</logOnlyOnError>
 								</configuration>
 							</execution>
