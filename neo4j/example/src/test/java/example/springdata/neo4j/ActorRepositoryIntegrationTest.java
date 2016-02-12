@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
-import org.springframework.data.neo4j.server.InProcessServer;
-import org.springframework.data.neo4j.server.Neo4jServer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -47,11 +45,6 @@ public class ActorRepositoryIntegrationTest {
 	@EnableTransactionManagement
 	@EnableNeo4jRepositories
 	static class ExampleConfig extends Neo4jConfiguration {
-
-		@Override
-		public Neo4jServer neo4jServer() {
-			return new InProcessServer();
-		}
 
 		@Override
 		public SessionFactory getSessionFactory() {

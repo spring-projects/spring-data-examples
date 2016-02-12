@@ -13,6 +13,7 @@
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<name>Spring Data Neo4j 4 - Examples</name>
