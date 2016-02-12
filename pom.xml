@@ -36,7 +36,7 @@
 		<java.version>1.8</java.version>
 		<querydsl.version>4.0.8</querydsl.version>
 		<solr.version>5.4.1</solr.version>
-		<spring-data-releasetrain.version>Hopper-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+		<spring-data-releasetrain.version>Hopper-M1</spring-data-releasetrain.version>
 
 	</properties>
 
