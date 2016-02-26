@@ -23,6 +23,7 @@
 		<module>java8</module>
 		<module>security</module>
 		<module>geo-json</module>
+		<module>query-by-example</module>
 	</modules>
 
 	<dependencies>
