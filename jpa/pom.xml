@@ -25,6 +25,7 @@
 		<module>security</module>
 		<module>multiple-datasources</module>
 		<module>eclipselink</module>
+		<module>query-by-example</module>
 	</modules>
 
 	<dependencies>
