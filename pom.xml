@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.2.RELEASE</version>
+		<version>1.4.0.M1</version>
 	</parent>
 
 	<modules>
@@ -35,8 +35,6 @@
 		<apt.version>1.1.3</apt.version>
 		<java.version>1.8</java.version>
 		<querydsl.version>4.0.8</querydsl.version>
-		<solr.version>5.4.1</solr.version>
-		<spring-data-releasetrain.version>Hopper-M1</spring-data-releasetrain.version>
 
 	</properties>
 
@@ -60,6 +58,11 @@
 			<id>gturnquist</id>
 			<name>Greg Turnquist</name>
 			<email>gturnquist@pivotal.io</email>
+		</developer>
+		<developer>
+			<id>mpaluch</id>
+			<name>Mark Paluch</name>
+			<email>mpaluch@pivotal.io</email>
 		</developer>
 	</developers>
 

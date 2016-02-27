@@ -29,7 +29,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.projection.TargetAware;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for {@link CustomerRepository} to show projection capabilities.
@@ -38,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration
-@Transactional
 public class CustomerRepositoryIntegrationTest {
 
 	@Configuration
