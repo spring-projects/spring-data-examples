@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Sample user class.
@@ -28,6 +29,7 @@ import lombok.Data;
  */
 @Entity
 @Data
+@NoArgsConstructor
 public class User {
 
 	@Id @GeneratedValue //
@@ -35,10 +37,6 @@ public class User {
 	private String firstname;
 	private String lastname;
 	private Integer age;
-
-	public User() {
-		super();
-	}
 
 	public User(String firstname, String lastname, Integer age) {
 

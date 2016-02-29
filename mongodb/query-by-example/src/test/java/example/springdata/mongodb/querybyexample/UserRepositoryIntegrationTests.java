@@ -18,7 +18,8 @@ package example.springdata.mongodb.querybyexample;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import static org.springframework.data.domain.ExampleSpec.GenericPropertyMatchers.*;
+import static org.springframework.data.domain.ExampleSpec.GenericPropertyMatchers.ignoreCase;
+import static org.springframework.data.domain.ExampleSpec.GenericPropertyMatchers.startsWith;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -71,11 +72,10 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void ignorePropertiesAndMatchByAge() {
 
-		Example<User> example = ExampleSpec.of(User.class). //
-				withIgnorePaths("firstname", "lastname").//
-				createExample(flynn);
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
+				withIgnorePaths("firstname", "lastname");
 
-		assertThat(repository.findOne(example), is(flynn));
+		assertThat(repository.findOne(Example.of(flynn, exampleSpec)), is(flynn));
 	}
 
 	/**
@@ -84,11 +84,10 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void substringMatching() {
 
-		Example<User> example = ExampleSpec.of(User.class).//
-				withStringMatcherEnding()//
-				.createExample(new User("er", null, null));
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
+				withStringMatcherEnding();
 
-		assertThat(repository.findAll(example), hasItems(skyler, walter));
+		assertThat(repository.findAll(Example.of(new User("er", null, null), exampleSpec)), hasItems(skyler, walter));
 	}
 
 	/**
@@ -97,11 +96,11 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void regexMatching() {
 
-		Example<User> example = ExampleSpec.of(User.class).//
-				withMatcher("firstname", matcher -> matcher.regex()).//
-				createExample(new User("(Skyl|Walt)er", null, null));
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
+				withMatcher("firstname", matcher -> matcher.regex());
 
-		assertThat(repository.findAll(example), hasItems(skyler, walter));
+		assertThat(repository.findAll(Example.of(new User("(Skyl|Walt)er", null, null), exampleSpec)),
+				hasItems(skyler, walter));
 	}
 
 	/**
@@ -110,13 +109,12 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void matchStartingStringsIgnoreCase() {
 
-		Example<User> example = ExampleSpec.of(User.class). //
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
 				withIgnorePaths("age").//
 				withMatcher("firstname", startsWith()).//
-				withMatcher("lastname", ignoreCase()).//
-				createExample(new User("Walter", "WHITE", null));
+				withMatcher("lastname", ignoreCase());
 
-		assertThat(repository.findAll(example), hasItems(flynn, walter));
+		assertThat(repository.findAll(Example.of(new User("Walter", "WHITE", null), exampleSpec)), hasItems(flynn, walter));
 	}
 
 	/**
@@ -125,12 +123,11 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void configuringMatchersUsingLambdas() {
 
-		Example<User> example = ExampleSpec.of(User.class).withIgnorePaths("age"). //
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).withIgnorePaths("age"). //
 				withMatcher("firstname", matcher -> matcher.startsWith()). //
-				withMatcher("lastname", matcher -> matcher.ignoreCase()). //
-				createExample(new User("Walter", "WHITE", null));
+				withMatcher("lastname", matcher -> matcher.ignoreCase());
 
-		assertThat(repository.findAll(example), hasItems(flynn, walter));
+		assertThat(repository.findAll(Example.of(new User("Walter", "WHITE", null), exampleSpec)), hasItems(flynn, walter));
 	}
 
 	/**
@@ -139,11 +136,10 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void valueTransformer() {
 
-		Example<User> example = ExampleSpec.of(User.class). //
-				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50))).//
-				createExample(new User(null, "White", 99));
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
+				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50)));
 
-		assertThat(repository.findAll(example), hasItems(walter));
+		assertThat(repository.findAll(Example.of(new User(null, "White", 99), exampleSpec)), hasItems(walter));
 	}
 
 }

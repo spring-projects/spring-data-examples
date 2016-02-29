@@ -78,11 +78,10 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void substringMatching() {
 
-		Example<User> example = ExampleSpec.of(User.class).//
-				withStringMatcherEnding().//
-				createExample(new User("er", null, null));
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
+				withStringMatcherEnding();
 
-		assertThat(operations.findByExample(example), hasItems(skyler, walter));
+		assertThat(operations.findByExample(Example.of(new User("er", null, null), exampleSpec)), hasItems(skyler, walter));
 	}
 
 	/**
@@ -91,11 +90,11 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void regexMatching() {
 
-		Example<User> example = ExampleSpec.of(User.class).//
-				withMatcher("firstname", matcher -> matcher.regex()).//
-				createExample(new User("(Skyl|Walt)er", null, null));
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
+				withMatcher("firstname", matcher -> matcher.regex());
 
-		assertThat(operations.findByExample(example), hasItems(skyler, walter));
+		assertThat(operations.findByExample(Example.of(new User("(Skyl|Walt)er", null, null), exampleSpec)),
+				hasItems(skyler, walter));
 	}
 
 	/**
@@ -104,13 +103,13 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void matchStartingStringsIgnoreCase() {
 
-		Example<User> example = ExampleSpec.of(User.class). //
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
 				withIgnorePaths("age").//
 				withMatcher("firstname", startsWith()).//
-				withMatcher("lastname", ignoreCase()).//
-				createExample(new User("Walter", "WHITE", null));
+				withMatcher("lastname", ignoreCase());
 
-		assertThat(operations.findByExample(example), hasItems(flynn, walter));
+		assertThat(operations.findByExample(Example.of(new User("Walter", "WHITE", null), exampleSpec)),
+				hasItems(flynn, walter));
 	}
 
 	/**
@@ -119,12 +118,12 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void configuringMatchersUsingLambdas() {
 
-		Example<User> example = ExampleSpec.of(User.class).withIgnorePaths("age"). //
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).withIgnorePaths("age"). //
 				withMatcher("firstname", matcher -> matcher.startsWith()). //
-				withMatcher("lastname", matcher -> matcher.ignoreCase()). //
-				createExample(new User("Walter", "WHITE", null));
+				withMatcher("lastname", matcher -> matcher.ignoreCase());
 
-		assertThat(operations.findByExample(example), hasItems(flynn, walter));
+		assertThat(operations.findByExample(Example.of(new User("Walter", "WHITE", null), exampleSpec)),
+				hasItems(flynn, walter));
 	}
 
 	/**
@@ -133,11 +132,10 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void valueTransformer() {
 
-		Example<User> example = ExampleSpec.of(User.class). //
-				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50))).//
-				createExample(new User(null, "White", 99));
+		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
+				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50)));
 
-		assertThat(operations.findByExample(example), hasItems(walter));
+		assertThat(operations.findByExample(Example.of(new User(null, "White", 99), exampleSpec)), hasItems(walter));
 	}
 
 }
