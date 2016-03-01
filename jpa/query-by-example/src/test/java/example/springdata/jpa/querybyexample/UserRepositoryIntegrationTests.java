@@ -40,94 +40,95 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
 public class UserRepositoryIntegrationTests {
 
-	@Autowired UserRepository repository;
+    @Autowired
+    UserRepository repository;
 
-	User skyler, walter, flynn, marie, hank;
+    User skyler, walter, flynn, marie, hank;
 
-	@Before
-	public void setUp() {
+    @Before
+    public void setUp() {
 
-		repository.deleteAll();
+        repository.deleteAll();
 
-		this.skyler = repository.save(new User("Skyler", "White", 45));
-		this.walter = repository.save(new User("Walter", "White", 50));
-		this.flynn = repository.save(new User("Walter Jr. (Flynn)", "White", 17));
-		this.marie = repository.save(new User("Marie", "Schrader", 38));
-		this.hank = repository.save(new User("Hank", "Schrader", 43));
-	}
+        this.skyler = repository.save(new User("Skyler", "White", 45));
+        this.walter = repository.save(new User("Walter", "White", 50));
+        this.flynn = repository.save(new User("Walter Jr. (Flynn)", "White", 17));
+        this.marie = repository.save(new User("Marie", "Schrader", 38));
+        this.hank = repository.save(new User("Hank", "Schrader", 43));
+    }
 
-	/**
-	 * @see DATAJPA-218
-	 */
-	@Test
-	public void countBySimpleExample() {
+    /**
+     * @see DATAJPA-218
+     */
+    @Test
+    public void countBySimpleExample() {
 
-		Example<User> example = Example.of(new User(null, "White", null));
+        Example<User> example = Example.of(new User(null, "White", null));
 
-		assertThat(repository.count(example), is(3L));
-	}
+        assertThat(repository.count(example), is(3L));
+    }
 
-	/**
-	 * @see DATAJPA-218
-	 */
-	@Test
-	public void ignorePropertiesAndMatchByAge() {
+    /**
+     * @see DATAJPA-218
+     */
+    @Test
+    public void ignorePropertiesAndMatchByAge() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
-				withIgnorePaths("firstname", "lastname");
+        ExampleSpec exampleSpec = ExampleSpec.untyped(). //
+                withIgnorePaths("firstname", "lastname");
 
-		assertThat(repository.findOne(Example.of(flynn, exampleSpec)), is(flynn));
-	}
+        assertThat(repository.findOne(Example.of(flynn, exampleSpec)), is(flynn));
+    }
 
-	/**
-	 * @see DATAJPA-218
-	 */
-	@Test
-	public void substringMatching() {
+    /**
+     * @see DATAJPA-218
+     */
+    @Test
+    public void substringMatching() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
-				withStringMatcherEnding();
+        ExampleSpec exampleSpec = ExampleSpec.untyped().//
+                withStringMatcherEnding();
 
-		assertThat(repository.findAll(Example.of(new User("er", null, null), exampleSpec)), hasItems(skyler, walter));
-	}
+        assertThat(repository.findAll(Example.of(new User("er", null, null), exampleSpec)), hasItems(skyler, walter));
+    }
 
-	/**
-	 * @see DATAJPA-218
-	 */
-	@Test
-	public void matchStartingStringsIgnoreCase() {
+    /**
+     * @see DATAJPA-218
+     */
+    @Test
+    public void matchStartingStringsIgnoreCase() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
-				withIgnorePaths("age").//
-				withMatcher("firstname", startsWith()).//
-				withMatcher("lastname", ignoreCase());
+        ExampleSpec exampleSpec = ExampleSpec.untyped(). //
+                withIgnorePaths("age").//
+                withMatcher("firstname", startsWith()).//
+                withMatcher("lastname", ignoreCase());
 
-		assertThat(repository.findAll(Example.of(new User("Walter", "WHITE", null), exampleSpec)), hasItems(flynn, walter));
-	}
+        assertThat(repository.findAll(Example.of(new User("Walter", "WHITE", null), exampleSpec)), hasItems(flynn, walter));
+    }
 
-	/**
-	 * @see DATAJPA-218
-	 */
-	@Test
-	public void configuringMatchersUsingLambdas() {
+    /**
+     * @see DATAJPA-218
+     */
+    @Test
+    public void configuringMatchersUsingLambdas() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).withIgnorePaths("age"). //
-				withMatcher("firstname", matcher -> matcher.startsWith()). //
-				withMatcher("lastname", matcher -> matcher.ignoreCase());
+        ExampleSpec exampleSpec = ExampleSpec.untyped().withIgnorePaths("age"). //
+                withMatcher("firstname", matcher -> matcher.startsWith()). //
+                withMatcher("lastname", matcher -> matcher.ignoreCase());
 
-		assertThat(repository.findAll(Example.of(new User("Walter", "WHITE", null), exampleSpec)), hasItems(flynn, walter));
-	}
+        assertThat(repository.findAll(Example.of(new User("Walter", "WHITE", null), exampleSpec)), hasItems(flynn, walter));
+    }
 
-	/**
-	 * @see DATAJPA-218
-	 */
-	@Test
-	public void valueTransformer() {
+    /**
+     * @see DATAJPA-218
+     */
+    @Test
+    public void valueTransformer() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
-				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50)));
+        ExampleSpec exampleSpec = ExampleSpec.untyped(). //
+                withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50)));
 
-		assertThat(repository.findAll(Example.of(new User(null, "White", 99), exampleSpec)), hasItems(walter));
-	}
+        assertThat(repository.findAll(Example.of(new User(null, "White", 99), exampleSpec)), hasItems(walter));
+    }
 
 }

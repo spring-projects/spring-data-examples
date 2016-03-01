@@ -17,7 +17,6 @@
 package example.springdata.mongodb.querybyexample;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.bson.types.ObjectId;
@@ -25,14 +24,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Sample user class.
+ * Sample contact class.
  *
  * @author Mark Paluch
  */
 @Data
 @RequiredArgsConstructor
 @Document(collection = "collectionStoringTwoTypes")
-public class User {
+public class Contact {
 
 	@Id //
 	private ObjectId id;

@@ -72,7 +72,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void ignorePropertiesAndMatchByAge() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
+		ExampleSpec exampleSpec = ExampleSpec.untyped(). //
 				withIgnorePaths("firstname", "lastname");
 
 		assertThat(repository.findOne(Example.of(flynn, exampleSpec)), is(flynn));
@@ -84,7 +84,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void substringMatching() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
+		ExampleSpec exampleSpec = ExampleSpec.untyped().//
 				withStringMatcherEnding();
 
 		assertThat(repository.findAll(Example.of(new User("er", null, null), exampleSpec)), hasItems(skyler, walter));
@@ -96,7 +96,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void regexMatching() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
+		ExampleSpec exampleSpec = ExampleSpec.untyped().//
 				withMatcher("firstname", matcher -> matcher.regex());
 
 		assertThat(repository.findAll(Example.of(new User("(Skyl|Walt)er", null, null), exampleSpec)),
@@ -109,7 +109,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void matchStartingStringsIgnoreCase() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
+		ExampleSpec exampleSpec = ExampleSpec.untyped(). //
 				withIgnorePaths("age").//
 				withMatcher("firstname", startsWith()).//
 				withMatcher("lastname", ignoreCase());
@@ -123,7 +123,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void configuringMatchersUsingLambdas() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).withIgnorePaths("age"). //
+		ExampleSpec exampleSpec = ExampleSpec.untyped().withIgnorePaths("age"). //
 				withMatcher("firstname", matcher -> matcher.startsWith()). //
 				withMatcher("lastname", matcher -> matcher.ignoreCase());
 
@@ -136,7 +136,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void valueTransformer() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
+		ExampleSpec exampleSpec = ExampleSpec.untyped(). //
 				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50)));
 
 		assertThat(repository.findAll(Example.of(new User(null, "White", 99), exampleSpec)), hasItems(walter));

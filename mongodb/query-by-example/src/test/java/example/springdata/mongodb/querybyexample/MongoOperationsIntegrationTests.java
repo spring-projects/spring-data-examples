@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleSpec;
+import org.springframework.data.domain.TypedExampleSpec;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -78,7 +79,7 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void substringMatching() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
+		TypedExampleSpec<User> exampleSpec = ExampleSpec.typed(User.class).//
 				withStringMatcherEnding();
 
 		assertThat(operations.findByExample(Example.of(new User("er", null, null), exampleSpec)), hasItems(skyler, walter));
@@ -90,7 +91,7 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void regexMatching() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).//
+		TypedExampleSpec<User> exampleSpec = ExampleSpec.typed(User.class).//
 				withMatcher("firstname", matcher -> matcher.regex());
 
 		assertThat(operations.findByExample(Example.of(new User("(Skyl|Walt)er", null, null), exampleSpec)),
@@ -103,7 +104,7 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void matchStartingStringsIgnoreCase() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
+		TypedExampleSpec<User> exampleSpec = ExampleSpec.typed(User.class). //
 				withIgnorePaths("age").//
 				withMatcher("firstname", startsWith()).//
 				withMatcher("lastname", ignoreCase());
@@ -118,7 +119,7 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void configuringMatchersUsingLambdas() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class).withIgnorePaths("age"). //
+		TypedExampleSpec<User> exampleSpec = ExampleSpec.typed(User.class).withIgnorePaths("age"). //
 				withMatcher("firstname", matcher -> matcher.startsWith()). //
 				withMatcher("lastname", matcher -> matcher.ignoreCase());
 
@@ -132,7 +133,7 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void valueTransformer() {
 
-		ExampleSpec<User> exampleSpec = ExampleSpec.of(User.class). //
+		TypedExampleSpec<User> exampleSpec = ExampleSpec.typed(User.class). //
 				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50)));
 
 		assertThat(operations.findByExample(Example.of(new User(null, "White", 99), exampleSpec)), hasItems(walter));

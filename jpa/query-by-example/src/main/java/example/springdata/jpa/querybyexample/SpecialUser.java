@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-package example.springdata.mongodb.querybyexample;
+package example.springdata.jpa.querybyexample;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
 
 /**
- * Sample user class.
+ * Sample class that extends {@link User}.
  *
  * @author Mark Paluch
  */
+@Entity
 @Data
-@RequiredArgsConstructor
-@Document(collection = "collectionStoringTwoTypes")
-public class User {
+@NoArgsConstructor
+public class SpecialUser extends User {
 
-	@Id //
-	private ObjectId id;
-	private final String firstname;
-	private final String lastname;
-	private final Integer age;
-
+	public SpecialUser(String firstname, String lastname, Integer age) {
+		super(firstname, lastname, age);
+	}
 }
