@@ -19,9 +19,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 /**
- * Simple repository interface for {@link Person} instances. The interface implements {@link QueryByExampleExecutor} and
- * allows execution of methods accepting {@link org.springframework.data.domain.Example}.
+ * Simple repository interface for {@link Relative} instances. The interface implements {@link QueryByExampleExecutor}
+ * and allows execution of methods accepting {@link org.springframework.data.domain.Example}.
  *
  * @author Mark Paluch
  */
-public interface UserRepository extends CrudRepository<Person, Long>, QueryByExampleExecutor<Person> {}
+public interface RelativeRepository extends CrudRepository<Relative, Long>, QueryByExampleExecutor<Relative> {}

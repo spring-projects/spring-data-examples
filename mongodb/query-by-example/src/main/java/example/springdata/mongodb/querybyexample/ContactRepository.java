@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.mongodb.querybyexample;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 /**
- * Simple repository interface for {@link Contact} instances. The interface implements {@link QueryByExampleExecutor} and
- * allows execution of methods accepting {@link org.springframework.data.domain.Example}.
- *
- * @author Mark Paluch
+ * Repository interface for {@link Contact} and sub-types.
+ * 
+ * @author Oliver Gierke
  */
-public interface ContactRepository extends CrudRepository<Contact, Long>, QueryByExampleExecutor<Contact> {
-
-}
+public interface ContactRepository extends CrudRepository<Contact, ObjectId>, QueryByExampleExecutor<Contact> {}

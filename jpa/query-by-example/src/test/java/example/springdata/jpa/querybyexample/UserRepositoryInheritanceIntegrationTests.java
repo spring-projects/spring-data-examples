@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.jpa.querybyexample;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import static org.springframework.data.domain.ExampleSpec.GenericPropertyMatchers.*;
-import static org.springframework.data.domain.ExampleSpec.GenericPropertyMatchers.startsWith;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,14 +24,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleSpec;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration test showing the usage of JPA Query-by-Example support through Spring Data repositories.
+ * Integration test showing the usage of JPA Query-by-Example support through Spring Data repositories and entities
+ * using inheritance.
  *
  * @author Mark Paluch
+ * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -56,38 +54,18 @@ public class UserRepositoryInheritanceIntegrationTests {
 	}
 
 	/**
-	 * @see DATAJPA-218
+	 * @see #153
 	 */
 	@Test
-	public void countBySimpleExample() {
-
-		Example<User> example = Example.of(new SpecialUser(null, "White", null));
-
-		assertThat(repository.count(example), is(3L));
+	public void countByExample() {
+		assertThat(repository.count(Example.of(new User(null, "White", null))), is(3L));
 	}
 
 	/**
-	 * @see DATAJPA-218
+	 * @see #153
 	 */
 	@Test
-	public void countUserByTypedExample() {
-
-		Example<User> example = Example.of(new SpecialUser(null, "White", null), //
-				ExampleSpec.typed(User.class));
-
-		assertThat(repository.count(example), is(3L));
+	public void countSubtypesByExample() {
+		assertThat(repository.count(Example.of(new SpecialUser(null, "White", null))), is(2L));
 	}
-
-	/**
-	 * @see DATAJPA-218
-	 */
-	@Test
-	public void countSpecialUserByTypedExample() {
-
-		Example<SpecialUser> example = Example.of(new SpecialUser(null, "White", null), //
-				ExampleSpec.typed(SpecialUser.class));
-
-		assertThat(repository.count(example), is(2L));
-	}
-
 }

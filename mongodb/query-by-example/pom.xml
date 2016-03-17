@@ -11,4 +11,8 @@
 	<artifactId>spring-data-mongodb-query-by-example</artifactId>
 	<name>Spring Data MongoDB - Query-by-Example (QBE)</name>
 
+	<properties>
+		<spring-data-releasetrain.version>Hopper-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+	</properties>
+
 </project>

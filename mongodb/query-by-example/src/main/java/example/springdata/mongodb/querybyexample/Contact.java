@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.mongodb.querybyexample;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Sample contact class.
- *
- * @author Mark Paluch
+ * @author Oliver Gierke
  */
-@Data
-@RequiredArgsConstructor
-@Document(collection = "collectionStoringTwoTypes")
-public class Contact {
+@Document(collection = "contacts")
+@EqualsAndHashCode
+@ToString
+public abstract class Contact {
 
-	@Id //
-	private ObjectId id;
-	private final String firstname;
-	private final String lastname;
-	private final Integer age;
-
+	private @Getter ObjectId id;
 }

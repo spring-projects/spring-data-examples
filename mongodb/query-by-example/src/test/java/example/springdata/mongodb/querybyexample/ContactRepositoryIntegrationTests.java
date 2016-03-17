@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.mongodb.querybyexample;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+import static org.springframework.data.domain.ExampleMatcher.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,16 +27,16 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleSpec;
-import org.springframework.data.domain.ExampleSpec.StringMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * Integration test showing the usage of MongoDB Query-by-Example support through Spring Data repositories for a case where two domain types are stored in one collection.
+ * Integration test showing the usage of MongoDB Query-by-Example support through Spring Data repositories for a case
+ * where two domain types are stored in one collection.
  *
  * @author Mark Paluch
+ * @author Oliver Gierke
  * @soundtrack Paul van Dyk - VONYC Sessions Episode 496 with guest Armin van Buuren
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,69 +47,55 @@ public class ContactRepositoryIntegrationTests {
 	@Autowired ContactRepository contactRepository;
 	@Autowired MongoOperations mongoOperations;
 
-	User skyler, walter, flynn;
-	Contact marie, hank;
+	Person skyler, walter, flynn;
+	Relative marie, hank;
 
 	@Before
 	public void setUp() {
 
-		userRepository.deleteAll();
+		contactRepository.deleteAll();
 
-		this.skyler = userRepository.save(new User("Skyler", "White", 45));
-		this.walter = userRepository.save(new User("Walter", "White", 50));
-		this.flynn = userRepository.save(new User("Walter Jr. (Flynn)", "White", 17));
-		this.marie = contactRepository.save(new Contact("Marie", "Schrader", 38));
-		this.hank = contactRepository.save(new Contact("Hank", "Schrader", 43));
+		this.skyler = contactRepository.save(new Person("Skyler", "White", 45));
+		this.walter = contactRepository.save(new Person("Walter", "White", 50));
+		this.flynn = contactRepository.save(new Person("Walter Jr. (Flynn)", "White", 17));
+		this.marie = contactRepository.save(new Relative("Marie", "Schrader", 38));
+		this.hank = contactRepository.save(new Relative("Hank", "Schrader", 43));
 	}
 
 	/**
-	 * @see DATAMONGO-1245
+	 * @see #153
 	 */
 	@Test
-	public void countUsersByUntypedExample() {
+	public void countByConcreteSubtypeExample() {
 
-		Example<User> example = Example.of(new User(null, null, null));
-
-		// the count is 5 because untyped examples do not restrict the type
-		assertThat(userRepository.count(example), is(5L));
-		assertThat(mongoOperations.count(new Query(), "collectionStoringTwoTypes"), is(5L));
-	}
-
-	/**
-	 * @see DATAMONGO-1245
-	 */
-	@Test
-	public void countByTypedExample() {
-
-		Example<User> example = Example.of(new User(null, null, null), ExampleSpec.typed(User.class));
+		Example<Person> example = Example.of(new Person(null, null, null));
 
 		assertThat(userRepository.count(example), is(3L));
 	}
 
 	/**
-	 * @see DATAMONGO-1245
+	 * @see #153
 	 */
 	@Test
-	public void findAllUsersBySimpleExample() {
+	public void findAllPersonsBySimpleExample() {
 
-		Example<User> example = Example.of(new User(".*", null, null), //
-				ExampleSpec.typed(User.class).withStringMatcher(StringMatcher.REGEX));
+		Example<Person> example = Example.of(new Person(".*", null, null), //
+				matching().withStringMatcher(StringMatcher.REGEX));
 
 		assertThat(userRepository.findAll(example), containsInAnyOrder(skyler, walter, flynn));
 		assertThat(userRepository.findAll(example), not(containsInAnyOrder(hank, marie)));
 	}
 
 	/**
-	 * @see DATAMONGO-1245
+	 * @see #153
 	 */
 	@Test
-	public void findAllContactsBySimpleExample() {
+	public void findAllRelativesBySimpleExample() {
 
-		Example<Contact> example = Example.of(new Contact(".*", null, null), //
-				ExampleSpec.typed(Contact.class).withStringMatcher(StringMatcher.REGEX));
+		Example<Relative> example = Example.of(new Relative(".*", null, null), //
+				matching().withStringMatcher(StringMatcher.REGEX));
 
 		assertThat(contactRepository.findAll(example), containsInAnyOrder(hank, marie));
 		assertThat(contactRepository.findAll(example), not(containsInAnyOrder(skyler, walter, flynn)));
 	}
-
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.mongodb.querybyexample;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +21,4 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Mark Paluch
  */
 @SpringBootApplication
-public class ApplicationConfiguration {
-
-}
+public class ApplicationConfiguration {}

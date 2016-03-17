@@ -15,36 +15,27 @@
  */
 package example.springdata.jpa.querybyexample;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Sample user class.
  *
  * @author Mark Paluch
+ * @author Oliver Gierke
  */
 @Entity
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 public class User {
 
-	@Id @GeneratedValue //
-	private Long id;
-	private String firstname;
-	private String lastname;
-	private Integer age;
-
-	public User(String firstname, String lastname, Integer age) {
-
-		super();
-
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.age = age;
-	}
-
+	private @Id @GeneratedValue Long id;
+	private final String firstname, lastname;
+	private final Integer age;
 }

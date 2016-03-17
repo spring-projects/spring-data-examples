@@ -13,31 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.mongodb.querybyexample;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Sample user class.
+ * Sample contact class.
  *
  * @author Mark Paluch
+ * @author Oliver Gierke
  */
-@Data
+@Getter
 @RequiredArgsConstructor
-@Document(collection = "collectionStoringTwoTypes")
-public class User {
+@Document(collection = "contacts")
+public class Relative extends Contact {
 
-	@Id //
-	private ObjectId id;
-	private final String firstname;
-	private final String lastname;
+	private final String firstname, lastname;
 	private final Integer age;
-
 }

@@ -15,13 +15,22 @@
  */
 package example.springdata.mongodb.querybyexample;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.QueryByExampleExecutor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Simple repository interface for {@link Person} instances. The interface implements {@link QueryByExampleExecutor} and
- * allows execution of methods accepting {@link org.springframework.data.domain.Example}.
+ * Sample user class.
  *
  * @author Mark Paluch
+ * @author Oliver Gierke
  */
-public interface UserRepository extends CrudRepository<Person, Long>, QueryByExampleExecutor<Person> {}
+@Getter
+@RequiredArgsConstructor
+@Document(collection = "contacts")
+public class Person extends Contact {
+
+	private final String firstname, lastname;
+	private final Integer age;
+}

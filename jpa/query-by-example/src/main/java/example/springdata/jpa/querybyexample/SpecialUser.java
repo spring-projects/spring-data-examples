@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.jpa.querybyexample;
 
 import lombok.Data;
@@ -25,6 +24,7 @@ import javax.persistence.Entity;
  * Sample class that extends {@link User}.
  *
  * @author Mark Paluch
+ * @author Oliver Gierke
  */
 @Entity
 @Data

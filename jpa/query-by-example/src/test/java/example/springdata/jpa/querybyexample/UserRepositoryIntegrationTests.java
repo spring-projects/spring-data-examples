@@ -17,8 +17,9 @@ package example.springdata.jpa.querybyexample;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import static org.springframework.data.domain.ExampleSpec.GenericPropertyMatchers.*;
-import static org.springframework.data.domain.ExampleSpec.GenericPropertyMatchers.startsWith;
+import static org.springframework.data.domain.ExampleMatcher.*;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleSpec;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,101 +35,104 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration test showing the usage of JPA Query-by-Example support through Spring Data repositories.
  *
  * @author Mark Paluch
+ * @author Oliver Gierke
  */
+@SuppressWarnings("unused")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
 public class UserRepositoryIntegrationTests {
 
-    @Autowired
-    UserRepository repository;
+	@Autowired UserRepository repository;
 
-    User skyler, walter, flynn, marie, hank;
+	User skyler, walter, flynn, marie, hank;
 
-    @Before
-    public void setUp() {
+	@Before
+	public void setUp() {
 
-        repository.deleteAll();
+		repository.deleteAll();
 
-        this.skyler = repository.save(new User("Skyler", "White", 45));
-        this.walter = repository.save(new User("Walter", "White", 50));
-        this.flynn = repository.save(new User("Walter Jr. (Flynn)", "White", 17));
-        this.marie = repository.save(new User("Marie", "Schrader", 38));
-        this.hank = repository.save(new User("Hank", "Schrader", 43));
-    }
+		this.skyler = repository.save(new User("Skyler", "White", 45));
+		this.walter = repository.save(new User("Walter", "White", 50));
+		this.flynn = repository.save(new User("Walter Jr. (Flynn)", "White", 17));
+		this.marie = repository.save(new User("Marie", "Schrader", 38));
+		this.hank = repository.save(new User("Hank", "Schrader", 43));
+	}
 
-    /**
-     * @see DATAJPA-218
-     */
-    @Test
-    public void countBySimpleExample() {
+	/**
+	 * @see #153
+	 */
+	@Test
+	public void countBySimpleExample() {
 
-        Example<User> example = Example.of(new User(null, "White", null));
+		Example<User> example = Example.of(new User(null, "White", null));
 
-        assertThat(repository.count(example), is(3L));
-    }
+		assertThat(repository.count(example), is(3L));
+	}
 
-    /**
-     * @see DATAJPA-218
-     */
-    @Test
-    public void ignorePropertiesAndMatchByAge() {
+	/**
+	 * @see #153
+	 */
+	@Test
+	public void ignorePropertiesAndMatchByAge() {
 
-        ExampleSpec exampleSpec = ExampleSpec.untyped(). //
-                withIgnorePaths("firstname", "lastname");
+		Example<User> example = Example.of(flynn, matching().//
+				withIgnorePaths("firstname", "lastname"));
 
-        assertThat(repository.findOne(Example.of(flynn, exampleSpec)), is(flynn));
-    }
+		assertThat(repository.findOne(example), is(flynn));
+	}
 
-    /**
-     * @see DATAJPA-218
-     */
-    @Test
-    public void substringMatching() {
+	/**
+	 * @see #153
+	 */
+	@Test
+	public void substringMatching() {
 
-        ExampleSpec exampleSpec = ExampleSpec.untyped().//
-                withStringMatcherEnding();
+		Example<User> example = Example.of(new User("er", null, null), matching().//
+				withStringMatcher(StringMatcher.ENDING));
 
-        assertThat(repository.findAll(Example.of(new User("er", null, null), exampleSpec)), hasItems(skyler, walter));
-    }
+		assertThat(repository.findAll(example), hasItems(skyler, walter));
+	}
 
-    /**
-     * @see DATAJPA-218
-     */
-    @Test
-    public void matchStartingStringsIgnoreCase() {
+	/**
+	 * @see #153
+	 */
+	@Test
+	public void matchStartingStringsIgnoreCase() {
 
-        ExampleSpec exampleSpec = ExampleSpec.untyped(). //
-                withIgnorePaths("age").//
-                withMatcher("firstname", startsWith()).//
-                withMatcher("lastname", ignoreCase());
+		Example<User> example = Example.of(new User("Walter", "WHITE", null),
+				matching().//
+						withIgnorePaths("age").//
+						withMatcher("firstname", startsWith()).//
+						withMatcher("lastname", ignoreCase()));
 
-        assertThat(repository.findAll(Example.of(new User("Walter", "WHITE", null), exampleSpec)), hasItems(flynn, walter));
-    }
+		assertThat(repository.findAll(example), hasItems(flynn, walter));
+	}
 
-    /**
-     * @see DATAJPA-218
-     */
-    @Test
-    public void configuringMatchersUsingLambdas() {
+	/**
+	 * @see #153
+	 */
+	@Test
+	public void configuringMatchersUsingLambdas() {
 
-        ExampleSpec exampleSpec = ExampleSpec.untyped().withIgnorePaths("age"). //
-                withMatcher("firstname", matcher -> matcher.startsWith()). //
-                withMatcher("lastname", matcher -> matcher.ignoreCase());
+		Example<User> example = Example.of(new User("Walter", "WHITE", null),
+				matching().//
+						withIgnorePaths("age").//
+						withMatcher("firstname", matcher -> matcher.startsWith()).//
+						withMatcher("lastname", matcher -> matcher.ignoreCase()));
 
-        assertThat(repository.findAll(Example.of(new User("Walter", "WHITE", null), exampleSpec)), hasItems(flynn, walter));
-    }
+		assertThat(repository.findAll(example), hasItems(flynn, walter));
+	}
 
-    /**
-     * @see DATAJPA-218
-     */
-    @Test
-    public void valueTransformer() {
+	/**
+	 * @see #153
+	 */
+	@Test
+	public void valueTransformer() {
 
-        ExampleSpec exampleSpec = ExampleSpec.untyped(). //
-                withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50)));
+		Example<User> example = Example.of(new User(null, "White", 99), matching(). //
+				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50))));
 
-        assertThat(repository.findAll(Example.of(new User(null, "White", 99), exampleSpec)), hasItems(walter));
-    }
-
+		assertThat(repository.findAll(example), hasItems(walter));
+	}
 }

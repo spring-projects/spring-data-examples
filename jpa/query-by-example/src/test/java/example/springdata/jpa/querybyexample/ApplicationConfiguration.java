@@ -15,18 +15,11 @@
  */
 package example.springdata.jpa.querybyexample;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.orm.jpa.EntityScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Mark Paluch
+ * @author Oliver Gierke
  */
-@Configuration
-@EnableAutoConfiguration
-@EntityScan(basePackageClasses = { ApplicationConfiguration.class })
-@EnableJpaAuditing
-public class ApplicationConfiguration {
-
-}
+@SpringBootApplication
+public class ApplicationConfiguration {}
