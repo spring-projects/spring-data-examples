@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.redis.domain;
+package example.springdata.redis.repositories;
 
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.*;
 import static org.hamcrest.core.Is.*;
 import static org.hamcrest.core.IsCollectionContaining.*;
 import static org.hamcrest.core.IsNot.*;
 import static org.junit.Assert.*;
+
+import example.springdata.redis.test.util.EmbeddedRedisServer;
+import example.springdata.redis.test.util.RequiresRedisServer;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -41,15 +44,12 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.index.Indexed;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import example.springdata.redis.AppConfig;
-import example.springdata.redis.test.util.EmbeddedRedisServer;
-import example.springdata.redis.test.util.RequiresRedisServer;
-
 /**
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = AppConfig.class)
+@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
 public class PersonRepositoryTests<K, V> {
 
 	/**
@@ -57,14 +57,14 @@ public class PersonRepositoryTests<K, V> {
 	 * 1) Start/Stop an embedded instance or reuse an already running local installation <br />
 	 * 2) Ignore tests if startup failed and no server running locally.
 	 */
-	public static @ClassRule RuleChain rules = RuleChain.outerRule(
-			EmbeddedRedisServer.runningAt(6379).suppressExceptions()).around(RequiresRedisServer.onLocalhost());
+	public static @ClassRule RuleChain rules = RuleChain
+			.outerRule(EmbeddedRedisServer.runningAt(6379).suppressExceptions()).around(RequiresRedisServer.onLocalhost());
 
 	/** {@link Charset} for String conversion **/
 	private static final Charset CHARSET = Charset.forName("UTF-8");
 
-	@Autowired RedisOperations<K, V> ops;
-	@Autowired PersonRepository repo;
+	@Autowired RedisOperations<K, V> operations;
+	@Autowired PersonRepository repository;
 
 	/*
 	 * Set of test users
@@ -81,7 +81,7 @@ public class PersonRepositoryTests<K, V> {
 	@After
 	public void setUp() {
 
-		ops.execute((RedisConnection connection) -> {
+		operations.execute((RedisConnection connection) -> {
 			connection.flushDb();
 			return "OK";
 		});
@@ -94,10 +94,11 @@ public class PersonRepositoryTests<K, V> {
 	@Test
 	public void saveSingleEntity() {
 
-		repo.save(eddard);
+		repository.save(eddard);
 
-		assertThat(ops.execute((RedisConnection connection) -> connection.exists(new String("persons:" + eddard.getId())
-				.getBytes(CHARSET))), is(true));
+		assertThat(operations.execute(
+				(RedisConnection connection) -> connection.exists(new String("persons:" + eddard.getId()).getBytes(CHARSET))),
+				is(true));
 	}
 
 	/**
@@ -108,7 +109,7 @@ public class PersonRepositoryTests<K, V> {
 
 		flushTestUsers();
 
-		List<Person> starks = repo.findByLastname(eddard.getLastname());
+		List<Person> starks = repository.findByLastname(eddard.getLastname());
 
 		assertThat(starks, containsInAnyOrder(eddard, robb, sansa, arya, bran, rickon));
 		assertThat(starks, not(hasItem(jon)));
@@ -122,7 +123,7 @@ public class PersonRepositoryTests<K, V> {
 
 		flushTestUsers();
 
-		List<Person> aryaStark = repo.findByFirstnameAndLastname(arya.getFirstname(), arya.getLastname());
+		List<Person> aryaStark = repository.findByFirstnameAndLastname(arya.getFirstname(), arya.getLastname());
 
 		assertThat(aryaStark, hasItem(arya));
 		assertThat(aryaStark, not(hasItems(eddard, robb, sansa, bran, rickon, jon)));
@@ -136,7 +137,7 @@ public class PersonRepositoryTests<K, V> {
 
 		flushTestUsers();
 
-		List<Person> aryaAndJon = repo.findByFirstnameOrLastname(arya.getFirstname(), jon.getLastname());
+		List<Person> aryaAndJon = repository.findByFirstnameOrLastname(arya.getFirstname(), jon.getLastname());
 
 		assertThat(aryaAndJon, containsInAnyOrder(arya, jon));
 		assertThat(aryaAndJon, not(hasItems(eddard, robb, sansa, bran, rickon)));
@@ -150,12 +151,12 @@ public class PersonRepositoryTests<K, V> {
 
 		flushTestUsers();
 
-		Page<Person> page1 = repo.findPersonByLastname(eddard.getLastname(), new PageRequest(0, 5));
+		Page<Person> page1 = repository.findPersonByLastname(eddard.getLastname(), new PageRequest(0, 5));
 
 		assertThat(page1.getNumberOfElements(), is(5));
 		assertThat(page1.getTotalElements(), is(6L));
 
-		Page<Person> page2 = repo.findPersonByLastname(eddard.getLastname(), new PageRequest(1, 5));
+		Page<Person> page2 = repository.findPersonByLastname(eddard.getLastname(), new PageRequest(1, 5));
 
 		assertThat(page2.getNumberOfElements(), is(1));
 		assertThat(page2.getTotalElements(), is(6L));
@@ -175,7 +176,7 @@ public class PersonRepositoryTests<K, V> {
 
 		flushTestUsers();
 
-		List<Person> eddardStark = repo.findByAddress_City(winterfell.getCity());
+		List<Person> eddardStark = repository.findByAddress_City(winterfell.getCity());
 
 		assertThat(eddardStark, hasItem(eddard));
 		assertThat(eddardStark, not(hasItems(robb, sansa, arya, bran, rickon, jon)));
@@ -192,9 +193,9 @@ public class PersonRepositoryTests<K, V> {
 
 		eddard.setChildren(Arrays.asList(jon, robb, sansa, arya, bran, rickon));
 
-		repo.save(eddard);
+		repository.save(eddard);
 
-		Person laoded = repo.findOne(eddard.getId());
+		Person laoded = repository.findOne(eddard.getId());
 		assertThat(laoded.getChildren(), hasItems(jon, robb, sansa, arya, bran, rickon));
 
 		/*
@@ -203,14 +204,14 @@ public class PersonRepositoryTests<K, V> {
 		 * - Robb was killed by Roose Bolton during the Red Wedding.
 		 * - Jon was stabbed by brothers or the Night's Watch. 
 		 */
-		repo.delete(Arrays.asList(robb, jon));
+		repository.delete(Arrays.asList(robb, jon));
 
-		laoded = repo.findOne(eddard.getId());
+		laoded = repository.findOne(eddard.getId());
 		assertThat(laoded.getChildren(), hasItems(sansa, arya, bran, rickon));
 		assertThat(laoded.getChildren(), not(hasItems(robb, jon)));
 	}
 
 	private void flushTestUsers() {
-		repo.save(Arrays.asList(eddard, robb, sansa, arya, bran, rickon, jon));
+		repository.save(Arrays.asList(eddard, robb, sansa, arya, bran, rickon, jon));
 	}
 }

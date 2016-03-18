@@ -10,15 +10,15 @@ Redis Repository support allows to convert, store, retrieve and index entities w
 @RedisHash("persons")
 class Person {
 
-	@Id String id;
-	
-	@Indexed String firstname;
-	@Indexed String lastname;
+  @Id String id;
 
-	Gender gender;
-	Address address;
+  @Indexed String firstname;
+  @Indexed String lastname;
 
-	@Reference List<Person> children;
+  Gender gender;
+  Address address;
+
+  @Reference List<Person> children;
 }
 ```
 
@@ -81,36 +81,36 @@ The below configuration uses [Jedis](https://github.com/xetorthio/jedis) to conn
 @EnableRedisRepositories
 class AppConfig {
 
-	@Bean
-	RedisConnectionFactory connectionFactory() {
-		return new JedisConnectionFactory();
-	}
+  @Bean
+  RedisConnectionFactory connectionFactory() {
+    return new JedisConnectionFactory();
+  }
 
-	@Bean
-	RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
+  @Bean
+  RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
 
-		RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
-		template.setConnectionFactory(connectionFactory);
+    RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
+    template.setConnectionFactory(connectionFactory);
 
-		return template;
-	}
+    return template;
+  }
 }
 ```
 
-Having the infrastructure in place you can go on declaring and using the `Repository` interface. 
+Having the infrastructure in place you can go on declaring and using the `Repository` interface.
 
 ```java
 interface PersonRepository extends CrudRepository<Person, String> {
 
-    List<Person> findByLastname(String lastname);
+  List<Person> findByLastname(String lastname);
 
-	Page<Person> findByLastname(String lastname, Pageable page);
+  Page<Person> findByLastname(String lastname, Pageable page);
 
-	List<Person> findByFirstnameAndLastname(String firstname, String lastname);
+  List<Person> findByFirstnameAndLastname(String firstname, String lastname);
 
-	List<Person> findByFirstnameOrLastname(String firstname, String lastname);
+  List<Person> findByFirstnameOrLastname(String firstname, String lastname);
 
-	List<Person> findByAddress_City(String city);
+  List<Person> findByAddress_City(String city);
 }
 ```
 

@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.redis.domain;
-
-import java.lang.reflect.Field;
-import java.util.List;
+package example.springdata.redis.repositories;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Reference;
@@ -54,10 +55,12 @@ import org.springframework.data.redis.core.index.Indexed;
 @Data
 @EqualsAndHashCode(exclude = { "children" })
 @RedisHash("persons")
+@NoArgsConstructor
 class Person {
 
 	/**
-	 * The {@literal id} and {@link RedisHash#toString()} build up the {@literal key} for the Redis {@literal HASH}. <br />
+	 * The {@literal id} and {@link RedisHash#toString()} build up the {@literal key} for the Redis {@literal HASH}.
+	 * <br />
 	 * 
 	 * <pre>
 	 * <code>
@@ -106,12 +109,10 @@ class Person {
 	 */
 	private @Reference List<Person> children;
 
-	public Person() {}
-
 	public Person(String firstname, String lastname, Gender gender) {
+
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.gender = gender;
 	}
-
 }

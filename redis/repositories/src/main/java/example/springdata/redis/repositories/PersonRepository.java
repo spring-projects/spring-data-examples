@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.redis.domain;
+package example.springdata.redis.repositories;
 
 import java.util.List;
 
@@ -35,5 +35,4 @@ interface PersonRepository extends CrudRepository<Person, String> {
 	List<Person> findByFirstnameOrLastname(String firstname, String lastname);
 
 	List<Person> findByAddress_City(String city);
-
 }

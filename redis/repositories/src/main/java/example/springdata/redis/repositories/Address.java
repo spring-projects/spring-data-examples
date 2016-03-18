@@ -13,11 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.redis.domain;
+package example.springdata.redis.repositories;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import org.springframework.data.redis.core.index.Indexed;
 
 /**
  * @author Christoph Strobl
  */
-enum Gender {
-	FEMALE, MALE
+@Data
+@EqualsAndHashCode
+class Address {
+
+	private @Indexed String city;
+	private String country;
 }

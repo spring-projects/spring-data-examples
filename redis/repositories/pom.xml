@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-redis-repository-example</artifactId>
+	<artifactId>spring-data-redis-repositories-example</artifactId>
 	<name>Spring Data Redis - Repository Support Example</name>
 
 	<parent>
@@ -12,39 +12,31 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<properties>
+		<spring-data-releasetrain.version>Hopper-RC1</spring-data-releasetrain.version>
+	</properties>
+
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>spring-data-redis-example-utils</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.kstyrc</groupId>
 			<artifactId>embedded-redis</artifactId>
 			<version>0.6</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
-			<version>1.7.0.RC1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-keyvalue</artifactId>
-			<version>1.1.0.RC1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-commons</artifactId>
-			<version>1.12.0.RC1</version>
-		</dependency>
+
 	</dependencies>
 
 </project>

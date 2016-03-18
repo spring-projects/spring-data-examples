@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>spring-data-redis-example-utils</artifactId>
-	<name>Spring Data Redis - Example utilities</name>
+	<name>Spring Data Redis - Example Utilities</name>
 
 	<dependencies>
 		<dependency>

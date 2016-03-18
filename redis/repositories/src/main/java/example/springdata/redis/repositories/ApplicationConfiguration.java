@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.redis;
+package example.springdata.redis.repositories;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,22 +27,13 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
  */
 @Configuration
 @EnableRedisRepositories
-public class AppConfig {
+public class ApplicationConfiguration {
 
-	/**
-	 * {@link RedisConnectionFactory} to be used when connecting to redis.
-	 * 
-	 * @return
-	 */
 	@Bean
 	RedisConnectionFactory connectionFactory() {
 		return new JedisConnectionFactory();
 	}
 
-	/**
-	 * @param connectionFactory
-	 * @return
-	 */
 	@Bean
 	RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
 
@@ -51,5 +42,4 @@ public class AppConfig {
 
 		return template;
 	}
-
 }
