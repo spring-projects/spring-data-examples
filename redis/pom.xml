@@ -20,6 +20,7 @@
 		<module>cluster-sentinel</module>
 		<module>example</module>
 		<module>cluster</module>
+		<module>repository</module>
 	</modules>
 
 	<dependencies>
