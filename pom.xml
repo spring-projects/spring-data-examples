@@ -35,6 +35,7 @@
 		<apt.version>1.1.3</apt.version>
 		<java.version>1.8</java.version>
 		<querydsl.version>4.0.8</querydsl.version>
+		<spring-data-releasetrain.version>Hopper-RC1</spring-data-releasetrain.version>
 
 	</properties>
 
@@ -71,7 +72,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.6</version>
 			<scope>provided</scope>
 		</dependency>
 

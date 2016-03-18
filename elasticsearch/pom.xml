@@ -15,8 +15,12 @@
 	<description>Sample projects for Spring Data Elasticsearch</description>
 	<url>https://github.com/spring-projects/spring-data-elasticsearch</url>
 
+	<properties>
+		<elasticsearch.version>2.2.0</elasticsearch.version>
+	</properties>
+
 	<modules>
-		<module>example</module>
+		<!--<module>example</module>-->
 	</modules>
 
 	<dependencies>

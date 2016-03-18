@@ -12,10 +12,6 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<properties>
-		<spring-data-releasetrain.version>Hopper-RC1</spring-data-releasetrain.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>

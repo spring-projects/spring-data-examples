@@ -34,7 +34,7 @@ public class SpringDataRestCustomization extends RepositoryRestConfigurerAdapter
 	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
 
-		config.withCustomEntityLookup().//
+		config.withEntityLookup().//
 				forRepository(UserRepository.class, User::getUsername, UserRepository::findByUsername);
 	}
 }
