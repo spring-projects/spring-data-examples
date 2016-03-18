@@ -14,13 +14,17 @@ We have separate folders for the samples of individual modules:
 * `interceptors` - Example of how to enrich the repositories with AOP.
 * `security` - Example of how to integrate Spring Data JPA Repositories with Spring Security.
 * `multiple-datasources` - Examples of how to use Spring Data JPA with multiple `DataSource`s.
+* `query-by-example` - Example project showing usage of Query by Example with MongoDB.
 
 ## Spring Data MongoDB
 
 * `example` - Example project for general repository functionality (including geo-spatial functionality), Querydsl integration and advanced topics.
+* `java8` - Example of how to use Spring Data MongoDB with Java 8 date time types as well as the usage of `Optional` as return type for repository methods. Note, this project requires to be build with JDK 8.
 * `aggregation` - Example project to showcase the MongoDB aggregation framework support.
 * `text-search` - Example project showing usage of MongoDB text search feature.
 * `geo-json` - Example project showing usage of [GeoJSON](http://geojson.org) with MongoDB.
+* `security` - Example project showing usage of Spring Security with MongoDB.
+* `query-by-example` - Example project showing usage of Query by Example with MongoDB.
 
 ## Spring Data REST
 
@@ -33,7 +37,8 @@ We have separate folders for the samples of individual modules:
 ## Spring Data Redis
 
 * `example` - Example for basic Spring Data Redis setup.
-* `cluster-sentinel` - Example for Redis cluster and Sentinel support.
+* `cluster` - Example for Redis Cluster support.
+* `cluster-sentinel` - Example for Redis Sentinel support.
 
 ## Spring Data Elasticsearch
 
