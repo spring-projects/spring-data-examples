@@ -1,6 +1,6 @@
-# Spring Data Redis - Sentinel and Cluster Examples
+# Spring Data Redis - Sentinel Examples
 
-This project contains samples of Sentinel and CLuster specific features of Spring Data Redis.
+This project contains samples of Sentinel specific features of Spring Data Redis.
 
 ## Support for Sentinel
 
