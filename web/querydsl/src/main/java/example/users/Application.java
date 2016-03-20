@@ -20,8 +20,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
 /**
  * @author Christoph Strobl
@@ -42,6 +44,11 @@ public class Application extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/webjars/**").//
 				addResourceLocations("classpath:/META-INF/resources/webjars/").//
 				resourceChain(true);
+	}
+
+	@Bean
+	SpringDataDialect springDataDialect() {
+		return new SpringDataDialect();
 	}
 
 	@Autowired UserRepository repo;

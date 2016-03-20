@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.thymeleaf.org/spring-data">
 <head>
 	<title>User Center</title>
-	
+
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	
+
 	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 
 <body>
 	<div class="container-fluid">
 		<h1>User Center</h1>
-		
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Search</h3>
 			</div>
 			<div class="panel-body">
-			
+
 				<form action="/">
-				
+
 					<div class="form-group col-sm-6">
 						<label for="firstname" class="control-label">Firstname:</label>
 						<input id="firstname" name="firstname" th:value="${#httpServletRequest.getParameter('firstname')}" type="text" class="form-control" autofocus="autofocus" />
@@ -44,33 +44,26 @@
 					<div class="form-group col-sm-12">
 						<button id="submit" type="submit" class="btn btn-default">Submit</button>
 					</div>
-					
+
 				</form>
 			</div>
 		</div>
-		
+
 		<nav class="text-center">
-			<ul class="pagination" th:with="total = ${users.totalPages}">
-				<li th:if="${users.hasPrevious()}">
-					<a th:href="@{${baseUri}(page=${users.previousPageable().pageNumber})}" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-					</a>
-				</li>
-				<li th:each="page : ${#numbers.sequence(0, total - 1)}"><a th:href="@{${baseUri}(page=${page})}" th:text="${page + 1}">1</a></li>
-				<li th:if="${users.hasNext()}">
-					<a th:href="@{${baseUri}(page=${users.nextPageable().pageNumber})}" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-					</a>
-				</li>
+			<div sd:pagination-summary="true">Pagination information</div>
+			<ul class="pagination" sd:pagination="full">
+				<!-- Pagination created by the Thymeleaf Spring Data dialect, this content is just for mockup -->
+				<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+				<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
 			</ul>
 		</nav>
-		
+
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>#</th>
 					<th></th>
-					<th>Firstname</th>
+					<th><a sd:pagination-sort="firstname">Firstname</a></th>
 					<th>Lastname</th>
 					<th>Nationality</th>
 					<th>City</th>
@@ -93,8 +86,10 @@
 				</tr>
 			</tbody>
 		</table>
-		
+
+		<ul class="pagination" sd:pagination="aligned-links"></ul>
+
 	</div>
-	
+
 </body>
 </html>
