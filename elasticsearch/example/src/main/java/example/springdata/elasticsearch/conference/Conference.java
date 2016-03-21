@@ -24,8 +24,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Builder;
 
 /**
  * @author Artur Konczak
