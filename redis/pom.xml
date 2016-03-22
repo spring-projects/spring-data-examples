@@ -17,7 +17,7 @@
 
 	<modules>
 	    <module>util</module>
-		<module>cluster-sentinel</module>
+		<module>sentinel</module>
 		<module>example</module>
 		<module>cluster</module>
 		<module>repositories</module>
