@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -46,7 +47,8 @@ class UserController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	String index(Model model, //
-			@QuerydslPredicate(root = User.class) Predicate predicate, Pageable pageable, //
+			@QuerydslPredicate(root = User.class) Predicate predicate, //
+			@PageableDefault(sort = { "lastname", "firstname" }) Pageable pageable, //
 			@RequestParam MultiValueMap<String, String> parameters) {
 
 		ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest();
