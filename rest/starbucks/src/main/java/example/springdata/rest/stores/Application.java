@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,18 @@
  */
 package example.springdata.rest.stores;
 
-import static org.springframework.data.mongodb.core.index.GeoSpatialIndexType.*;
-
-import lombok.Value;
-
-import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Value object to represent an {@link Address}.
+ * Spring configuration class main application bootstrap point.
  * 
  * @author Oliver Gierke
  */
-@Value
-public class Address {
+@SpringBootApplication
+public class Application {
 
-	private final String street, city, zip;
-	private final @GeoSpatialIndexed(type = GEO_2DSPHERE) Point location;
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return String.format("%s, %s %s", street, zip, city);
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
 	}
 }

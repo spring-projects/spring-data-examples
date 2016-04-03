@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,7 @@ package example.springdata.rest.stores;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import example.springdata.rest.stores.Address;
-import example.springdata.rest.stores.Store;
-import example.springdata.rest.stores.StoreApp;
-import example.springdata.rest.stores.StoreRepository;
+import example.springdata.rest.stores.Store.Address;
 
 import org.junit.After;
 import org.junit.Before;
@@ -44,7 +41,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@SpringApplicationConfiguration(classes = StoreApp.class)
+@SpringApplicationConfiguration(classes = Application.class)
 public class StoreRepositoryIntegrationTests {
 
 	@Autowired StoreRepository repository;

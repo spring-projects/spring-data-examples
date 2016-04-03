@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package example.springdata.rest.stores;
 
+import example.springdata.rest.stores.Store.Address;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -80,8 +81,8 @@ public class StoreInitializer {
 		lineMapper.setFieldSetMapper(fields -> {
 
 			Point location = new Point(fields.readDouble("Longitude"), fields.readDouble("Latitude"));
-			Address address = new Address(fields.readString("Street Address"), fields.readString("City"), fields
-					.readString("Zip"), location);
+			Address address = new Address(fields.readString("Street Address"), fields.readString("City"),
+					fields.readString("Zip"), location);
 
 			return new Store(fields.readString("Name"), address);
 		});
