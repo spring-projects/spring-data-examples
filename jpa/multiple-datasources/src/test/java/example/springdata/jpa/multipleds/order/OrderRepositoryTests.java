@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,17 +18,15 @@ package example.springdata.jpa.multipleds.order;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import javax.transaction.Transactional;
+import example.springdata.jpa.multipleds.Application;
+import example.springdata.jpa.multipleds.customer.CustomerRepository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-
-import example.springdata.jpa.multipleds.Application;
-import example.springdata.jpa.multipleds.customer.CustomerRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration test for {@link CustomerRepository}.
@@ -37,8 +35,7 @@ import example.springdata.jpa.multipleds.customer.CustomerRepository;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@Transactional
-@TransactionConfiguration(transactionManager = "orderTransactionManager")
+@Transactional(transactionManager = "orderTransactionManager")
 public class OrderRepositoryTests {
 
 	@Autowired OrderRepository orders;

@@ -15,6 +15,8 @@
  */
 package example.springdata.jpa.multipleds;
 
+import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.devtools.autoconfigure.DevToolsDataSourceAutoConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
 
 /**
  * Core Spring Boot application configuration. Note, that we explicitly deactivate some auto-configurations explicitly.
@@ -33,13 +34,18 @@ import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
  * wanted to keep the two configurations symmetric. The configuration classes being located in separate packages serves
  * the purpose of scoping the Spring Data repository scanning to those packages so that the infrastructure setup is
  * attached to the corresponding repository instances.
+ * <p>
+ * {@link DevToolsDataSourceAutoConfiguration} is explicitly excluded until
+ * {@link https://github.com/spring-projects/spring-boot/issues/5540} is fixed.
+ * {@link https://github.com/spring-projects/spring-boot/issues/5541} has been filed to improve the need for manual
+ * exclusions in general.
  * 
  * @author Oliver Gierke
  * @see example.springdata.jpa.multipleds.customer.CustomerConfig
  * @see example.springdata.jpa.multipleds.order.OrderConfig
  */
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
-		DataSourceTransactionManagerAutoConfiguration.class })
+		DataSourceTransactionManagerAutoConfiguration.class, DevToolsDataSourceAutoConfiguration.class })
 @EnableTransactionManagement
 public class Application {
 
