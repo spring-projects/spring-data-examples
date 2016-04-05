@@ -15,17 +15,9 @@
  */
 package example.springdata.redis.cluster;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisClusterConfiguration;
-import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * Application context configuration setting up {@link RedisConnectionFactory} and {@link RedisTemplate} according to
@@ -33,30 +25,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * 
  * @author Christoph Strobl
  */
-@Configuration
-@EnableConfigurationProperties(ClusterConfigurationProperties.class)
+@EnableAutoConfiguration
 public class AppConfig {
 
-	/**
-	 * Type safe representation of application.properties
-	 */
-	@Autowired ClusterConfigurationProperties clusterProperties;
-
-	/**
-	 * The connection factory used for obtaining {@link RedisConnection} uses a {@link RedisClusterConfiguration} that
-	 * points to the initial set of nodes.
-	 */
-	@Bean
-	RedisConnectionFactory connectionFactory() {
-		return new JedisConnectionFactory(new RedisClusterConfiguration(clusterProperties.getNodes()));
-	}
-
-	/**
-	 * {@link RedisTemplate} can be configured with {@link RedisSerializer} if needed. <br />
-	 * <b>NOTE:</b> be careful using JSON @link RedisSerializer} for key serialization.
-	 */
-	@Bean
-	RedisTemplate<String, String> redisTemplate() {
-		return new StringRedisTemplate(connectionFactory());
-	}
 }

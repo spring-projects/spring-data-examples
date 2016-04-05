@@ -6,46 +6,12 @@ To run the code in this sample a running cluster environment is required. Please
 
 ## Support for Cluster ##
 
-Cluster Support uses the same building blocks as the non clustered counterpart. We use `application.properties` to point to an initial set of known cluster nodes.
+Cluster Support uses the same building blocks as the non clustered counterpart. We use `application.properties` to point to an initial set of known cluster nodes which will be picked up by the auto configuration.
 
 ```properties
 spring.redis.cluster.nodes[0]=127.0.0.1:30001
 spring.redis.cluster.nodes[1]=127.0.0.1:30002
 spring.redis.cluster.nodes[2]=127.0.0.1:30003
-```
-
-Additionally we need to have the `RedisConnectionFactory` set up with the according `RedisClusterConfiguration`.
-
-```java
-@Configuration
-@EnableConfigurationProperties(ClusterConfigurationProperties.class)
-public class AppConfig {
-
-    /**
-     * Type safe representation of application.properties
-     */
-	@Autowired ClusterConfigurationProperties clusterProperties;
-
-    /**
-     * The connection factory used for obtaining RedisConnection
-     * uses a RedisClusterConfiguration that points
-     * to the initial set of nodes.
-     */
-	@Bean
-	RedisConnectionFactory connectionFactory() {
-		return new JedisConnectionFactory(
-		  new RedisClusterConfiguration(clusterProperties.getNodes()));
-	}
-
-    /**
-     * RedisTemplate can be configured with RedisSerializer if needed.
-     * NOTE: be careful using JSON serializers for key serialization.
-     */
-	@Bean
-	RedisTemplate<String, String> redisTemplate() {
-		return new StringRedisTemplate(connectionFactory());
-	}
-}
 ```
 
 **INFORMATION:** The tests flush the db of all known instances during the JUnit _setup_ phase to allow inspecting data directly on the cluster nodes after a test is run.
