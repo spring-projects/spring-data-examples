@@ -20,7 +20,7 @@
 	</properties>
 
 	<modules>
-		<!--<module>example</module>-->
+		<module>example</module>
 	</modules>
 
 	<dependencies>
