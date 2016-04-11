@@ -18,11 +18,16 @@ package example.springdata.jpa.eclipselink;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
 /**
  * Spring Boot application that uses EclipseLink as the JPA provider.
@@ -32,6 +37,16 @@ import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
  */
 @SpringBootApplication
 public class Application extends JpaBaseConfiguration {
+
+	/**
+	 * @param dataSource
+	 * @param properties
+	 * @param jtaTransactionManagerProvider
+	 */
+	protected Application(DataSource dataSource, JpaProperties properties,
+			ObjectProvider<JtaTransactionManager> jtaTransactionManagerProvider) {
+		super(dataSource, properties, jtaTransactionManagerProvider);
+	}
 
 	/* 
 	 * (non-Javadoc)
@@ -52,12 +67,12 @@ public class Application extends JpaBaseConfiguration {
 		// Turn off dynamic weaving to disable LTW lookup in static weaving mode
 		return Collections.singletonMap("eclipselink.weaving", "false");
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		CustomerRepository repository = SpringApplication.run(Application.class, args).getBean(CustomerRepository.class);
 		repository.save(new Customer("Richard", "Feynman"));
-		
+
 		System.out.println(repository.findAll());
 	}
 }

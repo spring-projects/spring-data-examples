@@ -11,4 +11,9 @@
 	<artifactId>spring-data-jpa-jpa21</artifactId>
 	<name>Spring Data JPA - JPA 2.1 specific features</name>
 
+	<properties>
+		<!-- Last Hibernate 5.x version that doesn't break stored procedure support on HSQLDB -->
+		<hibernate.version>5.0.7.Final</hibernate.version>
+	</properties>
+
 </project>

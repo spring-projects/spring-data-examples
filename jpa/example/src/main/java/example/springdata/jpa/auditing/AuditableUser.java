@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2013-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,23 @@
  */
 package example.springdata.jpa.auditing;
 
-import javax.persistence.Entity;
+import lombok.Data;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Auditable;
 import org.springframework.data.jpa.domain.AbstractAuditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * User domain class that uses auditing functionality of Spring Data that can either be aquired implementing
@@ -27,28 +40,17 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
+@Data
 @Entity
-public class AuditableUser extends AbstractAuditable<AuditableUser, Long> {
+@EntityListeners(AuditingEntityListener.class)
+public class AuditableUser {
 
-	private static final long serialVersionUID = 1L;
-
+	private @Id @GeneratedValue Long id;
 	private String username;
 
-	/**
-	 * Set's the user's name.
-	 * 
-	 * @param username the username to set
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	private @CreatedDate LocalDateTime createdDate;
+	private @LastModifiedDate LocalDateTime lastModifiedDate;
 
-	/**
-	 * Returns the user's name.
-	 * 
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
+	private @ManyToOne @CreatedBy AuditableUser createdBy;
+	private @ManyToOne @LastModifiedBy AuditableUser lastModifiedBy;
 }
