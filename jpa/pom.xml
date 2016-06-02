@@ -28,6 +28,10 @@
 		<module>query-by-example</module>
 	</modules>
 
+	<properties>
+		<spring-data-releasetrain.version>Ingalls-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+	</properties>
+
 	<dependencies>
 
 		<dependency>

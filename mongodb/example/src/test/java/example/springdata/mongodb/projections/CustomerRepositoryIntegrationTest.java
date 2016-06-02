@@ -25,8 +25,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.projection.TargetAware;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -36,7 +40,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration
+@SpringBootTest
 public class CustomerRepositoryIntegrationTest {
 
 	@Configuration
@@ -103,5 +107,14 @@ public class CustomerRepositoryIntegrationTest {
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getFirstname(), is("Dave"));
 		assertThat(((TargetAware) result).getTarget(), is(instanceOf(Customer.class)));
+	}
+
+	@Test
+	public void supportsProjectionInCombinationWithPagination() {
+
+		Page<CustomerProjection> page = customers
+				.findPagedProjectedBy(new PageRequest(0, 1, new Sort(Direction.ASC, "lastname")));
+
+		assertThat(page.getContent().get(0).getFirstname(), is("Carter"));
 	}
 }

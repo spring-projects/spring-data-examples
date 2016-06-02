@@ -19,6 +19,8 @@ import java.util.Collection;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -78,4 +80,12 @@ interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
 	 * @return
 	 */
 	<T> T findProjectedById(ObjectId id, Class<T> projection);
+
+	/**
+	 * Projections used with pagination.
+	 * 
+	 * @param pageable
+	 * @return
+	 */
+	Page<CustomerProjection> findPagedProjectedBy(Pageable pageable);
 }
