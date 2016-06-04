@@ -27,7 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Intergration test showing the basic usage of {@link UserRepository}.
+ * Integration test showing the basic usage of {@link UserRepository}.
  * 
  * @author Oliver Gierke
  * @author Thomas Darimont

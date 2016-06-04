@@ -16,4 +16,11 @@
 		<hibernate.version>5.0.7.Final</hibernate.version>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+	</dependencies>
+
 </project>
