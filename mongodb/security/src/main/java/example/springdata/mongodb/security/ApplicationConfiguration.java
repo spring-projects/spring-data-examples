@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,7 @@
 package example.springdata.mongodb.security;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener;
-import org.springframework.data.repository.query.spi.EvaluationContextExtension;
-import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 
 /**
  * Simple configuration that registers a {@link LoggingEventListener} to demonstrate mapping behaviour when Java 8
@@ -28,10 +25,4 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
  * @author Thomas Darimont
  */
 @SpringBootApplication
-class ApplicationConfiguration {
-
-	@Bean
-	public EvaluationContextExtension securityExtension() {
-		return new SecurityEvaluationContextExtension();
-	}
-}
+class ApplicationConfiguration {}

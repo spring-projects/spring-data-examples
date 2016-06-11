@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,17 @@ import static org.junit.Assert.*;
 import static org.springframework.data.solr.core.query.Criteria.*;
 import static org.springframework.data.solr.core.query.ExistsFunction.*;
 
+import example.springdata.solr.product.Product;
+import example.springdata.solr.product.ProductRepository;
+import example.springdata.solr.test.util.RequiresSolrServer;
+
 import java.util.Arrays;
 
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.CrudRepository;
@@ -35,19 +40,14 @@ import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.data.solr.core.query.result.HighlightPage;
 import org.springframework.data.solr.repository.Boost;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.solr.product.Product;
-import example.springdata.solr.product.ProductRepository;
-import example.springdata.solr.test.util.RequiresSolrServer;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class AdvancedSolrRepositoryTests {
 
 	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
@@ -81,10 +81,8 @@ public class AdvancedSolrRepositoryTests {
 
 		HighlightPage<Product> products = repository.findByDescriptionStartingWith("play", new PageRequest(0, 10));
 
-		products.getHighlighted().forEach(
-				entry -> entry.getHighlights().forEach(
-						highligh -> System.out.println(entry.getEntity().getId() + " | " + highligh.getField() + ":\t"
-								+ highligh.getSnipplets())));
+		products.getHighlighted().forEach(entry -> entry.getHighlights().forEach(highligh -> System.out
+				.println(entry.getEntity().getId() + " | " + highligh.getField() + ":\t" + highligh.getSnipplets())));
 	}
 
 	/**

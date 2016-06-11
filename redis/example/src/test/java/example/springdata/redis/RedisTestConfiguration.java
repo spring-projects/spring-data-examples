@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,13 @@ package example.springdata.redis;
 import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 /**
  * @author Christoph Strobl
  */
-@Configuration
-@EnableAutoConfiguration
+@SpringBootApplication
 public class RedisTestConfiguration {
 
 	@Autowired RedisConnectionFactory factory;
@@ -34,8 +32,7 @@ public class RedisTestConfiguration {
 	/**
 	 * Clear database before shut down.
 	 */
-	@PreDestroy
-	public void flushTestDb() {
+	public @PreDestroy void flushTestDb() {
 		factory.getConnection().flushDb();
 	}
 }

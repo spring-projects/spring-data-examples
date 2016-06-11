@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +30,10 @@ import org.springframework.util.StopWatch;
 
 /**
  * @author Christoph Strobl
+ * @author Oliver Gierke
  */
 @Configuration
-public class RedisSentinelApplicationConfig {
+public class RedisSentinelApplication {
 
 	static final RedisSentinelConfiguration SENTINEL_CONFIG = new RedisSentinelConfiguration().master("mymaster") //
 			.sentinel("localhost", 26379) //
@@ -43,14 +44,9 @@ public class RedisSentinelApplicationConfig {
 
 	public static void main(String[] args) throws Exception {
 
-		ApplicationContext context = SpringApplication.run(RedisSentinelApplicationConfig.class, args);
+		ApplicationContext context = SpringApplication.run(RedisSentinelApplication.class, args);
 
-		RedisConnectionFactory factory = context.getBean(RedisConnectionFactory.class);
-
-		StringRedisTemplate template = new StringRedisTemplate();
-		template.setConnectionFactory(factory);
-		template.afterPropertiesSet();
-
+		StringRedisTemplate template = context.getBean(StringRedisTemplate.class);
 		template.opsForValue().set("loop-forever", "0");
 
 		StopWatch stopWatch = new StopWatch();
@@ -58,10 +54,13 @@ public class RedisSentinelApplicationConfig {
 		while (true) {
 
 			try {
+
 				String value = "IT:= " + template.opsForValue().increment("loop-forever", 1);
 				printBackFromErrorStateInfoIfStopWatchIsRunning(stopWatch);
 				System.out.println(value);
+
 			} catch (RuntimeException e) {
+
 				System.err.println(e.getCause().getMessage());
 				startStopWatchIfNotRunning(stopWatch);
 			}
@@ -70,21 +69,22 @@ public class RedisSentinelApplicationConfig {
 		}
 	}
 
-	@Bean
-	public RedisConnectionFactory connectionFactory() {
+	public @Bean StringRedisTemplate redisTemplate() {
+		return new StringRedisTemplate(connectionFactory());
+	}
+
+	public @Bean RedisConnectionFactory connectionFactory() {
 		return new JedisConnectionFactory(sentinelConfig());
 	}
 
-	@Bean
-	public RedisSentinelConfiguration sentinelConfig() {
+	public @Bean RedisSentinelConfiguration sentinelConfig() {
 		return SENTINEL_CONFIG;
 	}
 
 	/**
 	 * Clear database before shut down.
 	 */
-	@PreDestroy
-	public void flushTestDb() {
+	public @PreDestroy void flushTestDb() {
 		factory.getConnection().flushDb();
 	}
 

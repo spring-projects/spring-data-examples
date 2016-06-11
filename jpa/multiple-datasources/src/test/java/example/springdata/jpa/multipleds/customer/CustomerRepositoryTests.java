@@ -18,8 +18,6 @@ package example.springdata.jpa.multipleds.customer;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import example.springdata.jpa.multipleds.Application;
-
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -28,8 +26,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,8 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @Transactional(transactionManager = "customerTransactionManager")
 public class CustomerRepositoryTests {
 

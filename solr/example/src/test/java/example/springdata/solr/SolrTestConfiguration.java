@@ -24,9 +24,8 @@ import javax.annotation.PreDestroy;
 
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.solr.core.SolrTemplate;
 
@@ -34,30 +33,26 @@ import org.springframework.data.solr.core.SolrTemplate;
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-@Configuration
-@EnableAutoConfiguration
+@SpringBootApplication
 public class SolrTestConfiguration {
 
-	private @Autowired CrudRepository<Product, String> repo;
+	@Autowired CrudRepository<Product, String> repo;
 
-	@Bean
-	public SolrTemplate solrTemplate() {
+	public @Bean SolrTemplate solrTemplate() {
 		return new SolrTemplate(new HttpSolrClient("http://localhost:8983/solr"), "collection1");
 	}
 
 	/**
 	 * Remove test data when context is shut down.
 	 */
-	@PreDestroy
-	public void deleteDocumentsOnShutdown() {
+	public @PreDestroy void deleteDocumentsOnShutdown() {
 		repo.deleteAll();
 	}
 
 	/**
 	 * Initialize Solr instance with test data once context has started.
 	 */
-	@PostConstruct
-	public void initWithTestData() {
+	public @PostConstruct void initWithTestData() {
 		doInitTestData(repo);
 	}
 

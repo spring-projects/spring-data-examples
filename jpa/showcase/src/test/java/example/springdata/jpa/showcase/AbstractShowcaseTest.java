@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2014 the original author or authors.
+ * Copyright 2011-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,21 @@
  */
 package example.springdata.jpa.showcase;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
-import example.springdata.jpa.showcase.AbstractShowcaseTest.TestConfig;
-
 /**
  * @author Oliver Gierke
  */
-@SpringApplicationConfiguration(classes = TestConfig.class)
+@SpringBootTest
 @Transactional
 public abstract class AbstractShowcaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-	@Configuration
-	@EnableAutoConfiguration
-	@ComponentScan
-	static class TestConfig {
-
-	}
+	@SpringBootApplication
+	static class TestConfig {}
 
 	@BeforeTransaction
 	public void setupData() throws Exception {

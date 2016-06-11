@@ -34,9 +34,7 @@ import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolic
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.util.StringUtils;
-import org.springframework.web.util.UriTemplate;
 
 /**
  * Initialize {@link UserRepository} with sample data.
@@ -47,22 +45,11 @@ import org.springframework.web.util.UriTemplate;
 @RequiredArgsConstructor
 public class UserInitializer {
 
-	private static final UriTemplate REMOTE_TEMPLATE = new UriTemplate(
-			"https://randomuser.me/api/?results={numberOfUsers}&format=csv&nat=US");
-
 	private final UserRepository repository;
 
-	public void initLocally() throws Exception {
+	public void init() throws Exception {
 
 		List<User> users = readUsers(new ClassPathResource("randomuser.me.csv"));
-
-		repository.deleteAll();
-		repository.save(users);
-	}
-
-	public void initRemote(int numberOfUsers) throws Exception {
-
-		List<User> users = readUsers(new UrlResource(REMOTE_TEMPLATE.expand(numberOfUsers)));
 
 		repository.deleteAll();
 		repository.save(users);

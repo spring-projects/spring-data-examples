@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,21 @@
  */
 package example.springdata.solr;
 
+import example.springdata.solr.product.ProductRepository;
+import example.springdata.solr.test.util.RequiresSolrServer;
+
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.solr.product.ProductRepository;
-import example.springdata.solr.test.util.RequiresSolrServer;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { SolrTestConfiguration.class })
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SolrTestConfiguration.class)
 public class BasicSolrRepositoryTests {
 
 	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();

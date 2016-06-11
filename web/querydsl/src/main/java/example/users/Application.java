@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
@@ -36,16 +35,6 @@ public class Application extends WebMvcConfigurerAdapter {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-		// Configure resource handler explicitly to enable non-versioned
-		// Webjars in Thymeleaf templates
-		registry.addResourceHandler("/webjars/**").//
-				addResourceLocations("classpath:/META-INF/resources/webjars/").//
-				resourceChain(true);
-	}
-
 	@Bean
 	SpringDataDialect springDataDialect() {
 		return new SpringDataDialect();
@@ -55,11 +44,6 @@ public class Application extends WebMvcConfigurerAdapter {
 
 	@PostConstruct
 	void initialize() throws Exception {
-
-		// Import demo users from local CSV
-		new UserInitializer(repo).initLocally();
-
-		// Import demo users from remote service
-		// new UserInitializer(repo).initRemote(100);
+		new UserInitializer(repo).init();
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,22 @@ package example.springdata.jpa.eclipselink;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import example.springdata.jpa.eclipselink.Application;
-import example.springdata.jpa.eclipselink.Customer;
-import example.springdata.jpa.eclipselink.CustomerRepository;
+import javax.transaction.Transactional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link CustomerRepository}.
  * 
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Transactional
 public class CustomerRepositoryIntegrationTests {
 
 	@Autowired CustomerRepository customers;

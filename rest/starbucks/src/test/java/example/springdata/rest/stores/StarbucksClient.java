@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,20 @@ package example.springdata.rest.stores;
 
 import static org.springframework.hateoas.MediaTypes.*;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.Bean;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Links;
@@ -45,7 +45,7 @@ import org.springframework.hateoas.mvc.TypeReferences.PagedResourcesType;
 import org.springframework.hateoas.mvc.TypeReferences.ResourceType;
 import org.springframework.hateoas.mvc.TypeReferences.ResourcesType;
 import org.springframework.http.RequestEntity;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -54,9 +54,8 @@ import org.springframework.web.client.RestTemplate;
  * 
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebIntegrationTest(randomPort = true)
-@SpringApplicationConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Slf4j
 public class StarbucksClient {
 
@@ -69,7 +68,7 @@ public class StarbucksClient {
 		}
 	}
 
-	@Value("${local.server.port}") String port;
+	@LocalServerPort int port;
 
 	private static final String SERVICE_URI = "http://localhost:%s/api";
 

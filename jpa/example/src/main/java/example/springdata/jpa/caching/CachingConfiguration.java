@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2013-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,13 @@ package example.springdata.jpa.caching;
 
 import java.util.Arrays;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * Java config to use Spring Data JPA alongside the Spring caching support.
@@ -32,9 +31,8 @@ import org.springframework.context.annotation.Configuration;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-@Configuration
 @EnableCaching
-@EnableAutoConfiguration
+@SpringBootApplication
 class CachingConfiguration {
 
 	@Bean

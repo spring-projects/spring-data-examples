@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,17 @@
  */
 package example.springdata.solr;
 
+import example.springdata.solr.product.ProductRepository;
+
 import javax.annotation.PreDestroy;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
-
-import example.springdata.solr.product.ProductRepository;
 
 /**
  * {@link Configuration} class enabling schema support for solr.<br />
@@ -34,22 +35,20 @@ import example.springdata.solr.product.ProductRepository;
  * 
  * @author Christoph Strobl
  */
-@Configuration
+@SpringBootApplication
 @EnableSolrRepositories(schemaCreationSupport = true, multicoreSupport = true)
 public class SolrTestConfiguration {
 
 	@Autowired ProductRepository repo;
 
-	@Bean
-	public SolrClient solrServer() {
+	public @Bean SolrClient solrServer() {
 		return new HttpSolrClient("http://localhost:8983/solr");
 	}
 
 	/**
 	 * Remove test data when context is shut down.
 	 */
-	@PreDestroy
-	public void deleteDocumentsOnShutdown() {
+	public @PreDestroy void deleteDocumentsOnShutdown() {
 		repo.deleteAll();
 	}
 }

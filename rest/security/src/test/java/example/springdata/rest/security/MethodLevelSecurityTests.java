@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,15 @@ package example.springdata.rest.security;
 
 import static org.junit.Assert.*;
 
-import example.springdata.rest.security.Application;
-import example.springdata.rest.security.Item;
-import example.springdata.rest.security.ItemRepository;
-import example.springdata.rest.security.SecurityConfiguration;
-import example.springdata.rest.security.SecurityUtils;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Collection of test cases used to verify method-level security.
@@ -39,8 +33,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Greg Turnquist
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { Application.class, SecurityConfiguration.class })
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class MethodLevelSecurityTests {
 
 	@Autowired ItemRepository itemRepository;

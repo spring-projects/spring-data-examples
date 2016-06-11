@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,26 +18,26 @@ package example.springdata.multistore;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import example.springdata.multistore.customer.Customer;
+import example.springdata.multistore.shop.Order;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.repository.support.Repositories;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.multistore.customer.Customer;
-import example.springdata.multistore.shop.Order;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test to check repository interfaces are assigned to the correct store modules.
  * 
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class ApplicationConfigurationTest {
 
 	@Autowired ApplicationContext context;

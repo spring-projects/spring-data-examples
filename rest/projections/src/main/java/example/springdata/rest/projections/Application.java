@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Oliver Gierke
  */
-@EnableAutoConfiguration
+@SpringBootApplication
 public class Application {
 
 	@Autowired CustomerRepository customers;
@@ -38,8 +38,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@PostConstruct
-	public void init() {
+	public @PostConstruct void init() {
 
 		Customer dave = customers.save(new Customer("Dave", "Matthews", Gender.MALE, //
 				new Address("4711 Some Place", "54321", "Charlottesville", "VA")));

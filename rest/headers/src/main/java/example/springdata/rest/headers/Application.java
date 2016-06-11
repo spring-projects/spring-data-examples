@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,8 +38,7 @@ public class Application {
 
 	@Autowired CustomerRepository customers;
 
-	@PostConstruct
-	public void init() {
+	public @PostConstruct void init() {
 		customers.save(new Customer("Dave", "Matthews", Gender.MALE, //
 				new Address("4711 Some Place", "54321", "Charlottesville", "VA")));
 	}

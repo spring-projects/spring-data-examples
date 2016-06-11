@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,7 @@
  */
 package example.springdata.multistore;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.mongodb.MongoClient;
 
@@ -28,9 +25,5 @@ import com.mongodb.MongoClient;
  * 
  * @author Oliver Gierke
  */
-@Configuration
-@EnableAutoConfiguration
-// TODO: Remove explicit activation once Spring Boot has a more lenient repository detection
-@EnableJpaRepositories
-@EnableMongoRepositories
+@SpringBootApplication
 public class ApplicationConfiguration {}

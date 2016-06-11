@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  */
 package example.springdata.jpa.security;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.query.spi.EvaluationContextExtension;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 
@@ -25,8 +24,7 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-@Configuration
-@EnableAutoConfiguration
+@SpringBootApplication
 class SecurityConfiguration {
 
 	@Bean

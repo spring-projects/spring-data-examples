@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package example.springdata.redis.commands;
 
+import example.springdata.redis.test.util.RequiresRedisServer;
+
 import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
@@ -24,25 +26,22 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.redis.RedisTestConfiguration;
-import example.springdata.redis.test.util.RequiresRedisServer;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Show usage of operations on redis keys using low level API provided by {@link RedisConnection}.
  * 
  * @author Christoph Strobl
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { RedisTestConfiguration.class })
+@RunWith(SpringRunner.class)
+@SpringBootApplication
 public class KeyOperationsTests {
 
 	// we only want to run this tests when redis is up an running

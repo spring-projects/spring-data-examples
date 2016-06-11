@@ -25,10 +25,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,9 +38,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  */
 @SuppressWarnings("unused")
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @Transactional
-@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
+@SpringBootTest
 public class UserRepositoryIntegrationTests {
 
 	@Autowired UserRepository repository;

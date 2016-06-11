@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
  */
 package example.springdata.mongodb.customer;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.mongodb.MongoClient;
 
@@ -26,6 +25,5 @@ import com.mongodb.MongoClient;
  * 
  * @author Oliver Gierke
  */
-@Configuration
-@EnableAutoConfiguration
+@SpringBootApplication
 class ApplicationConfiguration {}

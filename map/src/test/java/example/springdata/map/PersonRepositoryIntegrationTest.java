@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,29 +18,26 @@ package example.springdata.map;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import example.springdata.map.Person;
-import example.springdata.map.PersonRepository;
-
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.map.repository.config.EnableMapRepositories;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests for {@link PersonRepository}.
  * 
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class PersonRepositoryIntegrationTest {
 
-	@Configuration
+	@SpringBootApplication
 	@EnableMapRepositories
 	static class Config {}
 

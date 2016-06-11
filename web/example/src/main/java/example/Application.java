@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  */
 package example;
 
+import example.users.Password;
+import example.users.UserManagement;
+import example.users.Username;
+
 import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
@@ -28,10 +32,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import example.users.Password;
-import example.users.UserManagement;
-import example.users.Username;
 
 /**
  * Central Spring Boot application class to bootstrap the application. Excludes Spring Security auto-configuration as we
