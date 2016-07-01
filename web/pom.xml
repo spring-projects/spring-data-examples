@@ -18,6 +18,7 @@
 	<modules>
 	    <module>example</module>
 		<module>querydsl</module>
+		<module>projection</module>
 	</modules>
 
 	<dependencies>
