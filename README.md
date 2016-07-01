@@ -53,6 +53,7 @@ We have separate folders for the samples of individual modules:
 
 * `web` - Example for Spring Data web integration (binding `Pageable` instances to Spring MVC controller methods, using interfaces to bind Spring MVCrequest payloads).
 * `querydsl` - Example for Spring Data Querydsl web integration (creating a `Predicate` from web requests).
+* `projections` - Example for Spring Data web support for JSONPath and XPath expressions on projection interfaces.
 
 ## Miscellaneous
 
