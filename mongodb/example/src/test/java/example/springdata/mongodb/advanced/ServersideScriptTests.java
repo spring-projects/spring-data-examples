@@ -104,7 +104,7 @@ public class ServersideScriptTests {
 		operations.getConverter().write(customer, dbo);
 
 		String scriptString = String.format(
-				"object  =  db.%1$s.findOne('{\"_id\": \"%2$s\"}'); if (object == null) { db.%1s.insert(%3$s); return null; } else { return object; }",
+				"object  =  db.%1$s.findOne({\"_id\": \"%2$s\"}); if (object == null) { db.%1s.insert(%3$s); return null; } else { return object; }",
 				collectionName, id, dbo);
 
 		return new ExecutableMongoScript(scriptString);

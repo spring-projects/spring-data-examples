@@ -30,7 +30,6 @@
 
 	<properties>
 		<hibernate.version>5.2.1.Final</hibernate.version>
-		<spring.version>4.3.0.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
