@@ -75,7 +75,7 @@ class UserController {
 	 * Registers a new {@link User} for the data provided by the given {@link UserForm}. Note, how an interface is used to
 	 * bind request parameters.
 	 * 
-	 * @param form the request data bound to the {@link UserForm} instance.
+	 * @param userForm the request data bound to the {@link UserForm} instance.
 	 * @param binding the result of the binding operation.
 	 * @param model the Spring MVC {@link Model}.
 	 * @return
