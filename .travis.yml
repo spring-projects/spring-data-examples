@@ -5,6 +5,7 @@ jdk:
 
 services:
   - redis-server
+  - cassandra
 
 cache:
   directories:

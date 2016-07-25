@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>spring-data-cassandra-examples</artifactId>
@@ -17,7 +17,9 @@
 	<inceptionYear>2014</inceptionYear>
 
 	<modules>
+		<module>util</module>
 		<module>example</module>
+		<module>java8</module>
 	</modules>
 
 	<dependencies>
@@ -27,9 +29,14 @@
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 
-  		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-cassandra</artifactId>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-cassandra</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.datastax.cassandra</groupId>
+			<artifactId>cassandra-driver-core</artifactId>
 		</dependency>
 
 		<dependency>

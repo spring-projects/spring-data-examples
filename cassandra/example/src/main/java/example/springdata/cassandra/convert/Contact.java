@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,33 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.cassandra;
+package example.springdata.cassandra.convert;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import org.springframework.data.cassandra.mapping.Column;
-import org.springframework.data.cassandra.mapping.PrimaryKey;
-import org.springframework.data.cassandra.mapping.Table;
-
 /**
- * Sample user class.
+ * Sample Contact class.
  * 
- * @author Oliver Gierke
- * @author Thomas Darimont
+ * @author Mark Paluch
  */
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-@Table(value = "users")
-public class User {
+public class Contact {
 
-	@PrimaryKey("user_id") private Long id;
-
-	@Column("uname") private String username;
-	@Column("fname") private String firstname;
-	@Column("lname") private String lastname;
-
-	public User(Long id) {
-		this.setId(id);
-	}
+	String firstname;
+	String lastname;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.cassandra;
+package example.springdata.cassandra.convert;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.mapping.Table;
+
+import lombok.Data;
+
+import java.util.List;
 
 /**
- * Simple repository interface for {@link User} instances. The interface is used to declare so called query methods,
- * methods to retrieve single entities or collections of them.
+ * Sample Addressbook class.
  * 
- * @author Thomas Darimont
+ * @author Mark Paluch
  */
-public interface SimpleUserRepository extends CrudRepository<User, Long> {}
+@Data
+@Table
+public class Addressbook {
+
+	@Id String id;
+
+	Contact me;
+	List<Contact> friends;
+}

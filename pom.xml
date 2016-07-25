@@ -38,6 +38,7 @@
 		<spring-data-releasetrain.version>Ingalls-M1</spring-data-releasetrain.version>
 		<spring-hateoas.version>0.21.0.RELEASE</spring-hateoas.version>
 		<jedis.version>2.9.0</jedis.version>
+		<cassandra-driver.version>3.0.3</cassandra-driver.version>
 
 	</properties>
 
