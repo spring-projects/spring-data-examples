@@ -95,4 +95,13 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	 * @return
 	 */
 	Page<CustomerProjection> findPagedProjectedBy(Pageable pageable);
+
+	/**
+	 * A DTO projection using a constructor expression in a manually declared query.
+	 * 
+	 * @param firstname
+	 * @return
+	 */
+	@Query("select new example.springdata.jpa.projections.CustomerDto(c.firstname) from Customer c where c.firstname = ?1")
+	Collection<CustomerDto> findDtoWithConstructorExpression(String firstname);
 }

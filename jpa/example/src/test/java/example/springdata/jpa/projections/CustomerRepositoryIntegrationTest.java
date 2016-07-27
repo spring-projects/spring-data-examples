@@ -118,6 +118,15 @@ public class CustomerRepositoryIntegrationTest {
 	}
 
 	@Test
+	public void projectsDtoUsingConstructorExpression() {
+
+		Collection<CustomerDto> result = customers.findDtoWithConstructorExpression("Dave");
+
+		assertThat(result, hasSize(1));
+		assertThat(result.iterator().next().getFirstname(), is("Dave"));
+	}
+
+	@Test
 	public void supportsProjectionInCombinationWithPagination() {
 
 		Page<CustomerProjection> page = customers
