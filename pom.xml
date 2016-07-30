@@ -42,6 +42,15 @@
 
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>spring5</id>
+			<properties>
+				<spring.version>5.0.0.M1</spring.version>
+			</properties>
+		</profile>
+	</profiles>
+
 	<developers>
 		<developer>
 			<id>ogierke</id>
