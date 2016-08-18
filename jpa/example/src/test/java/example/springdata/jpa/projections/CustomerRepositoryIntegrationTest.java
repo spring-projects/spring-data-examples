@@ -134,4 +134,9 @@ public class CustomerRepositoryIntegrationTest {
 
 		assertThat(page.getContent().get(0).getFirstname(), is("Carter"));
 	}
+
+	@Test
+	public void appliesProjectionToOptional() {
+		assertThat(customers.findOptionalProjectionByLastname("Beauford").isPresent(), is(true));
+	}
 }

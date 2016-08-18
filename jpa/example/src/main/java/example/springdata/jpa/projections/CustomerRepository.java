@@ -16,6 +16,7 @@
 package example.springdata.jpa.projections;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -104,4 +105,12 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	 */
 	@Query("select new example.springdata.jpa.projections.CustomerDto(c.firstname) from Customer c where c.firstname = ?1")
 	Collection<CustomerDto> findDtoWithConstructorExpression(String firstname);
+
+	/**
+	 * A projection wrapped into an {@link Optional}.
+	 * 
+	 * @param lastname
+	 * @return
+	 */
+	Optional<CustomerProjection> findOptionalProjectionByLastname(String lastname);
 }
