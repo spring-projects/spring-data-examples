@@ -47,6 +47,7 @@
 			<id>spring5</id>
 			<properties>
 				<spring.version>5.0.0.M2</spring.version>
+				<spring-hateoas.version>0.21.0.RELEASE</spring-hateoas.version>
 			</properties>
 		</profile>
 	</profiles>
