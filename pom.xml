@@ -46,7 +46,7 @@
 		<profile>
 			<id>spring5</id>
 			<properties>
-				<spring.version>5.0.0.M1</spring.version>
+				<spring.version>5.0.0.M2</spring.version>
 			</properties>
 		</profile>
 	</profiles>
