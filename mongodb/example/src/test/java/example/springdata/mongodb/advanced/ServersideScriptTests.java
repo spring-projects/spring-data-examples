@@ -23,18 +23,17 @@ import example.springdata.mongodb.customer.Customer;
 
 import java.util.Map;
 
+import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.script.ExecutableMongoScript;
 import org.springframework.data.mongodb.core.script.NamedMongoScript;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 /**
  * @author Christoph Strobl
@@ -55,7 +54,7 @@ public class ServersideScriptTests {
 		}
 
 		// just make sure we remove everything properly
-		operations.getCollection("system.js").remove(new BasicDBObject());
+		operations.remove(new Query(), "system.js");
 		repository.deleteAll();
 	}
 
@@ -100,12 +99,12 @@ public class ServersideScriptTests {
 		Object id = operations.getConverter().getMappingContext().getPersistentEntity(Customer.class)
 				.getIdentifierAccessor(customer).getIdentifier();
 
-		DBObject dbo = new BasicDBObject();
-		operations.getConverter().write(customer, dbo);
+		Document document = new Document();
+		operations.getConverter().write(customer, document);
 
 		String scriptString = String.format(
 				"object  =  db.%1$s.findOne({\"_id\": \"%2$s\"}); if (object == null) { db.%1s.insert(%3$s); return null; } else { return object; }",
-				collectionName, id, dbo);
+				collectionName, id, document.toJson());
 
 		return new ExecutableMongoScript(scriptString);
 	}

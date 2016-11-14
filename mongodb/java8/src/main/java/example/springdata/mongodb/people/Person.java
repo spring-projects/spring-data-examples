@@ -19,6 +19,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * An entity to represent a Person.
@@ -26,6 +27,7 @@ import org.springframework.data.annotation.Id;
  * @author Thomas Darimont
  */
 @Data
+@Document
 @RequiredArgsConstructor
 public class Person {
 

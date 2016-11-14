@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import example.springdata.mongodb.customer.Customer;
 
+import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,10 +30,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Meta;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 /**
  * @author Christoph Strobl
@@ -72,15 +69,13 @@ public class AdvancedIntegrationTests {
 		// execute another finder without meta attributes that should not be picked up
 		repository.findByLastname(dave.getLastname(), new Sort("firstname"));
 
-		DBCursor cursor = operations.getCollection(ApplicationConfiguration.SYSTEM_PROFILE_DB)
-				.find(new BasicDBObject("query.$comment", AdvancedRepository.META_COMMENT));
+		Iterable<Document> cursor = operations.getCollection(ApplicationConfiguration.SYSTEM_PROFILE_DB)
+				.find(new Document("query.$comment", AdvancedRepository.META_COMMENT));
 
-		while (cursor.hasNext()) {
+		cursor.forEach(it -> {
 
-			DBObject dbo = cursor.next();
-			DBObject query = (DBObject) dbo.get("query");
-
-			assertThat(query.containsField("$comment"), is(true));
-		}
+			Document query = (Document) it.get("query");
+			assertThat(query.containsKey("$comment"), is(true));
+		});
 	}
 }
