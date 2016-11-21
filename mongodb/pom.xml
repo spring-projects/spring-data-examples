@@ -24,6 +24,7 @@
 		<module>security</module>
 		<module>geo-json</module>
 		<module>query-by-example</module>
+		<module>reactive</module>
 	</modules>
 
 	<dependencies>

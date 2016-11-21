@@ -15,4 +15,4 @@ sudo: false
 
 install: true
 
-script: "mvn clean dependency:list test -Dsort"
+script: "mvn clean dependency:list test -Dsort -Dmaven.test.redirectTestOutputToFile=true -B"
