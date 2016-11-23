@@ -34,7 +34,11 @@ import org.springframework.data.cassandra.mapping.Table;
 @Table
 public class Person {
 
-	@PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordinal = 2) private String firstname;
-	@PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1) private String lastname;
+	@PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordinal = 2) //
+	private String firstname;
+
+	@PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1) //
+	private String lastname;
+
 	private int age;
 }
