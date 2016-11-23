@@ -12,7 +12,7 @@
 	<name>Spring Data Cassandra - Reactive features</name>
 
 	<properties>
-		<spring-data-releasetrain.version>Kay-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+		<spring-data-releasetrain.version>Kay-M1</spring-data-releasetrain.version>
 		<spring.version>5.0.0.M3</spring.version>
 		<reactor.version>3.0.3.RELEASE</reactor.version>
 		<rxjava.version>1.2.1</rxjava.version>
