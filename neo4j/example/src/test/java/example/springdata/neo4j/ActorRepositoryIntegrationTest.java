@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
+import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,18 +39,27 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration
+@SpringBootTest
 @Transactional
 public class ActorRepositoryIntegrationTest {
 
 	@Configuration
 	@EnableTransactionManagement
 	@EnableNeo4jRepositories
-	static class ExampleConfig extends Neo4jConfiguration {
+	static class ExampleConfig {
 
-		@Override
-		public SessionFactory getSessionFactory() {
-			return new SessionFactory("example.springdata.neo4j");
+		@Bean
+		SessionFactory getSessionFactory() {
+
+			org.neo4j.ogm.config.Configuration configuration = new org.neo4j.ogm.config.Configuration();
+			configuration.driverConfiguration().setDriverClassName(EmbeddedDriver.class.getName());
+
+			return new SessionFactory(configuration, "example.springdata.neo4j");
+		}
+
+		@Bean
+		Neo4jTransactionManager transactionManager(SessionFactory factory) {
+			return new Neo4jTransactionManager(factory);
 		}
 	}
 
