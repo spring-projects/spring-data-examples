@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,6 +105,16 @@ public class Java8IntegrationTests {
 		try (Stream<Customer> stream = repository.findAllByLastnameIsNotNull()) {
 			assertThat(stream.collect(Collectors.toList()), hasItems(customer1, customer2));
 		}
+	}
+
+	/**
+	 * Query methods using streaming need to be used inside a surrounding transaction to keep the connection open while
+	 * the stream is consumed. We simulate that not being the case by actively disabling the transaction here.
+	 */
+	@Test(expected = InvalidDataAccessApiUsageException.class)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public void rejectsStreamExecutionIfNoSurroundingTransactionActive() {
+		repository.findAllByLastnameIsNotNull();
 	}
 
 	/**
