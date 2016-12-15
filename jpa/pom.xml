@@ -30,7 +30,7 @@
 	</modules>
 
 	<properties>
-		<hibernate.version>5.2.1.Final</hibernate.version>
+		<hibernate.version>5.2.5.Final</hibernate.version>
 	</properties>
 
 	<dependencies>

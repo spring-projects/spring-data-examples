@@ -8,6 +8,7 @@
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-jpa-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>spring-data-jpa-eclipselink</artifactId>
@@ -15,7 +16,7 @@
 	<name>Spring Data JPA - EclipseLink setup example</name>
 
 	<properties>
-		<eclipselink.version>2.6.0</eclipselink.version>
+		<eclipselink.version>2.6.4</eclipselink.version>
 	</properties>
 
 	<dependencies>
