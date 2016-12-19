@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Simple integration test demonstrating the use of the ActorRepository
- * 
+ *
  * @author Luanne Misquitta
  * @author Oliver Gierke
  */
@@ -78,7 +78,7 @@ public class ActorRepositoryIntegrationTest {
 
 		actorRepository.save(daniel); // saves the actor and the movie
 
-		Actor actor = actorRepository.findOne(daniel.getId());
+		Actor actor = actorRepository.findOne(daniel.getUuid());
 
 		assertThat(actor, is(notNullValue()));
 		assertThat(actor.getName(), is(daniel.getName()));

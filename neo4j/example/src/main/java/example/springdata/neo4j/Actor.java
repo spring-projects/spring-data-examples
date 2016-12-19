@@ -23,16 +23,21 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.typeconversion.Convert;
+import org.neo4j.ogm.typeconversion.UuidStringConverter;
 
 /**
  * An Actor node entity.
  *
  * @author Luanne Misquitta
  * @author Oliver Gierke
+ * @author Mark Angrish
  */
 @NodeEntity(label = "Actor")
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
@@ -41,8 +46,15 @@ import org.neo4j.ogm.annotation.Relationship;
 public class Actor {
 
 	private @GraphId Long id;
+
+	@Convert(UuidStringConverter.class)
+	@Index(unique = true, primary = true)
+	private UUID uuid = UUID.randomUUID();
+
 	private final String name;
-	private final @Relationship(type = "ACTED_IN") Set<Role> roles = new HashSet<>();
+
+	@Relationship(type = "ACTED_IN")
+	private final  Set<Role> roles = new HashSet<>();
 
 	public void actedIn(Movie movie, String roleName) {
 
