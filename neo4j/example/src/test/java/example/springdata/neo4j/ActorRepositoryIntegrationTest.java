@@ -78,7 +78,8 @@ public class ActorRepositoryIntegrationTest {
 
 		actorRepository.save(daniel); // saves the actor and the movie
 
-		Actor actor = actorRepository.findOne(daniel.getUuid());
+		// Look up the actor by the primary index.
+		Actor actor = actorRepository.findOne(daniel.getId());
 
 		assertThat(actor, is(notNullValue()));
 		assertThat(actor.getName(), is(daniel.getName()));

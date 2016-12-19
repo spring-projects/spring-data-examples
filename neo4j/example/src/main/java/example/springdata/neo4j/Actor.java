@@ -16,24 +16,23 @@
 
 package example.springdata.neo4j;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.typeconversion.Convert;
-import org.neo4j.ogm.typeconversion.UuidStringConverter;
 
 /**
  * An Actor node entity.
+ * Defining a node entity without the <code>label</code> attribute will result in a label
+ * of "Actor" anyway. We use it explicitly here to show you how to change that.
  *
  * @author Luanne Misquitta
  * @author Oliver Gierke
@@ -42,19 +41,30 @@ import org.neo4j.ogm.typeconversion.UuidStringConverter;
 @NodeEntity(label = "Actor")
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
-@Getter
 public class Actor {
 
-	private @GraphId Long id;
+	/**
+	 * All domain objects currently require a field defined with `@GraphId`.
+	 * It is an internal identifier used by Neo4j. It is not guaranteed to be the same value
+	 * across database restarts and hence it is not recommended  be used as a unique identifier.
+	 */
+	private @GraphId Long graphId;
 
-	@Convert(UuidStringConverter.class)
+	/**
+	 * Marking a field with an Index that is both <code>unique</code> and <code>primary</code> will
+	 * allow this field to be used as a "primary" identifier. Only one primary identifier may exist in
+	 * a hierarchy.
+	 */
+	@Getter
 	@Index(unique = true, primary = true)
-	private UUID uuid = UUID.randomUUID();
+	private String id = UUID.randomUUID().toString();
 
+	@Getter
 	private final String name;
 
+	@Getter
 	@Relationship(type = "ACTED_IN")
-	private final  Set<Role> roles = new HashSet<>();
+	private final Set<Role> roles = new HashSet<>();
 
 	public void actedIn(Movie movie, String roleName) {
 

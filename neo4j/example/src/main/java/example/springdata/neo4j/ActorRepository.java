@@ -15,15 +15,15 @@
  */
 package example.springdata.neo4j;
 
-import java.util.UUID;
 
-import org.springframework.data.neo4j.repository.GraphRepository;
-import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * {@link GraphRepository} for {@link Actor}s.
+ * A repository of {@link Actor}s.
  *
  * @author Luanne Misquitta
  * @author Mark Angrish
  */
-public interface ActorRepository extends Neo4jRepository<Actor, UUID> {}
+public interface ActorRepository extends CrudRepository<Actor, String> {
+
+}
