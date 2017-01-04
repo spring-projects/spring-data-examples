@@ -18,6 +18,8 @@ package example.springdata.cassandra.basic;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import example.springdata.cassandra.util.CassandraKeyspace;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,6 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.CassandraOperations;
@@ -40,18 +41,16 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 
-import example.springdata.cassandra.util.RequiresCassandraKeyspace;
-
 /**
  * Integration test showing the basic usage of {@link CassandraTemplate}.
  * 
  * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BasicConfiguration.CassandraConfig.class)
+@SpringBootTest(classes = BasicConfiguration.class)
 public class CassandraOperationsIntegrationTests {
 
-	@ClassRule public final static RequiresCassandraKeyspace CASSANDRA_KEYSPACE = RequiresCassandraKeyspace.onLocalhost();
+	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired CassandraOperations template;
 

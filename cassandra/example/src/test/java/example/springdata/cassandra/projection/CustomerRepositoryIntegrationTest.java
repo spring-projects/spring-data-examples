@@ -18,19 +18,18 @@ package example.springdata.cassandra.projection;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import example.springdata.cassandra.util.CassandraKeyspace;
+
 import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.projection.TargetAware;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import example.springdata.cassandra.util.RequiresCassandraKeyspace;
 
 /**
  * Integration tests for {@link CustomerRepository} to show projection capabilities.
@@ -41,7 +40,7 @@ import example.springdata.cassandra.util.RequiresCassandraKeyspace;
 @SpringBootTest(classes = ProjectionConfiguration.class)
 public class CustomerRepositoryIntegrationTest {
 
-	@ClassRule public final static RequiresCassandraKeyspace CASSANDRA_KEYSPACE = RequiresCassandraKeyspace.onLocalhost();
+	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired CustomerRepository customers;
 

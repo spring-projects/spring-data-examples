@@ -37,9 +37,6 @@ public interface ReactivePersonRepository extends ReactiveCrudRepository<Person,
 	Flux<Person> findByLastname(Mono<String> lastname);
 
 	Mono<Person> findByFirstnameAndLastname(Mono<String> firstname, String lastname);
-
-	@InfiniteStream // Use a tailable cursor
-	Flux<Person> findWithTailableCursorBy();
 }
 ```
 
@@ -55,25 +52,5 @@ public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, S
 	Observable<Person> findByLastname(Single<String> lastname);
 
 	Single<Person> findByFirstnameAndLastname(Single<String> firstname, String lastname);
-
-	@InfiniteStream // Use a tailable cursor
-	Observable<Person> findWithTailableCursorBy();
 }
 ```
-
-## Preparation
-
-### Install Cassandra
-
-Before we can start we have to install Cassandra, e.g. via brew on Max OS.
-
-More details can be found here: https://wiki.apache.org/cassandra/GettingStarted
-
-### Start Cassandra
-
-```
-/usr/local/bin/cassandra -f
-```
-
-That should be enough to get you started.
-Now you can simply type ```mvn clean install``` to run the example.

@@ -17,7 +17,7 @@ package example.springdata.cassandra.people;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.cassandra.util.RequiresCassandraKeyspace;
+import example.springdata.cassandra.util.CassandraKeyspace;
 import rx.Completable;
 import rx.Observable;
 import rx.Single;
@@ -45,7 +45,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class RxJava1PersonRepositoryIntegrationTest {
 
-	@ClassRule public final static RequiresCassandraKeyspace CASSANDRA_KEYSPACE = RequiresCassandraKeyspace.onLocalhost();
+	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired RxJava1PersonRepository repository;
 	@Autowired ReactiveCassandraOperations operations;

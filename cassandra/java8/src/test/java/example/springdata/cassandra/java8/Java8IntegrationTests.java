@@ -15,9 +15,10 @@
  */
 package example.springdata.cassandra.java8;
 
-import example.springdata.cassandra.util.RequiresCassandraKeyspace;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+
+import example.springdata.cassandra.util.CassandraKeyspace;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,8 +42,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = CassandraConfiguration.class)
 public class Java8IntegrationTests {
 
-	@ClassRule
-	public final static RequiresCassandraKeyspace CASSANDRA_KEYSPACE = RequiresCassandraKeyspace.onLocalhost().atLeast(Version.parse("3.0"));
+	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost()
+			.atLeast(Version.parse("3.0"));
 
 	@Autowired PersonRepository repository;
 

@@ -18,6 +18,8 @@ package example.springdata.cassandra.java8;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import example.springdata.cassandra.util.CassandraKeyspace;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -30,8 +32,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Version;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import example.springdata.cassandra.util.RequiresCassandraKeyspace;
-
 /**
  * Integration test to show the usage of JSR-310 date/time types with Spring Data Cassandra.
  * 
@@ -41,7 +41,7 @@ import example.springdata.cassandra.util.RequiresCassandraKeyspace;
 @SpringBootTest(classes = CassandraConfiguration.class)
 public class Jsr310IntegrationTests {
 
-	@ClassRule public final static RequiresCassandraKeyspace CASSANDRA_KEYSPACE = RequiresCassandraKeyspace.onLocalhost()
+	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost()
 			.atLeast(Version.parse("3.0"));
 
 	@Autowired OrderRepository repository;
