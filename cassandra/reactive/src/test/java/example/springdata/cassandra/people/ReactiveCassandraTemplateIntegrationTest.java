@@ -18,7 +18,7 @@ package example.springdata.cassandra.people;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.cassandra.util.RequiresCassandraKeyspace;
+import example.springdata.cassandra.util.CassandraKeyspace;
 import reactor.core.publisher.Flux;
 import rx.RxReactiveStreams;
 
@@ -42,7 +42,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class ReactiveCassandraTemplateIntegrationTest {
 
-	@ClassRule public final static RequiresCassandraKeyspace CASSANDRA_KEYSPACE = RequiresCassandraKeyspace.onLocalhost();
+	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired ReactiveCassandraTemplate template;
 

@@ -10,7 +10,6 @@ addons:
 
 services:
   - redis-server
-  - cassandra
 
 cache:
   directories:
