@@ -81,7 +81,7 @@ public class Java8IntegrationTests {
 		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
 		Person bart = repository.save(new Person("2", "Bart", "Simpson"));
 
-		try (Stream<Person> stream = repository.streamAllPeople()) {
+		try (Stream<Person> stream = repository.findAll()) {
 			assertThat(stream.collect(Collectors.toList()), hasItems(homer, bart));
 		}
 	}

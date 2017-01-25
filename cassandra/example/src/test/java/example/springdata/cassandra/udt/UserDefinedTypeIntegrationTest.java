@@ -17,7 +17,7 @@ package example.springdata.cassandra.udt;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.cassandra.util.RequiresCassandraKeyspace;
+import example.springdata.cassandra.util.CassandraKeyspace;
 
 import java.util.Collections;
 
@@ -42,12 +42,13 @@ import com.datastax.driver.core.UserType;
  * Integration test to show User-Defined type support.
  * 
  * @author Mark Paluch
+ * @author Oliver Gierke
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserDefinedTypeIntegrationTest {
 
-	@ClassRule public final static RequiresCassandraKeyspace CASSANDRA_KEYSPACE = RequiresCassandraKeyspace.onLocalhost();
+	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Configuration
 	static class Config extends AbstractCassandraConfiguration {

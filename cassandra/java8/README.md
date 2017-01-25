@@ -12,9 +12,8 @@ public interface PersonRepository extends CrudRepository<Person, String> {
   @Override
   List<Person> findAll();
 
-  //Custom Query method returning a Java 8 Stream
-  @Query("SELECT * FROM person")
-  Stream<Person> findAllByCustomQueryWithStream();
+  // Derived query method returning a Java 8 Stream
+  Stream<Person> findAll();
 }
 ```
 

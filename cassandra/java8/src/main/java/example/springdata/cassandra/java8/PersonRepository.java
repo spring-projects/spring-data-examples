@@ -37,8 +37,7 @@ public interface PersonRepository extends Repository<Person, String> {
 	 */
 	Optional<Person> findOne(String id);
 
-	@Query("select * from person")
-	Stream<Person> streamAllPeople();
+	Stream<Person> findAll();
 
 	/**
 	 * Sample method to derive a query from using JDK 8's {@link Optional} as return type.
