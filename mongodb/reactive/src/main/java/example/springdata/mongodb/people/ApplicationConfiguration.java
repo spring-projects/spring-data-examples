@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,16 @@
  */
 package example.springdata.mongodb.people;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
 import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
@@ -37,7 +41,10 @@ import com.mongodb.reactivestreams.client.MongoClients;
 @SpringBootApplication(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class })
 @EnableReactiveMongoRepositories
 @AutoConfigureAfter(EmbeddedMongoAutoConfiguration.class)
+@RequiredArgsConstructor
 class ApplicationConfiguration extends AbstractReactiveMongoConfiguration {
+
+	private final MongoProperties mongoProperties;
 
 	@Bean
 	public LoggingEventListener mongoEventListener() {
@@ -46,8 +53,9 @@ class ApplicationConfiguration extends AbstractReactiveMongoConfiguration {
 
 	@Override
 	@Bean
+	@DependsOn("embeddedMongoServer")
 	public MongoClient mongoClient() {
-		return MongoClients.create();
+		return MongoClients.create(String.format("mongodb://localhost:%d", mongoProperties.getPort()));
 	}
 
 	@Override
