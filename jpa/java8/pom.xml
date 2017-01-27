@@ -10,9 +10,6 @@
 
 	<artifactId>spring-data-jpa-java8</artifactId>
 	<name>Spring Data JPA - Java 8 specific features</name>
-	
-	<properties>
-		<spring-data-releasetrain.version>Ingalls-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
+
 
 </project>

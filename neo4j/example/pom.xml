@@ -6,11 +6,6 @@
 	<artifactId>spring-data-neo4j-example</artifactId>
 	<name>Spring Data Neo4j - Example</name>
 
-	<properties>
-		<neo4j-ogm.version>2.1.0</neo4j-ogm.version>
-		<spring-data-releasetrain.version>Ingalls-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
-
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-neo4j-examples</artifactId>

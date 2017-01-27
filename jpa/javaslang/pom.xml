@@ -10,10 +10,6 @@
 
 	<artifactId>spring-data-jpa-javaslang</artifactId>
 	<name>Spring Data JPA - Javaslang integration</name>
-	
-	<properties>
-		<spring-data-releasetrain.version>Ingalls-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
 
 	<dependencies>
 		<dependency>
