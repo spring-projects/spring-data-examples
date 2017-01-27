@@ -21,9 +21,11 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 import lombok.Getter;
 import lombok.Value;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.assertj.core.util.Files;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +34,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
@@ -41,7 +43,6 @@ import org.springframework.data.mongodb.core.aggregation.BucketAutoOperation.Gra
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.StreamUtils;
 
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
@@ -50,6 +51,7 @@ import com.mongodb.util.JSON;
  * Examples for Spring Books using the MongoDB Aggregation Framework. Data originates from Google's Book search.
  *
  * @author Mark Paluch
+ * @author Oliver Gierke
  * @see <a href=
  *      "https://www.googleapis.com/books/v1/volumes?q=intitle:spring+framework">https://www.googleapis.com/books/v1/volumes?q=intitle:spring+framework</a>
  * @see <a href="/books.json>books.json</a>
@@ -58,17 +60,19 @@ import com.mongodb.util.JSON;
 @SpringBootTest
 public class SpringBooksIntegrationTests {
 
-	@Autowired MongoTemplate mongoTemplate;
+	@Autowired MongoOperations operations;
 
 	@SuppressWarnings("unchecked")
 	@Before
 	public void before() throws Exception {
 
-		if (mongoTemplate.count(new Query(), "books") == 0) {
-			List<Object> books = (List) JSON.parse(
-					StreamUtils.copyToString(new ClassPathResource("books.json").getInputStream(), StandardCharsets.UTF_8));
+		if (operations.count(new Query(), "books") == 0) {
 
-			mongoTemplate.insert(books, "books");
+			File file = new ClassPathResource("books.json").getFile();
+			String content = Files.contentOf(file, StandardCharsets.UTF_8);
+			List<Object> books = (List<Object>) JSON.parse(content);
+
+			operations.insert(books, "books");
 		}
 	}
 
@@ -82,9 +86,10 @@ public class SpringBooksIntegrationTests {
 				sort(Direction.ASC, "volumeInfo.title"), //
 				project().and("volumeInfo.title").as("title"));
 
-		AggregationResults<BookTitle> result = mongoTemplate.aggregate(aggregation, "books", BookTitle.class);
+		AggregationResults<BookTitle> result = operations.aggregate(aggregation, "books", BookTitle.class);
 
-		assertThat(result.getMappedResults()).extracting("title")
+		assertThat(result.getMappedResults())//
+				.extracting("title")//
 				.containsSequence("Aprende a Desarrollar con Spring Framework", "Beginning Spring", "Beginning Spring 2");
 	}
 
@@ -100,8 +105,7 @@ public class SpringBooksIntegrationTests {
 				sort(Direction.DESC, "count"), //
 				project("count").and("_id").as("publisher"));
 
-		AggregationResults<BooksPerPublisher> result = mongoTemplate.aggregate(aggregation, "books",
-				BooksPerPublisher.class);
+		AggregationResults<BooksPerPublisher> result = operations.aggregate(aggregation, "books", BooksPerPublisher.class);
 
 		assertThat(result).hasSize(27);
 		assertThat(result).extracting("publisher").containsSequence("Apress", "Packt Publishing Ltd");
@@ -121,8 +125,7 @@ public class SpringBooksIntegrationTests {
 				sort(Direction.DESC, "count"), //
 				project("count", "titles").and("_id").as("publisher"));
 
-		AggregationResults<BooksPerPublisher> result = mongoTemplate.aggregate(aggregation, "books",
-				BooksPerPublisher.class);
+		AggregationResults<BooksPerPublisher> result = operations.aggregate(aggregation, "books", BooksPerPublisher.class);
 
 		BooksPerPublisher booksPerPublisher = result.getMappedResults().get(0);
 
@@ -143,7 +146,7 @@ public class SpringBooksIntegrationTests {
 				project("title", "authors"), //
 				sort(Direction.ASC, "title"));
 
-		AggregationResults<BookAndAuthors> result = mongoTemplate.aggregate(aggregation, "books", BookAndAuthors.class);
+		AggregationResults<BookAndAuthors> result = operations.aggregate(aggregation, "books", BookAndAuthors.class);
 
 		BookAndAuthors bookAndAuthors = result.getMappedResults().get(1);
 
@@ -171,7 +174,7 @@ public class SpringBooksIntegrationTests {
 						.sum("pagesPerAuthor").as("approxWritten"), //
 				sort(Direction.DESC, "totalPageCount"));
 
-		AggregationResults<PagesPerAuthor> result = mongoTemplate.aggregate(aggregation, "books", PagesPerAuthor.class);
+		AggregationResults<PagesPerAuthor> result = operations.aggregate(aggregation, "books", PagesPerAuthor.class);
 
 		PagesPerAuthor pagesPerAuthor = result.getMappedResults().get(0);
 
@@ -194,7 +197,7 @@ public class SpringBooksIntegrationTests {
 						.andOutput("title").push().as("titles") //
 						.andOutput("titles").count().as("count"));
 
-		AggregationResults<BookFacetPerPage> result = mongoTemplate.aggregate(aggregation, "books", BookFacetPerPage.class);
+		AggregationResults<BookFacetPerPage> result = operations.aggregate(aggregation, "books", BookFacetPerPage.class);
 
 		List<BookFacetPerPage> mappedResults = result.getMappedResults();
 
@@ -215,6 +218,7 @@ public class SpringBooksIntegrationTests {
 	 * author name.
 	 */
 	@Test
+	@SuppressWarnings("unchecked")
 	public void shouldCategorizeInMultipleFacetsByPriceAndAuthor() {
 
 		Aggregation aggregation = newAggregation( //
@@ -236,12 +240,12 @@ public class SpringBooksIntegrationTests {
 										.andOutput("author").push().as("authors") //
 						).as("authors"));
 
-		AggregationResults<DBObject> result = mongoTemplate.aggregate(aggregation, "books", DBObject.class);
+		AggregationResults<DBObject> result = operations.aggregate(aggregation, "books", DBObject.class);
 
 		DBObject uniqueMappedResult = result.getUniqueMappedResult();
 
-		assertThat((List) uniqueMappedResult.get("prices")).hasSize(3);
-		assertThat((List) uniqueMappedResult.get("authors")).hasSize(8);
+		assertThat((List<Object>) uniqueMappedResult.get("prices")).hasSize(3);
+		assertThat((List<Object>) uniqueMappedResult.get("authors")).hasSize(8);
 	}
 
 	@Value
