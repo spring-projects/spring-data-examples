@@ -28,6 +28,7 @@
 		<module>web</module>
 		<module>bom</module>
 		<module>neo4j</module>
+		<module>ldap</module>
 	</modules>
 
 	<properties>
