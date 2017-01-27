@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,7 @@
  */
 package example.springdata.redis.repositories;
 
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.*;
-import static org.hamcrest.core.Is.*;
-import static org.hamcrest.core.IsCollectionContaining.*;
-import static org.hamcrest.core.IsNot.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import example.springdata.redis.test.util.EmbeddedRedisServer;
@@ -39,14 +36,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.geo.Circle;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.index.GeoIndexed;
 import org.springframework.data.redis.core.index.Indexed;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ApplicationConfiguration.class)
@@ -183,6 +186,41 @@ public class PersonRepositoryTests<K, V> {
 	}
 
 	/**
+	 * Find entity by a {@link GeoIndexed} property on an embedded entity.
+	 */
+	@Test
+	public void findByGeoLocationProperty() {
+
+		Address winterfell = new Address();
+		winterfell.setCountry("the north");
+		winterfell.setCity("winterfell");
+		winterfell.setLocation(new Point(52.9541053, -1.2401016));
+
+		eddard.setAddress(winterfell);
+
+		Address casterlystein = new Address();
+		casterlystein.setCountry("Westerland");
+		casterlystein.setCity("Casterlystein");
+		casterlystein.setLocation(new Point(51.5287352, -0.3817819));
+
+		robb.setAddress(casterlystein);
+
+		flushTestUsers();
+
+		Circle innerCircle = new Circle(new Point(51.8911912, -0.4979756), new Distance(50, Metrics.KILOMETERS));
+		List<Person> eddardStark = repository.findByAddress_LocationWithin(innerCircle);
+
+		assertThat(eddardStark, hasItem(robb));
+		assertThat(eddardStark, hasSize(1));
+
+		Circle biggerCircle = new Circle(new Point(51.8911912, -0.4979756), new Distance(200, Metrics.KILOMETERS));
+		List<Person> eddardAndRobbStark = repository.findByAddress_LocationWithin(biggerCircle);
+
+		assertThat(eddardAndRobbStark, hasItems(robb, eddard));
+		assertThat(eddardAndRobbStark, hasSize(2));
+	}
+
+	/**
 	 * Store references to other entites without embedding all data. <br />
 	 * Print out the hash structure within Redis.
 	 */
@@ -200,9 +238,9 @@ public class PersonRepositoryTests<K, V> {
 
 		/*
 		 * Deceased:
-		 *  
+		 *
 		 * - Robb was killed by Roose Bolton during the Red Wedding.
-		 * - Jon was stabbed by brothers or the Night's Watch. 
+		 * - Jon was stabbed by brothers or the Night's Watch.
 		 */
 		repository.delete(Arrays.asList(robb, jon));
 
