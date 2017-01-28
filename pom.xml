@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>jpa</module>
+		<module>ldap</module>
 		<module>map</module>
 		<module>mongodb</module>
 		<module>multi-store</module>
