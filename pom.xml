@@ -16,20 +16,19 @@
 	</parent>
 
 	<modules>
+		<module>bom</module>
+		<module>cassandra</module>
+		<module>elasticsearch</module>
 		<module>jpa</module>
 		<module>ldap</module>
 		<module>map</module>
 		<module>mongodb</module>
 		<module>multi-store</module>
+		<module>neo4j</module>
 		<module>rest</module>
 		<module>redis</module>
 		<module>solr</module>
-		<module>cassandra</module>
-		<module>elasticsearch</module>
 		<module>web</module>
-		<module>bom</module>
-		<module>neo4j</module>
-		<module>ldap</module>
 	</modules>
 
 	<properties>
