@@ -9,12 +9,12 @@
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<name>Spring Data LDAP - Examples</name>
 	<description>Sample projects for Spring Data LDAP</description>
 	<url>http://projects.spring.io/spring-data-ldap</url>
-	<inceptionYear>2016-2017</inceptionYear>
 
 	<modules>
 		<module>example</module>
@@ -25,11 +25,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-ldap</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>

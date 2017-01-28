@@ -33,13 +33,9 @@ import org.springframework.ldap.odm.annotations.Id;
 @Data
 public class Person {
 
-	@Id private Name id;
-
-	@DnAttribute(value = "uid", index = 3) private String uid;
-
-	@Attribute(name = "cn") private String fullName;
-
-	@Attribute(name = "sn") private String lastname;
-
+	private @Id Name id;
+	private @DnAttribute(value = "uid", index = 3) String uid;
+	private @Attribute(name = "cn") String fullName;
+	private @Attribute(name = "sn") String lastname;
 	private String userPassword;
 }
