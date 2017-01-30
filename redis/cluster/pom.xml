@@ -24,6 +24,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
+			<exclusions>
+				<!-- Boot 1.5 refers to that test scope dependency in compile scope -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-test-support</artifactId>
+				</exclusion>
+			</exclusions>
 			<optional>true</optional>
 		</dependency>
 
