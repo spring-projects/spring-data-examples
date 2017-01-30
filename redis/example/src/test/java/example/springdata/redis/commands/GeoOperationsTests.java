@@ -47,7 +47,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class GeoOperationsTests {
 
 	// we only want to run this tests when redis is up an running
-	public static @ClassRule RequiresRedisServer requiresServer = RequiresRedisServer.onLocalhost();
+	public static @ClassRule RequiresRedisServer requiresServer = RequiresRedisServer.onLocalhost().atLeast("3.2");
 
 	@Autowired RedisOperations<String, String> operations;
 	GeoOperations<String, String> geoOperations;

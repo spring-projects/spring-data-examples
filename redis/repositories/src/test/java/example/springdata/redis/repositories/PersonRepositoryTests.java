@@ -61,7 +61,8 @@ public class PersonRepositoryTests<K, V> {
 	 * 2) Ignore tests if startup failed and no server running locally.
 	 */
 	public static @ClassRule RuleChain rules = RuleChain
-			.outerRule(EmbeddedRedisServer.runningAt(6379).suppressExceptions()).around(RequiresRedisServer.onLocalhost());
+			.outerRule(EmbeddedRedisServer.runningAt(6379).suppressExceptions())
+			.around(RequiresRedisServer.onLocalhost().atLeast("3.2"));
 
 	/** {@link Charset} for String conversion **/
 	private static final Charset CHARSET = Charset.forName("UTF-8");
