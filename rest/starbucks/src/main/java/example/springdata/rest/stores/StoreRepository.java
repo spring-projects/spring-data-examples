@@ -15,6 +15,8 @@
  */
 package example.springdata.rest.stores;
 
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
@@ -32,7 +34,7 @@ import com.querydsl.core.types.dsl.StringPath;
  * 
  * @author Oliver Gierke
  */
-public interface StoreRepository extends PagingAndSortingRepository<Store, String>, QueryDslPredicateExecutor<Store> {
+public interface StoreRepository extends PagingAndSortingRepository<Store, UUID>, QueryDslPredicateExecutor<Store> {
 
 	@RestResource(rel = "by-location")
 	Page<Store> findByAddressLocationNear(Point location, Distance distance, Pageable pageable);
