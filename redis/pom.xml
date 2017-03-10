@@ -16,12 +16,12 @@
 	<description>Sample projects for Spring Data Redis</description>
 
 	<modules>
-	    <module>util</module>
-		<module>cluster-sentinel</module>
-		<module>example</module>
 		<module>cluster</module>
-		<module>repositories</module>
+		<module>example</module>
 		<module>reactive</module>
+		<module>repositories</module>
+		<module>sentinel</module>
+		<module>util</module>
 	</modules>
 
 	<dependencies>

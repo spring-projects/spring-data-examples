@@ -38,7 +38,7 @@ We have separate folders for the samples of individual modules:
 
 * `example` - Example for basic Spring Data Redis setup.
 * `cluster` - Example for Redis Cluster support.
-* `cluster-sentinel` - Example for Redis Sentinel support.
+* `sentinel` - Example for Redis Sentinel support.
 * `repository` - Example demonstrating Spring Data repository abstraction on top of Redis.
 
 ## Spring Data Elasticsearch
