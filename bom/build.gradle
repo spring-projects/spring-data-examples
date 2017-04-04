@@ -11,8 +11,8 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java'
 
 ext {
-	springVersion = '4.1.6.RELEASE'
-	springDataVersion = 'Fowler-RELEASE'
+	springVersion = '4.3.7.RELEASE'
+	springDataVersion = 'Ingalls-SR1'
 }
 
 repositories {
