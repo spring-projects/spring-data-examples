@@ -20,6 +20,7 @@
 		<module>cassandra</module>
 		<module>couchbase</module>
 		<module>elasticsearch</module>
+		<module>jdbc</module>
 		<module>jpa</module>
 		<module>ldap</module>
 		<module>map</module>
@@ -63,6 +64,11 @@
 			<id>mpaluch</id>
 			<name>Mark Paluch</name>
 			<email>mpaluch@pivotal.io</email>
+		</developer>
+		<developer>
+			<id>jschauder</id>
+			<name>Jens Schauder</name>
+			<email>jschauder@pivotal.io</email>
 		</developer>
 	</developers>
 
