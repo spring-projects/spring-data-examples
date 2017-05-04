@@ -15,8 +15,7 @@
  */
 package example.springdata.jpa.projections;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.Collection;
 import java.util.Map;
@@ -64,37 +63,35 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void projectsEntityIntoInterface() {
 
-		Collection<CustomerProjection> result = customers.findAllProjectedBy();
-
-		assertThat(result, hasSize(2));
-		assertThat(result.iterator().next().getFirstname(), is("Dave"));
+		assertThat(customers.findAllProjectedBy())//
+				.hasSize(2)//
+				.first().satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
 	}
 
 	@Test
 	public void projectsMapIntoInterface() {
 
-		Collection<CustomerProjection> result = customers.findsByProjectedColumns();
+		assertThat(customers.findsByProjectedColumns())//
+				.hasSize(2)//
+				.first().satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
 
-		assertThat(result, hasSize(2));
-		assertThat(result.iterator().next().getFirstname(), is("Dave"));
 	}
 
 	@Test
 	public void projectsToDto() {
 
-		Collection<CustomerDto> result = customers.findAllDtoedBy();
-
-		assertThat(result, hasSize(2));
-		assertThat(result.iterator().next().getFirstname(), is("Dave"));
+		assertThat(customers.findAllDtoedBy())//
+				.hasSize(2)//
+				.first().satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
 	}
 
 	@Test
 	public void projectsDynamically() {
 
-		Collection<CustomerProjection> result = customers.findByFirstname("Dave", CustomerProjection.class);
-
-		assertThat(result, hasSize(1));
-		assertThat(result.iterator().next().getFirstname(), is("Dave"));
+		assertThat(customers.findByFirstname("Dave", CustomerProjection.class))//
+				.hasSize(1)//
+				.first()//
+				.satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
 	}
 
 	@Test
@@ -102,10 +99,11 @@ public class CustomerRepositoryIntegrationTest {
 
 		CustomerSummary result = customers.findProjectedById(dave.getId(), CustomerSummary.class);
 
-		assertThat(result.getFullName(), is("Dave Matthews"));
+		assertThat(result.getFullName()).isEqualTo("Dave Matthews");
 
 		// Proxy backed by original instance as the projection uses dynamic elements
-		assertThat(((TargetAware) result).getTarget(), is(instanceOf(Customer.class)));
+		assertThat(result).isInstanceOfSatisfying(TargetAware.class,
+				it -> assertThat(it.getTarget()).isInstanceOf(Customer.class));
 	}
 
 	@Test
@@ -113,8 +111,9 @@ public class CustomerRepositoryIntegrationTest {
 
 		CustomerProjection projectedDave = customers.findProjectedById(dave.getId());
 
-		assertThat(projectedDave.getFirstname(), is("Dave"));
-		assertThat(((TargetAware) projectedDave).getTarget(), is(instanceOf(Map.class)));
+		assertThat(projectedDave.getFirstname()).isEqualTo("Dave");
+		assertThat(projectedDave).isInstanceOfSatisfying(TargetAware.class,
+				it -> assertThat(it.getTarget()).isInstanceOf(Map.class));
 	}
 
 	@Test
@@ -122,21 +121,21 @@ public class CustomerRepositoryIntegrationTest {
 
 		Collection<CustomerDto> result = customers.findDtoWithConstructorExpression("Dave");
 
-		assertThat(result, hasSize(1));
-		assertThat(result.iterator().next().getFirstname(), is("Dave"));
+		assertThat(result).hasSize(1);
+		assertThat(result.iterator().next().getFirstname()).isEqualTo("Dave");
 	}
 
 	@Test
 	public void supportsProjectionInCombinationWithPagination() {
 
 		Page<CustomerProjection> page = customers
-				.findPagedProjectedBy(new PageRequest(0, 1, new Sort(Direction.ASC, "lastname")));
+				.findPagedProjectedBy(PageRequest.of(0, 1, Sort.by(Direction.ASC, "lastname")));
 
-		assertThat(page.getContent().get(0).getFirstname(), is("Carter"));
+		assertThat(page.getContent().get(0).getFirstname()).isEqualTo("Carter");
 	}
 
 	@Test
 	public void appliesProjectionToOptional() {
-		assertThat(customers.findOptionalProjectionByLastname("Beauford").isPresent(), is(true));
+		assertThat(customers.findOptionalProjectionByLastname("Beauford")).isPresent();
 	}
 }

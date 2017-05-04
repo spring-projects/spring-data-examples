@@ -17,7 +17,7 @@ package example.springdata.mongodb.people;
 
 import static org.assertj.core.api.Assertions.*;
 
-import reactor.core.Cancellation;
+import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -55,7 +55,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 				.block();
 
 		repository
-				.save(Flux.just(new Person("Walter", "White", 50), //
+				.saveAll(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
 						new Person("Jesse", "Pinkman", 27))) //
@@ -74,12 +74,12 @@ public class ReactivePersonRepositoryIntegrationTest {
 
 		repository.count() //
 				.doOnNext(System.out::println) //
-				.thenMany(repository.save(Flux.just(new Person("Hank", "Schrader", 43), //
+				.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
 				.last() //
 				.flatMap(v -> repository.count()) //
 				.doOnNext(System.out::println) //
-				.doOnComplete(countDownLatch::countDown) //
+				.doOnSuccess(it -> countDownLatch.countDown()) //
 				.doOnError(throwable -> countDownLatch.countDown()) //
 				.subscribe();
 
@@ -109,7 +109,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	public void shouldStreamDataWithTailableCursor() throws Exception {
 
-		Cancellation cancellation = repository.findWithTailableCursorBy() //
+		Disposable disposable = repository.findWithTailableCursorBy() //
 				.doOnNext(System.out::println) //
 				.doOnComplete(() -> System.out.println("Complete")) //
 				.doOnTerminate(() -> System.out.println("Terminated")) //
@@ -123,7 +123,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 		repository.save(new Person("Mike", "Ehrmantraut", 62)).subscribe();
 		Thread.sleep(100);
 
-		cancellation.dispose();
+		disposable.dispose();
 
 		repository.save(new Person("Gus", "Fring", 53)).subscribe();
 		Thread.sleep(100);

@@ -15,8 +15,7 @@
  */
 package example.springdata.map;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class PersonRepositoryIntegrationTest {
 
 		Person person = repository.save(new Person("Dave", "Matthews", 47));
 
-		assertThat(repository.findOne(person.getId()), is(person));
+		assertThat(repository.findById(person.getId())).hasValue(person);
 	}
 
 	@Test
@@ -59,7 +58,7 @@ public class PersonRepositoryIntegrationTest {
 
 		List<Person> result = repository.findByAgeGreaterThan(18);
 
-		assertThat(result, hasItem(dave));
-		assertThat(result, not(hasItem(oliver)));
+		assertThat(result).contains(dave);
+		assertThat(result).doesNotContain(oliver);
 	}
 }

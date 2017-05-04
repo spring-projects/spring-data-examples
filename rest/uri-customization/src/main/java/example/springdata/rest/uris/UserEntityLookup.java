@@ -18,9 +18,8 @@ package example.springdata.rest.uris;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.io.Serializable;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.support.EntityLookup;
 import org.springframework.data.rest.core.support.EntityLookupSupport;
 
@@ -33,7 +32,7 @@ import org.springframework.data.rest.core.support.EntityLookupSupport;
  * @author Oliver Gierke
  * @see SpringDataRestCustomization#configureRepositoryRestConfiguration(org.springframework.data.rest.core.config.RepositoryRestConfiguration)
  */
-@RequiredArgsConstructor(onConstructor = @__(@Autowired) )
+@RequiredArgsConstructor
 public class UserEntityLookup extends EntityLookupSupport<User> {
 
 	private final @NonNull UserRepository repository;
@@ -43,16 +42,16 @@ public class UserEntityLookup extends EntityLookupSupport<User> {
 	 * @see org.springframework.data.rest.core.support.EntityLookup#getId(java.lang.Object)
 	 */
 	@Override
-	public Serializable getResourceIdentifier(User entity) {
+	public Object getResourceIdentifier(User entity) {
 		return entity.getUsername();
 	}
 
 	/* 
 	 * (non-Javadoc)
-	 * @see org.springframework.data.rest.core.support.EntityLookup#lookupEntity(java.io.Serializable)
+	 * @see org.springframework.data.rest.core.support.EntityLookup#lookupEntity(java.lang.Object)
 	 */
 	@Override
-	public Object lookupEntity(Serializable id) {
+	public Optional<User> lookupEntity(Object id) {
 		return repository.findByUsername(id.toString());
 	}
 }

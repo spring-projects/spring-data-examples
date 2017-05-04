@@ -38,9 +38,9 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.CrudRepository#delete(java.io.Serializable)
+	 * @see org.springframework.data.repository.CrudRepository#deleteById(java.lang.Object)
 	 */
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	void delete(Long aLong);
+	void deleteById(Long aLong);
 }

@@ -15,8 +15,9 @@
  */
 package example.springdata.jpa.simple;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.springframework.data.domain.Sort.Direction.*;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class SimpleUserRepositoryTests {
 
 		user = repository.save(user);
 
-		assertThat(repository.findOne(user.getId()), is(user));
+		assertThat(repository.findById(user.getId())).hasValue(user);
 	}
 
 	@Test
@@ -72,10 +73,7 @@ public class SimpleUserRepositoryTests {
 
 		user = repository.save(user);
 
-		List<User> users = repository.findByLastname("lastname");
-
-		assertThat(users, is(notNullValue()));
-		assertThat(users.contains(user), is(true));
+		assertThat(repository.findByLastname("lastname")).contains(user);
 	}
 
 	@Test
@@ -83,19 +81,17 @@ public class SimpleUserRepositoryTests {
 
 		user = repository.save(user);
 
-		List<User> users = repository.findByFirstnameOrLastname("lastname");
-
-		assertThat(users.contains(user), is(true));
+		assertThat(repository.findByFirstnameOrLastname("lastname")).contains(user);
 	}
 
 	@Test
 	public void useOptionalAsReturnAndParameterType() {
 
-		assertThat(repository.findByUsername(Optional.of("foobar")), is(Optional.empty()));
+		assertThat(repository.findByUsername(Optional.of("foobar"))).isEmpty();
 
 		repository.save(user);
 
-		assertThat(repository.findByUsername(Optional.of("foobar")).isPresent(), is(true));
+		assertThat(repository.findByUsername(Optional.of("foobar"))).isPresent();
 	}
 
 	@Test
@@ -109,10 +105,10 @@ public class SimpleUserRepositoryTests {
 		User user3 = new User();
 		user3.setLastname("no-positive-match");
 
-		repository.save(Arrays.asList(user, user2, user3));
+		repository.saveAll(Arrays.asList(user, user2, user3));
 
-		assertThat(repository.removeByLastname(user.getLastname()), is(2L));
-		assertThat(repository.exists(user3.getId()), is(true));
+		assertThat(repository.removeByLastname(user.getLastname())).isEqualTo(2L);
+		assertThat(repository.existsById(user3.getId())).isTrue();
 	}
 
 	@Test
@@ -132,11 +128,11 @@ public class SimpleUserRepositoryTests {
 			source.add(user);
 		}
 
-		repository.save(source);
+		repository.saveAll(source);
 
-		Slice<User> users = repository.findByLastnameOrderByUsernameAsc(this.user.getLastname(), new PageRequest(1, 5));
+		Slice<User> users = repository.findByLastnameOrderByUsernameAsc(this.user.getLastname(), PageRequest.of(1, 5));
 
-		assertThat(users, contains(source.subList(5, 10).toArray()));
+		assertThat(users).containsAll(source.subList(5, 10));
 	}
 
 	@Test
@@ -152,7 +148,7 @@ public class SimpleUserRepositoryTests {
 		user2.setLastname("lastname-2");
 
 		// we deliberatly save the items in reverse
-		repository.save(Arrays.asList(user2, user1, user0));
+		repository.saveAll(Arrays.asList(user2, user1, user0));
 
 		List<User> result = repository.findFirst2ByOrderByLastnameAsc();
 
@@ -173,7 +169,7 @@ public class SimpleUserRepositoryTests {
 		user2.setLastname("lastname-2");
 
 		// we deliberately save the items in reverse
-		repository.save(Arrays.asList(user2, user1, user0));
+		repository.saveAll(Arrays.asList(user2, user1, user0));
 
 		List<User> resultAsc = repository.findTop2By(new Sort(ASC, "lastname"));
 
@@ -197,7 +193,7 @@ public class SimpleUserRepositoryTests {
 
 		User third = new User();
 
-		repository.save(Arrays.asList(first, second, third));
+		repository.saveAll(Arrays.asList(first, second, third));
 
 		User reference = new User();
 		reference.setFirstname("firstname");

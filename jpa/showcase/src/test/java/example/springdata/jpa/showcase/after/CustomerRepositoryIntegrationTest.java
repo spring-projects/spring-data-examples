@@ -16,20 +16,20 @@
 package example.springdata.jpa.showcase.after;
 
 import static example.springdata.jpa.showcase.snippets.CustomerSpecifications.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.jpa.domain.Specifications.*;
 
+import example.springdata.jpa.showcase.AbstractShowcaseTest;
+import example.springdata.jpa.showcase.core.Customer;
+
 import java.util.List;
+import java.util.Optional;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
-import example.springdata.jpa.showcase.AbstractShowcaseTest;
-import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Integration tests for Spring Data JPA {@link CustomerRepository}.
@@ -42,40 +42,36 @@ public class CustomerRepositoryIntegrationTest extends AbstractShowcaseTest {
 
 	@Test
 	public void findsAllCustomers() throws Exception {
-
-		Iterable<Customer> result = repository.findAll();
-
-		assertThat(result, is(notNullValue()));
-		assertTrue(result.iterator().hasNext());
+		assertThat(repository.findAll()).isNotEmpty();
 	}
 
 	@Test
 	public void findsFirstPageOfMatthews() throws Exception {
 
-		Page<Customer> customers = repository.findByLastname("Matthews", new PageRequest(0, 2));
+		Page<Customer> customers = repository.findByLastname("Matthews", PageRequest.of(0, 2));
 
-		assertThat(customers.getContent().size(), is(2));
-		assertFalse(customers.hasPrevious());
+		assertThat(customers.getContent()).hasSize(2);
+		assertThat(customers.hasPrevious()).isFalse();
 	}
 
 	@Test
 	public void findsCustomerById() throws Exception {
 
-		Customer customer = repository.findOne(2L);
-
-		assertThat(customer.getFirstname(), is("Carter"));
-		assertThat(customer.getLastname(), is("Beauford"));
+		assertThat(repository.findById(2L)).hasValueSatisfying(it -> {
+			assertThat(it.getFirstname()).isEqualTo("Carter");
+			assertThat(it.getLastname()).isEqualTo("Beauford");
+		});
 	}
 
 	@Test
 	public void findsCustomersBySpecification() throws Exception {
 
-		Customer dave = repository.findOne(1L);
+		Optional<Customer> dave = repository.findById(1L);
 
 		LocalDate expiryLimit = new LocalDate(2011, 3, 1);
 		List<Customer> result = repository.findAll(where(accountExpiresBefore(expiryLimit)));
 
-		assertThat(result.size(), is(1));
-		assertThat(result, hasItems(dave));
+		assertThat(result).hasSize(1);
+		assertThat(dave).hasValueSatisfying(it -> assertThat(result).contains(it));
 	}
 }

@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.cassandra.config.SchemaAction;
 import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.convert.CustomConversions;
+import org.springframework.data.cassandra.convert.CassandraCustomConversions;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 import org.springframework.util.StringUtils;
 
@@ -55,14 +55,14 @@ class ConverterConfiguration extends AbstractCassandraConfiguration {
 	}
 
 	@Override
-	public CustomConversions customConversions() {
+	public CassandraCustomConversions customConversions() {
 
 		List<Converter<?, ?>> converters = new ArrayList<>();
 		converters.add(new PersonWriteConverter());
 		converters.add(new PersonReadConverter());
 		converters.add(new CustomAddressbookReadConverter());
 
-		return new CustomConversions(converters);
+		return new CassandraCustomConversions(converters);
 	}
 
 	/**
