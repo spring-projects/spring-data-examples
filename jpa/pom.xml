@@ -23,15 +23,11 @@
 		<module>java8</module>
 		<module>javaslang</module>
 		<module>jpa21</module>
-		<!--<module>security</module>-->
+		<module>security</module>
 		<module>multiple-datasources</module>
 		<module>eclipselink</module>
 		<module>query-by-example</module>
 	</modules>
-
-	<properties>
-		<hibernate.version>5.2.7.Final</hibernate.version>
-	</properties>
 
 	<dependencies>
 
