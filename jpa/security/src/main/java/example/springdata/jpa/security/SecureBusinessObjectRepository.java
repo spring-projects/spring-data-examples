@@ -28,18 +28,12 @@ import org.springframework.data.repository.Repository;
 interface SecureBusinessObjectRepository extends Repository<BusinessObject, Long> {
 
 	/**
-	 * Here we demonstrate the usage of SpEL expression within a custom query.
-	 * With the {@link example.springdata.jpa.security.SecurityEvaluationContextExtension} in place
-	 * we can safely access auth information provided by the Spring Security Context.
-	 *
-	 * The Spring Data Repository infrastructure will translate the given query string into the
-	 * parameterized form:
-	 *
-	 * <code>
+	 * Here we demonstrate the usage of SpEL expression within a custom query. With the
+	 * {@link example.springdata.jpa.security.SecurityEvaluationContextExtension} in place we can safely access auth
+	 * information provided by the Spring Security Context. The Spring Data Repository infrastructure will translate the
+	 * given query string into the parameterized form: <code>
 	 *     select o from BusinessObject o where o.owner.emailAddress like ? 
-	 * </code>
-	 *
-	 * and set the the result SpEL expression evaluated at method invocation time as parameter value.
+	 * </code> and set the the result SpEL expression evaluated at method invocation time as parameter value.
 	 *
 	 * @return
 	 */
@@ -57,7 +51,7 @@ interface SecureBusinessObjectRepository extends Repository<BusinessObject, Long
 	/**
 	 * Here we demonstrate the use of SecurityContext information in dynamic SpEL parameters in a JPQL update statement.
 	 */
-	@Modifying
+	@Modifying(clearAutomatically = true)
 	@Query("update BusinessObject b set b.data = upper(b.data), b.lastModifiedBy = :#{#security.principal}, b.lastModifiedDate = :#{new java.util.Date()}")
 	void modifiyDataWithRecordingSecurityContext();
 }
