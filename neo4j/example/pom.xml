@@ -36,4 +36,11 @@
 
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<id>neo4j-snapshots</id>
+			<url>http://m2.neo4j.org/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+
 </project>
