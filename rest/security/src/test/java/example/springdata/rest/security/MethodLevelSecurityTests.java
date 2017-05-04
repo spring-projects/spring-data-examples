@@ -62,7 +62,7 @@ public class MethodLevelSecurityTests {
 		}
 
 		try {
-			itemRepository.delete(1L);
+			itemRepository.deleteById(1L);
 			fail("Expected a security error");
 		} catch (AuthenticationCredentialsNotFoundException e) {
 			// expected
@@ -83,7 +83,7 @@ public class MethodLevelSecurityTests {
 			// expected
 		}
 		try {
-			itemRepository.delete(1L);
+			itemRepository.deleteById(1L);
 			fail("Expected a security error");
 		} catch (AccessDeniedException e) {
 			// expected
@@ -96,7 +96,9 @@ public class MethodLevelSecurityTests {
 		SecurityUtils.runAs("system", "system", "ROLE_USER", "ROLE_ADMIN");
 
 		itemRepository.findAll();
-		itemRepository.save(new Item("MacBook Pro"));
-		itemRepository.delete(1L);
+
+		Item item = itemRepository.save(new Item("MacBook Pro"));
+
+		itemRepository.deleteById(item.getId());
 	}
 }

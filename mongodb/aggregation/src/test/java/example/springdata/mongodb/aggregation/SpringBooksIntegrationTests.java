@@ -26,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.util.Files;
+import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +45,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 
 /**
@@ -240,9 +240,9 @@ public class SpringBooksIntegrationTests {
 										.andOutput("author").push().as("authors") //
 						).as("authors"));
 
-		AggregationResults<DBObject> result = operations.aggregate(aggregation, "books", DBObject.class);
+		AggregationResults<Document> result = operations.aggregate(aggregation, "books", Document.class);
 
-		DBObject uniqueMappedResult = result.getUniqueMappedResult();
+		Document uniqueMappedResult = result.getUniqueMappedResult();
 
 		assertThat((List<Object>) uniqueMappedResult.get("prices")).hasSize(3);
 		assertThat((List<Object>) uniqueMappedResult.get("authors")).hasSize(8);

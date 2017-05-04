@@ -16,17 +16,17 @@
 package example.springdata.jpa.showcase.snippets.test;
 
 import static example.springdata.jpa.showcase.snippets.CustomerSpecifications.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.jpa.domain.Specifications.*;
-
-import java.util.List;
-
-import org.joda.time.LocalDate;
-import org.springframework.data.jpa.domain.Specification;
 
 import example.springdata.jpa.showcase.after.CustomerRepository;
 import example.springdata.jpa.showcase.core.Customer;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.joda.time.LocalDate;
+import org.springframework.data.jpa.domain.Specification;
 
 /**
  * Snippets to show the usage of {@link Specification}s.
@@ -39,12 +39,12 @@ public class CustomerRepositoryIntegrationTest {
 
 	public void findsCustomersBySpecification() throws Exception {
 
-		Customer dave = repository.findOne(1L);
+		Optional<Customer> dave = repository.findById(1L);
 
 		LocalDate expiryLimit = new LocalDate(2011, 3, 1);
 		List<Customer> result = repository.findAll(where(accountExpiresBefore(expiryLimit)));
 
-		assertThat(result.size(), is(1));
-		assertThat(result, hasItems(dave));
+		assertThat(result).hasSize(1);
+		assertThat(dave).hasValueSatisfying(it -> assertThat(result).contains(it));
 	}
 }

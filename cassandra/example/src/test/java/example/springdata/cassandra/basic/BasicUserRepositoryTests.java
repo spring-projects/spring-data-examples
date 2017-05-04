@@ -71,7 +71,7 @@ public class BasicUserRepositoryTests {
 
 		user = repository.save(user);
 
-		assertThat(repository.findOne(user.getId()), is(user));
+		assertThat(repository.findById(user.getId()), is(user));
 	}
 
 	/**

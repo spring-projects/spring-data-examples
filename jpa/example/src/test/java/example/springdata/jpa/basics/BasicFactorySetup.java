@@ -15,7 +15,10 @@
  */
 package example.springdata.jpa.basics;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
+
+import example.springdata.jpa.simple.SimpleUserRepository;
+import example.springdata.jpa.simple.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,9 +28,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
-
-import example.springdata.jpa.simple.SimpleUserRepository;
-import example.springdata.jpa.simple.User;
 
 /**
  * Test case showing how to use the basic {@link GenericDaoFactory}
@@ -81,8 +81,8 @@ public class BasicFactorySetup {
 	@Test
 	public void executingFinders() {
 
-		assertEquals(user, userRepository.findByTheUsersName("username"));
-		assertEquals(user, userRepository.findByLastname("lastname").get(0));
-		assertEquals(user, userRepository.findByFirstname("firstname").get(0));
+		assertThat(userRepository.findByTheUsersName("username")).isEqualTo(user);
+		assertThat(userRepository.findByLastname("lastname")).first().isEqualTo(user);
+		assertThat(userRepository.findByFirstname("firstname")).first().isEqualTo(user);
 	}
 }

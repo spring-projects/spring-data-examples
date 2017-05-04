@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-examples</artifactId>
-		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<version>2.0.0.BUILD-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -18,7 +18,7 @@
 	<modules>
 		<module>cluster</module>
 		<module>example</module>
-		<module>reactive</module>
+		<!--<module>reactive</module>-->
 		<module>repositories</module>
 		<module>sentinel</module>
 		<module>util</module>

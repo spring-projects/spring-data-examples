@@ -78,7 +78,7 @@ public class ReactiveMongoTemplateIntegrationTest {
 				.last() //
 				.flatMap(v -> template.count(new Query(), Person.class)) //
 				.doOnNext(System.out::println) //
-				.doOnComplete(countDownLatch::countDown) //
+				.doOnSuccess(it -> countDownLatch.countDown()) //
 				.doOnError(throwable -> countDownLatch.countDown()) //
 				.subscribe();
 
