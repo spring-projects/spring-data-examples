@@ -51,7 +51,7 @@ public class StoreInitializer {
 
 		List<Store> stores = readStores();
 		log.info("Importing {} stores into MongoDB…", stores.size());
-		repository.save(stores);
+		repository.saveAll(stores);
 		log.info("Successfully imported {} stores.", repository.count());
 	}
 

@@ -52,7 +52,7 @@ public class UserInitializer {
 		List<User> users = readUsers(new ClassPathResource("randomuser.me.csv"));
 
 		repository.deleteAll();
-		repository.save(users);
+		repository.saveAll(users);
 	}
 
 	private static List<User> readUsers(Resource resource) throws Exception {

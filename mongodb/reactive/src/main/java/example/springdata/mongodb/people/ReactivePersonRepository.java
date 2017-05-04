@@ -18,8 +18,8 @@ package example.springdata.mongodb.people;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import org.springframework.data.mongodb.repository.InfiniteStream;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.repository.Tailable;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
 /**
@@ -70,6 +70,6 @@ public interface ReactivePersonRepository extends ReactiveCrudRepository<Person,
 	 * 
 	 * @return
 	 */
-	@InfiniteStream
+	@Tailable
 	Flux<Person> findWithTailableCursorBy();
 }

@@ -27,7 +27,6 @@
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-mongodb</artifactId>
-			<version>${querydsl.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.mongodb</groupId>
@@ -116,7 +115,7 @@
 							<goal>process</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>target/generated-sources/annotations</outputDirectory>
+							<outputDirectory>target/generated-sources/queries</outputDirectory>
 							<processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
 							<logOnlyOnError>true</logOnlyOnError>
 						</configuration>

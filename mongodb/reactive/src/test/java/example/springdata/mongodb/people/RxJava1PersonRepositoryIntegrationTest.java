@@ -59,7 +59,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 				.block();
 
 		repository
-				.save(Observable.just(new Person("Walter", "White", 50), //
+				.saveAll(Observable.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
 						new Person("Jesse", "Pinkman", 27))) //
@@ -75,11 +75,13 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		CountDownLatch countDownLatch = new CountDownLatch(1);
 
+		Observable<Person> people = Observable.just(new Person("Hank", "Schrader", 43), //
+				new Person("Mike", "Ehrmantraut", 62));
+
 		repository.count() //
 				.doOnSuccess(System.out::println) //
 				.toObservable() //
-				.switchMap(count -> repository.save(Observable.just(new Person("Hank", "Schrader", 43), //
-						new Person("Mike", "Ehrmantraut", 62)))) //
+				.switchMap(count -> repository.saveAll(people)) //
 				.last() //
 				.toSingle() //
 				.flatMap(v -> repository.count()) //

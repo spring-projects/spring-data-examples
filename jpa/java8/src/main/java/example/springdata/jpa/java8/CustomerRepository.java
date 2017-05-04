@@ -39,7 +39,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	 * @param id
 	 * @return
 	 */
-	Optional<Customer> findOne(Long id);
+	Optional<Customer> findById(Long id);
 
 	/**
 	 * Saves the given {@link Customer}.

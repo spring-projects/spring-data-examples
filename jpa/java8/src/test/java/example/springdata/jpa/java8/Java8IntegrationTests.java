@@ -15,8 +15,7 @@
  */
 package example.springdata.jpa.java8;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,8 +53,8 @@ public class Java8IntegrationTests {
 
 		Customer carter = repository.save(new Customer("Carter", "Beauford"));
 
-		assertThat(repository.findOne(carter.id).isPresent(), is(true));
-		assertThat(repository.findOne(carter.id + 1), is(Optional.<Customer> empty()));
+		assertThat(repository.findById(carter.id)).isPresent();
+		assertThat(repository.findById(carter.id + 1)).isEmpty();
 	}
 
 	@Test
@@ -63,8 +62,8 @@ public class Java8IntegrationTests {
 
 		Customer customer = repository.save(new Customer("Dave", "Matthews"));
 
-		assertThat(customer.createdDate, is(notNullValue()));
-		assertThat(customer.modifiedDate, is(notNullValue()));
+		assertThat(customer.createdDate).isNotNull();
+		assertThat(customer.modifiedDate).isNotNull();
 	}
 
 	@Test
@@ -73,8 +72,7 @@ public class Java8IntegrationTests {
 		Customer customer = repository.save(new Customer("Dave", "Matthews"));
 		Optional<Customer> result = repository.findByLastname(customer);
 
-		assertThat(result.isPresent(), is(true));
-		assertThat(result.get(), is(customer));
+		assertThat(result).hasValue(customer);
 	}
 
 	/**
@@ -88,7 +86,7 @@ public class Java8IntegrationTests {
 		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
 
 		try (Stream<Customer> stream = repository.streamAllCustomers()) {
-			assertThat(stream.collect(Collectors.toList()), hasItems(customer1, customer2));
+			assertThat(stream.collect(Collectors.toList())).contains(customer1, customer2);
 		}
 	}
 
@@ -103,7 +101,7 @@ public class Java8IntegrationTests {
 		Customer customer2 = repository.save(new Customer("Customer2", "Bar"));
 
 		try (Stream<Customer> stream = repository.findAllByLastnameIsNotNull()) {
-			assertThat(stream.collect(Collectors.toList()), hasItems(customer1, customer2));
+			assertThat(stream.collect(Collectors.toList())).contains(customer1, customer2);
 		}
 	}
 
@@ -131,7 +129,7 @@ public class Java8IntegrationTests {
 
 		CompletableFuture<Void> future = repository.readAllBy().thenAccept(customers -> {
 
-			assertThat(customers, hasSize(2));
+			assertThat(customers).hasSize(2);
 			customers.forEach(customer -> log.info(customer.toString()));
 			log.info("Completed!");
 		});

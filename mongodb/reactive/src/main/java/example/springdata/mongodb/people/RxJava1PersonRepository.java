@@ -18,8 +18,8 @@ package example.springdata.mongodb.people;
 import rx.Observable;
 import rx.Single;
 
-import org.springframework.data.mongodb.repository.InfiniteStream;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.repository.Tailable;
 import org.springframework.data.repository.reactive.RxJava1CrudRepository;
 
 /**
@@ -70,6 +70,6 @@ public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, S
 	 *
 	 * @return
 	 */
-	@InfiniteStream
+	@Tailable
 	Observable<Person> findWithTailableCursorBy();
 }
