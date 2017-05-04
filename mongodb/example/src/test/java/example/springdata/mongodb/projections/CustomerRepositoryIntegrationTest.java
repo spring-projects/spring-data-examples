@@ -113,7 +113,7 @@ public class CustomerRepositoryIntegrationTest {
 	public void supportsProjectionInCombinationWithPagination() {
 
 		Page<CustomerProjection> page = customers
-				.findPagedProjectedBy(new PageRequest(0, 1, new Sort(Direction.ASC, "lastname")));
+				.findPagedProjectedBy(PageRequest.of(0, 1, Sort.by(Direction.ASC, "lastname")));
 
 		assertThat(page.getContent().get(0).getFirstname(), is("Carter"));
 	}

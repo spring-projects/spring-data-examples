@@ -15,6 +15,7 @@
  */
 package example.springdata.mongodb.geojson;
 
+import org.bson.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,6 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 /**
  * Integration tests for {@link StoreRepository}.
@@ -116,12 +114,12 @@ public class StoreRepositoryTests {
 	@Test
 	public void findStoresThatIntersectGivenPolygon() {
 
-		DBObject geoJsonDbo = new BasicDBObject();
+		Document geoJsonDbo = new Document();
 
 		operations.getConverter().write(GEO_JSON_POLYGON, geoJsonDbo);
 
 		BasicQuery bq = new BasicQuery(
-				new BasicDBObject("location", new BasicDBObject("$geoIntersects", new BasicDBObject("$geometry", geoJsonDbo))));
+				new Document("location", new Document("$geoIntersects", new Document("$geometry", geoJsonDbo))));
 
 		operations.find(bq, Store.class).forEach(System.out::println);
 	}

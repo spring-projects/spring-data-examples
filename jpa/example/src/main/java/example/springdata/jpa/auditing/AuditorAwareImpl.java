@@ -15,6 +15,8 @@
  */
 package example.springdata.jpa.auditing;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.AuditorAware;
 
 /**
@@ -27,20 +29,20 @@ import org.springframework.data.domain.AuditorAware;
  */
 public class AuditorAwareImpl implements AuditorAware<AuditableUser> {
 
-	private AuditableUser auditor;
+	private Optional<AuditableUser> auditor = Optional.empty();
 
 	/**
 	 * @param auditor the auditor to set
 	 */
 	public void setAuditor(AuditableUser auditor) {
-		this.auditor = auditor;
+		this.auditor = Optional.of(auditor);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.springframework.data.domain.AuditorAware#getCurrentAuditor()
 	 */
-	public AuditableUser getCurrentAuditor() {
+	public Optional<AuditableUser> getCurrentAuditor() {
 		return auditor;
 	}
 }

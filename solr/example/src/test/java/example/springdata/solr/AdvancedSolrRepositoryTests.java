@@ -65,7 +65,7 @@ public class AdvancedSolrRepositoryTests {
 			Product superNES = Product.builder().id("id-3").name("Super Nintendo").popularity(3).build();
 			Product nintendo64 = Product.builder().id("id-4").name("N64").description("Nintendo 64").popularity(2).build();
 
-			repository.save(Arrays.asList(playstation, playstation2, superNES, nintendo64));
+			repository.saveAll(Arrays.asList(playstation, playstation2, superNES, nintendo64));
 		}
 	}
 

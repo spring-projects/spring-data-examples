@@ -15,8 +15,10 @@
  */
 package example.springdata.redis.repositories;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 
 import example.springdata.redis.test.util.EmbeddedRedisServer;
 import example.springdata.redis.test.util.RequiresRedisServer;
@@ -234,8 +236,9 @@ public class PersonRepositoryTests<K, V> {
 
 		repository.save(eddard);
 
-		Person laoded = repository.findOne(eddard.getId());
-		assertThat(laoded.getChildren(), hasItems(jon, robb, sansa, arya, bran, rickon));
+		assertThat(repository.findById(eddard.getId())).hasValueSatisfying(it -> {
+			assertThat(it.getChildren()).contains(jon, robb, sansa, arya, bran, rickon);
+		});
 
 		/*
 		 * Deceased:
@@ -243,14 +246,15 @@ public class PersonRepositoryTests<K, V> {
 		 * - Robb was killed by Roose Bolton during the Red Wedding.
 		 * - Jon was stabbed by brothers or the Night's Watch.
 		 */
-		repository.delete(Arrays.asList(robb, jon));
+		repository.deleteAll(Arrays.asList(robb, jon));
 
-		laoded = repository.findOne(eddard.getId());
-		assertThat(laoded.getChildren(), hasItems(sansa, arya, bran, rickon));
-		assertThat(laoded.getChildren(), not(hasItems(robb, jon)));
+		assertThat(repository.findById(eddard.getId())).hasValueSatisfying(it -> {
+			assertThat(it.getChildren()).contains(sansa, arya, bran, rickon);
+			assertThat(it.getChildren()).doesNotContain(robb, jon);
+		});
 	}
 
 	private void flushTestUsers() {
-		repository.save(Arrays.asList(eddard, robb, sansa, arya, bran, rickon, jon));
+		repository.saveAll(Arrays.asList(eddard, robb, sansa, arya, bran, rickon, jon));
 	}
 }

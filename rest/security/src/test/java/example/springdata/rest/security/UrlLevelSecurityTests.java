@@ -18,7 +18,6 @@ package example.springdata.rest.security;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
@@ -70,8 +69,7 @@ public class UrlLevelSecurityTests {
 		mvc.perform(get("/").//
 				accept(MediaTypes.HAL_JSON)).//
 				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
-				andExpect(status().isOk()).//
-				andDo(print());
+				andExpect(status().isOk());
 	}
 
 	@Test
@@ -80,8 +78,7 @@ public class UrlLevelSecurityTests {
 		mvc.perform(post("/employees").//
 				content(PAYLOAD).//
 				accept(MediaTypes.HAL_JSON)).//
-				andExpect(status().isUnauthorized()).//
-				andDo(print());
+				andExpect(status().isUnauthorized());
 	}
 
 	@Test
@@ -94,13 +91,11 @@ public class UrlLevelSecurityTests {
 		mvc.perform(get("/employees").//
 				headers(headers)).//
 				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
-				andExpect(status().isOk()).//
-				andDo(print());
+				andExpect(status().isOk());
 
 		mvc.perform(post("/employees").//
 				headers(headers)).//
-				andExpect(status().isForbidden()).//
-				andDo(print());
+				andExpect(status().isForbidden());
 	}
 
 	@Test
@@ -113,8 +108,7 @@ public class UrlLevelSecurityTests {
 		mvc.perform(get("/employees").//
 				headers(headers)).//
 				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
-				andExpect(status().isOk()).//
-				andDo(print());
+				andExpect(status().isOk());
 
 		headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
@@ -124,7 +118,6 @@ public class UrlLevelSecurityTests {
 						headers(headers))
 				.//
 				andExpect(status().isCreated()).//
-				andDo(print()).//
 				andReturn().getResponse().getHeader(HttpHeaders.LOCATION);
 
 		ObjectMapper mapper = new ObjectMapper();

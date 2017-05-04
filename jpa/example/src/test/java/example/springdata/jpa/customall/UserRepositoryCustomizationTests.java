@@ -15,8 +15,7 @@
  */
 package example.springdata.jpa.customall;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +39,6 @@ public class UserRepositoryCustomizationTests {
 
 	@Test
 	public void invokesCustomMethod() {
-		assertThat(repository.customMethod(), is(0L));
+		assertThat(repository.customMethod()).isEqualTo(0L);
 	}
 }

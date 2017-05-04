@@ -16,13 +16,16 @@
 package example.springdata.jpa.showcase.snippets.test;
 
 import static example.springdata.jpa.showcase.snippets.AccountPredicates.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-
-import org.joda.time.LocalDate;
+import static org.junit.Assert.assertThat;
 
 import example.springdata.jpa.showcase.core.Account;
 import example.springdata.jpa.showcase.snippets.AccountRepository;
+
+import java.util.Optional;
+
+import org.joda.time.LocalDate;
 
 /**
  * @author Oliver Gierke
@@ -39,12 +42,12 @@ public abstract class AccountRepositoryIntegrationTest {
 
 	public void findsExpiredAccounts() {
 
-		Account expired = accountRepository.findOne(1L);
-		Account valid = accountRepository.findOne(2L);
+		Optional<Account> expired = accountRepository.findById(1L);
+		Optional<Account> valid = accountRepository.findById(2L);
 
 		Iterable<Account> findAll = accountRepository.findAll(expiresBefore(new LocalDate(2011, 3, 1)));
 
-		assertThat(findAll, hasItem(expired));
-		assertThat(findAll, not(hasItem(valid)));
+		assertThat(findAll).contains(expired.get());
+		assertThat(findAll).doesNotContain(valid.get());
 	}
 }

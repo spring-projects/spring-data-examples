@@ -15,8 +15,7 @@
  */
 package example.springdata.neo4j;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,14 +54,10 @@ public class ActorRepositoryIntegrationTest {
 
 		actorRepository.save(daniel); // saves the actor and the movie
 
-		Actor actor = actorRepository.findOne(daniel.getId());
-
-		assertThat(actor, is(notNullValue()));
-		assertThat(actor.getName(), is(daniel.getName()));
-		assertThat(actor.getRoles(), hasSize(1));
-
-		Role role = actor.getRoles().iterator().next();
-
-		assertThat(role.getRole(), is("Harry Potter"));
+		assertThat(actorRepository.findById(daniel.getId())).hasValueSatisfying(actor -> {
+			assertThat(actor.getName()).isEqualTo(daniel.getName());
+			assertThat(actor.getRoles()).hasSize(1).first()
+					.satisfies(role -> assertThat(role.getRole()).isEqualTo("Harry Potter"));
+		});
 	}
 }

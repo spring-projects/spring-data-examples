@@ -23,7 +23,7 @@
 		<module>java8</module>
 		<module>javaslang</module>
 		<module>jpa21</module>
-		<module>security</module>
+		<!--<module>security</module>-->
 		<module>multiple-datasources</module>
 		<module>eclipselink</module>
 		<module>query-by-example</module>

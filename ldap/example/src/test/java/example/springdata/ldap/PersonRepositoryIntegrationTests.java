@@ -18,6 +18,7 @@ package example.springdata.ldap;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
@@ -47,12 +48,13 @@ public class PersonRepositoryIntegrationTests {
 	@Test
 	public void findOneByName() throws InvalidNameException {
 
-		Person person = personRepository.findOne(new LdapName("uid=bob,ou=people,dc=springframework,dc=org"));
+		Optional<Person> person = personRepository.findById(new LdapName("uid=bob,ou=people,dc=springframework,dc=org"));
 
-		assertThat(person).isNotNull();
-		assertThat(person.getFullName()).isEqualTo("Bob Hamilton");
-		assertThat(person.getLastname()).isEqualTo("Hamilton");
-		assertThat(person.getUid()).isEqualTo("bob");
+		assertThat(person).hasValueSatisfying(it -> {
+			assertThat(it.getFullName()).isEqualTo("Bob Hamilton");
+			assertThat(it.getLastname()).isEqualTo("Hamilton");
+			assertThat(it.getUid()).isEqualTo("bob");
+		});
 	}
 
 	/**

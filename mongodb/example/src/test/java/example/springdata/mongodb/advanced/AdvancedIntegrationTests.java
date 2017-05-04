@@ -15,11 +15,11 @@
  */
 package example.springdata.mongodb.advanced;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.mongodb.customer.Customer;
 
+import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,8 +31,7 @@ import org.springframework.data.mongodb.core.query.Meta;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.client.FindIterable;
 
 /**
  * @author Christoph Strobl
@@ -70,17 +69,15 @@ public class AdvancedIntegrationTests {
 		repository.findByFirstname(dave.getFirstname());
 
 		// execute another finder without meta attributes that should not be picked up
-		repository.findByLastname(dave.getLastname(), new Sort("firstname"));
+		repository.findByLastname(dave.getLastname(), Sort.by("firstname"));
 
-		DBCursor cursor = operations.getCollection(ApplicationConfiguration.SYSTEM_PROFILE_DB)
+		FindIterable<Document> cursor = operations.getCollection(ApplicationConfiguration.SYSTEM_PROFILE_DB)
 				.find(new BasicDBObject("query.$comment", AdvancedRepository.META_COMMENT));
 
-		while (cursor.hasNext()) {
+		for (Document document : cursor) {
 
-			DBObject dbo = cursor.next();
-			DBObject query = (DBObject) dbo.get("query");
-
-			assertThat(query.containsField("$comment"), is(true));
+			Document query = (Document) document.get("query");
+			assertThat(query).containsKey("foo");
 		}
 	}
 }
