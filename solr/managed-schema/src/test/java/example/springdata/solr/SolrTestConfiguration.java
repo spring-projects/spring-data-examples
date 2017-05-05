@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 the original author or authors.
+ * Copyright 2014-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,21 +28,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 
 /**
- * {@link Configuration} class enabling schema support for solr.<br />
+ * {@link Configuration} class enabling schema support for Apache Solr.<br />
  * <br />
- * <strong>NOTE</strong>: Requires solr to run in managed schema mode. run with
- * {@code solr/example $ java -Dsolr.solr.home=example-schemaless/solr -jar start.jar}.
+ * <strong>NOTE</strong>: Requires solr to run in managed schema mode. Run Solr with
+ * {@code ./bin/solr start -e schemaless}.
  * 
  * @author Christoph Strobl
  */
 @SpringBootApplication
-@EnableSolrRepositories(schemaCreationSupport = true, multicoreSupport = true)
+@EnableSolrRepositories(schemaCreationSupport = true)
 public class SolrTestConfiguration {
 
 	@Autowired ProductRepository repo;
 
-	public @Bean SolrClient solrServer() {
-		return new HttpSolrClient("http://localhost:8983/solr");
+	public @Bean SolrClient solrClient() {
+		return new HttpSolrClient.Builder().withBaseSolrUrl("http://localhost:8983/solr").build();
 	}
 
 	/**

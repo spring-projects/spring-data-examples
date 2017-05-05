@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,20 +23,20 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.hamcrest.core.Is;
 import org.junit.Assume;
-import org.junit.internal.AssumptionViolatedException;
+import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 /**
  * {@link TestRule} implementation using {@link CloseableHttpClient} to check if Solr is running by sending
- * {@literal GET} request to {@literal /admin/ping}.
+ * {@literal GET} request to {@literal /admin/info/system}.
  * 
  * @author Christoph Strobl
  */
 public class RequiresSolrServer implements TestRule {
 
-	private static final String PING_PATH = "/admin/ping";
+	private static final String PING_PATH = "/admin/info/system";
 
 	private final String baseUrl;
 
