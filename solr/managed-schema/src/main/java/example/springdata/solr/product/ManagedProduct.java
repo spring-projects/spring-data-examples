@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  */
 package example.springdata.solr.product;
 
-import java.util.List;
-
 import lombok.Data;
+
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Indexed;
@@ -28,7 +28,7 @@ import org.springframework.data.solr.core.mapping.SolrDocument;
  * 
  * @author Christoph Strobl
  */
-@SolrDocument(solrCoreName = "collection1")
+@SolrDocument(solrCoreName = "gettingstarted")
 @Data
 public class ManagedProduct {
 
