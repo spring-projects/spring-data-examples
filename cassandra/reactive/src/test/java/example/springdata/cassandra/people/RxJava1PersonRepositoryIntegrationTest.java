@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		Completable deleteAll = repository.deleteAll();
 
-		Observable<Person> save = repository.save(Observable.just(new Person("Walter", "White", 50), //
+		Observable<Person> save = repository.saveAll(Observable.just(new Person("Walter", "White", 50), //
 				new Person("Skyler", "White", 45), //
 				new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)));
@@ -74,14 +74,13 @@ public class RxJava1PersonRepositoryIntegrationTest {
 		repository.count() //
 				.doOnSuccess(System.out::println) //
 				.toObservable() //
-				.switchMap(count -> repository.save(Observable.just(new Person("Hank", "Schrader", 43), //
+				.switchMap(count -> repository.saveAll(Observable.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
 				.last() //
 				.toSingle() //
 				.flatMap(v -> repository.count()) //
 				.doOnSuccess(System.out::println) //
 				.doAfterTerminate(countDownLatch::countDown) //
-				.doOnError(throwable -> countDownLatch.countDown()) //
 				.subscribe();
 
 		countDownLatch.await();

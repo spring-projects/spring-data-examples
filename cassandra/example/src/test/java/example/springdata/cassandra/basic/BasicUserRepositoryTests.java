@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2013-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
  */
 package example.springdata.cassandra.basic;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assume.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
@@ -35,7 +34,7 @@ import com.datastax.driver.core.Session;
 
 /**
  * Integration test showing the basic usage of {@link BasicUserRepository}.
- * 
+ *
  * @author Oliver Gierke
  * @author Thomas Darimont
  * @author Christoph Strobl
@@ -71,7 +70,7 @@ public class BasicUserRepositoryTests {
 
 		user = repository.save(user);
 
-		assertThat(repository.findById(user.getId()), is(user));
+		assertThat(repository.findById(user.getId())).contains(user);
 	}
 
 	/**
@@ -82,8 +81,8 @@ public class BasicUserRepositoryTests {
 
 		repository.save(user);
 
-		assertThat(repository.findUserByIdIn(1000), is(nullValue()));
-		assertThat(repository.findUserByIdIn(42), is(equalTo(user)));
+		assertThat(repository.findUserByIdIn(1000)).isNull();
+		assertThat(repository.findUserByIdIn(42)).isEqualTo(user);
 	}
 
 	/**
@@ -103,7 +102,7 @@ public class BasicUserRepositoryTests {
 
 		repository.save(user);
 
-		assertThat(repository.findUserByUsername(user.getUsername()), is(user));
+		assertThat(repository.findUserByUsername(user.getUsername())).isEqualTo(user);
 	}
 
 	/**
@@ -123,6 +122,6 @@ public class BasicUserRepositoryTests {
 
 		repository.save(user);
 
-		assertThat(repository.findUsersByLastnameStartsWith("last"), hasItem(user));
+		assertThat(repository.findUsersByLastnameStartsWith("last")).contains(user);
 	}
 }

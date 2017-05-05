@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
  */
 package example.springdata.cassandra.java8;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
 
@@ -35,7 +34,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test to show the usage of Java 8 features with Spring Data Cassandra.
- * 
+ *
  * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
@@ -57,8 +56,8 @@ public class Java8IntegrationTests {
 
 		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
 
-		assertThat(repository.findOne(homer.id).isPresent(), is(true));
-		assertThat(repository.findOne(homer.id + 1), is(Optional.<Person> empty()));
+		assertThat(repository.findById(homer.id).isPresent()).isTrue();
+		assertThat(repository.findById(homer.id + 1)).isEqualTo(Optional.<Person> empty());
 	}
 
 	@Test
@@ -67,8 +66,8 @@ public class Java8IntegrationTests {
 		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
 		Optional<Person> result = repository.findByPerson(homer);
 
-		assertThat(result.isPresent(), is(true));
-		assertThat(result.get(), is(homer));
+		assertThat(result.isPresent()).isTrue();
+		assertThat(result.get()).isEqualTo(homer);
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class Java8IntegrationTests {
 		Person bart = repository.save(new Person("2", "Bart", "Simpson"));
 
 		try (Stream<Person> stream = repository.findAll()) {
-			assertThat(stream.collect(Collectors.toList()), hasItems(homer, bart));
+			assertThat(stream.collect(Collectors.toList())).contains(homer, bart);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,43 +19,36 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.data.cassandra.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 
 /**
  * Repository to manage {@link Person} instances.
- * 
+ *
  * @author Mark Paluch
  */
 public interface PersonRepository extends Repository<Person, String> {
 
-	/**
-	 * Special customization of {@link CrudRepository#findOne(java.io.Serializable)} to return a JDK 8 {@link Optional}.
-	 * 
-	 * @param id
-	 * @return
-	 */
-	Optional<Person> findOne(String id);
+	Optional<Person> findById(String id);
 
 	Stream<Person> findAll();
 
 	/**
 	 * Sample method to derive a query from using JDK 8's {@link Optional} as return type.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
 	@Query("select * from person where id = ?0")
-	Optional<Person> findById(String id);
+	Optional<Person> findPersonById(String id);
 
 	/**
 	 * Sample default method to show JDK 8 feature support.
-	 * 
+	 *
 	 * @param person
 	 * @return
 	 */
 	default Optional<Person> findByPerson(Person person) {
-		return findById(person == null ? null : person.id);
+		return findPersonById(person == null ? null : person.id);
 	}
 
 	void deleteAll();

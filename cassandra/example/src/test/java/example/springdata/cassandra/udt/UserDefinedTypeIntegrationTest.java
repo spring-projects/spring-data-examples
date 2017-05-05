@@ -40,7 +40,7 @@ import com.datastax.driver.core.UserType;
 
 /**
  * Integration test to show User-Defined type support.
- * 
+ *
  * @author Mark Paluch
  * @author Oliver Gierke
  */
@@ -74,7 +74,7 @@ public class UserDefinedTypeIntegrationTest {
 
 	@Before
 	public void before() throws Exception {
-		operations.truncate("person");
+		operations.getCqlOperations().execute("TRUNCATE person");
 	}
 
 	/**
