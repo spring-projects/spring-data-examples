@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
  */
 package example.springdata.cassandra.projection;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
 
@@ -33,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Integration tests for {@link CustomerRepository} to show projection capabilities.
- * 
+ *
  * @author Mark Paluch
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -60,8 +59,8 @@ public class CustomerRepositoryIntegrationTest {
 
 		Collection<CustomerProjection> result = customers.findAllProjectedBy();
 
-		assertThat(result, hasSize(2));
-		assertThat(result.iterator().next().getFirstname(), is("Carter"));
+		assertThat(result).hasSize(2);
+		assertThat(result.iterator().next().getFirstname()).isEqualTo("Carter");
 	}
 
 	@Test
@@ -69,8 +68,8 @@ public class CustomerRepositoryIntegrationTest {
 
 		Collection<CustomerProjection> result = customers.findById("d", CustomerProjection.class);
 
-		assertThat(result, hasSize(1));
-		assertThat(result.iterator().next().getFirstname(), is("Dave"));
+		assertThat(result).hasSize(1);
+		assertThat(result.iterator().next().getFirstname()).isEqualTo("Dave");
 	}
 
 	@Test
@@ -78,11 +77,11 @@ public class CustomerRepositoryIntegrationTest {
 
 		CustomerSummary result = customers.findProjectedById(dave.getId(), CustomerSummary.class);
 
-		assertThat(result, is(notNullValue()));
-		assertThat(result.getFullName(), is("Dave Matthews"));
+		assertThat(result).isNotNull();
+		assertThat(result.getFullName()).isEqualTo("Dave Matthews");
 
 		// Proxy backed by original instance as the projection uses dynamic elements
-		assertThat(((TargetAware) result).getTarget(), is(instanceOf(Customer.class)));
+		assertThat(((TargetAware) result).getTarget()).isInstanceOf(Customer.class);
 	}
 
 	@Test
@@ -90,9 +89,8 @@ public class CustomerRepositoryIntegrationTest {
 
 		CustomerProjection result = customers.findProjectedById(dave.getId());
 
-		assertThat(result, is(notNullValue()));
-		assertThat(result.getFirstname(), is("Dave"));
-		assertThat(((TargetAware) result).getTarget(), is(instanceOf(Customer.class)));
+		assertThat(result).isNotNull();
+		assertThat(result.getFirstname()).isEqualTo("Dave");
+		assertThat(((TargetAware) result).getTarget()).isInstanceOf(Customer.class);
 	}
-
 }

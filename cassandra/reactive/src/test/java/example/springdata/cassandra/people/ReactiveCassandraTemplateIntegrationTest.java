@@ -78,8 +78,7 @@ public class ReactiveCassandraTemplateIntegrationTest {
 				.last() //
 				.flatMap(v -> template.count(Person.class)) //
 				.doOnNext(System.out::println) //
-				.doOnSuccess(it -> countDownLatch.countDown()) //
-				.doOnError(throwable -> countDownLatch.countDown()) //
+				.doOnTerminate((i, t) -> countDownLatch.countDown()) //
 				.subscribe();
 
 		countDownLatch.await();
