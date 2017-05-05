@@ -75,8 +75,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 				.last() //
 				.flatMap(v -> repository.count()) //
 				.doOnNext(System.out::println) //
-				.doOnSuccess(it -> countDownLatch.countDown()) //
-				.doOnError(throwable -> countDownLatch.countDown()) //
+				.doOnTerminate((l, t) -> countDownLatch.countDown()) //
 				.subscribe();
 
 		countDownLatch.await();

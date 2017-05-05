@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
  */
 package example.springdata.cassandra.java8;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
 
@@ -34,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test to show the usage of JSR-310 date/time types with Spring Data Cassandra.
- * 
+ *
  * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
@@ -58,7 +57,7 @@ public class Jsr310IntegrationTests {
 
 		repository.save(order);
 
-		assertThat(repository.findOrderByOrderDateAndZoneId(order.getOrderDate(), order.getZoneId()), is(equalTo(order)));
+		assertThat(repository.findOrderByOrderDateAndZoneId(order.getOrderDate(), order.getZoneId())).isEqualTo(order);
 	}
 
 	@Test
@@ -71,6 +70,6 @@ public class Jsr310IntegrationTests {
 		com.datastax.driver.core.LocalDate date = com.datastax.driver.core.LocalDate.fromYearMonthDay(2010, 1, 2);
 		String zoneId = order.getZoneId().getId();
 
-		assertThat(repository.findOrderByDate(date, zoneId), is(equalTo(order)));
+		assertThat(repository.findOrderByDate(date, zoneId)).isEqualTo(order);
 	}
 }

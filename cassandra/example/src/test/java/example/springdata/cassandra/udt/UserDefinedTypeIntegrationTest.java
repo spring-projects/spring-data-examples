@@ -28,8 +28,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.core.CassandraAdminOperations;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -40,7 +40,7 @@ import com.datastax.driver.core.UserType;
 
 /**
  * Integration test to show User-Defined type support.
- * 
+ *
  * @author Mark Paluch
  * @author Oliver Gierke
  */
@@ -74,7 +74,7 @@ public class UserDefinedTypeIntegrationTest {
 
 	@Before
 	public void before() throws Exception {
-		operations.truncate("person");
+		operations.getCqlOperations().execute("TRUNCATE person");
 	}
 
 	/**
