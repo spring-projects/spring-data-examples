@@ -19,4 +19,4 @@ sudo: false
 
 install: true
 
-script: "mvn clean dependency:list test -Dsort -Dmaven.test.redirectTestOutputToFile=true -B"
+script: "mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B"
