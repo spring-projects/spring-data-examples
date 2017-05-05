@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,10 @@
  */
 package example.springdata.cassandra.basic;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -32,18 +30,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.cassandra.core.AsyncCassandraTemplate;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.CassandraTemplate;
-import org.springframework.data.cassandra.core.WriteListener;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Session;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 
 /**
  * Integration test showing the basic usage of {@link CassandraTemplate}.
- * 
+ *
  * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
@@ -52,11 +52,12 @@ public class CassandraOperationsIntegrationTests {
 
 	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
+	@Autowired Session session;
 	@Autowired CassandraOperations template;
 
 	@Before
 	public void setUp() throws Exception {
-		template.truncate("users");
+		template.getCqlOperations().execute("TRUNCATE users");
 	}
 
 	/**
@@ -72,14 +73,14 @@ public class CassandraOperationsIntegrationTests {
 				.value("lname", "White") //
 				.ifNotExists(); //
 
-		template.execute(insert);
+		template.getCqlOperations().execute(insert);
 
-		User user = template.selectOneById(User.class, 42L);
-		assertThat(user.getUsername(), is(equalTo("heisenberg")));
+		User user = template.selectOneById(42L, User.class);
+		assertThat(user.getUsername()).isEqualTo("heisenberg");
 
 		List<User> users = template.select(QueryBuilder.select().from("users"), User.class);
-		assertThat(users, hasSize(1));
-		assertThat(users.get(0), is(equalTo(user)));
+		assertThat(users).hasSize(1);
+		assertThat(users.get(0)).isEqualTo(user);
 	}
 
 	/**
@@ -100,9 +101,9 @@ public class CassandraOperationsIntegrationTests {
 		user.setFirstname(null);
 		template.update(user);
 
-		User loaded = template.selectOneById(User.class, 42L);
-		assertThat(loaded.getUsername(), is(equalTo("heisenberg")));
-		assertThat(loaded.getFirstname(), is(nullValue()));
+		User loaded = template.selectOneById(42L, User.class);
+		assertThat(loaded.getUsername()).isEqualTo("heisenberg");
+		assertThat(loaded.getFirstname()).isNull();
 	}
 
 	/**
@@ -119,21 +120,16 @@ public class CassandraOperationsIntegrationTests {
 
 		final CountDownLatch countDownLatch = new CountDownLatch(1);
 
-		template.insertAsynchronously(user, new WriteListener<User>() {
+		AsyncCassandraTemplate asyncTemplate = new AsyncCassandraTemplate(session);
 
-			@Override
-			public void onWriteComplete(Collection<User> entities) {
-				countDownLatch.countDown();
-			}
+		ListenableFuture<User> future = asyncTemplate.insert(user);
 
-			@Override
-			public void onException(Exception x) {}
-		});
+		future.addCallback(it -> countDownLatch.countDown(), throwable -> countDownLatch.countDown());
 
 		countDownLatch.await(5, TimeUnit.SECONDS);
 
-		User loaded = template.selectOneById(User.class, user.getId());
-		assertThat(loaded, is(equalTo(user)));
+		User loaded = template.selectOneById(user.getId(), User.class);
+		assertThat(loaded).isEqualTo(user);
 	}
 
 	/**
@@ -153,13 +149,13 @@ public class CassandraOperationsIntegrationTests {
 		template.insert(user);
 
 		Long id = template.selectOne(QueryBuilder.select("user_id").from("users"), Long.class);
-		assertThat(id, is(user.getId()));
+		assertThat(id).isEqualTo(user.getId());
 
 		Row row = template.selectOne(QueryBuilder.select("user_id").from("users"), Row.class);
-		assertThat(row.getLong(0), is(user.getId()));
+		assertThat(row.getLong(0)).isEqualTo(user.getId());
 
 		Map<String, Object> map = template.selectOne(QueryBuilder.select().from("users"), Map.class);
-		assertThat(map, hasEntry("user_id", user.getId()));
-		assertThat(map, hasEntry("fname", "Walter"));
+		assertThat(map).containsEntry("user_id", user.getId());
+		assertThat(map).containsEntry("fname", "Walter");
 	}
 }

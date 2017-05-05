@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
  */
 package example.springdata.cassandra.convert;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
 
@@ -47,7 +46,7 @@ public class ConversionIntegrationTests {
 
 	@Before
 	public void setUp() throws Exception {
-		operations.truncate("addressbook");
+		operations.getCqlOperations().execute("TRUNCATE addressbook");
 	}
 
 	/**
@@ -67,11 +66,11 @@ public class ConversionIntegrationTests {
 
 		Row row = operations.selectOne(QueryBuilder.select().from("addressbook"), Row.class);
 
-		assertThat(row, is(notNullValue()));
+		assertThat(row).isNotNull();
 
-		assertThat(row.getString("id"), is(equalTo("private")));
-		assertThat(row.getString("me"), containsString("\"firstname\":\"Walter\""));
-		assertThat(row.getList("friends", String.class), hasSize(2));
+		assertThat(row.getString("id")).isEqualTo("private");
+		assertThat(row.getString("me")).contains("\"firstname\":\"Walter\"");
+		assertThat(row.getList("friends", String.class)).hasSize(2);
 	}
 
 	/**
@@ -91,8 +90,8 @@ public class ConversionIntegrationTests {
 
 		Addressbook loaded = operations.selectOne(QueryBuilder.select().from("addressbook"), Addressbook.class);
 
-		assertThat(loaded.getMe(), is(equalTo(addressbook.getMe())));
-		assertThat(loaded.getFriends(), is(equalTo(addressbook.getFriends())));
+		assertThat(loaded.getMe()).isEqualTo(addressbook.getMe());
+		assertThat(loaded.getFriends()).isEqualTo(addressbook.getFriends());
 	}
 
 	/**
@@ -112,7 +111,7 @@ public class ConversionIntegrationTests {
 
 		CustomAddressbook loaded = operations.selectOne(QueryBuilder.select().from("addressbook"), CustomAddressbook.class);
 
-		assertThat(loaded.getTheId(), is(equalTo(addressbook.getId())));
-		assertThat(loaded.getMyDetailsAsJson(), containsString("\"firstname\":\"Walter\""));
+		assertThat(loaded.getTheId()).isEqualTo(addressbook.getId());
+		assertThat(loaded.getMyDetailsAsJson()).contains("\"firstname\":\"Walter\"");
 	}
 }
