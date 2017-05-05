@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 the original author or authors.
+ * Copyright 2014-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class SolrTestConfiguration {
 	@Autowired CrudRepository<Product, String> repo;
 
 	public @Bean SolrTemplate solrTemplate() {
-		return new SolrTemplate(new HttpSolrClient("http://localhost:8983/solr"), "collection1");
+		return new SolrTemplate(new HttpSolrClient.Builder().withBaseSolrUrl("http://localhost:8983/solr").build());
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 the original author or authors.
+ * Copyright 2014-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package example.springdata.solr;
 
-import static org.hamcrest.core.IsNull.*;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.data.solr.core.query.Criteria.*;
 import static org.springframework.data.solr.core.query.ExistsFunction.*;
@@ -24,7 +24,9 @@ import example.springdata.solr.product.Product;
 import example.springdata.solr.product.ProductRepository;
 import example.springdata.solr.test.util.RequiresSolrServer;
 
+import java.time.Duration;
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -45,6 +47,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -104,7 +107,7 @@ public class AdvancedSolrRepositoryTests {
 
 		Query query = new SimpleQuery(where(exists("popularity"))).addProjectionOnFields("*", "score");
 
-		operations.queryForPage(query, Product.class).forEach(System.out::println);
+		operations.queryForPage("techproducts", query, Product.class).forEach(System.out::println);
 	}
 
 	/**
@@ -118,16 +121,16 @@ public class AdvancedSolrRepositoryTests {
 		Query query = new SimpleQuery(where("id").is(xbox.getId()));
 
 		// add document but delay commit for 3 seconds
-		operations.saveBean(xbox, 3000);
+		operations.saveBean("techproducts", xbox, Duration.ofSeconds(3));
 
 		// document will not be returned hence not yet committed to the index
-		assertThat(operations.queryForObject(query, Product.class), nullValue());
+		assertThat(operations.queryForObject("techproducts", query, Product.class), is(Optional.empty()));
 
 		// realtime-get fetches uncommitted document
-		assertThat(operations.getById(xbox.getId(), Product.class), notNullValue());
+		assertThat(operations.getById("techproducts", xbox.getId(), Product.class), notNullValue());
 
 		// wait a little so that changes get committed to the index - normal query will now be able to find the document.
 		Thread.sleep(3010);
-		assertThat(operations.queryForObject(query, Product.class), notNullValue());
+		assertThat(operations.queryForObject("techproducts", query, Product.class).isPresent(), is(true));
 	}
 }
