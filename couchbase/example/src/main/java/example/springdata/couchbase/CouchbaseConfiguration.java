@@ -1,4 +1,4 @@
-package example.springdata.couchbase.config;
+package example.springdata.couchbase;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
@@ -13,24 +13,23 @@ import java.util.List;
  *
  * @author Chandana Kithalagama
  */
-
 @SpringBootApplication
 @Configuration
-@EnableCouchbaseRepositories(basePackages = {"example.springdata.couchbase.repository"})
+@EnableCouchbaseRepositories
 public class CouchbaseConfiguration extends AbstractCouchbaseConfiguration {
 
-    @Override
-    protected List<String> getBootstrapHosts() {
-        return Collections.singletonList("192.168.99.100");
-    }
+	@Override
+	protected List<String> getBootstrapHosts() {
+		return Collections.singletonList("192.168.99.100");
+	}
 
-    @Override
-    protected String getBucketName() {
-        return "travel-sample";
-    }
+	@Override
+	protected String getBucketName() {
+		return "travel-sample";
+	}
 
-    @Override
-    protected String getBucketPassword() {
-        return "";
-    }
+	@Override
+	protected String getBucketPassword() {
+		return "";
+	}
 }
