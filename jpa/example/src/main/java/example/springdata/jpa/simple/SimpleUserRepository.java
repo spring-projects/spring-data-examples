@@ -23,12 +23,11 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 /**
  * Simple repository interface for {@link User} instances. The interface is used to declare so called query methods,
  * methods to retrieve single entities or collections of them.
- *
+ * 
  * @author Oliver Gierke
  * @author Thomas Darimont
  * @author Christoph Strobl
@@ -38,15 +37,15 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	/**
 	 * Find the user with the given username. This method will be translated into a query using the
 	 * {@link javax.persistence.NamedQuery} annotation at the {@link User} class.
-	 *
-	 * @param username
+	 * 
+	 * @param lastname
 	 * @return
 	 */
 	User findByTheUsersName(String username);
 
 	/**
 	 * Uses {@link Optional} as return and parameter type.
-	 *
+	 * 
 	 * @param username
 	 * @return
 	 */
@@ -55,7 +54,7 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	/**
 	 * Find all users with the given lastname. This method will be translated into a query by constructing it directly
 	 * from the method name as there is no other query declared.
-	 *
+	 * 
 	 * @param lastname
 	 * @return
 	 */
@@ -64,7 +63,7 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	/**
 	 * Returns all users with the given firstname. This method will be translated into a query using the one declared in
 	 * the {@link Query} annotation declared one.
-	 *
+	 * 
 	 * @param firstname
 	 * @return
 	 */
@@ -74,7 +73,7 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	/**
 	 * Returns all users with the given name as first- or lastname. This makes the query to method relation much more
 	 * refactoring-safe as the order of the method parameters is completely irrelevant.
-	 *
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -83,7 +82,7 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 
 	/**
 	 * Returns the total number of entries deleted as their lastnames match the given one.
-	 *
+	 * 
 	 * @param lastname
 	 * @return
 	 */
@@ -92,7 +91,7 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	/**
 	 * Returns a {@link Slice} counting a maximum number of {@link Pageable#getPageSize()} users matching given criteria
 	 * starting at {@link Pageable#getOffset()} without prior count of the total number of elements available.
-	 *
+	 * 
 	 * @param lastname
 	 * @param page
 	 * @return
@@ -101,23 +100,23 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 
 	/**
 	 * Return the first 2 users ordered by their lastname asc.
-	 *
+	 * 
 	 * <pre>
 	 * Example for findFirstK / findTopK functionality.
 	 * </pre>
-	 *
+	 * 
 	 * @return
 	 */
 	List<User> findFirst2ByOrderByLastnameAsc();
 
 	/**
 	 * Return the first 2 users ordered by the given {@code sort} definition.
-	 *
+	 * 
 	 * <pre>
 	 * This variant is very flexible because one can ask for the first K results when a ASC ordering
 	 * is used as well as for the last K results when a DESC ordering is used.
 	 * </pre>
-	 *
+	 * 
 	 * @param sort
 	 * @return
 	 */
