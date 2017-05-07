@@ -29,7 +29,8 @@
 		<module>redis</module>
 		<module>solr</module>
 		<module>web</module>
-	</modules>
+        <module>couchbase</module>
+    </modules>
 
 	<properties>
 
