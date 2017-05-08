@@ -30,7 +30,7 @@
 		<module>solr</module>
 		<module>web</module>
 		<module>couchbase</module>
-    </modules>
+	</modules>
 
 	<properties>
 
