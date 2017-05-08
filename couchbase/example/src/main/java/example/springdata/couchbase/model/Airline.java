@@ -2,9 +2,7 @@ package example.springdata.couchbase.model;
 
 import com.couchbase.client.java.repository.annotation.Field;
 import com.couchbase.client.java.repository.annotation.Id;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.couchbase.core.mapping.Document;
 
 /**
@@ -12,9 +10,9 @@ import org.springframework.data.couchbase.core.mapping.Document;
  *
  * @author Chandana Kithalagama
  */
-@ToString
-@Getter
-@EqualsAndHashCode
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Document
 public class Airline {
 
@@ -39,15 +37,4 @@ public class Airline {
 	@Field
 	private String country;
 
-	public Airline() {}
-
-	public Airline(int id, String type, String name, String iataCode, String icao, String callsign, String country) {
-		this.id = id;
-		this.type = type;
-		this.name = name;
-		this.iataCode = iataCode;
-		this.icao = icao;
-		this.callsign = callsign;
-		this.country = country;
-	}
 }
