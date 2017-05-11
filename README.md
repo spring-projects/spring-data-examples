@@ -12,7 +12,6 @@ We have separate folders for the samples of individual modules:
 * `example` - Probably the project you want to have a look at first. Contains a variety of sample packages, showcasing the different levels at which you can use Spring Data JPA. Have a look at the `simple` package for the most basic setup.
 * `interceptors` - Example of how to enrich the repositories with AOP.
 * `java8` - Example of how to use Spring Data JPA auditing with Java 8 date time types as well as the usage of `Optional` as return type for repository methods. Note, this project requires to be build with JDK 8.
-* `javaslang` - Shows the support of Javaslang collection types as return types for query methods (deprecated, see the Vavr module).
 * `jpa21` - Shows support for JPA 2.1 specific features (stored procedures support).
 * `multiple-datasources` - Examples of how to use Spring Data JPA with multiple `DataSource`s.
 * `query-by-example` - Example project showing usage of Query by Example with Spring Data JPA.
