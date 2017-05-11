@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  */
 package example;
 
-import javaslang.collection.Map;
-import javaslang.collection.Seq;
-import javaslang.collection.Set;
-import javaslang.control.Option;
+import io.vavr.collection.Map;
+import io.vavr.collection.Seq;
+import io.vavr.collection.Set;
+import io.vavr.control.Option;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +26,8 @@ import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
 /**
- * Repository interface showing the usage of Javaslang collections and its {@link Option} type as repository query
- * method return types.
+ * Repository interface showing the usage of Vavr collections and its {@link Option} type as repository query method
+ * return types.
  * 
  * @author Oliver Gierke
  */
@@ -44,8 +44,8 @@ public interface PersonRepository extends Repository<Person, Long> {
 	Option<Person> findById(Long id);
 
 	/**
-	 * {@link Seq} can be used as alternative to JDK's {@link List}. Javaslang's {@link Set} and {@link Map} are
-	 * supported, too, and transparently mapped from their JDK counterparts.
+	 * {@link Seq} can be used as alternative to JDK's {@link List}. Vavr's {@link Set} and {@link Map} are supported,
+	 * too, and transparently mapped from their JDK counterparts.
 	 * 
 	 * @param firstname
 	 * @return

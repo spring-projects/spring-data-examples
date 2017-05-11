@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ package example;
 
 import static org.assertj.core.api.Assertions.*;
 
-import javaslang.collection.Seq;
-import javaslang.control.Option;
+import io.vavr.collection.Seq;
+import io.vavr.control.Option;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for {@link PersonRepository} showing Javaslang support at repsoitory query methods.
+ * Integration tests for {@link PersonRepository} showing Vavr support at repository query methods.
  * 
  * @author Oliver Gierke
  */
