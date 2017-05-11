@@ -6,16 +6,17 @@
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-jpa-examples</artifactId>
 		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>spring-data-jpa-javaslang</artifactId>
-	<name>Spring Data JPA - Javaslang integration</name>
+	<artifactId>spring-data-jpa-vavr</artifactId>
+	<name>Spring Data JPA - Vavr integration</name>
 
 	<dependencies>
 		<dependency>
-			<groupId>io.javaslang</groupId>
-			<artifactId>javaslang</artifactId>
-			<version>2.0.5</version>
+			<groupId>io.vavr</groupId>
+			<artifactId>vavr</artifactId>
+			<version>0.9.1</version>
 		</dependency>
 	</dependencies>
 
