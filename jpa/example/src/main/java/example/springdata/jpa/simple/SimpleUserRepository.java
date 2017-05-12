@@ -23,6 +23,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Simple repository interface for {@link User} instances. The interface is used to declare so called query methods,
@@ -38,7 +39,7 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 * Find the user with the given username. This method will be translated into a query using the
 	 * {@link javax.persistence.NamedQuery} annotation at the {@link User} class.
 	 * 
-	 * @param lastname
+	 * @param username
 	 * @return
 	 */
 	User findByTheUsersName(String username);
@@ -129,5 +130,5 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 * @return
 	 */
 	@Query("select u from User u where u.firstname = :#{#user.firstname} or u.lastname = :#{#user.lastname}")
-	Iterable<User> findByFirstnameOrLastname(User user);
+	Iterable<User> findByFirstnameOrLastname(@Param("user")User user);
 }
