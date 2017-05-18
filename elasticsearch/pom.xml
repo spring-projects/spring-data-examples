@@ -16,7 +16,7 @@
 	<url>https://github.com/spring-projects/spring-data-elasticsearch</url>
 
 	<properties>
-		<elasticsearch.version>2.2.0</elasticsearch.version>
+		<elasticsearch.version>5.4.0</elasticsearch.version>
 	</properties>
 
 	<modules>
