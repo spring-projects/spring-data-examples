@@ -22,8 +22,8 @@ import lombok.Data;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.cassandra.mapping.CassandraType;
-import org.springframework.data.cassandra.mapping.Table;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 /**
  * @author Mark Paluch
