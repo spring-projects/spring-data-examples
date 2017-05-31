@@ -50,7 +50,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 
 		operations.collectionExists(Person.class) //
 				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
-				.flatMap(o -> operations.createCollection(Person.class, new CollectionOptions(1024 * 1024, 100, true))) //
+				.flatMap(o -> operations.createCollection(Person.class, CollectionOptions.empty().size(1024 * 1024).maxDocuments( 100).capped())) //
 				.then() //
 				.block();
 
