@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * reactive flavors.
  *
  * @author Mark Paluch
+ * @author Jens Schauder
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -54,7 +55,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		operations.collectionExists(Person.class) //
 				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
-				.flatMap(o -> operations.createCollection(Person.class, new CollectionOptions(1024 * 1024, 100, true))) //
+				.flatMap(o -> operations.createCollection(Person.class, CollectionOptions.empty().size(1024 * 1024).maxDocuments(100).capped())) //
 				.then() //
 				.block();
 
