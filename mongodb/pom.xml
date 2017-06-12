@@ -25,6 +25,7 @@
 		<module>geo-json</module>
 		<module>query-by-example</module>
 		<module>reactive</module>
+		<module>fluent-api</module>
 	</modules>
 
 	<dependencies>
