@@ -15,13 +15,15 @@
  */
 package example.springdata.cassandra.util;
 
+import java.util.concurrent.TimeUnit;
+
 import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 import org.junit.AssumptionViolatedException;
 
 /**
  * {@link org.junit.rules.TestRule} for Cassandra server use. This rule can start a Cassandra instance, reuse a running
  * instance or simply require a running Cassandra server (will skip the test if Cassandra is not running).
- * 
+ *
  * @author Mark Paluch
  */
 public class Cassandra extends CassandraResource {
@@ -73,7 +75,8 @@ public class Cassandra extends CassandraResource {
 			}
 		}
 
-		EmbeddedCassandraServerHelper.startEmbeddedCassandra("embedded-cassandra.yaml");
+		EmbeddedCassandraServerHelper.startEmbeddedCassandra("embedded-cassandra.yaml", "target/embeddedCassandra",
+				TimeUnit.SECONDS.toMillis(60));
 		super.before();
 	}
 
