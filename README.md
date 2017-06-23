@@ -14,7 +14,7 @@ We have separate folders for the samples of individual modules:
 * `interceptors` - Example of how to enrich the repositories with AOP.
 * `security` - Example of how to integrate Spring Data JPA Repositories with Spring Security.
 * `multiple-datasources` - Examples of how to use Spring Data JPA with multiple `DataSource`s.
-* `query-by-example` - Example project showing usage of Query by Example with MongoDB.
+* `query-by-example` - Example project showing usage of Query by Example with Spring Data JPA.
 
 ## Spring Data MongoDB
 
