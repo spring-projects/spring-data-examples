@@ -17,11 +17,11 @@ package example.springdata.mongodb.people;
 
 import static org.assertj.core.api.Assertions.*;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import io.reactivex.disposables.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import rx.Observable;
-import rx.Single;
-import rx.Subscription;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -36,18 +36,19 @@ import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Integration test for {@link RxJava1PersonRepository} using RxJava1 types. Note that {@link ReactiveMongoOperations}
+ * Integration test for {@link RxJava2PersonRepository} using RxJava2 types. Note that {@link ReactiveMongoOperations}
  * is only available using Project Reactor types as the native Template API implementation does not come in multiple
  * reactive flavors.
  *
  * @author Mark Paluch
  * @author Jens Schauder
+ * @author Christoph Strobl
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RxJava1PersonRepositoryIntegrationTest {
+public class RxJava2PersonRepositoryIntegrationTest {
 
-	@Autowired RxJava1PersonRepository repository;
+	@Autowired RxJava2PersonRepository repository;
 	@Autowired ReactiveMongoOperations operations;
 
 	@Before
@@ -55,17 +56,16 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		operations.collectionExists(Person.class) //
 				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
-				.flatMap(o -> operations.createCollection(Person.class, CollectionOptions.empty().size(1024 * 1024).maxDocuments(100).capped())) //
+				.flatMap(o -> operations.createCollection(Person.class,
+						CollectionOptions.empty().size(1024 * 1024).maxDocuments(100).capped())) //
 				.then() //
 				.block();
 
-		repository
-				.saveAll(Observable.just(new Person("Walter", "White", 50), //
-						new Person("Skyler", "White", 45), //
-						new Person("Saul", "Goodman", 42), //
-						new Person("Jesse", "Pinkman", 27))) //
-				.toBlocking() //
-				.last();
+		repository.saveAll(Flowable.just(new Person("Walter", "White", 50), //
+				new Person("Skyler", "White", 45), //
+				new Person("Saul", "Goodman", 42), //
+				new Person("Jesse", "Pinkman", 27))) //
+				.blockingLast();
 	}
 
 	/**
@@ -76,14 +76,14 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		CountDownLatch countDownLatch = new CountDownLatch(1);
 
-		Observable<Person> people = Observable.just(new Person("Hank", "Schrader", 43), //
+		Flowable<Person> people = Flowable.just(new Person("Hank", "Schrader", 43), //
 				new Person("Mike", "Ehrmantraut", 62));
 
 		repository.count() //
 				.doOnSuccess(System.out::println) //
-				.toObservable() //
+				.toFlowable() //
 				.switchMap(count -> repository.saveAll(people)) //
-				.last() //
+				.lastElement() //
 				.toSingle() //
 				.flatMap(v -> repository.count()) //
 				.doOnSuccess(System.out::println) //
@@ -104,7 +104,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		repository.findAll() //
 				.doOnNext(System.out::println) //
-				.doOnCompleted(countDownLatch::countDown) //
+				.doOnComplete(countDownLatch::countDown) //
 				.doOnError(throwable -> countDownLatch.countDown()) //
 				.subscribe();
 
@@ -117,9 +117,9 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldStreamDataWithTailableCursor() throws Exception {
 
-		Subscription subscription = repository.findWithTailableCursorBy() //
+		Disposable subscription = repository.findWithTailableCursorBy() //
 				.doOnNext(System.out::println) //
-				.doOnCompleted(() -> System.out.println("Complete")) //
+				.doOnComplete(() -> System.out.println("Complete")) //
 				.doOnTerminate(() -> System.out.println("Terminated")) //
 				.subscribe();
 
@@ -131,7 +131,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 		repository.save(new Person("Mike", "Ehrmantraut", 62)).subscribe();
 		Thread.sleep(100);
 
-		subscription.unsubscribe();
+		subscription.dispose();
 
 		repository.save(new Person("Gus", "Fring", 53)).subscribe();
 		Thread.sleep(100);
@@ -145,8 +145,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		List<Person> whites = repository.findByLastname("White") //
 				.toList() //
-				.toBlocking() //
-				.last();
+				.blockingGet();
 
 		assertThat(whites).hasSize(2);
 	}
@@ -158,8 +157,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	public void shouldQueryDataWithStringQuery() {
 
 		Person heisenberg = repository.findByFirstnameAndLastname("Walter", "White") //
-				.toBlocking() //
-				.value();
+				.blockingGet();
 
 		assertThat(heisenberg).isNotNull();
 	}
@@ -172,8 +170,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		List<Person> whites = repository.findByLastname(Single.just("White")) //
 				.toList() //
-				.toBlocking() //
-				.single();
+				.blockingGet();
 
 		assertThat(whites).hasSize(2);
 	}
@@ -185,7 +182,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	public void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
 		Person heisenberg = repository.findByFirstnameAndLastname(Single.just("Walter"), "White") //
-				.toBlocking().value();
+				.blockingGet();
 
 		assertThat(heisenberg).isNotNull();
 	}

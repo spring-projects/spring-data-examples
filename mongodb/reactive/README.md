@@ -27,7 +27,7 @@ Reactive data access reads and converts individual elements while processing the
 
 ## Reactive Repository support
 
-Spring Data MongoDB provides reactive repository support with Project Reactor and RxJava 1 reactive types. The reactive API supports reactive type conversion between reactive types.
+Spring Data MongoDB provides reactive repository support with Project Reactor and RxJava 2 reactive types. The reactive API supports reactive type conversion between reactive types.
 
 ```java
 public interface ReactivePersonRepository extends ReactiveCrudRepository<Person, String> {
@@ -48,19 +48,19 @@ public interface ReactivePersonRepository extends ReactiveCrudRepository<Person,
 ```
 
 ```java
-public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, String> {
+public interface RxJava2PersonRepository extends RxJava2CrudRepository<Person, String> {
 
-	Observable<Person> findByLastname(String lastname);
+	Flowable<Person> findByLastname(String lastname);
 
 	@Query("{ 'firstname': ?0, 'lastname': ?1}")
-	Single<Person> findByFirstnameAndLastname(String firstname, String lastname);
+	Maybe<Person> findByFirstnameAndLastname(String firstname, String lastname);
 
 	// Accept parameter inside a reactive type for deferred execution
-	Observable<Person> findByLastname(Single<String> lastname);
+	Flowable<Person> findByLastname(Single<String> lastname);
 
-	Single<Person> findByFirstnameAndLastname(Single<String> firstname, String lastname);
+	Maybe<Person> findByFirstnameAndLastname(Single<String> firstname, String lastname);
 
 	@InfiniteStream // Use a tailable cursor
-	Observable<Person> findWithTailableCursorBy();
+	Flowable<Person> findWithTailableCursorBy();
 }
 ```
