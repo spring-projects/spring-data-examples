@@ -24,6 +24,7 @@ import example.springdata.solr.product.Product;
 import example.springdata.solr.product.ProductRepository;
 import example.springdata.solr.test.util.RequiresSolrServer;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -46,6 +47,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -119,7 +121,7 @@ public class AdvancedSolrRepositoryTests {
 		Query query = new SimpleQuery(where("id").is(xbox.getId()));
 
 		// add document but delay commit for 3 seconds
-		operations.saveBean("techproducts", xbox, 3000);
+		operations.saveBean("techproducts", xbox, Duration.ofSeconds(3));
 
 		// document will not be returned hence not yet committed to the index
 		assertThat(operations.queryForObject("techproducts", query, Product.class), is(Optional.empty()));
