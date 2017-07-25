@@ -24,6 +24,8 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 import static org.springframework.data.mongodb.core.query.Criteria.*;
 import static org.springframework.data.mongodb.core.query.Query.*;
 
+import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -109,11 +111,10 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void matchStartingStringsIgnoreCase() {
 
-		Example<Person> example = Example.of(new Person("Walter", "WHITE", null),
-				matching(). //
-						withIgnorePaths("age").//
-						withMatcher("firstname", startsWith()).//
-						withMatcher("lastname", ignoreCase()));
+		Example<Person> example = Example.of(new Person("Walter", "WHITE", null), matching(). //
+				withIgnorePaths("age").//
+				withMatcher("firstname", startsWith()).//
+				withMatcher("lastname", ignoreCase()));
 
 		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(flynn, walter));
 	}
@@ -124,11 +125,10 @@ public class MongoOperationsIntegrationTests {
 	@Test
 	public void configuringMatchersUsingLambdas() {
 
-		Example<Person> example = Example.of(new Person("Walter", "WHITE", null),
-				matching().//
-						withIgnorePaths("age"). //
-						withMatcher("firstname", matcher -> matcher.startsWith()). //
-						withMatcher("lastname", matcher -> matcher.ignoreCase()));
+		Example<Person> example = Example.of(new Person("Walter", "WHITE", null), matching().//
+				withIgnorePaths("age"). //
+				withMatcher("firstname", matcher -> matcher.startsWith()). //
+				withMatcher("lastname", matcher -> matcher.ignoreCase()));
 
 		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(flynn, walter));
 	}
@@ -140,7 +140,7 @@ public class MongoOperationsIntegrationTests {
 	public void valueTransformer() {
 
 		Example<Person> example = Example.of(new Person(null, "White", 99), matching(). //
-				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50))));
+				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(Integer.valueOf(50)))));
 
 		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(walter));
 	}

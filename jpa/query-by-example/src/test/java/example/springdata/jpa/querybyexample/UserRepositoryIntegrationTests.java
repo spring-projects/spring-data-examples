@@ -16,8 +16,10 @@
 package example.springdata.jpa.querybyexample;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 import static org.springframework.data.domain.ExampleMatcher.*;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
+
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +27,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher.*;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  * @author Jens Schauder
  */
-@SuppressWarnings("unused")
 @RunWith(SpringRunner.class)
 @Transactional
 @SpringBootTest
@@ -75,7 +76,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void ignorePropertiesAndMatchByAge() {
 
-		Example<User> example = Example.of(flynn, matching().//
+		Example<User> example = Example.of(flynn, matching(). //
 				withIgnorePaths("firstname", "lastname"));
 
 		assertThat(repository.findOne(example)).contains(flynn);
@@ -87,7 +88,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void substringMatching() {
 
-		Example<User> example = Example.of(new User("er", null, null), matching().//
+		Example<User> example = Example.of(new User("er", null, null), matching(). //
 				withStringMatcher(StringMatcher.ENDING));
 
 		assertThat(repository.findAll(example)).containsExactly(skyler, walter);
@@ -99,11 +100,10 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void matchStartingStringsIgnoreCase() {
 
-		Example<User> example = Example.of(new User("Walter", "WHITE", null),
-				matching().//
-						withIgnorePaths("age").//
-						withMatcher("firstname", startsWith()).//
-						withMatcher("lastname", ignoreCase()));
+		Example<User> example = Example.of(new User("Walter", "WHITE", null), matching(). //
+				withIgnorePaths("age"). //
+				withMatcher("firstname", startsWith()). //
+				withMatcher("lastname", ignoreCase()));
 
 		assertThat(repository.findAll(example)).containsExactlyInAnyOrder(flynn, walter);
 	}
@@ -114,11 +114,10 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void configuringMatchersUsingLambdas() {
 
-		Example<User> example = Example.of(new User("Walter", "WHITE", null),
-				matching().//
-						withIgnorePaths("age").//
-						withMatcher("firstname", matcher -> matcher.startsWith()).//
-						withMatcher("lastname", matcher -> matcher.ignoreCase()));
+		Example<User> example = Example.of(new User("Walter", "WHITE", null), matching(). //
+				withIgnorePaths("age"). //
+				withMatcher("firstname", matcher -> matcher.startsWith()). //
+				withMatcher("lastname", matcher -> matcher.ignoreCase()));
 
 		assertThat(repository.findAll(example)).containsExactlyInAnyOrder(flynn, walter);
 	}
@@ -130,7 +129,7 @@ public class UserRepositoryIntegrationTests {
 	public void valueTransformer() {
 
 		Example<User> example = Example.of(new User(null, "White", 99), matching(). //
-				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50))));
+				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(Integer.valueOf(50)))));
 
 		assertThat(repository.findAll(example)).containsExactly(walter);
 	}
