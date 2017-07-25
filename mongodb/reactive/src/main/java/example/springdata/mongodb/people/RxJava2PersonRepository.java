@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,21 @@
  */
 package example.springdata.mongodb.people;
 
-import rx.Observable;
-import rx.Single;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.Tailable;
-import org.springframework.data.repository.reactive.RxJava1CrudRepository;
+import org.springframework.data.repository.reactive.RxJava2CrudRepository;
 
 /**
  * Repository interface to manage {@link Person} instances.
  *
  * @author Mark Paluch
+ * @author Christoph Strobl
  */
-public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, String> {
+public interface RxJava2PersonRepository extends RxJava2CrudRepository<Person, String> {
 
 	/**
 	 * Derived query selecting by {@code lastname}.
@@ -35,7 +37,7 @@ public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, S
 	 * @param lastname
 	 * @return
 	 */
-	Observable<Person> findByLastname(String lastname);
+	Flowable<Person> findByLastname(String lastname);
 
 	/**
 	 * String query selecting one entity.
@@ -44,7 +46,7 @@ public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, S
 	 * @return
 	 */
 	@Query("{ 'firstname': ?0, 'lastname': ?1}")
-	Single<Person> findByFirstnameAndLastname(String firstname, String lastname);
+	Maybe<Person> findByFirstnameAndLastname(String firstname, String lastname);
 
 	/**
 	 * Derived query selecting by {@code lastname}. {@code lastname} uses deferred resolution that does not require
@@ -53,7 +55,7 @@ public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, S
 	 * @param lastname
 	 * @return
 	 */
-	Observable<Person> findByLastname(Single<String> lastname);
+	Flowable<Person> findByLastname(Single<String> lastname);
 
 	/**
 	 * Derived query selecting by {@code firstname} and {@code lastname}. {@code firstname} uses deferred resolution which
@@ -63,7 +65,7 @@ public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, S
 	 * @param lastname
 	 * @return
 	 */
-	Single<Person> findByFirstnameAndLastname(Single<String> firstname, String lastname);
+	Maybe<Person> findByFirstnameAndLastname(Single<String> firstname, String lastname);
 
 	/**
 	 * Use a tailable cursor to emit a stream of entities as new entities are written to the capped collection.
@@ -71,5 +73,5 @@ public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, S
 	 * @return
 	 */
 	@Tailable
-	Observable<Person> findWithTailableCursorBy();
+	Flowable<Person> findWithTailableCursorBy();
 }

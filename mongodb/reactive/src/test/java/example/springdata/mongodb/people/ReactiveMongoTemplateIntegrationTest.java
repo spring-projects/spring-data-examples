@@ -89,7 +89,7 @@ public class ReactiveMongoTemplateIntegrationTest {
 	 * Note that the all object conversions are performed before the results are printed to the console.
 	 */
 	@Test
-	public void convertReactorTypesToRxJava1() throws Exception {
+	public void convertReactorTypesToRxJava2() throws Exception {
 
 		Flux<Person> flux = template.find(Query.query(Criteria.where("lastname").is("White")), Person.class);
 
