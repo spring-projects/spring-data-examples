@@ -140,7 +140,7 @@ public class MongoOperationsIntegrationTests {
 	public void valueTransformer() {
 
 		Example<Person> example = Example.of(new Person(null, "White", 99), matching(). //
-				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50))));
+				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(Integer.valueOf(50)))));
 
 		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(walter));
 	}

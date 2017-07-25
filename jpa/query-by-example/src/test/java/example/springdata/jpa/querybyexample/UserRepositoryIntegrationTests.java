@@ -130,7 +130,7 @@ public class UserRepositoryIntegrationTests {
 	public void valueTransformer() {
 
 		Example<User> example = Example.of(new User(null, "White", 99), matching(). //
-				withMatcher("age", matcher -> matcher.transform(value -> Integer.valueOf(50))));
+				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(Integer.valueOf(50)))));
 
 		assertThat(repository.findAll(example)).containsExactly(walter);
 	}
