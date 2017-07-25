@@ -73,8 +73,9 @@ public class ReactiveCassandraTemplateIntegrationTest {
 
 		template.count(Person.class) //
 				.doOnNext(System.out::println) //
-				.thenMany(template.insert(Flux.just(new Person("Hank", "Schrader", 43), //
-						new Person("Mike", "Ehrmantraut", 62)))) //
+				.thenMany(Flux.just(new Person("Hank", "Schrader", 43), //
+						new Person("Mike", "Ehrmantraut", 62)))
+				.flatMap(template::insert) //
 				.last() //
 				.flatMap(v -> template.count(Person.class)) //
 				.doOnNext(System.out::println) //
