@@ -16,12 +16,12 @@
 
 package example.springdata.cassandra.java8;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.cassandra.core.mapping.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 /**
  * @author Mark Paluch

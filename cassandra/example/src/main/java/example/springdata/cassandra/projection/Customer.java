@@ -15,10 +15,10 @@
  */
 package example.springdata.cassandra.projection;
 
+import lombok.Value;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.Table;
-
-import lombok.Value;
 
 /**
  * @author Mark Paluch

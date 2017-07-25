@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.core.convert.CassandraCustomConversions;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 import org.springframework.util.StringUtils;

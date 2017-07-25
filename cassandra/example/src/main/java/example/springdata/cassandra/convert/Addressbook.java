@@ -15,12 +15,12 @@
  */
 package example.springdata.cassandra.convert;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.cassandra.core.mapping.Table;
-
 import lombok.Data;
 
 import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 /**
  * Sample Addressbook class.

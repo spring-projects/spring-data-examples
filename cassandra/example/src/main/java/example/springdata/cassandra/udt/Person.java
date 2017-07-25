@@ -15,8 +15,6 @@
  */
 package example.springdata.cassandra.udt;
 
-import com.datastax.driver.core.DataType.Name;
-import com.datastax.driver.core.UDTValue;
 import lombok.Data;
 
 import java.util.List;
@@ -24,6 +22,9 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Table;
+
+import com.datastax.driver.core.DataType.Name;
+import com.datastax.driver.core.UDTValue;
 
 /**
  * @author Mark Paluch
