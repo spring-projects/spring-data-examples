@@ -16,8 +16,8 @@
 package example.springdata.cassandra.people;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration;
 import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.config.java.AbstractReactiveCassandraConfiguration;
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories;
 
 /**

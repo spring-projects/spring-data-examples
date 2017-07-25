@@ -16,16 +16,10 @@
 package example.springdata.cassandra.projection;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
-
-import com.datastax.driver.core.Session;
-
-import example.springdata.cassandra.basic.User;
 
 /**
  * Basic {@link Configuration} to create the necessary schema for the {@link Customer} table.
