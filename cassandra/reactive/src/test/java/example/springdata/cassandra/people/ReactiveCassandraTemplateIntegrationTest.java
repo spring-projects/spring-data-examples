@@ -19,8 +19,8 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
+import io.reactivex.Flowable;
 import reactor.core.publisher.Flux;
-import rx.RxReactiveStreams;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -89,15 +89,12 @@ public class ReactiveCassandraTemplateIntegrationTest {
 	 * Note that the all object conversions are performed before the results are printed to the console.
 	 */
 	@Test
-	public void convertReactorTypesToRxJava1() throws Exception {
+	public void convertReactorTypesToRxJava2() throws Exception {
 
 		Flux<Person> flux = template.select(select().from("person").where(eq("lastname", "White")), Person.class);
 
-		long count = RxReactiveStreams.toObservable(flux) //
-				.count() //
-				.toSingle() //
-				.toBlocking() //
-				.value(); //
+		long count = Flowable.fromPublisher(flux) //
+				.count().blockingGet();
 
 		assertThat(count).isEqualTo(2);
 	}

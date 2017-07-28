@@ -22,7 +22,6 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.junit.Before;
@@ -35,7 +34,7 @@ import org.springframework.data.cassandra.core.ReactiveCassandraOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Integration test for {@link RxJava2PersonRepository} using RxJava1 types. Note that
+ * Integration test for {@link RxJava2PersonRepository} using RxJava 2 types. Note that
  * {@link ReactiveCassandraOperations} is only available using Project Reactor types as the native Template API
  * implementation does not come in multiple reactive flavors.
  *
@@ -55,12 +54,12 @@ public class RxJava2PersonRepositoryIntegrationTest {
 
 		Completable deleteAll = repository.deleteAll();
 
-		Observable<Person> save = repository.saveAll(Observable.just(new Person("Walter", "White", 50), //
+		Flowable<Person> save = repository.saveAll(Flowable.just(new Person("Walter", "White", 50), //
 				new Person("Skyler", "White", 45), //
 				new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)));
 
-		deleteAll.andThen(save).blockingLast();
+		deleteAll.andThen(save).test().awaitCount(4).assertValueCount(4).awaitTerminalEvent();
 	}
 
 	/**
@@ -73,11 +72,10 @@ public class RxJava2PersonRepositoryIntegrationTest {
 
 		repository.count() //
 				.doOnSuccess(System.out::println) //
-				.toObservable() //
-				.switchMap(count -> repository.saveAll(Observable.just(new Person("Hank", "Schrader", 43), //
+				.toFlowable() //
+				.switchMap(count -> repository.saveAll(Flowable.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
-				.lastElement() //
-				.toSingle() //
+				.lastOrError() //
 				.flatMap(v -> repository.count()) //
 				.doOnSuccess(System.out::println) //
 				.doAfterTerminate(countDownLatch::countDown) //
@@ -97,7 +95,7 @@ public class RxJava2PersonRepositoryIntegrationTest {
 
 		repository.findAll() //
 				.doOnNext(System.out::println) //
-				.doOnEach(it -> countDownLatch.countDown()) //
+				.doOnComplete(countDownLatch::countDown) //
 				.doOnError(throwable -> countDownLatch.countDown()) //
 				.subscribe();
 
@@ -110,11 +108,8 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithQueryDerivation() {
 
-		List<Person> whites = repository.findByLastname("White") //
-				.toList() //
-				.blockingGet();
-
-		assertThat(whites).hasSize(2);
+		repository.findByLastname("White") //
+				.test().awaitCount(2).assertValueCount(2).awaitTerminalEvent();
 	}
 
 	/**
@@ -135,11 +130,8 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithDeferredQueryDerivation() {
 
-		List<Person> whites = repository.findByLastname(Single.just("White")) //
-				.toList() //
-				.blockingGet();
-
-		assertThat(whites).hasSize(2);
+		repository.findByLastname(Single.just("White")) //
+				.test().awaitCount(2).assertValueCount(2).awaitTerminalEvent();
 	}
 
 	/**

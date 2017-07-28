@@ -15,6 +15,7 @@
  */
 package example.springdata.cassandra.people;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -43,7 +44,7 @@ public interface RxJava2PersonRepository extends RxJava2CrudRepository<Person, S
 	 * @return
 	 */
 	@Query("SELECT * FROM person WHERE firstname = ?0 and lastname  = ?1")
-	Single<Person> findByFirstnameAndLastname(String firstname, String lastname);
+	Maybe<Person> findByFirstnameAndLastname(String firstname, String lastname);
 
 	/**
 	 * Derived query selecting by {@code lastname}. {@code lastname} uses deferred resolution that does not require
