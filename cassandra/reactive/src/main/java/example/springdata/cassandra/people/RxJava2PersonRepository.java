@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,19 @@
  */
 package example.springdata.cassandra.people;
 
-import rx.Observable;
-import rx.Single;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import org.springframework.data.cassandra.repository.Query;
-import org.springframework.data.repository.reactive.RxJava1CrudRepository;
+import org.springframework.data.repository.reactive.RxJava2CrudRepository;
 
 /**
  * Repository interface to manage {@link Person} instances.
  *
  * @author Mark Paluch
  */
-public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, String> {
+public interface RxJava2PersonRepository extends RxJava2CrudRepository<Person, String> {
 
 	/**
 	 * Derived query selecting by {@code lastname}.
@@ -43,7 +44,7 @@ public interface RxJava1PersonRepository extends RxJava1CrudRepository<Person, S
 	 * @return
 	 */
 	@Query("SELECT * FROM person WHERE firstname = ?0 and lastname  = ?1")
-	Single<Person> findByFirstnameAndLastname(String firstname, String lastname);
+	Maybe<Person> findByFirstnameAndLastname(String firstname, String lastname);
 
 	/**
 	 * Derived query selecting by {@code lastname}. {@code lastname} uses deferred resolution that does not require
