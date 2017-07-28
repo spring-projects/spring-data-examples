@@ -18,8 +18,13 @@ package example.springdata.cassandra.basic;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.Indexed;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.SASI;
+import org.springframework.data.cassandra.core.mapping.SASI.StandardAnalyzed;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 /**
@@ -36,9 +41,19 @@ public class User {
 
 	@PrimaryKey("user_id") private Long id;
 
-	@Column("uname") private String username;
+	/**
+	 * Allows secondary index creation on startup.
+	 */
+	@Indexed private String username;
+
 	@Column("fname") private String firstname;
-	@Column("lname") private String lastname;
+
+	/**
+	 * Allows SASI index creation on startup.
+	 */
+	@SASI @StandardAnalyzed private String lastname;
+
+	private List<String> emailAddresses;
 
 	public User(Long id) {
 		this.setId(id);

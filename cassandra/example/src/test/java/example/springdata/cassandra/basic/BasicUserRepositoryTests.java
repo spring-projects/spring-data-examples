@@ -16,10 +16,8 @@
 package example.springdata.cassandra.basic;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assume.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
-import example.springdata.cassandra.util.CassandraVersion;
 
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -27,7 +25,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.util.Version;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.datastax.driver.core.Session;
@@ -43,8 +40,6 @@ import com.datastax.driver.core.Session;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BasicConfiguration.class)
 public class BasicUserRepositoryTests {
-
-	public final static Version CASSANDRA_3_4 = Version.parse("3.4");
 
 	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
@@ -89,16 +84,11 @@ public class BasicUserRepositoryTests {
 	 * Spring Data Cassandra supports query derivation so annotating query methods with
 	 * {@link org.springframework.data.cassandra.repository.Query} is optional. Querying columns other than the primary
 	 * key requires a secondary index.
+	 *
+	 * @see User#username
 	 */
 	@Test
 	public void findByDerivedQueryMethod() throws InterruptedException {
-
-		session.execute("CREATE INDEX IF NOT EXISTS user_username ON users (uname);");
-		/*
-		  Cassandra secondary indexes are created in the background without the possibility to check
-		  whether they are available or not. So we are forced to just wait. *sigh*
-		 */
-		Thread.sleep(1000);
 
 		repository.save(user);
 
@@ -107,18 +97,11 @@ public class BasicUserRepositoryTests {
 
 	/**
 	 * Spring Data Cassandra supports {@code LIKE} and {@code CONTAINS} query keywords to for SASI indexes.
+	 *
+	 * @see User#lastname
 	 */
 	@Test
 	public void findByDerivedQueryMethodWithSASI() throws InterruptedException {
-
-		assumeTrue(CassandraVersion.getReleaseVersion(session).isGreaterThanOrEqualTo(CASSANDRA_3_4));
-
-		session.execute("CREATE CUSTOM INDEX ON users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex';");
-		/*
-		  Cassandra secondary indexes are created in the background without the possibility to check
-		  whether they are available or not. So we are forced to just wait. *sigh*
-		 */
-		Thread.sleep(1000);
 
 		repository.save(user);
 
