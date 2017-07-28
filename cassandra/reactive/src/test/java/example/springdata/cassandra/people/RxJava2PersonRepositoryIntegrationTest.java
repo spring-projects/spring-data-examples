@@ -18,11 +18,10 @@ package example.springdata.cassandra.people;
 import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
-import rx.Completable;
-import rx.Observable;
-import rx.Single;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.junit.Before;
@@ -35,7 +34,7 @@ import org.springframework.data.cassandra.core.ReactiveCassandraOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Integration test for {@link RxJava1PersonRepository} using RxJava1 types. Note that
+ * Integration test for {@link RxJava2PersonRepository} using RxJava 2 types. Note that
  * {@link ReactiveCassandraOperations} is only available using Project Reactor types as the native Template API
  * implementation does not come in multiple reactive flavors.
  *
@@ -43,11 +42,11 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RxJava1PersonRepositoryIntegrationTest {
+public class RxJava2PersonRepositoryIntegrationTest {
 
 	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
-	@Autowired RxJava1PersonRepository repository;
+	@Autowired RxJava2PersonRepository repository;
 	@Autowired ReactiveCassandraOperations operations;
 
 	@Before
@@ -55,12 +54,12 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		Completable deleteAll = repository.deleteAll();
 
-		Observable<Person> save = repository.saveAll(Observable.just(new Person("Walter", "White", 50), //
+		Flowable<Person> save = repository.saveAll(Flowable.just(new Person("Walter", "White", 50), //
 				new Person("Skyler", "White", 45), //
 				new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)));
 
-		deleteAll.andThen(save).toBlocking().last();
+		deleteAll.andThen(save).test().awaitCount(4).assertValueCount(4).awaitTerminalEvent();
 	}
 
 	/**
@@ -73,11 +72,10 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		repository.count() //
 				.doOnSuccess(System.out::println) //
-				.toObservable() //
-				.switchMap(count -> repository.saveAll(Observable.just(new Person("Hank", "Schrader", 43), //
+				.toFlowable() //
+				.switchMap(count -> repository.saveAll(Flowable.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
-				.last() //
-				.toSingle() //
+				.lastOrError() //
 				.flatMap(v -> repository.count()) //
 				.doOnSuccess(System.out::println) //
 				.doAfterTerminate(countDownLatch::countDown) //
@@ -97,7 +95,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		repository.findAll() //
 				.doOnNext(System.out::println) //
-				.doOnCompleted(countDownLatch::countDown) //
+				.doOnComplete(countDownLatch::countDown) //
 				.doOnError(throwable -> countDownLatch.countDown()) //
 				.subscribe();
 
@@ -110,12 +108,8 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithQueryDerivation() {
 
-		List<Person> whites = repository.findByLastname("White") //
-				.toList() //
-				.toBlocking() //
-				.last();
-
-		assertThat(whites).hasSize(2);
+		repository.findByLastname("White") //
+				.test().awaitCount(2).assertValueCount(2).awaitTerminalEvent();
 	}
 
 	/**
@@ -125,8 +119,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	public void shouldQueryDataWithStringQuery() {
 
 		Person heisenberg = repository.findByFirstnameAndLastname("Walter", "White") //
-				.toBlocking() //
-				.value();
+				.blockingGet();
 
 		assertThat(heisenberg).isNotNull();
 	}
@@ -137,12 +130,8 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithDeferredQueryDerivation() {
 
-		List<Person> whites = repository.findByLastname(Single.just("White")) //
-				.toList() //
-				.toBlocking() //
-				.single();
-
-		assertThat(whites).hasSize(2);
+		repository.findByLastname(Single.just("White")) //
+				.test().awaitCount(2).assertValueCount(2).awaitTerminalEvent();
 	}
 
 	/**
@@ -152,7 +141,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	public void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
 		Person heisenberg = repository.findByFirstnameAndLastname(Single.just("Walter"), "White") //
-				.toBlocking().value();
+				.blockingGet();
 
 		assertThat(heisenberg).isNotNull();
 	}
