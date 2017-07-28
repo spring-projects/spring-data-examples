@@ -16,13 +16,15 @@
 package example.springdata.cassandra.basic;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.data.cassandra.core.query.Criteria.*;
+import static org.springframework.data.cassandra.core.query.Query.*;
+import static org.springframework.data.cassandra.core.query.Update.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -33,6 +35,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.AsyncCassandraTemplate;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.CassandraTemplate;
+import org.springframework.data.cassandra.core.InsertOptions;
+import org.springframework.data.cassandra.core.WriteResult;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.concurrent.ListenableFuture;
 
@@ -68,9 +72,9 @@ public class CassandraOperationsIntegrationTests {
 	public void insertAndSelect() {
 
 		Insert insert = QueryBuilder.insertInto("users").value("user_id", 42L) //
-				.value("uname", "heisenberg") //
+				.value("username", "heisenberg") //
 				.value("fname", "Walter") //
-				.value("lname", "White") //
+				.value("lastname", "White") //
 				.ifNotExists(); //
 
 		template.getCqlOperations().execute(insert);
@@ -84,8 +88,10 @@ public class CassandraOperationsIntegrationTests {
 	}
 
 	/**
-	 * Objects can be inserted and updated using {@link CassandraTemplate}. What you {@code update} is what you
-	 * {@code select}.
+	 * Objects can be inserted and updated using {@link CassandraTemplate}.
+	 * {@link org.springframework.data.cassandra.core.query.Query} and
+	 * {@link org.springframework.data.cassandra.core.query.Update} objects allow fine-grained selection and application
+	 * of update operations.
 	 */
 	@Test
 	public void insertAndUpdate() {
@@ -98,19 +104,23 @@ public class CassandraOperationsIntegrationTests {
 
 		template.insert(user);
 
-		user.setFirstname(null);
-		template.update(user);
+		template.update(query(where("id").is(42L)), //
+				update("firstname", null) //
+						.addTo("emailAddresses") //
+						.appendAll("heisenberg@blue-sky.org", "walter@madrigal-electromotive.de"), //
+				User.class);
 
 		User loaded = template.selectOneById(42L, User.class);
 		assertThat(loaded.getUsername()).isEqualTo("heisenberg");
 		assertThat(loaded.getFirstname()).isNull();
+		assertThat(loaded.getEmailAddresses()).contains("heisenberg@blue-sky.org", "walter@madrigal-electromotive.de");
 	}
 
 	/**
 	 * Asynchronous query execution using callbacks.
 	 */
 	@Test
-	public void insertAsynchronously() throws InterruptedException {
+	public void insertAsynchronously() {
 
 		User user = new User();
 		user.setId(42L);
@@ -118,7 +128,7 @@ public class CassandraOperationsIntegrationTests {
 		user.setFirstname("Walter");
 		user.setLastname("White");
 
-		final CountDownLatch countDownLatch = new CountDownLatch(1);
+		CountDownLatch countDownLatch = new CountDownLatch(1);
 
 		AsyncCassandraTemplate asyncTemplate = new AsyncCassandraTemplate(session);
 
@@ -126,7 +136,7 @@ public class CassandraOperationsIntegrationTests {
 
 		future.addCallback(it -> countDownLatch.countDown(), throwable -> countDownLatch.countDown());
 
-		countDownLatch.await(5, TimeUnit.SECONDS);
+		future.completable().join();
 
 		User loaded = template.selectOneById(user.getId(), User.class);
 		assertThat(loaded).isEqualTo(user);
@@ -157,5 +167,36 @@ public class CassandraOperationsIntegrationTests {
 		Map<String, Object> map = template.selectOne(QueryBuilder.select().from("users"), Map.class);
 		assertThat(map).containsEntry("user_id", user.getId());
 		assertThat(map).containsEntry("fname", "Walter");
+	}
+
+	/**
+	 * Use lightweight-transactions for {@code INSERT} operations. {@link InsertOptions#isIfNotExists()} is set to
+	 * {@literal true} to include {@code IF NOT EXISTS} in the insert statement.
+	 */
+	@Test
+	public void lightweightTransactions() {
+
+		User user = new User();
+		user.setId(42L);
+		user.setUsername("heisenberg");
+		user.setFirstname("Walter");
+		user.setLastname("White");
+
+		WriteResult insert = template.insert(user, InsertOptions.builder().withIfNotExists().build());
+
+		assertThat(insert.wasApplied()).isTrue();
+
+		User otherUser = new User();
+		otherUser.setId(42L);
+		otherUser.setUsername("capncook");
+		otherUser.setFirstname("Jesse");
+		otherUser.setLastname("Pinkman");
+
+		WriteResult secondInsert = template.insert(otherUser, InsertOptions.builder().withIfNotExists().build());
+
+		assertThat(secondInsert.wasApplied()).isFalse();
+
+		User loaded = template.selectOneById(user.getId(), User.class);
+		assertThat(loaded.getUsername()).isEqualTo("heisenberg");
 	}
 }
