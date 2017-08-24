@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ package example.springdata.jpa.multipleds.order;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -25,41 +27,35 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * Configuration for the {@link Order} slice of the system. A dedicated {@link DataSource},
- * {@link JpaTransactionManager} and {@link EntityManagerFactory}. Note that there could of course be some deduplication
- * with {@link example.springdata.jpa.multipleds.customer.CustomerConfig}. I just decided to keep it to focus on the
- * sepeartion of the two. Also, some overlaps might not even occur in real world scenarios (whether to create DDl or the
- * like).
+ * {@link JpaTransactionManager} and {@link EntityManagerFactory}. Note that there could of course be some
+ * de-duplication with {@link example.springdata.jpa.multipleds.customer.CustomerConfig}. I just decided to keep it to
+ * focus on the separation of the two. Also, some overlaps might not even occur in real world scenarios (whether to
+ * create DDl or the like).
  *
  * @author Oliver Gierke
  */
 @Configuration
-@EnableJpaRepositories(entityManagerFactoryRef = "orderEntityManagerFactory",
+@EnableJpaRepositories(//
+		entityManagerFactoryRef = "orderEntityManagerFactory", //
 		transactionManagerRef = "orderTransactionManager")
 class OrderConfig {
 
 	@Bean
-	PlatformTransactionManager orderTransactionManager() {
-		return new JpaTransactionManager(orderEntityManagerFactory().getObject());
+	PlatformTransactionManager orderTransactionManager(@Qualifier("orderEntityManagerFactory") EntityManagerFactory emf) {
+		return new JpaTransactionManager(emf);
 	}
 
 	@Bean
-	LocalContainerEntityManagerFactoryBean orderEntityManagerFactory() {
+	LocalContainerEntityManagerFactoryBean orderEntityManagerFactory(EntityManagerFactoryBuilder builder) {
 
-		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setGenerateDdl(true);
-
-		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-
-		factoryBean.setDataSource(orderDataSource());
-		factoryBean.setJpaVendorAdapter(vendorAdapter);
-		factoryBean.setPackagesToScan(OrderConfig.class.getPackage().getName());
-
-		return factoryBean;
+		return builder //
+				.dataSource(orderDataSource()) //
+				.packages(OrderConfig.class) //
+				.build();
 	}
 
 	@Bean
