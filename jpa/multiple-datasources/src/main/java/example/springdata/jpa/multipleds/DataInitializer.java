@@ -15,29 +15,28 @@
  */
 package example.springdata.jpa.multipleds;
 
-import javax.sql.DataSource;
-
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-
 import example.springdata.jpa.multipleds.customer.Customer;
 import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
 import example.springdata.jpa.multipleds.customer.CustomerRepository;
 import example.springdata.jpa.multipleds.order.Order;
 import example.springdata.jpa.multipleds.order.Order.LineItem;
 import example.springdata.jpa.multipleds.order.OrderRepository;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+import javax.sql.DataSource;
+
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 /**
  * Sample component to demonstrate how to work with repositories backed by different {@link DataSource}s. Note how we
  * explicitly select a transaction manager by name. In this particular case (only one operation on the repository) this
- * is not strictly necessary. However, if multiple repositories or multiple interactions on the very same repsoitory are
+ * is not strictly necessary. However, if multiple repositories or multiple interactions on the very same repository are
  * to be executed in a method we need to expand the transaction boundary around these interactions. It's recommended to
  * create a dedicated annotation meta-annotated with {@code @Transactional("…")} to be able to refer to a particular
- * datasource without using String qualifiers.
+ * data source without using String qualifiers.
  * <p>
  * Also, not that one cannot interact with both databases in a single, transactional method as transactions are thread
  * bound in Spring an thus only a single transaction can be active in a single thread. See {@link Application#init()}
