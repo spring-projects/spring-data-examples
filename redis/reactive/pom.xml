@@ -13,10 +13,10 @@
 	</parent>
 
 	<properties>
-		<spring-data-releasetrain.version>Kay-M1</spring-data-releasetrain.version>
-		<spring.version>5.0.0.M3</spring.version>
-		<reactor.version>3.0.3.RELEASE</reactor.version>
-		<lettuce.version>5.0.0.Beta1</lettuce.version>
+		<spring-data-releasetrain.version>Kay-RC2</spring-data-releasetrain.version>
+		<spring.version>5.0.0.RC3</spring.version>
+		<reactor.version>3.1.0.M3</reactor.version>
+		<lettuce.version>5.0.0.RC1</lettuce.version>
 	</properties>
 
 	<dependencies>
@@ -32,8 +32,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>biz.paluch.redis</groupId>
-			<artifactId>lettuce</artifactId>
+			<groupId>io.lettuce</groupId>
+			<artifactId>lettuce-core</artifactId>
 			<version>${lettuce.version}</version>
 		</dependency>
 

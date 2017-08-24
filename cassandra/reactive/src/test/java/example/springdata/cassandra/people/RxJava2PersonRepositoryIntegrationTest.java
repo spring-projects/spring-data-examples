@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ package example.springdata.cassandra.people;
 import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
-import rx.Completable;
-import rx.Observable;
-import rx.Single;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -35,7 +35,7 @@ import org.springframework.data.cassandra.core.ReactiveCassandraOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Integration test for {@link RxJava1PersonRepository} using RxJava1 types. Note that
+ * Integration test for {@link RxJava2PersonRepository} using RxJava1 types. Note that
  * {@link ReactiveCassandraOperations} is only available using Project Reactor types as the native Template API
  * implementation does not come in multiple reactive flavors.
  *
@@ -43,11 +43,11 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RxJava1PersonRepositoryIntegrationTest {
+public class RxJava2PersonRepositoryIntegrationTest {
 
 	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
-	@Autowired RxJava1PersonRepository repository;
+	@Autowired RxJava2PersonRepository repository;
 	@Autowired ReactiveCassandraOperations operations;
 
 	@Before
@@ -55,12 +55,12 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		Completable deleteAll = repository.deleteAll();
 
-		Observable<Person> save = repository.save(Observable.just(new Person("Walter", "White", 50), //
+		Flowable<Person> save = repository.saveAll(Flowable.just(new Person("Walter", "White", 50), //
 				new Person("Skyler", "White", 45), //
 				new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)));
 
-		deleteAll.andThen(save).toBlocking().last();
+		deleteAll.andThen(save).blockingLast();
 	}
 
 	/**
@@ -73,10 +73,10 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		repository.count() //
 				.doOnSuccess(System.out::println) //
-				.toObservable() //
-				.switchMap(count -> repository.save(Observable.just(new Person("Hank", "Schrader", 43), //
+				.toFlowable() //
+				.switchMap(count -> repository.saveAll(Flowable.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
-				.last() //
+				.lastElement() //
 				.toSingle() //
 				.flatMap(v -> repository.count()) //
 				.doOnSuccess(System.out::println) //
@@ -98,7 +98,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		repository.findAll() //
 				.doOnNext(System.out::println) //
-				.doOnCompleted(countDownLatch::countDown) //
+				.doOnEach(it -> countDownLatch.countDown()) //
 				.doOnError(throwable -> countDownLatch.countDown()) //
 				.subscribe();
 
@@ -113,8 +113,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		List<Person> whites = repository.findByLastname("White") //
 				.toList() //
-				.toBlocking() //
-				.last();
+				.blockingGet();
 
 		assertThat(whites).hasSize(2);
 	}
@@ -126,8 +125,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	public void shouldQueryDataWithStringQuery() {
 
 		Person heisenberg = repository.findByFirstnameAndLastname("Walter", "White") //
-				.toBlocking() //
-				.value();
+				.blockingGet();
 
 		assertThat(heisenberg).isNotNull();
 	}
@@ -140,8 +138,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 
 		List<Person> whites = repository.findByLastname(Single.just("White")) //
 				.toList() //
-				.toBlocking() //
-				.single();
+				.blockingGet();
 
 		assertThat(whites).hasSize(2);
 	}
@@ -153,7 +150,7 @@ public class RxJava1PersonRepositoryIntegrationTest {
 	public void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
 		Person heisenberg = repository.findByFirstnameAndLastname(Single.just("Walter"), "White") //
-				.toBlocking().value();
+				.blockingGet();
 
 		assertThat(heisenberg).isNotNull();
 	}
