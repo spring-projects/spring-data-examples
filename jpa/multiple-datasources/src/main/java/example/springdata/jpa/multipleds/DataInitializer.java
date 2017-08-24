@@ -20,7 +20,6 @@ import javax.sql.DataSource;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -47,7 +46,7 @@ import example.springdata.jpa.multipleds.order.OrderRepository;
  * @author Oliver Gierke
  */
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class DataInitializer {
 
 	private final @NonNull OrderRepository orders;

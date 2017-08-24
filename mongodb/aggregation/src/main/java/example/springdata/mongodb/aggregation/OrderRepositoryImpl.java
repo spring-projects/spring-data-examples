@@ -31,7 +31,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 class OrderRepositoryImpl implements OrderRepositoryCustom {
 
 	private final MongoOperations operations;

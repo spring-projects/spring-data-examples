@@ -19,7 +19,6 @@ import example.users.User;
 import example.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PageableDefault;
@@ -40,7 +39,7 @@ import com.querydsl.core.types.Predicate;
  * @author Oliver Gierke
  */
 @Controller
-@RequiredArgsConstructor(onConstructor = @__(@Autowired) )
+@RequiredArgsConstructor
 class UserController {
 
 	private final UserRepository repository;

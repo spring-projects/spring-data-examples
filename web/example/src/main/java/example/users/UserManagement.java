@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
  */
 @Transactional
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class UserManagement {
 
 	private final UserRepository repository;
