@@ -53,10 +53,11 @@ public class ReactiveCassandraTemplateIntegrationTest {
 	public void setUp() {
 
 		template.truncate(Person.class) //
-				.thenMany(template.insert(Flux.just(new Person("Walter", "White", 50), //
+				.thenMany(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
-						new Person("Jesse", "Pinkman", 27)))) //
+						new Person("Jesse", "Pinkman", 27))) //
+				.flatMap(template::insert) //
 				.then() //
 				.block();
 	}
