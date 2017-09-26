@@ -136,6 +136,15 @@ public class CustomerRepositoryIntegrationTest {
 	}
 
 	@Test
+	public void supportsDynamicProjectionInCombinationWithPagination() {
+
+		Page<CustomerProjection> page = customers
+				.findPagedProjectedBy(new PageRequest(0, 1, new Sort(Direction.ASC, "lastname")), CustomerProjection.class);
+
+		assertThat(page.getContent().get(0).getFirstname(), is("Carter"));
+	}
+
+	@Test
 	public void appliesProjectionToOptional() {
 		assertThat(customers.findOptionalProjectionByLastname("Beauford").isPresent(), is(true));
 	}
