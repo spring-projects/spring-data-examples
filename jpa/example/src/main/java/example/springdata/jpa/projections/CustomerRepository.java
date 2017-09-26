@@ -23,11 +23,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * @author Oliver Gierke
  */
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long> {
 
 	/**
 	 * Uses a projection interface to indicate the fields to be returned. As the projection doesn't use any dynamic
@@ -96,6 +97,15 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	 * @return
 	 */
 	Page<CustomerProjection> findPagedProjectedBy(Pageable pageable);
+
+	/**
+	 * Dyanmic rojections used with pagination.
+	 *
+	 * @param pageable
+	 * @param projection
+	 * @return
+	 */
+	<T> Page<T> findPagedProjectedBy(Pageable pageable, Class<T> projection);
 
 	/**
 	 * A DTO projection using a constructor expression in a manually declared query.
