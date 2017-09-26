@@ -99,7 +99,7 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 	Page<CustomerProjection> findPagedProjectedBy(Pageable pageable);
 
 	/**
-	 * Dyanmic rojections used with pagination.
+	 * Dyanmic projections used with pagination.
 	 *
 	 * @param pageable
 	 * @param projection
