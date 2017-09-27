@@ -21,13 +21,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  * @author Oliver Gierke
  */
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+public interface CustomerRepository extends CrudRepository<Customer, Long>, JpaSpecificationExecutor<Customer> {
 
 	/**
 	 * Uses a projection interface to indicate the fields to be returned. As the projection doesn't use any dynamic
@@ -113,4 +115,23 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	 * @return
 	 */
 	Optional<CustomerProjection> findOptionalProjectionByLastname(String lastname);
+
+	/**
+	 * Dynamic projections used with specification.
+	 *
+	 * @pafam spec
+	 * @param projection
+	 * @return
+	 */
+	<T> Collection<T> findProjectedBy(Specification<Customer> spec, Class<T> projection);
+
+	/**
+	 * Dynamic projections used with pagination and specification.
+	 *
+	 * @pafam spec
+	 * @param pageable
+	 * @param projection
+	 * @return
+	 */
+	<T> Page<T> findPagedProjectedBy(Specification<Customer> spec, Pageable pageable, Class<T> projection);
 }

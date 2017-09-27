@@ -32,9 +32,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.projection.TargetAware;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * Integration tests for {@link CustomerRepository} to show projection capabilities.
@@ -138,5 +144,35 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void appliesProjectionToOptional() {
 		assertThat(customers.findOptionalProjectionByLastname("Beauford").isPresent(), is(true));
+	}
+
+	@Test
+	public void supportsDynamicProjectionInCombinationWitSpecification() {
+
+		Collection<CustomerProjection> result = customers
+				.findProjectedBy(firstNameIs("Dave"), CustomerProjection.class);
+
+		assertThat(result, hasSize(1));
+	}
+
+	@Test
+	public void supportsDynamicProjectionInCombinationWithPaginationAndSpecification() {
+
+		Page<CustomerProjection> page = customers
+				.findPagedProjectedBy(firstNameIs("Dave"), new PageRequest(0, 1, new Sort(Direction.ASC, "lastname")),
+						CustomerProjection.class);
+
+		assertThat(page.getTotalElements(), is(1));
+	}
+
+	protected static Specification<Customer> firstNameIs(String firstName) {
+		return new Specification<Customer>() {
+
+			@Override
+			public Predicate toPredicate(final Root<Customer> root, final CriteriaQuery<?> query,
+					final CriteriaBuilder cb) {
+				return cb.equal(root.get("firstName"), firstName);
+			}
+		};
 	}
 }
