@@ -12,10 +12,6 @@
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<spring-security.version>4.0.2.RELEASE</spring-security.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
