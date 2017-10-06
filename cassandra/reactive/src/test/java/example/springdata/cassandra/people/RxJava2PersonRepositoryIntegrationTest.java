@@ -55,7 +55,7 @@ public class RxJava2PersonRepositoryIntegrationTest {
 
 		Completable deleteAll = repository.deleteAll();
 
-		Observable<Person> save = repository.saveAll(Observable.just(new Person("Walter", "White", 50), //
+		Flowable<Person> save = repository.saveAll(Flowable.just(new Person("Walter", "White", 50), //
 				new Person("Skyler", "White", 45), //
 				new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)));
@@ -73,8 +73,8 @@ public class RxJava2PersonRepositoryIntegrationTest {
 
 		repository.count() //
 				.doOnSuccess(System.out::println) //
-				.toObservable() //
-				.switchMap(count -> repository.saveAll(Observable.just(new Person("Hank", "Schrader", 43), //
+				.toFlowable() //
+				.switchMap(count -> repository.saveAll(Flowable.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
 				.lastElement() //
 				.toSingle() //
