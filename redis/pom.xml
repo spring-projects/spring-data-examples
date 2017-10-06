@@ -18,7 +18,7 @@
 	<modules>
 		<module>cluster</module>
 		<module>example</module>
-		<!--<module>reactive</module>-->
+		<module>reactive</module>
 		<module>repositories</module>
 		<module>sentinel</module>
 		<module>util</module>
@@ -41,6 +41,7 @@
 	<dependencyManagement>
 
 		<dependencies>
+
 			<dependency>
 				<groupId>com.github.kstyrc</groupId>
 				<artifactId>embedded-redis</artifactId>

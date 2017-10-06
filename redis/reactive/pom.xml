@@ -8,16 +8,9 @@
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-redis-examples</artifactId>
-		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<version>2.0.0.BUILD-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-
-	<properties>
-		<spring-data-releasetrain.version>Kay-RC2</spring-data-releasetrain.version>
-		<spring.version>5.0.0.RC3</spring.version>
-		<reactor.version>3.1.0.M3</reactor.version>
-		<lettuce.version>5.0.0.RC1</lettuce.version>
-	</properties>
 
 	<dependencies>
 
@@ -34,7 +27,6 @@
 		<dependency>
 			<groupId>io.lettuce</groupId>
 			<artifactId>lettuce-core</artifactId>
-			<version>${lettuce.version}</version>
 		</dependency>
 
 		<dependency>
