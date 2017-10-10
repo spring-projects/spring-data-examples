@@ -15,7 +15,7 @@ public class RedisSentinelApplicationConfig {
 
 	@Bean
 	public RedisConnectionFactory connectionFactory() {
-		return new JedisConnectionFactory(sentinelConfig());
+		return new LettuceConnectionFactory(sentinelConfig(), LettuceClientConfiguration.defaultConfiguration());
 	}
 
 	@Bean

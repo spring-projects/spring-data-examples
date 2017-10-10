@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,13 @@ package example.springdata.redis.repositories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 /**
  * @author Christoph Strobl
+ * @author Mark Paluch
  */
 @Configuration
 @EnableRedisRepositories
@@ -31,13 +32,13 @@ public class ApplicationConfiguration {
 
 	@Bean
 	RedisConnectionFactory connectionFactory() {
-		return new JedisConnectionFactory();
+		return new LettuceConnectionFactory();
 	}
 
 	@Bean
 	RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
 
-		RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
+		RedisTemplate<byte[], byte[]> template = new RedisTemplate<>();
 		template.setConnectionFactory(connectionFactory);
 
 		return template;

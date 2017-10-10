@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StopWatch;
@@ -31,6 +32,7 @@ import org.springframework.util.StopWatch;
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @Configuration
 public class RedisSentinelApplication {
@@ -74,7 +76,7 @@ public class RedisSentinelApplication {
 	}
 
 	public @Bean RedisConnectionFactory connectionFactory() {
-		return new LettuceConnectionFactory(sentinelConfig());
+		return new LettuceConnectionFactory(sentinelConfig(), LettuceClientConfiguration.defaultConfiguration());
 	}
 
 	public @Bean RedisSentinelConfiguration sentinelConfig() {
