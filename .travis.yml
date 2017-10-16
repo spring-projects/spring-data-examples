@@ -8,6 +8,11 @@ addons:
     packages:
     - oracle-java8-installer
 
+env:
+  matrix:
+    - PROFILE=ci
+    - PROFILE=spring5
+
 services:
   - redis-server
 
@@ -19,4 +24,4 @@ sudo: false
 
 install: true
 
-script: "mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B"
+script: "mvn clean dependency:list test -P${PROFILE} -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B"
