@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 the original author or authors.
+ * Copyright 2014-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public class SolrRepositoryTests {
 	 * Adds missing fields to the schema. <br />
 	 * By default the fields {@literal id} and {@literal _version_} are present. <br />
 	 * Check fields using
-	 * <a href="http://localhost:8983/solr/collection1/schema/fields">../solr/collection1/schema/fields</a> <br />
+	 * <a href="http://localhost:8983/solr/gettingstarted/schema/fields">../solr/gettingstarted/schema/fields</a> <br />
 	 * <br />
 	 * <strong>NOTE</strong>: requires Solr to run in managed schema mode.
 	 */

@@ -16,11 +16,14 @@
 package example.springdata.rest.headers;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  * Spring Data repository interface to manage {@link Customer} instances.
  * 
  * @author Oliver Gierke
+ * @author Mark Paluch
  * @soundtrack The Intersphere - Out of phase (Live at Alte Feuerwache Mannheim)
  */
+@CrossOrigin
 public interface CustomerRepository extends CrudRepository<Customer, Long> {}

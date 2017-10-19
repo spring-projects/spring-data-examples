@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-examples</artifactId>
-		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<version>2.0.0.BUILD-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -16,12 +16,12 @@
 	<description>Sample projects for Spring Data Redis</description>
 
 	<modules>
-	    <module>util</module>
-		<module>cluster-sentinel</module>
-		<module>example</module>
 		<module>cluster</module>
-		<module>repositories</module>
+		<module>example</module>
 		<module>reactive</module>
+		<module>repositories</module>
+		<module>sentinel</module>
+		<module>util</module>
 	</modules>
 
 	<dependencies>
@@ -41,6 +41,7 @@
 	<dependencyManagement>
 
 		<dependencies>
+
 			<dependency>
 				<groupId>com.github.kstyrc</groupId>
 				<artifactId>embedded-redis</artifactId>

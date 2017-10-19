@@ -52,7 +52,7 @@ import example.users.Username;
  * @author Oliver Gierke
  */
 @Controller
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @RequestMapping("/users")
 class UserController {
 

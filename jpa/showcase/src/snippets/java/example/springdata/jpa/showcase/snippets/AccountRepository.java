@@ -15,14 +15,14 @@
  */
 package example.springdata.jpa.showcase.snippets;
 
-import java.util.List;
-
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.NoRepositoryBean;
-
 import example.springdata.jpa.showcase.core.Account;
 import example.springdata.jpa.showcase.core.Customer;
+
+import java.util.List;
+
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 
 /**
  * Repository to manage {@link Account} instances.
@@ -30,8 +30,8 @@ import example.springdata.jpa.showcase.core.Customer;
  * @author Oliver Gierke
  */
 @NoRepositoryBean
-public interface AccountRepository extends CrudRepository<Account, Long>, AccountRepositoryCustom,
-		QueryDslPredicateExecutor<Account> {
+public interface AccountRepository
+		extends CrudRepository<Account, Long>, AccountRepositoryCustom, QuerydslPredicateExecutor<Account> {
 
 	/**
 	 * Returns all accounts belonging to the given {@link Customer}.

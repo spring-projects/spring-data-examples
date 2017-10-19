@@ -38,6 +38,26 @@ HTTP/1.1 304 Not Modified
 ----
 ====
 
+== Cross-Origin Resource Sharing
+
+Client-side JavaScript that issue cross-origin requests require the server to evaluate cross-origin requests and respond appropriately.
+
+.Cross-Origin Request
+====
+[source,bash]
+----
+$ curl 'http://localhost:8080/customers/' -i -H 'Origin: http://localhost'
+----
+
+[source,http]
+----
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost
+Vary: Origin
+Access-Control-Allow-Credentials: true
+----
+====
+
 == Spring RESTDocs
 
 The sample uses https://github.com/wilkinsona/spring-restdocs[Spring RESTDocs] to document the HTTP interaction implemented using the test cases. See `WebIntegrationTests.setUp()` for general setup and the individual test methods with their usage of `….andDo(document(…))`.

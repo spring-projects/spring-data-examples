@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package example.springdata.cassandra.people;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.cassandra.util.RequiresCassandraKeyspace;
+import example.springdata.cassandra.util.CassandraKeyspace;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -41,7 +41,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class ReactivePersonRepositoryIntegrationTest {
 
-	@ClassRule public final static RequiresCassandraKeyspace CASSANDRA_KEYSPACE = RequiresCassandraKeyspace.onLocalhost();
+	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired ReactivePersonRepository repository;
 
@@ -52,7 +52,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	public void setUp() {
 
 		repository.deleteAll() //
-				.thenMany(repository.save(Flux.just(new Person("Walter", "White", 50), //
+				.thenMany(repository.saveAll(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
 						new Person("Jesse", "Pinkman", 27))))
@@ -70,13 +70,12 @@ public class ReactivePersonRepositoryIntegrationTest {
 
 		repository.count() //
 				.doOnNext(System.out::println) //
-				.thenMany(repository.save(Flux.just(new Person("Hank", "Schrader", 43), //
+				.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
 				.last() //
 				.flatMap(v -> repository.count()) //
 				.doOnNext(System.out::println) //
-				.doOnComplete(countDownLatch::countDown) //
-				.doOnError(throwable -> countDownLatch.countDown()) //
+				.doOnTerminate(countDownLatch::countDown) //
 				.subscribe();
 
 		countDownLatch.await();

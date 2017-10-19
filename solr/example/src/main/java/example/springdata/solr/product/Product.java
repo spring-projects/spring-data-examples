@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 the original author or authors.
+ * Copyright 2014-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,14 +28,14 @@ import org.springframework.data.solr.repository.Score;
 
 /**
  * Document representing a {@link Product} and its attributes matching the fields defined in the <a
- * href="http://localhost:8983/solr/collection1/schema">example solr schema</a>.
+ * href="http://localhost:8983/solr/techproducts/schema">example solr schema</a>.
  * 
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
 @Value
 @Builder
-@SolrDocument(solrCoreName = "collection1")
+@SolrDocument(collection = "techproducts")
 public class Product {
 
 	private @Id String id;

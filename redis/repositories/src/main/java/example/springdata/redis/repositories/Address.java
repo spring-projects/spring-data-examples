@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,13 @@ package example.springdata.redis.repositories;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.springframework.data.geo.Point;
+import org.springframework.data.redis.core.index.GeoIndexed;
 import org.springframework.data.redis.core.index.Indexed;
 
 /**
  * @author Christoph Strobl
+ * @author Mark Paluch
  */
 @Data
 @EqualsAndHashCode
@@ -29,4 +32,5 @@ class Address {
 
 	private @Indexed String city;
 	private String country;
+	private @GeoIndexed Point location;
 }

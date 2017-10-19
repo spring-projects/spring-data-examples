@@ -48,8 +48,8 @@ public interface BasicUserRepository extends CrudRepository<User, Long> {
 
 	/**
 	 * Derived query method using SASI (SSTable Attached Secondary Index) features through the {@code LIKE} keyword. This
-	 * query corresponds with {@code SELECT * FROM users WHERE uname LIKE '?0%'}. {@link User#username} is not part of the
-	 * primary so it requires a secondary index.
+	 * query corresponds with {@code SELECT * FROM users WHERE lname LIKE '?0'}. {@link User#lastname} is not part of the
+	 * primary key so it requires a secondary index.
 	 *
 	 * @param lastnamePrefix
 	 * @return

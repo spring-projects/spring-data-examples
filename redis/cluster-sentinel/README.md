@@ -1,28 +1,5 @@
-# Spring Data Redis - Sentinel Examples
+# Spring Data Redis Example
 
-This project contains samples of Sentinel specific features of Spring Data Redis.
+The this example was named a bit misleading as `cluster-sentinel` is a mix of Redis Cluster and Redis Sentinel.
 
-## Support for Sentinel
-
-```java
-@Configuration
-public class RedisSentinelApplicationConfig {
-
-	static final RedisSentinelConfiguration SENTINEL_CONFIG = new RedisSentinelConfiguration().master("mymaster") //
-			.sentinel("localhost", 26379) //
-			.sentinel("localhost", 26380) //
-			.sentinel("localhost", 26381);
-
-	@Bean
-	public RedisConnectionFactory connectionFactory() {
-		return new JedisConnectionFactory(sentinelConfig());
-	}
-
-	@Bean
-	public RedisSentinelConfiguration sentinelConfig() {
-		return SENTINEL_CONFIG;
-	}
-
-}
-```
-
+Find dedicated examples here: [Redis Cluster](../cluster) and [Redis Sentinel](../sentinel).

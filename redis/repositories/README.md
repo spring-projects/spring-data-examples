@@ -74,7 +74,7 @@ redis/src $ ./redis-cli keys *
 
 ## Configuration ##
 
-The below configuration uses [Jedis](https://github.com/xetorthio/jedis) to connect to Redis on its default port. Please note the usage of `@EnableRedisRepositories` to create `Repository` instances.
+The below configuration uses [Lettuce](https://github.com/lettuce-io/lettuce-core) to connect to Redis on its default port. Please note the usage of `@EnableRedisRepositories` to create `Repository` instances.
 
 ```java
 @Configuration
@@ -83,13 +83,13 @@ class AppConfig {
 
   @Bean
   RedisConnectionFactory connectionFactory() {
-    return new JedisConnectionFactory();
+    return new LettuceConnectionFactory();
   }
 
   @Bean
   RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
 
-    RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
+    RedisTemplate<byte[], byte[]> template = new RedisTemplate<>();
     template.setConnectionFactory(connectionFactory);
 
     return template;

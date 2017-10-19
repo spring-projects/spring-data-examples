@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-examples</artifactId>
-		<version>1.0.0.BUILD-SNAPSHOT</version>
+		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
 	<name>Spring Data Elasticsearch - Examples</name>
@@ -16,7 +16,7 @@
 	<url>https://github.com/spring-projects/spring-data-elasticsearch</url>
 
 	<properties>
-		<elasticsearch.version>2.2.0</elasticsearch.version>
+		<elasticsearch.version>5.4.0</elasticsearch.version>
 	</properties>
 
 	<modules>

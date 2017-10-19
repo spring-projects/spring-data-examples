@@ -15,15 +15,13 @@
  */
 package example.springdata.jpa.caching;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.Cache;
-import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -51,12 +49,10 @@ public abstract class CachingRepositoryTests {
 
 		dave = repository.save(dave);
 
-		User result = repository.findByUsername("dmatthews");
-		assertThat(result, is(dave));
+		assertThat(repository.findByUsername("dmatthews")).isEqualTo(dave);
 
 		// Verify entity cached
 		Cache cache = cacheManager.getCache("byUsername");
-		ValueWrapper wrapper = cache.get("dmatthews");
-		assertThat(wrapper.get(), is((Object) dave));
+		assertThat(cache.get("dmatthews").get()).isEqualTo(dave);
 	}
 }

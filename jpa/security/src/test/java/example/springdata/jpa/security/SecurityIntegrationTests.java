@@ -21,8 +21,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +46,6 @@ public class SecurityIntegrationTests {
 	@Autowired UserRepository userRepository;
 	@Autowired BusinessObjectRepository businessObjectRepository;
 	@Autowired SecureBusinessObjectRepository secureBusinessObjectRepository;
-	@Autowired EntityManager em;
 
 	User tom, ollie, admin;
 	UsernamePasswordAuthenticationToken olliAuth, tomAuth, adminAuth;
@@ -133,11 +130,6 @@ public class SecurityIntegrationTests {
 	public void customUpdateStatementShouldAllowToUseSecurityContextInformationViaSpelParameters() {
 
 		SecurityContextHolder.getContext().setAuthentication(adminAuth);
-
-		// Detaching items to get them out of the query cache in order to see the updated values.
-		em.detach(object1);
-		em.detach(object2);
-		em.detach(object3);
 
 		secureBusinessObjectRepository.modifiyDataWithRecordingSecurityContext();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,11 @@
  */
 package example.springdata.redis.commands;
 
+import example.springdata.redis.RedisTestConfiguration;
+import example.springdata.redis.test.util.RequiresRedisServer;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.Collections;
@@ -28,16 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.ReactiveListCommands.PopResult;
 import org.springframework.data.redis.connection.ReactiveRedisConnection;
+import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.connection.ReactiveStringCommands.SetCommand;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import example.springdata.redis.RedisTestConfiguration;
-import example.springdata.redis.test.util.RequiresRedisServer;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * Show usage of reactive operations on Redis keys using low level API provided by {@link RedisConnectionFactory}.
@@ -54,7 +55,7 @@ public class KeyOperationsTests {
 	private static final String PREFIX = KeyOperationsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";
 
-	@Autowired RedisConnectionFactory connectionFactory;
+	@Autowired ReactiveRedisConnectionFactory connectionFactory;
 
 	private ReactiveRedisConnection connection;
 	private RedisSerializer<String> serializer = new StringRedisSerializer();
@@ -76,7 +77,7 @@ public class KeyOperationsTests {
 
 		this.connection.keyCommands() //
 				.keys(ByteBuffer.wrap(serializer.serialize(KEY_PATTERN))) //
-				.flatMap(Flux::fromIterable) //
+				.flatMapMany(Flux::fromIterable) //
 				.doOnNext(byteBuffer -> System.out.println(toString(byteBuffer))) //
 				.count() //
 				.doOnSuccess(count -> System.out.println(String.format("Total No. found: %s", count))) //

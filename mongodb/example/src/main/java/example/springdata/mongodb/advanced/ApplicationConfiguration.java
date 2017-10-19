@@ -18,11 +18,11 @@ package example.springdata.mongodb.advanced;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.core.MongoOperations;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 
 /**
@@ -62,6 +62,6 @@ class ApplicationConfiguration {
 	}
 
 	private void setProfilingLevel(int level) {
-		operations.executeCommand(new BasicDBObject("profile", level));
+		operations.executeCommand(new Document("profile", level));
 	}
 }

@@ -15,17 +15,18 @@
  */
 package example.springdata.jpa.showcase.after;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
-import java.util.List;
-
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.jpa.showcase.AbstractShowcaseTest;
 import example.springdata.jpa.showcase.core.Account;
 import example.springdata.jpa.showcase.core.Customer;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Integration tests for Spring Data JPA {@link AccountRepository}.
@@ -41,16 +42,17 @@ public class AccountRepositoryIntegrationTest extends AbstractShowcaseTest {
 	public void savesAccount() {
 
 		Account account = accountRepository.save(new Account());
-		assertThat(account.getId(), is(notNullValue()));
+
+		assertThat(account.getId()).isNotNull();
 	}
 
 	@Test
 	public void findsCustomersAccounts() {
 
-		Customer customer = customerRepository.findOne(1L);
-		List<Account> accounts = accountRepository.findByCustomer(customer);
+		Optional<Customer> customer = customerRepository.findById(1L);
+		List<Account> accounts = customer.map(accountRepository::findByCustomer).orElse(Collections.emptyList());
 
-		assertFalse(accounts.isEmpty());
-		assertThat(accounts.get(0).getCustomer(), is(customer));
+		assertThat(accounts).isNotEmpty();
+		assertThat(customer).hasValueSatisfying(it -> assertThat(accounts.get(0).getCustomer()).isEqualTo(it));
 	}
 }

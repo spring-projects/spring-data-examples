@@ -15,7 +15,7 @@
  */
 package example.springdata.jpa.custom;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class UserRepositoryCustomizationTests {
 
 		user = repository.save(user);
 
-		assertEquals(user, repository.findOne(user.getId()));
+		assertThat(repository.findById(user.getId())).hasValue(user);
 	}
 
 	@Test
@@ -65,11 +65,8 @@ public class UserRepositoryCustomizationTests {
 
 		List<User> users = repository.findByLastname("lastname");
 
-		assertNotNull(users);
-		assertTrue(users.contains(user));
-
-		User reference = repository.findByTheUsersName("foobar");
-		assertEquals(user, reference);
+		assertThat(users).contains(user);
+		assertThat(user).isEqualTo(repository.findByTheUsersName("foobar"));
 	}
 
 	/**
@@ -85,7 +82,6 @@ public class UserRepositoryCustomizationTests {
 
 		List<User> users = repository.myCustomBatchOperation();
 
-		assertNotNull(users);
-		assertTrue(users.contains(user));
+		assertThat(users).contains(user);
 	}
 }
