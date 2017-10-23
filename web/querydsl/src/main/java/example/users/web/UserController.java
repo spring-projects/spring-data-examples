@@ -54,7 +54,13 @@ class UserController {
 		builder.replaceQueryParam("page", new Object[0]);
 
 		model.addAttribute("baseUri", builder.build().toUri());
-		model.addAttribute("users", repository.findAll(predicate, pageable));
+
+		if(predicate == null)
+		{
+			model.addAttribute("users", repository.findAll(pageable));
+		} else {
+			model.addAttribute("users", repository.findAll(predicate, pageable));
+		}
 
 		return "index";
 	}
