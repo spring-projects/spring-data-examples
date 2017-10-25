@@ -16,13 +16,15 @@
 
 package example.springdata.mongodb.gridfs;
 
-import com.mongodb.gridfs.GridFSDBFile;
+import com.mongodb.client.gridfs.model.GridFSFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
+import org.springframework.util.StreamUtils;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -54,10 +56,11 @@ public class GridFsApplication implements CommandLineRunner {
             gridFsOperations.store(is, "myFile1.txt");
         }
 
-        // search by filename
-        GridFSDBFile gridFsFile1 = gridFsOperations.findOne(query(whereFilename().is("myFile1.txt")));
+        // get file or resource by filename
+        GridFSFile gridFsFile1 = gridFsOperations.findOne(query(whereFilename().is("myFile1.txt")));
         System.out.println("Filename: " + gridFsFile1.getFilename() +", MD5: " + gridFsFile1.getMD5());
-        gridFsFile1.writeTo(System.out);
+        GridFsResource gridRes1 = gridFsOperations.getResource("myFile1.txt");
+        StreamUtils.copy(gridRes1.getInputStream(), System.out);
 
         // store file with metaData
         try (InputStream is = new BufferedInputStream(new ClassPathResource("./myCustomerFile.txt").getInputStream())) {
@@ -66,8 +69,9 @@ public class GridFsApplication implements CommandLineRunner {
         }
 
         // search by metaData
-        GridFSDBFile gridFsFile2 = gridFsOperations.findOne(query(whereMetaData("firstName").is("Hardy")));
+        GridFSFile gridFsFile2 = gridFsOperations.findOne(query(whereMetaData("firstName").is("Hardy")));
         System.out.println("Filename: " + gridFsFile2.getFilename() +", MD5: " + gridFsFile2.getMD5());
-        gridFsFile2.writeTo(System.out);
+        GridFsResource gridRes2 = gridFsOperations.getResource(gridFsFile2.getFilename());
+        StreamUtils.copy(gridRes2.getInputStream(), System.out);
     }
 }
