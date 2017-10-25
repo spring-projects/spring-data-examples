@@ -13,7 +13,7 @@ together with blocking Spring Data MongoDB data access will open multiple connec
 The main reactive Template API class is `ReactiveMongoTemplate`, ideally used through its interface `ReactiveMongoOperations`. It defines a basic set of reactive data access operations using [Project Reactor](http://projectreactor.io) `Mono` and `Flux` reactive types.
 
 ```java
-template.insertAll(Flux.just(new Person("Walter", "White", 50),
+template.insertAll(Arrays.asList(new Person("Walter", "White", 50),
 				new Person("Skyler", "White", 45),
 				new Person("Saul", "Goodman", 42),
 				new Person("Jesse", "Pinkman", 27)));
@@ -42,7 +42,7 @@ public interface ReactivePersonRepository extends ReactiveCrudRepository<Person,
 
 	Mono<Person> findByFirstnameAndLastname(Mono<String> firstname, String lastname);
 
-	@InfiniteStream // Use a tailable cursor
+	@Tailable // Use a tailable cursor
 	Flux<Person> findWithTailableCursorBy();
 }
 ```
@@ -60,7 +60,7 @@ public interface RxJava2PersonRepository extends RxJava2CrudRepository<Person, S
 
 	Maybe<Person> findByFirstnameAndLastname(Single<String> firstname, String lastname);
 
-	@InfiniteStream // Use a tailable cursor
+	@Tailable // Use a tailable cursor
 	Flowable<Person> findWithTailableCursorBy();
 }
 ```
