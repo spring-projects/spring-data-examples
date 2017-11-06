@@ -16,7 +16,6 @@
 package example.springdata.redis.repositories;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import org.springframework.data.geo.Point;
 import org.springframework.data.redis.core.index.GeoIndexed;
@@ -27,7 +26,6 @@ import org.springframework.data.redis.core.index.Indexed;
  * @author Mark Paluch
  */
 @Data
-@EqualsAndHashCode
 class Address {
 
 	private @Indexed String city;
