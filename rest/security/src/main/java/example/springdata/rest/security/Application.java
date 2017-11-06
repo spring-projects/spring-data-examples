@@ -20,14 +20,18 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * This example shows various ways to secure Spring Data REST applications using Spring Security
@@ -80,15 +84,16 @@ public class Application {
 
 		/**
 		 * This section defines the user accounts which can be used for authentication as well as the roles each user has.
-		 * 
-		 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
 		 */
-		@Override
-		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		@Bean
+		InMemoryUserDetailsManager userDetailsManager() {
 
-			auth.inMemoryAuthentication().//
-					withUser("greg").password("turnquist").roles("USER").and().//
-					withUser("ollie").password("gierke").roles("USER", "ADMIN");
+			UserBuilder builder = User.withDefaultPasswordEncoder();
+
+			UserDetails greg = builder.username("greg").password("turnquist").roles("USER").build();
+			UserDetails ollie = builder.username("ollie").password("gierke").roles("USER", "ADMIN").build();
+
+			return new InMemoryUserDetailsManager(greg, ollie);
 		}
 
 		/**
