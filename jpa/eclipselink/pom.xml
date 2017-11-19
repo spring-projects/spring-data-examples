@@ -27,7 +27,7 @@
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-entitymanager</artifactId>
+					<artifactId>hibernate-core</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
