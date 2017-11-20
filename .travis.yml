@@ -5,8 +5,13 @@ jdk:
 
 addons:
   apt:
+    sources:
+      - sourceline: 'deb http://packages.couchbase.com/releases/couchbase-server/community/deb/  trusty trusty/main'
+      - sourceline: 'deb http://packages.couchbase.com/ubuntu trusty trusty/main'
+        key_url: 'http://packages.couchbase.com/ubuntu/couchbase.key'
     packages:
-    - oracle-java8-installer
+      - oracle-java8-installer
+      - couchbase-server-community
 
 services:
   - redis-server
@@ -14,9 +19,15 @@ services:
 cache:
   directories:
     - $HOME/.m2
+    - download
 
-sudo: false
-
-install: true
+# See https://issues.couchbase.com/browse/MB-26556
+install:
+  - curl -X POST http://127.0.0.1:8091/pools/default -d memoryQuota=2000  -d indexMemoryQuota=256 -d ftsMemoryQuota=256
+  - curl -X POST http://127.0.0.1:8091/node/controller/setupServices -d "services=kv,index,n1ql,fts"
+  - curl -X POST http://127.0.0.1:8091/settings/indexes -d "storageMode=forestdb"
+  - curl -X POST http://127.0.0.1:8091/settings/web -d "username=Administrator&password=password&port=8091&"
+  - /opt/couchbase/bin/cbdocloader -c 127.0.0.1:8091 -u Administrator -p password -b travel-sample -m 256 -d /opt/couchbase/samples/travel-sample.zip
+  - /opt/couchbase/bin/couchbase-cli user-manage -c 127.0.0.1:8091 -u Administrator -p password --set  --rbac-username=travel-sample --rbac-password=password --roles=admin --auth-domain local
 
 script: "mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B"
