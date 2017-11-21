@@ -18,6 +18,7 @@
 	<modules>
 		<module>bom</module>
 		<module>cassandra</module>
+		<module>couchbase</module>
 		<module>elasticsearch</module>
 		<module>jpa</module>
 		<module>ldap</module>
@@ -29,7 +30,6 @@
 		<module>redis</module>
 		<module>solr</module>
 		<module>web</module>
-		<module>couchbase</module>
 	</modules>
 
 	<properties>

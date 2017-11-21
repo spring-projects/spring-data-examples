@@ -5,11 +5,11 @@
 	<artifactId>spring-data-couchbase-examples</artifactId>
 	<packaging>pom</packaging>
 
-    <parent>
-        <artifactId>spring-data-examples</artifactId>
-        <groupId>org.springframework.data.examples</groupId>
-        <version>1.0.0.BUILD-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.springframework.data.examples</groupId>
+		<artifactId>spring-data-examples</artifactId>
+		<version>2.0.0.BUILD-SNAPSHOT</version>
+	</parent>
 
 	<name>Spring Data Couchbase - Examples</name>
 	<description>Sample projects for Spring Data Couchbase</description>
@@ -17,14 +17,13 @@
 
 	<modules>
 		<module>example</module>
+		<module>util</module>
 	</modules>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-couchbase</artifactId>
 		</dependency>
-
 	</dependencies>
 </project>
