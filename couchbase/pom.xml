@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>example</module>
+		<module>reactive</module>
 		<module>util</module>
 	</modules>
 
