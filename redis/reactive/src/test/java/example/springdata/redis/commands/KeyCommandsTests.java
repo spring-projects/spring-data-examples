@@ -35,24 +35,24 @@ import org.springframework.data.redis.connection.ReactiveListCommands.PopResult;
 import org.springframework.data.redis.connection.ReactiveRedisConnection;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.connection.ReactiveStringCommands.SetCommand;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Show usage of reactive operations on Redis keys using low level API provided by {@link RedisConnectionFactory}.
+ * Show usage of reactive operations on Redis keys using low level API provided by
+ * {@link ReactiveRedisConnectionFactory}.
  *
  * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RedisTestConfiguration.class)
-public class KeyOperationsTests {
+public class KeyCommandsTests {
 
 	// we only want to run this tests when redis is up an running
 	public static @ClassRule RequiresRedisServer requiresServer = RequiresRedisServer.onLocalhost();
 
-	private static final String PREFIX = KeyOperationsTests.class.getSimpleName();
+	private static final String PREFIX = KeyCommandsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";
 
 	@Autowired ReactiveRedisConnectionFactory connectionFactory;
