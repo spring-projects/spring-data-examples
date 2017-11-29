@@ -44,7 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Configuration
 @EnableJdbcRepositories
-public class AggregateContext {
+public class AggregateConfiguration {
 
 	@Bean
 	public ApplicationListener<?> idSetting() {
@@ -93,23 +93,23 @@ public class AggregateContext {
 
 				String defaultName = super.getColumnName(property);
 				String key = getTableName(property.getOwner().getType()) + "." + defaultName;
-				return columnAliases.getOrDefault(key, defaultName);
+				return columnAliases.computeIfAbsent(key, __ -> defaultName);
 			}
 
 			@Override
 			public String getTableName(Class<?> type) {
 
-				return tableAliases.getOrDefault(super.getTableName(type), super.getTableName(type));
+				return tableAliases.computeIfAbsent(super.getTableName(type),key -> key);
 			}
 
 			@Override
 			public String getReverseColumnName(JdbcPersistentProperty property) {
-				return reverseColumnAliases.getOrDefault(property.getName(), super.getReverseColumnName(property));
+				return reverseColumnAliases.computeIfAbsent(property.getName(), __ -> super.getReverseColumnName(property));
 			}
 
 			@Override
 			public String getKeyColumn(JdbcPersistentProperty property) {
-				return keyColumnAliases.getOrDefault(property.getName(), super.getKeyColumn(property));
+				return keyColumnAliases.computeIfAbsent(property.getName(), __ -> super.getKeyColumn(property));
 			}
 		};
 	}
@@ -125,10 +125,9 @@ public class AggregateContext {
 
 				try {
 
-					int length = Math.toIntExact(clob.length());
-					if (length == 0) return "";
-
-					return clob.getSubString(1, length);
+					return Math.toIntExact(clob.length()) == 0 //
+							? "" //
+							: clob.getSubString(1, Math.toIntExact(clob.length()));
 				} catch (SQLException e) {
 					throw new IllegalStateException("Failed to convert CLOB to String.", e);
 				}

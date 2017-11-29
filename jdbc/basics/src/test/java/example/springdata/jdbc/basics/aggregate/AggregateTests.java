@@ -15,22 +15,14 @@ package example.springdata.jdbc.basics.aggregate;/*
  */
 
 import example.springdata.jdbc.basics.Output;
-import example.springdata.jdbc.basics.aggregate.AgeGroup;
-import example.springdata.jdbc.basics.simpleentity.Category;
-import example.springdata.jdbc.basics.simpleentity.CategoryContext;
-import example.springdata.jdbc.basics.simpleentity.CategoryRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Period;
-
-import static java.util.Arrays.asList;
 
 /**
  * Demonstrates various possibilities to customize the behavior of a repository.
@@ -38,7 +30,7 @@ import static java.util.Arrays.asList;
  * @author Jens Schauder
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = AggregateContext.class)
+@SpringBootTest(classes = AggregateConfiguration.class)
 @AutoConfigureJdbc
 public class AggregateTests {
 

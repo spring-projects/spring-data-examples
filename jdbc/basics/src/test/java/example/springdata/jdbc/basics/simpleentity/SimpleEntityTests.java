@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jens Schauder
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = CategoryContext.class)
+@SpringBootTest(classes = CategoryConfiguration.class)
 @AutoConfigureJdbc
 public class SimpleEntityTests {
 

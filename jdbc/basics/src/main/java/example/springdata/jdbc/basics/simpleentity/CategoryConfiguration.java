@@ -29,21 +29,19 @@ import org.springframework.data.jdbc.mapping.model.JdbcMappingContext;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
 /**
  * Contains infrastructure necessary for creating repositories and two listeners.
- *
+ * <p>
  * Not that a listener may change an entity without any problem.
  *
  * @author Jens Schauder
  */
 @Configuration
 @EnableJdbcRepositories
-public class CategoryContext {
+public class CategoryConfiguration {
 
 
 	@Bean
