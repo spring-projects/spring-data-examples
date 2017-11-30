@@ -52,6 +52,18 @@ public class CrossOriginIntegrationTests {
 	}
 
 	@Test
+	public void executePreflightRequest() throws Exception {
+
+		String origin = "http://localhost:1234";
+		URI uri = URI.create("/customers");
+
+		mvc.perform(options(uri).header(ORIGIN, origin).header(ACCESS_CONTROL_REQUEST_METHOD, "POST")) //
+				.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, is(origin))) //
+				.andExpect(header().string(ACCESS_CONTROL_ALLOW_METHODS, containsString("GET"))) //
+				.andExpect(header().string(ACCESS_CONTROL_ALLOW_METHODS, containsString("POST"))); //
+	}
+
+	@Test
 	public void executeCrossOriginRequest() throws Exception {
 
 		String origin = "http://localhost:1234";
@@ -62,4 +74,13 @@ public class CrossOriginIntegrationTests {
 				.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, is(origin)));
 	}
 
+	@Test
+	public void rejectCrossOriginRequest() throws Exception {
+
+		String origin = "http://foo.bar";
+		URI uri = URI.create("/customers");
+
+		mvc.perform(get(uri).header(ORIGIN, origin)) //
+				.andExpect(status().isForbidden());
+	}
 }
