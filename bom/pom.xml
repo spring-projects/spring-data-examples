@@ -9,8 +9,8 @@
 	<name>Spring Data - Using the BOM for dependency management</name>
 
 	<properties>
-		<spring.version>5.0.0.RELEASE</spring.version>
-		<spring-data.version>Kay-RELEASE</spring-data.version>
+		<spring.version>5.0.2.RELEASE</spring.version>
+		<spring-data.version>Kay-SR2</spring-data.version>
 	</properties>
 
 	<dependencyManagement>

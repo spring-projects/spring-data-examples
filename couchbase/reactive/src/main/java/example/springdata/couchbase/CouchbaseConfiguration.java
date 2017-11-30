@@ -24,13 +24,9 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.couchbase.CouchbaseRepositoriesAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.couchbase.config.AbstractReactiveCouchbaseDataConfiguration;
 import org.springframework.data.couchbase.config.BeanNames;
-import org.springframework.data.couchbase.config.CouchbaseConfigurer;
 import org.springframework.data.couchbase.core.CouchbaseOperations;
-import org.springframework.data.couchbase.repository.config.EnableReactiveCouchbaseRepositories;
 import org.springframework.data.couchbase.repository.support.IndexManager;
 
 import com.couchbase.client.java.query.N1qlQuery;
@@ -40,18 +36,11 @@ import com.couchbase.client.java.query.N1qlQuery;
  *
  * @author Mark Paluch
  */
-@SpringBootApplication(exclude = CouchbaseRepositoriesAutoConfiguration.class) // see DATACOUCH-350
+@SpringBootApplication
 @RequiredArgsConstructor
-@EnableReactiveCouchbaseRepositories
-public class CouchbaseConfiguration extends AbstractReactiveCouchbaseDataConfiguration {
+public class CouchbaseConfiguration {
 
-	private final CouchbaseConfigurer couchbaseConfigurer;
 	private final ObjectProvider<CouchbaseOperations> couchbaseOperationsProvider;
-
-	@Override
-	protected CouchbaseConfigurer couchbaseConfigurer() {
-		return couchbaseConfigurer;
-	}
 
 	/**
 	 * Create an {@link IndexManager} that allows index creation.

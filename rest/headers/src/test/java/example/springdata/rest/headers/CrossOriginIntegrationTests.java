@@ -17,7 +17,6 @@ package example.springdata.rest.headers;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.restdocs.RestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -28,8 +27,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.restdocs.config.RestDocumentationConfigurer;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -51,22 +48,18 @@ public class CrossOriginIntegrationTests {
 
 	@Before
 	public void setUp() {
-
-		this.mvc = MockMvcBuilders.webAppContextSetup(context).//
-				apply(new RestDocumentationConfigurer()).//
-				build();
+		this.mvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 
 	@Test
 	public void executeCrossOriginRequest() throws Exception {
 
-		String origin = "http://localhost";
+		String origin = "http://localhost:1234";
 		URI uri = URI.create("/customers");
 
-		MockHttpServletResponse response = mvc.perform(get(uri).header(ORIGIN, origin)).//
-				andExpect(header().string(ACCESS_CONTROL_ALLOW_CREDENTIALS, is("true"))).//
-				andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, is(origin))).//
-				andDo(document("cors")).//
-				andReturn().getResponse();
+		mvc.perform(get(uri).header(ORIGIN, origin)) //
+				.andExpect(status().isOk()) //
+				.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, is(origin)));
 	}
+
 }
