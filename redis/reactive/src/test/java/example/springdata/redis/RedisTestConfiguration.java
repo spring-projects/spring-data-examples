@@ -43,6 +43,9 @@ public class RedisTestConfiguration {
 		return new LettuceConnectionFactory();
 	}
 
+	/**
+	 * Configures a {@link ReactiveRedisTemplate} with {@link String} keys and values.
+	 */
 	@Bean
 	public ReactiveRedisTemplate<String, String> reactiveRedisTemplate(ReactiveRedisConnectionFactory connectionFactory) {
 		return new ReactiveRedisTemplate<>(connectionFactory, RedisSerializationContext.string());
