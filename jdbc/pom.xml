@@ -18,6 +18,7 @@
 
 	<modules>
 		<module>basics</module>
+        <module>mybatis</module>
 	</modules>
 
 	<properties>
