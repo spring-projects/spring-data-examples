@@ -19,6 +19,7 @@ import example.springdata.redis.RedisTestConfiguration;
 import example.springdata.redis.test.util.RequiresRedisServer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.nio.ByteBuffer;
 import java.time.Duration;
@@ -37,6 +38,7 @@ import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.connection.ReactiveStringCommands.SetCommand;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.util.ByteUtils;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -75,13 +77,14 @@ public class KeyCommandsTests {
 
 		generateRandomKeys(50);
 
-		this.connection.keyCommands() //
+		Mono<Long> keyCount = connection.keyCommands() //
 				.keys(ByteBuffer.wrap(serializer.serialize(KEY_PATTERN))) //
 				.flatMapMany(Flux::fromIterable) //
 				.doOnNext(byteBuffer -> System.out.println(toString(byteBuffer))) //
 				.count() //
-				.doOnSuccess(count -> System.out.println(String.format("Total No. found: %s", count))) //
-				.block();
+				.doOnSuccess(count -> System.out.println(String.format("Total No. found: %s", count)));
+
+		StepVerifier.create(keyCount).expectNext(50L).verifyComplete();
 	}
 
 	/**
@@ -90,19 +93,19 @@ public class KeyCommandsTests {
 	@Test
 	public void storeToListAndPop() {
 
-		Mono<PopResult> popResult = this.connection.listCommands()
+		Mono<PopResult> popResult = connection.listCommands()
 				.brPop(Collections.singletonList(ByteBuffer.wrap("list".getBytes())), Duration.ofSeconds(5));
 
-		Mono<Long> llen = this.connection.listCommands().lLen(ByteBuffer.wrap("list".getBytes()));
+		Mono<Long> llen = connection.listCommands().lLen(ByteBuffer.wrap("list".getBytes()));
 
-		this.connection.listCommands() //
+		Mono<Long> popAndLlen = connection.listCommands() //
 				.rPush(ByteBuffer.wrap("list".getBytes()), Collections.singletonList(ByteBuffer.wrap("item".getBytes())))
 				.flatMap(l -> popResult) //
 				.doOnNext(result -> System.out.println(toString(result.getValue()))) //
 				.flatMap(result -> llen) //
-				.doOnNext(count -> System.out.println(String.format("Total items in list left: %s", count))) //
-				.then() //
-				.block();
+				.doOnNext(count -> System.out.println(String.format("Total items in list left: %s", count)));//
+
+		StepVerifier.create(popAndLlen).expectNext(0L).verifyComplete();
 	}
 
 	private void generateRandomKeys(int nrKeys) {
@@ -113,17 +116,11 @@ public class KeyCommandsTests {
 				.map(key -> SetCommand.set(key) //
 						.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
 
-		this.connection.stringCommands() //
-				.set(generator) //
-				.then() //
-				.block();
+		StepVerifier.create(connection.stringCommands().set(generator)).expectNextCount(nrKeys).verifyComplete();
 
 	}
 
 	private static String toString(ByteBuffer byteBuffer) {
-
-		byte[] bytes = new byte[byteBuffer.remaining()];
-		byteBuffer.get(bytes);
-		return new String(bytes);
+		return new String(ByteUtils.getBytes(byteBuffer));
 	}
 }

@@ -20,9 +20,9 @@ import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 import rx.RxReactiveStreams;
-
-import java.util.concurrent.CountDownLatch;
 
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -52,14 +52,14 @@ public class ReactiveCassandraTemplateIntegrationTest {
 	@Before
 	public void setUp() {
 
-		template.truncate(Person.class) //
+		Flux<Person> truncateAndInsert = template.truncate(Person.class) //
 				.thenMany(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
 						new Person("Jesse", "Pinkman", 27))) //
-				.flatMap(template::insert) //
-				.then() //
-				.block();
+				.flatMap(template::insert);
+
+		StepVerifier.create(truncateAndInsert).expectNextCount(4).verifyComplete();
 	}
 
 	/**
@@ -67,22 +67,18 @@ public class ReactiveCassandraTemplateIntegrationTest {
 	 * the two counts ({@code 4} and {@code 6}) to the console.
 	 */
 	@Test
-	public void shouldInsertAndCountData() throws Exception {
+	public void shouldInsertAndCountData() {
 
-		CountDownLatch countDownLatch = new CountDownLatch(1);
-
-		template.count(Person.class) //
+		Mono<Long> saveAndCount = template.count(Person.class) //
 				.doOnNext(System.out::println) //
 				.thenMany(Flux.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))
 				.flatMap(template::insert) //
 				.last() //
 				.flatMap(v -> template.count(Person.class)) //
-				.doOnNext(System.out::println) //
-				.doOnTerminate(countDownLatch::countDown) //
-				.subscribe();
+				.doOnNext(System.out::println);
 
-		countDownLatch.await();
+		StepVerifier.create(saveAndCount).expectNext(6L).verifyComplete();
 	}
 
 	/**

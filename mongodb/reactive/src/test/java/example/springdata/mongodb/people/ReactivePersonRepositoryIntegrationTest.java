@@ -20,12 +20,12 @@ import static org.assertj.core.api.Assertions.*;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
 
+import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +34,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.CollectionOptions;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.mongodb.reactivestreams.client.MongoCollection;
 
 /**
  * Integration test for {@link ReactivePersonRepository} using Project Reactor types and operators.
@@ -50,60 +52,50 @@ public class ReactivePersonRepositoryIntegrationTest {
 	@Before
 	public void setUp() {
 
-		operations.collectionExists(Person.class) //
+		Mono<MongoCollection<Document>> recreateCollection = operations.collectionExists(Person.class) //
 				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
 				.then(operations.createCollection(Person.class, CollectionOptions.empty() //
 						.size(1024 * 1024) //
 						.maxDocuments(100) //
-						.capped())) //
-				.block();
+						.capped()));
 
-		repository
-				.saveAll(Flux.just(new Person("Walter", "White", 50), //
+		StepVerifier.create(recreateCollection).expectNextCount(1).verifyComplete();
+
+		Flux<Person> insertAll = operations.insertAll(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
-						new Person("Jesse", "Pinkman", 27))) //
-				.then() //
-				.block();
+				new Person("Jesse", "Pinkman", 27)).collectList());
+
+		StepVerifier.create(insertAll).expectNextCount(4).verifyComplete();
 	}
 
 	/**
-	 * This sample performs a count, inserts data and performs a count again using reactive operator chaining.
+	 * This sample performs a count, inserts data and performs a count again using reactive operator chaining. It prints
+	 * the two counts ({@code 4} and {@code 6}) to the console.
 	 */
 	@Test
-	public void shouldInsertAndCountData() throws Exception {
+	public void shouldInsertAndCountData() {
 
-		CountDownLatch countDownLatch = new CountDownLatch(1);
-
-		repository.count() //
+		Mono<Long> saveAndCount = repository.count() //
 				.doOnNext(System.out::println) //
 				.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
 				.last() //
 				.flatMap(v -> repository.count()) //
-				.doOnNext(System.out::println) //
-				.doOnSuccess(it -> countDownLatch.countDown()) //
-				.doOnError(throwable -> countDownLatch.countDown()) //
-				.subscribe();
+				.doOnNext(System.out::println);
 
-		countDownLatch.await();
+		StepVerifier.create(saveAndCount).expectNext(6L).verifyComplete();
 	}
 
 	/**
 	 * Note that the all object conversions are performed before the results are printed to the console.
 	 */
 	@Test
-	public void shouldPerformConversionBeforeResultProcessing() throws Exception {
+	public void shouldPerformConversionBeforeResultProcessing() {
 
-		CountDownLatch countDownLatch = new CountDownLatch(1);
-
-		repository.findAll() //
-				.doOnNext(System.out::println) //
-				.doOnComplete(countDownLatch::countDown) //
-				.doOnError(throwable -> countDownLatch.countDown()) //
-				.subscribe();
-
-		countDownLatch.await();
+		StepVerifier.create(repository.findAll().doOnNext(System.out::println)) //
+				.expectNextCount(4) //
+				.verifyComplete();
 	}
 
 	/**
@@ -123,15 +115,21 @@ public class ReactivePersonRepositoryIntegrationTest {
 
 		Thread.sleep(100);
 
-		repository.save(new Person("Tuco", "Salamanca", 33)).subscribe();
+		StepVerifier.create(repository.save(new Person("Tuco", "Salamanca", 33))) //
+				.expectNextCount(1) //
+				.verifyComplete();
 		Thread.sleep(100);
 
-		repository.save(new Person("Mike", "Ehrmantraut", 62)).subscribe();
+		StepVerifier.create(repository.save(new Person("Mike", "Ehrmantraut", 62))) //
+				.expectNextCount(1) //
+				.verifyComplete();
 		Thread.sleep(100);
 
 		disposable.dispose();
 
-		repository.save(new Person("Gus", "Fring", 53)).subscribe();
+		StepVerifier.create(repository.save(new Person("Gus", "Fring", 53))) //
+				.expectNextCount(1) //
+				.verifyComplete();
 		Thread.sleep(100);
 
 		assertThat(people).hasSize(6);
@@ -142,12 +140,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 */
 	@Test
 	public void shouldQueryDataWithQueryDerivation() {
-
-		List<Person> whites = repository.findByLastname("White") //
-				.collectList() //
-				.block();
-
-		assertThat(whites).hasSize(2);
+		StepVerifier.create(repository.findByLastname("White")).expectNextCount(2).verifyComplete();
 	}
 
 	/**
@@ -155,11 +148,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 */
 	@Test
 	public void shouldQueryDataWithStringQuery() {
-
-		Person heisenberg = repository.findByFirstnameAndLastname("Walter", "White") //
-				.block();
-
-		assertThat(heisenberg).isNotNull();
+		StepVerifier.create(repository.findByFirstnameAndLastname("Walter", "White")).expectNextCount(1).verifyComplete();
 	}
 
 	/**
@@ -167,12 +156,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 */
 	@Test
 	public void shouldQueryDataWithDeferredQueryDerivation() {
-
-		List<Person> whites = repository.findByLastname(Mono.just("White")) //
-				.collectList() //
-				.block();
-
-		assertThat(whites).hasSize(2);
+		StepVerifier.create(repository.findByLastname(Mono.just("White"))).expectNextCount(2).verifyComplete();
 	}
 
 	/**
@@ -181,9 +165,8 @@ public class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
-		Person heisenberg = repository.findByFirstnameAndLastname(Mono.just("Walter"), "White") //
-				.block();
-
-		assertThat(heisenberg).isNotNull();
+		StepVerifier.create(repository.findByFirstnameAndLastname(Mono.just("Walter"), "White")) //
+				.expectNextCount(1) //
+				.verifyComplete();
 	}
 }

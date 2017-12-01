@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,10 @@ import static org.assertj.core.api.Assertions.*;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 import rx.RxReactiveStreams;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,19 +48,15 @@ public class ReactiveMongoTemplateIntegrationTest {
 	@Before
 	public void setUp() {
 
-		template.collectionExists(Person.class) //
-				.flatMap(exists -> exists ? template.dropCollection(Person.class) : Mono.just(exists)) //
-				.flatMap(exists -> template.createCollection(Person.class)) //
-				.then() //
-				.block();
+		StepVerifier.create(template.dropCollection(Person.class)).verifyComplete();
 
-		template
+		Flux<Person> insertAll = template
 				.insertAll(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
-						new Person("Jesse", "Pinkman", 27)).collectList())
-				.then() //
-				.block();
+						new Person("Jesse", "Pinkman", 27)).collectList());
+
+		StepVerifier.create(insertAll).expectNextCount(4).verifyComplete();
 	}
 
 	/**
@@ -67,29 +64,24 @@ public class ReactiveMongoTemplateIntegrationTest {
 	 * the two counts ({@code 4} and {@code 6}) to the console.
 	 */
 	@Test
-	public void shouldInsertAndCountData() throws Exception {
+	public void shouldInsertAndCountData() {
 
-		CountDownLatch countDownLatch = new CountDownLatch(1);
-
-		template.count(new Query(), Person.class) //
+		Mono<Long> count = template.count(new Query(), Person.class) //
 				.doOnNext(System.out::println) //
-				.thenMany(template.save(Flux.just(new Person("Hank", "Schrader", 43), //
+				.thenMany(template.insertAll(Arrays.asList(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
 				.last() //
 				.flatMap(v -> template.count(new Query(), Person.class)) //
-				.doOnNext(System.out::println) //
-				.doOnSuccess(it -> countDownLatch.countDown()) //
-				.doOnError(throwable -> countDownLatch.countDown()) //
-				.subscribe();
+				.doOnNext(System.out::println);//
 
-		countDownLatch.await();
+		StepVerifier.create(count).expectNext(6L).verifyComplete();
 	}
 
 	/**
 	 * Note that the all object conversions are performed before the results are printed to the console.
 	 */
 	@Test
-	public void convertReactorTypesToRxJava2() throws Exception {
+	public void convertReactorTypesToRxJava2() {
 
 		Flux<Person> flux = template.find(Query.query(Criteria.where("lastname").is("White")), Person.class);
 

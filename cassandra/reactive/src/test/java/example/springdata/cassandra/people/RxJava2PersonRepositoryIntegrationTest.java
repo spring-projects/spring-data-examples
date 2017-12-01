@@ -15,15 +15,10 @@
  */
 package example.springdata.cassandra.people;
 
-import static org.assertj.core.api.Assertions.*;
-
 import example.springdata.cassandra.util.CassandraKeyspace;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -60,16 +55,16 @@ public class RxJava2PersonRepositoryIntegrationTest {
 				new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)));
 
-		deleteAll.andThen(save).blockingLast();
+		deleteAll.andThen(save).test().await().assertNoErrors();
 	}
 
 	/**
-	 * This sample performs a count, inserts data and performs a count again using reactive operator chaining.
+	 * This sample performs a count, inserts data and performs a count again using reactive operator chaining. It prints
+	 * the two counts ({@code 4} and {@code 6}) to the console.
 	 */
 	@Test
-	public void shouldInsertAndCountData() throws Exception {
+	public void shouldInsertAndCountData() {
 
-		CountDownLatch countDownLatch = new CountDownLatch(1);
 
 		repository.count() //
 				.doOnSuccess(System.out::println) //
@@ -80,10 +75,11 @@ public class RxJava2PersonRepositoryIntegrationTest {
 				.toSingle() //
 				.flatMap(v -> repository.count()) //
 				.doOnSuccess(System.out::println) //
-				.doAfterTerminate(countDownLatch::countDown) //
-				.subscribe();
-
-		countDownLatch.await();
+				.test() //
+				.awaitCount(1) //
+				.assertValue(6L) //
+				.assertNoErrors() //
+				.awaitTerminalEvent();
 	}
 
 	/**
@@ -91,17 +87,14 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	 * prefetch define the amount of fetched records.
 	 */
 	@Test
-	public void shouldPerformConversionBeforeResultProcessing() throws Exception {
-
-		CountDownLatch countDownLatch = new CountDownLatch(1);
+	public void shouldPerformConversionBeforeResultProcessing() {
 
 		repository.findAll() //
 				.doOnNext(System.out::println) //
-				.doOnEach(it -> countDownLatch.countDown()) //
-				.doOnError(throwable -> countDownLatch.countDown()) //
-				.subscribe();
-
-		countDownLatch.await();
+				.test() //
+				.awaitCount(4) //
+				.assertNoErrors() //
+				.awaitTerminalEvent();
 	}
 
 	/**
@@ -110,11 +103,11 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithQueryDerivation() {
 
-		List<Person> whites = repository.findByLastname("White") //
-				.toList() //
-				.blockingGet();
-
-		assertThat(whites).hasSize(2);
+		repository.findByLastname("White") //
+				.test() //
+				.awaitCount(2) //
+				.assertNoErrors() //
+				.awaitTerminalEvent();
 	}
 
 	/**
@@ -123,10 +116,11 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithStringQuery() {
 
-		Person heisenberg = repository.findByFirstnameAndLastname("Walter", "White") //
-				.blockingGet();
-
-		assertThat(heisenberg).isNotNull();
+		repository.findByFirstnameAndLastname("Walter", "White") //
+				.test() //
+				.awaitCount(1) //
+				.assertNoErrors() //
+				.awaitTerminalEvent();
 	}
 
 	/**
@@ -135,11 +129,11 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithDeferredQueryDerivation() {
 
-		List<Person> whites = repository.findByLastname(Single.just("White")) //
-				.toList() //
-				.blockingGet();
-
-		assertThat(whites).hasSize(2);
+		repository.findByLastname(Single.just("White")) //
+				.test() //
+				.awaitCount(2) //
+				.assertNoErrors() //
+				.awaitTerminalEvent();
 	}
 
 	/**
@@ -148,9 +142,10 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
-		Person heisenberg = repository.findByFirstnameAndLastname(Single.just("Walter"), "White") //
-				.blockingGet();
-
-		assertThat(heisenberg).isNotNull();
+		repository.findByFirstnameAndLastname(Single.just("Walter"), "White") //
+				.test() //
+				.awaitCount(1) //
+				.assertNoErrors() //
+				.awaitTerminalEvent();
 	}
 }
