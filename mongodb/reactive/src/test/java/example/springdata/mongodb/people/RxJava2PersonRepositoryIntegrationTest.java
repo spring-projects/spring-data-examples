@@ -20,10 +20,11 @@ import static org.assertj.core.api.Assertions.*;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 
 import org.junit.Before;
@@ -56,9 +57,10 @@ public class RxJava2PersonRepositoryIntegrationTest {
 
 		operations.collectionExists(Person.class) //
 				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
-				.flatMap(o -> operations.createCollection(Person.class,
-						CollectionOptions.empty().size(1024 * 1024).maxDocuments(100).capped())) //
-				.then() //
+				.then(operations.createCollection(Person.class, CollectionOptions.empty() //
+						.size(1024 * 1024) //
+						.maxDocuments(100) //
+						.capped())) //
 				.block();
 
 		repository.saveAll(Flowable.just(new Person("Walter", "White", 50), //
@@ -112,13 +114,16 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	}
 
 	/**
-	 * A tailable cursor streams data using {@link Flux} as it arrives inside the capped collection.
+	 * A tailable cursor streams data using {@link Flowable} as it arrives inside the capped collection.
 	 */
 	@Test
 	public void shouldStreamDataWithTailableCursor() throws Exception {
 
+		Queue<Person> people = new ConcurrentLinkedQueue<>();
+
 		Disposable subscription = repository.findWithTailableCursorBy() //
 				.doOnNext(System.out::println) //
+				.doOnNext(people::add) //
 				.doOnComplete(() -> System.out.println("Complete")) //
 				.doOnTerminate(() -> System.out.println("Terminated")) //
 				.subscribe();
@@ -135,6 +140,8 @@ public class RxJava2PersonRepositoryIntegrationTest {
 
 		repository.save(new Person("Gus", "Fring", 53)).subscribe();
 		Thread.sleep(100);
+
+		assertThat(people).hasSize(6);
 	}
 
 	/**
