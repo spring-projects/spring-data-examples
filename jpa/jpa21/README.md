@@ -52,3 +52,56 @@ public interface UserRepository extends CrudRepository<User, Long> {
 Calling `UserRepository.plus1BackedByOtherNamedStoredProcedure(…)` will execute the stored procedure `plus1inout` using the meta-data declared on the `User` domain class.
 
 `UserRepository.plus1inout(…)` will derive stored procedure metadata from the repository and default to positional parameter binding and expect a single output parameter of the backing stored procedure.
+
+## Support for custom SqlResultSetMapping with ConstructorResult
+
+Sometimes, e.g. for analytics, it is handy to be able to return a different entity result type from a Repository query method than the base Repository entity type or an interface based projection. 
+
+In those cases one can leverage JPAs `SqlResultSetMapping` feature to map the columns of the result of a query to different fields. 
+
+JPA 2.1 introduced the new `SqlResultSetMapping` type `ConstructorResult` which allows to map columns of a result set row to a constructor invocation
+which can be nicely used in combination with Value Objects.
+
+This example shows how to define a custom `SqlResultSetMapping` for the result of an analytical native query that reports the usage summary for a set of Subscriptions. 
+
+`SqlResultSetMapping` definition on the Subscription entity class:
+```java
+@Entity
+@NoArgsConstructor
+@SqlResultSetMapping(
+  name="subscriptionSummary",
+  classes = @ConstructorResult(
+    targetClass = SubscriptionSummary.class,
+    columns={
+      @ColumnResult(name="productName", type=String.class),
+      @ColumnResult(name="subscriptions", type=long.class)
+}))
+@NamedNativeQuery(
+  name="Subscription.findAllSubscriptionSummaries",
+  query="select product_name as productName, count(user_id) as subscriptions from subscription group by product_name order by productName",
+  resultSetMapping = "subscriptionSummary"
+)
+@Data
+public class Subscription {
+...
+}
+```
+
+`SubscriptionSummary` is modelled as a value object:
+```java
+@Value
+public class SubscriptionSummary {
+
+    private final String product;
+
+    private final Long usageCount;
+}
+```
+
+The `SubscriptionRepository` declares the custom query method `findAllSubscriptionSummaries` which is backed by the named native query declared on the `Subscription` entity.
+```java
+interface SubscriptionRepository extends CrudRepository<Subscription,Long> {
+
+    List<SubscriptionSummary> findAllSubscriptionSummaries();
+}
+```
