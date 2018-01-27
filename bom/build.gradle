@@ -3,7 +3,7 @@ buildscript {
 		jcenter()
 	}
 	dependencies {
-		classpath 'io.spring.gradle:dependency-management-plugin:0.5.0.RELEASE'
+		classpath 'io.spring.gradle:dependency-management-plugin:1.0.4.RELEASE'
 	}
 }
 
