@@ -7,3 +7,7 @@ target/
 #IntelliJ Stuff
 .idea
 *.iml
+
+# gradle stuff
+build/
+.gradle/
