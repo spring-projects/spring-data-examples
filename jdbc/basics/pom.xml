@@ -3,13 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>spring-data-jdbc-basics</artifactId>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot</artifactId>
-			<version>2.0.0.BUILD-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
@@ -20,5 +13,4 @@
 
 	<name>Spring Data JDBC - Basic usage examples</name>
 	<description>Sample project demonstrating Spring Data JDBC features</description>
-
 </project>
