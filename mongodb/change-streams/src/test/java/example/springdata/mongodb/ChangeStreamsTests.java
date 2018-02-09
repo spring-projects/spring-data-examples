@@ -21,18 +21,16 @@ import static org.springframework.data.mongodb.core.query.Criteria.*;
 import static org.springframework.data.mongodb.core.query.Query.*;
 import static org.springframework.data.mongodb.core.query.Update.*;
 
-import reactor.core.Disposable;
+import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.bson.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,13 +49,14 @@ import com.mongodb.client.model.changestream.ChangeStreamDocument;
 
 /**
  * A simple Test demonstrating required {@link Configuration} for consumption of MongoDB
- * <a href="https://docs.mongodb.com/manual/changeStreams/">Change Streams</a> using the sync and reactivestreams java
+ * <a href="https://docs.mongodb.com/manual/changeStreams/">Change Streams</a> using the sync and Reactive Streams Java
  * driver.
  * <p />
  * We currently need to have both tests in one class due to some shutdown error in flapdoodle which lets us start the
  * process only once.
  *
  * @author Christoph Strobl
+ * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -74,8 +73,7 @@ public class ChangeStreamsTests extends ReplicaSetInitiatingTest {
 	/**
 	 * Configuration? Yes we need a bit of it - Do not worry, it won't be much!
 	 */
-	@Configuration
-	@EnableAutoConfiguration
+	@SpringBootApplication
 	static class Config {
 
 		/**
@@ -105,19 +103,18 @@ public class ChangeStreamsTests extends ReplicaSetInitiatingTest {
 
 	/**
 	 * Use the {@link MessageListenerContainer} registered within the
-	 * {@link org.springframework.context.ApplicationContext} to subscribe to a MongoDB Change Stream. Events published
-	 * via {@link com.mongodb.client.ChangeStreamIterable} are passed to the
+	 * {@link org.springframework.context.ApplicationContext} to subscribe to MongoDB Change Streams. Events published via
+	 * {@link com.mongodb.client.ChangeStreamIterable} are passed to the
 	 * {@link org.springframework.data.mongodb.core.messaging.MessageListener#onMessage(Message) MessageListener}.
 	 */
 	@Test
 	public void imperativeChangeEvents() throws InterruptedException {
 
-		CollectingMessageListener<ChangeStreamDocument<Document>, Person> messageListener = new CollectingMessageListener();
+		CollectingMessageListener<ChangeStreamDocument<Document>, Person> messageListener = new CollectingMessageListener<>();
 
-		ChangeStreamRequest<Person> request = ChangeStreamRequest.builder() //
+		ChangeStreamRequest<Person> request = ChangeStreamRequest.builder(messageListener) //
 				.collection("person") //
 				.filter(newAggregation(match(where("operationType").is("insert")))) // we are only interested in inserts
-				.publishTo(messageListener) //
 				.build();
 
 		Subscription subscription = container.register(request, Person.class);
@@ -126,7 +123,7 @@ public class ChangeStreamsTests extends ReplicaSetInitiatingTest {
 		template.save(gabriel);
 		template.save(ash);
 
-		Thread.sleep(200);
+		messageListener.awaitNextMessages(2);
 
 		assertThat(messageListener.messageCount()).isEqualTo(2); // first two insert events, so far so good
 
@@ -141,46 +138,46 @@ public class ChangeStreamsTests extends ReplicaSetInitiatingTest {
 
 		template.save(michael);
 
-		Thread.sleep(200);
+		messageListener.awaitNextMessages(1);
 
 		assertThat(messageListener.messageCount()).isEqualTo(3); // there we go, all events received.
 	}
 
 	/**
-	 * Use the {@link reactor.core.publisher.Flux} to subscribe to a MongoDB Change Stream.
+	 * Use a {@link reactor.core.publisher.Flux} to subscribe to MongoDB Change Streams.
 	 */
 	@Test
-	public void reactiveChangeEvents() throws InterruptedException {
+	public void reactiveChangeEvents() {
 
-		BlockingQueue<ChangeStreamEvent<Person>> documents = new LinkedBlockingQueue<>(100);
+		Flux<ChangeStreamEvent<Person>> changeStream = reactiveTemplate.changeStream(
+				newAggregation(match(where("operationType").is("insert"))), Person.class, ChangeStreamOptions.empty(),
+				"person");
 
-		Disposable disposable = reactiveTemplate.changeStream(newAggregation(match(where("operationType").is("insert"))),
-				Person.class, ChangeStreamOptions.empty(), "person").doOnNext(documents::add).subscribe();
+		StepVerifier.create(changeStream) //
+				.expectSubscription() //
+				.expectNoEvent(Duration.ofMillis(200)) // wait till change streams becomes active
 
-		Thread.sleep(200); // wait till the subscription becomes active
+				// Save documents and await their change events
+				.then(() -> {
+					StepVerifier.create(reactiveTemplate.save(gabriel)).expectNextCount(1).verifyComplete();
+					StepVerifier.create(reactiveTemplate.save(ash)).expectNextCount(1).verifyComplete();
+				}).expectNextCount(2) //
 
-		StepVerifier.create(reactiveTemplate.save(gabriel)).expectNextCount(1).verifyComplete();
-		StepVerifier.create(reactiveTemplate.save(ash)).expectNextCount(1).verifyComplete();
+				// Update a document
+				.then(() -> {
 
-		Thread.sleep(200);
+					StepVerifier.create(reactiveTemplate.update(Person.class) //
+							.matching(query(where("id").is(ash.getId()))) //
+							.apply(update("age", 40)) //
+							.first()).expectNextCount(1).verifyComplete();
+				}).expectNoEvent(Duration.ofMillis(200)) // updates are skipped
 
-		assertThat(documents.size()).isEqualTo(2); // first two insert events, so far so good
+				// Save another document and await its change event
+				.then(() -> {
+					StepVerifier.create(reactiveTemplate.save(michael)).expectNextCount(1).verifyComplete();
+				}).expectNextCount(1) // there we go, all events received.
 
-		StepVerifier.create(reactiveTemplate.update(Person.class) //
-				.matching(query(where("id").is(ash.getId()))) //
-				.apply(update("age", 40)) //
-				.first()).expectNextCount(1).verifyComplete();
-
-		Thread.sleep(200);
-
-		assertThat(documents.size()).isEqualTo(2); // updates are skipped
-
-		StepVerifier.create(reactiveTemplate.save(michael)).expectNextCount(1).verifyComplete();
-
-		Thread.sleep(200); // just give it some time to link receive all events
-
-		assertThat(documents.size()).isEqualTo(3); // there we go, all events received.
-
-		disposable.dispose();
+				.thenCancel() // change streams are infinite streams, at some point we need to unsubscribe
+				.verify();
 	}
 }
