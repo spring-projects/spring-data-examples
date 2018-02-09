@@ -38,16 +38,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>spring-data-mongodb-example-utils</artifactId>
-			<version>${project.version}</version>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<version>3.1.7.RELEASE</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>spring-data-mongodb-example-utils</artifactId>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 

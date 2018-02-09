@@ -17,6 +17,7 @@ package example.springdata.mongodb;
 
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.data.mongodb.core.messaging.Message;
 import org.springframework.data.mongodb.core.messaging.MessageListener;
@@ -26,10 +27,12 @@ import org.springframework.data.mongodb.core.messaging.MessageListener;
  * and printing the message itself to the console.
  *
  * @author Christoph Strobl
+ * @author Mark Paluch
  */
 class CollectingMessageListener<S, T> implements MessageListener<S, T> {
 
 	private final BlockingDeque<Message<S, T>> messages = new LinkedBlockingDeque<>();
+	private final AtomicInteger count = new AtomicInteger();
 
 	/*
 	 * (non-Javadoc)
@@ -38,12 +41,22 @@ class CollectingMessageListener<S, T> implements MessageListener<S, T> {
 	@Override
 	public void onMessage(Message<S, T> message) {
 
+
 		System.out.println(String.format("Received Message in collection %s.\n\trawsource: %s\n\tconverted: %s",
 				message.getProperties().getCollectionName(), message.getRaw(), message.getBody()));
+
+		count.incrementAndGet();
 		messages.add(message);
 	}
 
 	int messageCount() {
-		return messages.size();
+		return count.get();
+	}
+
+	void awaitNextMessages(int count) throws InterruptedException {
+
+		for (int i = 0; i < count; i++) {
+			messages.take();
+		}
 	}
 }
