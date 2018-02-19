@@ -41,7 +41,7 @@
 			<artifactId>spring-data-rest-hal-browser</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-parameter-names</artifactId>
@@ -89,7 +89,7 @@
 
 		<dependency>
 			<groupId>org.webjars</groupId>
-			<artifactId>webjars-locator</artifactId>
+			<artifactId>webjars-locator-core</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
