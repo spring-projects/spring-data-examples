@@ -15,21 +15,8 @@
  */
 package example;
 
-import example.model.Customer;
-
-import javax.sql.DataSource;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.repository.config.BootstrapMode;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @SpringBootApplication
 public class Application {
@@ -37,52 +24,4 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
 	}
-
-	/**
-	 * Configures a {@link LocalContainerEntityManagerFactoryBean} to use background initialization for the {@code lazy}
-	 * and {@code deferred} profiles.
-	 *
-	 * @author Oliver Gierke
-	 */
-	@Configuration
-	@Profile({ "lazy", "deferred" })
-	static class LazyJpaConfiguration {
-
-		@Bean
-		public LocalContainerEntityManagerFactoryBean entityManagerFactory(JpaVendorAdapter jpaVendorAdapter,
-				DataSource dataSource, Environment environment) {
-
-			ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-			threadPoolTaskExecutor.setDaemon(true);
-			threadPoolTaskExecutor.afterPropertiesSet();
-
-			LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-			emf.setBootstrapExecutor(threadPoolTaskExecutor);
-			emf.setDataSource(dataSource);
-			emf.setJpaVendorAdapter(jpaVendorAdapter);
-			emf.setPackagesToScan(Customer.class.getPackage().getName());
-
-			return emf;
-		}
-	}
-
-	/**
-	 * Bootstraps Spring Data JPA in lazy mode if the {@code lazy} profile is activated.
-	 *
-	 * @author Oliver Gierke
-	 */
-	@Profile("lazy")
-	@Configuration
-	@EnableJpaRepositories(bootstrapMode = BootstrapMode.LAZY)
-	static class LazyRepositoryConfiguration {}
-
-	/**
-	 * Bootstraps Spring Data JPA in deferred mode if the {@code deferred} profile is activated.
-	 *
-	 * @author Oliver Gierke
-	 */
-	@Profile("deferred")
-	@Configuration
-	@EnableJpaRepositories(bootstrapMode = BootstrapMode.DEFERRED)
-	static class DeferredRepositoryConfiguration {}
 }

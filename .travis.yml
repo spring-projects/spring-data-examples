@@ -46,6 +46,7 @@ install:
   - /opt/couchbase/bin/couchbase-cli user-manage -c 127.0.0.1:8091 -u Administrator -p password --set  --rbac-username=travel-sample --rbac-password=password --roles=admin --auth-domain local
 
 script:
+  - cp -f settings.xml $HOME/.m2/settings.xml
   - mvn -version
   - java -version
-  - mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B -s settings.xml
+  - mvn clean test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B -s settings.xml

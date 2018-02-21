@@ -20,7 +20,7 @@
 
 		<dependency>
 			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
+			<artifactId>mongodb-driver-sync</artifactId>
 		</dependency>
 
 	</dependencies>
