@@ -26,7 +26,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
@@ -41,7 +41,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Christoph Strobl
  */
 @RunWith(SpringRunner.class)
-@SpringBootApplication
+@SpringBootTest
 public class KeyOperationsTests {
 
 	// we only want to run this tests when redis is up an running
