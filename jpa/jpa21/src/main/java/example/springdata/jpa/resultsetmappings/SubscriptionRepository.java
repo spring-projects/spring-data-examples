@@ -15,22 +15,22 @@
  */
 package example.springdata.jpa.resultsetmappings;
 
-import org.springframework.data.repository.CrudRepository;
-
 import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * @author Thomas Darimont
  */
-public interface SubscriptionRepository extends CrudRepository<Subscription, Long> {
+interface SubscriptionRepository extends CrudRepository<Subscription, Long> {
 
-    /**
-     * Returns an aggregated {@link SubscriptionSummary} by Product.
-     * <p>
-     * Note that this example uses a JPA 2.1 Constructor based {@link javax.persistence.SqlResultSetMapping}
-     * in combination with native query defined in {@link Subscription}.
-     *
-     * @return
-     */
-    List<SubscriptionSummary> findAllSubscriptionSummaries();
+	/**
+	 * Returns an aggregated {@link SubscriptionSummary} by Product.
+	 * <p>
+	 * Note that this example uses a JPA 2.1 Constructor based {@link javax.persistence.SqlResultSetMapping} in
+	 * combination with native query defined in {@link Subscription}.
+	 *
+	 * @return
+	 */
+	List<SubscriptionSummary> findAllSubscriptionSummaries();
 }

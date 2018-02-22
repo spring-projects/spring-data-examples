@@ -17,5 +17,9 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
 	</dependencies>
+	
+	<properties>
+		<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+	</properties>
 
 </project>
