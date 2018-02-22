@@ -77,6 +77,10 @@ We have separate folders for the samples of individual modules:
 
 * `example` - Sample for Spring Data repositories to access an LDAP store.
 
+## Spring Data JDBC
+
+* `basic` - Basic usage of Spring Data JDBC.
+
 ## Miscellaneous
 
 * `bom` - Example project how to use the Spring Data release train bom in non-Spring-Boot scenarios.
