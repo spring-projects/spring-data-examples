@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2017-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  */
 package example.springdata.jdbc.basics;
 
+import lombok.experimental.UtilityClass;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import lombok.experimental.UtilityClass;
 
 /**
  * Trivial class to print domain objects to the console in a somewhat readable format.
@@ -34,9 +34,7 @@ public class Output {
 
 		StringBuilder message = new StringBuilder(String.format("==== %s ====\n", title));
 
-		categories.forEach(category -> {
-			message.append(category.toString().replace(", ", ",\n\t"));
-		});
+		categories.forEach(category -> message.append(category.toString().replace(", ", ",\n\t")));
 
 		LOG.info(message.toString());
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2017-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  */
 package example.springdata.jdbc.basics.aggregate;
 
-import org.springframework.data.annotation.Id;
-
 import lombok.Data;
+
+import org.springframework.data.annotation.Id;
 
 /**
  * A manual instructing how to assemble a {@link LegoSet}.
@@ -27,6 +27,8 @@ import lombok.Data;
 @Data
 public class Manual {
 
+	private @Id Long id;
+	private String author, text;
 
 	Manual(String text, String author) {
 
@@ -34,10 +36,4 @@ public class Manual {
 		this.author = author;
 		this.text = text;
 	}
-
-	@Id
-	private Long id;
-
-	private String author;
-	private String text;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2017-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,14 @@
  */
 package example.springdata.jdbc.basics.simpleentity;
 
-import java.time.LocalDateTime;
-
 import example.springdata.jdbc.basics.aggregate.AgeGroup;
 import example.springdata.jdbc.basics.aggregate.LegoSet;
-import org.springframework.data.annotation.Id;
-
 import lombok.Data;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.Id;
 
 /**
  * Coarse classification for {@link LegoSet}s, like "Car", "Plane", "Building" and so on.
@@ -32,6 +32,12 @@ import lombok.Setter;
 @Data
 public class Category {
 
+	private final @Id Long id;
+	private String name, description;
+	private LocalDateTime created = LocalDateTime.now();
+	private @Setter long inserted;
+	private AgeGroup ageGroup;
+
 	public Category(String name, String description, AgeGroup ageGroup) {
 
 		this.id = null;
@@ -40,23 +46,10 @@ public class Category {
 		this.ageGroup = ageGroup;
 	}
 
-	@Id
-	private final Long id;
-
-	private String name;
-	private String description;
-
-	private LocalDateTime created = LocalDateTime.now();
-
-	@Setter
-	private long inserted;
-
 	public void timeStamp() {
 
 		if (inserted == 0) {
 			inserted = System.currentTimeMillis();
 		}
 	}
-
-	private AgeGroup ageGroup;
 }

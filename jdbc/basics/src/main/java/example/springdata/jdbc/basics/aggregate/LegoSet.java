@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2017-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,16 @@
 package example.springdata.jdbc.basics.aggregate;
 
 import lombok.Data;
-import org.springframework.data.annotation.AccessType;
-import org.springframework.data.annotation.AccessType.Type;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.data.annotation.AccessType;
+import org.springframework.data.annotation.AccessType.Type;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 /**
  * A Lego Set consisting of multiple Blocks and a manual
@@ -35,25 +36,21 @@ import java.util.Map;
 @AccessType(Type.PROPERTY)
 public class LegoSet {
 
-	@Id
-	private int id;
-
+	private @Id int id;
 	private String name;
-
-	@Transient
-	private Period minimumAge;
-	@Transient
-	private Period maximumAge;
+	private @Transient Period minimumAge, maximumAge;
 
 	/**
-	 * Since Manuals are part of a {@link LegoSet} and only make sense inside a {@link LegoSet} it is considered part of the Aggregate.
+	 * Since Manuals are part of a {@link LegoSet} and only make sense inside a {@link LegoSet} it is considered part of
+	 * the Aggregate.
 	 */
 	private Manual manual;
 
 	// You can build multiple models from one LegoSet
 	private final Map<String, Model> models = new HashMap<>();
 
-	// conversion for custom types currently has to be done through getters/setter + marking the underlying property with @Transient.
+	// conversion for custom types currently has to be done through getters/setter + marking the underlying property with
+	// @Transient.
 	public int getIntMinimumAge() {
 		return toInt(this.minimumAge);
 	}
@@ -70,7 +67,6 @@ public class LegoSet {
 		maximumAge = toPeriod(years);
 	}
 
-
 	private static int toInt(Period period) {
 		return (int) (period == null ? 0 : period.get(ChronoUnit.YEARS));
 	}
@@ -84,6 +80,7 @@ public class LegoSet {
 		Model model = new Model();
 		model.name = name;
 		model.description = description;
+
 		models.put(name, model);
 	}
 }

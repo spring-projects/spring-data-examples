@@ -13,4 +13,5 @@
 
 	<name>Spring Data JDBC - Basic usage examples</name>
 	<description>Sample project demonstrating Spring Data JDBC features</description>
+
 </project>

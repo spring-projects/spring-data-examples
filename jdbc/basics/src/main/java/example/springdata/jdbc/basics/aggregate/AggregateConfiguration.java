@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2017-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,14 @@
  */
 package example.springdata.jdbc.basics.aggregate;
 
+import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.sql.DataSource;
+
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,20 +32,15 @@ import org.springframework.data.jdbc.core.DefaultDataAccessStrategy;
 import org.springframework.data.jdbc.core.DelegatingDataAccessStrategy;
 import org.springframework.data.jdbc.core.SqlGeneratorSource;
 import org.springframework.data.jdbc.mapping.event.BeforeSave;
-import org.springframework.data.jdbc.mapping.model.*;
+import org.springframework.data.jdbc.mapping.model.ConversionCustomizer;
+import org.springframework.data.jdbc.mapping.model.DefaultNamingStrategy;
+import org.springframework.data.jdbc.mapping.model.JdbcMappingContext;
+import org.springframework.data.jdbc.mapping.model.JdbcPersistentProperty;
+import org.springframework.data.jdbc.mapping.model.NamingStrategy;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.lang.Nullable;
-
-import javax.sql.DataSource;
-import java.sql.Clob;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Jens Schauder
@@ -54,14 +57,17 @@ public class AggregateConfiguration {
 		return (ApplicationListener<BeforeSave>) event -> {
 
 			Object entity = event.getEntity();
+
 			if (entity instanceof LegoSet) {
 
 				LegoSet legoSet = (LegoSet) entity;
+
 				if (legoSet.getId() == 0) {
 					legoSet.setId(id.incrementAndGet());
 				}
 
 				Manual manual = legoSet.getManual();
+
 				if (manual != null) {
 					manual.setId((long) legoSet.getId());
 				}
@@ -98,8 +104,7 @@ public class AggregateConfiguration {
 
 			@Override
 			public String getTableName(Class<?> type) {
-
-				return tableAliases.computeIfAbsent(super.getTableName(type),key -> key);
+				return tableAliases.computeIfAbsent(super.getTableName(type), key -> key);
 			}
 
 			@Override
@@ -128,6 +133,7 @@ public class AggregateConfiguration {
 					return Math.toIntExact(clob.length()) == 0 //
 							? "" //
 							: clob.getSubString(1, Math.toIntExact(clob.length()));
+
 				} catch (SQLException e) {
 					throw new IllegalStateException("Failed to convert CLOB to String.", e);
 				}
@@ -140,7 +146,6 @@ public class AggregateConfiguration {
 	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, DataSource dataSource) {
 
 		NamedParameterJdbcOperations operations = new NamedParameterJdbcTemplate(dataSource);
-
 		DelegatingDataAccessStrategy accessStrategy = new DelegatingDataAccessStrategy();
 
 		accessStrategy.setDelegate(new DefaultDataAccessStrategy( //

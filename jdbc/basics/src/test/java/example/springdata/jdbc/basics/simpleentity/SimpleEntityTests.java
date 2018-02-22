@@ -1,5 +1,5 @@
-package example.springdata.jdbc.basics.simpleentity;/*
- * Copyright 2017 the original author or authors.
+/*
+ * Copyright 2017-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,20 @@ package example.springdata.jdbc.basics.simpleentity;/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package example.springdata.jdbc.basics.simpleentity;
+
+import static java.util.Arrays.*;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.jdbc.basics.Output;
 import example.springdata.jdbc.basics.aggregate.AgeGroup;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Demonstrates simple CRUD operations with a simple entity without any references.
@@ -36,8 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureJdbc
 public class SimpleEntityTests {
 
-	@Autowired
-	private CategoryRepository repository;
+	@Autowired CategoryRepository repository;
 
 	@Test
 	public void exerciseRepositoryForSimpleEntity() {
@@ -62,6 +63,5 @@ public class SimpleEntityTests {
 		// delete stuff again
 		repository.delete(cars);
 		Output.list(repository.findAll(), "`Cars` is gone.");
-
 	}
 }

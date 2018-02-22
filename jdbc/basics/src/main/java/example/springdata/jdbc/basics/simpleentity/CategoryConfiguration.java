@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2017-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package example.springdata.jdbc.basics.simpleentity;
+
+import javax.sql.DataSource;
 
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -30,8 +32,6 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import javax.sql.DataSource;
-
 /**
  * Contains infrastructure necessary for creating repositories and two listeners.
  * <p>
@@ -43,17 +43,15 @@ import javax.sql.DataSource;
 @EnableJdbcRepositories
 public class CategoryConfiguration {
 
-
 	@Bean
 	public ApplicationListener<?> loggingListener() {
 
 		return (ApplicationListener<ApplicationEvent>) event -> {
 			if (event instanceof JdbcEvent) {
-				System.out.println("received an event: " + event);
+				System.out.println("Received an event: " + event);
 			}
 		};
 	}
-
 
 	@Bean
 	public ApplicationListener<BeforeSave> timeStampingSaveTime() {
@@ -61,6 +59,7 @@ public class CategoryConfiguration {
 		return event -> {
 
 			Object entity = event.getEntity();
+
 			if (entity instanceof Category) {
 				Category category = (Category) entity;
 				category.timeStamp();
@@ -73,7 +72,6 @@ public class CategoryConfiguration {
 	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, DataSource dataSource) {
 
 		NamedParameterJdbcOperations operations = new NamedParameterJdbcTemplate(dataSource);
-
 		DelegatingDataAccessStrategy accessStrategy = new DelegatingDataAccessStrategy();
 
 		accessStrategy.setDelegate(new DefaultDataAccessStrategy( //
