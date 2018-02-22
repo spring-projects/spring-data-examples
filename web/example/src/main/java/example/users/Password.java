@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import lombok.experimental.Delegate;
  * A value object to represent {@link Password}s in encrypted and unencrypted state. Note how the methods to create a
  * {@link Password} in encrypted state are restricted to package scope so that only the user subsystem is actually able
  * to encrypted passwords.
- * 
+ *
  * @author Oliver Gierke
  */
 @EqualsAndHashCode
@@ -46,7 +46,7 @@ public class Password implements CharSequence {
 
 	/**
 	 * Creates a new raw {@link Password} for the given source {@link String}.
-	 * 
+	 *
 	 * @param password must not be {@literal null} or empty.
 	 * @return
 	 */
@@ -58,7 +58,7 @@ public class Password implements CharSequence {
 	 * Creates a new encrypted {@link Password} for the given {@link String}. Note how this method is package protected so
 	 * that encrypted passwords can only created by components in this package and not accidentally by clients using the
 	 * type from other packages.
-	 * 
+	 *
 	 * @param password must not be {@literal null} or empty.
 	 * @return
 	 */

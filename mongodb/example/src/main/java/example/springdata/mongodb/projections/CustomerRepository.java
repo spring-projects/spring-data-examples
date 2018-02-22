@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  * Sample repository managing customers to show projecting functionality of Spring Data MongoDB.
- * 
+ *
  * @author Oliver Gierke
  */
 interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
@@ -33,7 +33,7 @@ interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
 	/**
 	 * Uses a projection interface to indicate the fields to be returned. As the projection doesn't use any dynamic
 	 * fields, the query execution will be restricted to only the fields needed by the projection.
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<CustomerProjection> findAllProjectedBy();
@@ -42,7 +42,7 @@ interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
 	 * When a projection is used that contains dynamic properties (i.e. SpEL expressions in an {@link Value} annotation),
 	 * the normal target entity will be loaded but dynamically projected so that the target can be referred to in the
 	 * expression.
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<CustomerSummary> findAllSummarizedBy();
@@ -50,14 +50,14 @@ interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
 	/**
 	 * Uses a concrete DTO type to indicate the fields to be returned. This will cause the original object being loaded
 	 * and the properties copied over into the DTO.
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<CustomerDto> findAllDtoedBy();
 
 	/**
 	 * Passes in the projection type dynamically (either interface or DTO).
-	 * 
+	 *
 	 * @param firstname
 	 * @param projection
 	 * @return
@@ -66,7 +66,7 @@ interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
 
 	/**
 	 * Projection for a single entity.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -74,7 +74,7 @@ interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
 
 	/**
 	 * Dynamic projection for a single entity.
-	 * 
+	 *
 	 * @param id
 	 * @param projection
 	 * @return
@@ -83,7 +83,7 @@ interface CustomerRepository extends CrudRepository<Customer, ObjectId> {
 
 	/**
 	 * Projections used with pagination.
-	 * 
+	 *
 	 * @param pageable
 	 * @return
 	 */

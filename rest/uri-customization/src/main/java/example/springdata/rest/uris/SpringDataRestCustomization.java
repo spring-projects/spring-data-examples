@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * Spring Data {@link RepositoryRestConfiguration} to customize the identifier mapping for {@link User}s.
- * 
+ *
  * @author Oliver Gierke
  */
 @Component
 public class SpringDataRestCustomization extends RepositoryRestConfigurerAdapter {
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter#configureRepositoryRestConfiguration(org.springframework.data.rest.core.config.RepositoryRestConfiguration)
 	 */

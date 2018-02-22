@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * A Spring Data repository to persist {@link User}s.
- * 
+ *
  * @author Oliver Gierke
  */
 interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
 	/**
 	 * Returns the user with the given {@link Username}.
-	 * 
+	 *
 	 * @param username can be {@literal null}.
 	 * @return
 	 */

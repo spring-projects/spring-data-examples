@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import org.springframework.data.solr.core.query.result.Cursor;
 
 /**
  * Custom repository implementation to show special solr functions without {@link Repository} abstraction.
- * 
+ *
  * @author Christoph Strobl
  */
 interface ProductRepositoryCustom {
@@ -28,7 +28,7 @@ interface ProductRepositoryCustom {
 	/**
 	 * Use a {@link Cursor} to scroll through documents in index. <br />
 	 * <strong>NOTE:</strong> Requires at least Solr 4.7.
-	 * 
+	 *
 	 * @return
 	 */
 	Cursor<Product> findAllUsingCursor();

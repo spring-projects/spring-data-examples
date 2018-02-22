@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener;
 /**
  * Simple configuration that registers a {@link LoggingEventListener} to demonstrate mapping behaviour when Java 8
  * Streams are used.
- * 
+ *
  * @author Thomas Darimont
  */
 @SpringBootApplication

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,14 +26,14 @@ import org.springframework.data.solr.repository.Query;
 
 /**
  * Repository definition for {@link Product}.
- * 
+ *
  * @author Christoph Strobl
  */
 public interface ProductRepository extends ProductRepositoryCustom, CrudRepository<Product, String> {
 
 	/**
 	 * Find documents with matching description, highlighting context within a 20 char range around the hit.
-	 * 
+	 *
 	 * @param description
 	 * @param page
 	 * @return
@@ -44,7 +44,7 @@ public interface ProductRepository extends ProductRepositoryCustom, CrudReposito
 	/**
 	 * Find the first 10 documents with a match in name or description. Boosting score for search hits in name by 2 sorts
 	 * documents by relevance.
-	 * 
+	 *
 	 * @param name
 	 * @param description
 	 * @return

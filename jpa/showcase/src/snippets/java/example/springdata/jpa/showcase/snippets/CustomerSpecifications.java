@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2014 the original author or authors.
+ * Copyright 2011-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,14 +31,14 @@ import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Collection of {@link Specification} implementations.
- * 
+ *
  * @author Oliver Gierke
  */
 public class CustomerSpecifications {
 
 	/**
 	 * All customers with an {@link Account} expiring before the given date.
-	 * 
+	 *
 	 * @param date
 	 * @return
 	 */

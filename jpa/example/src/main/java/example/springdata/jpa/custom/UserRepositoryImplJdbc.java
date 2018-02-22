@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 the original author or authors.
+ * Copyright 2013-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,18 +33,18 @@ import org.springframework.stereotype.Component;
  * <p>
  * As you need to hand the instance a {@link javax.sql.DataSource} or
  * {@link org.springframework.jdbc.core.simple.SimpleJdbcTemplate} you manually need to declare it as Spring bean:
- * 
+ *
  * <pre>
  * &lt;jpa:repository base-package=&quot;com.acme.repository&quot; /&gt;
- * 
+ *
  * &lt;bean id=&quot;userRepositoryImpl&quot; class=&quot;...UserRepositoryJdbcImpl&quot;&gt;
  *   &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot; /&gt;
  * &lt;/bean&gt;
  * </pre>
- * 
+ *
  * Using {@code userRepositoryImpl} will cause the repository instance get this bean injected for custom repository
  * logic as the default postfix for custom DAO instances is {@code Impl}.
- * 
+ *
  * @author Oliver Gierke
  * @author Thomas Darimont
  */

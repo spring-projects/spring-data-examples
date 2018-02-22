@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ import org.springframework.util.Assert;
  * Also, not that one cannot interact with both databases in a single, transactional method as transactions are thread
  * bound in Spring an thus only a single transaction can be active in a single thread. See {@link Application#init()}
  * for how to orchestrate the calls.
- * 
+ *
  * @author Oliver Gierke
  */
 @Component
@@ -53,7 +53,7 @@ public class DataInitializer {
 
 	/**
 	 * Initializes a {@link Customer}.
-	 * 
+	 *
 	 * @return
 	 */
 	@Transactional("customerTransactionManager")
@@ -63,7 +63,7 @@ public class DataInitializer {
 
 	/**
 	 * Initializes an {@link Order}.
-	 * 
+	 *
 	 * @param customer must not be {@literal null}.
 	 * @return
 	 */

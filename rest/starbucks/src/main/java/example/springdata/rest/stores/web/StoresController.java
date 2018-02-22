@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * A Spring MVC controller to produce an HTML frontend.
- * 
+ *
  * @author Oliver Gierke
  */
 @Controller
@@ -69,7 +69,7 @@ class StoresController {
 
 	/**
 	 * Looks up the stores in the given distance around the given location.
-	 * 
+	 *
 	 * @param model the {@link Model} to populate.
 	 * @param location the optional location, if none is given, no search results will be returned.
 	 * @param distance the distance to use, if none is given the {@link #DEFAULT_DISTANCE} is used.

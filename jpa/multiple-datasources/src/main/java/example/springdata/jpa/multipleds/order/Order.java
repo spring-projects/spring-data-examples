@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
 
 /**
  * Simple domain class representing an {@link Order}
- * 
+ *
  * @author Oliver Gierke
  */
 @Entity
@@ -60,7 +60,7 @@ public class Order {
 
 	/**
 	 * Adds a {@link LineItem} to the {@link Order}.
-	 * 
+	 *
 	 * @param lineItem must not be {@literal null}.
 	 */
 	public void add(LineItem lineItem) {

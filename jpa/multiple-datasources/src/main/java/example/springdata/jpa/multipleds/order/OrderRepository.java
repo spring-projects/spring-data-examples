@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
 
 /**
  * Spring Data repository managing {@link Order}s.
- * 
+ *
  * @author Oliver Gierke
  */
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
 	/**
 	 * Returns all {@link Order}s for the {@link Customer} with the given identifier.
-	 * 
+	 *
 	 * @param id must not be {@literal null}.
 	 * @return
 	 */

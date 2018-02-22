@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ import example.users.Username;
  * {@link PageableHandlerMethodArgumentResolver}.</li>
  * <li>Usage of proxy-backed interfaces to bind request parameters.</li>
  * </ol>
- * 
+ *
  * @author Oliver Gierke
  */
 @Controller
@@ -62,7 +62,7 @@ class UserController {
 	 * Equis the model with a {@link Page} of {@link User}s. Spring Data automatically populates the {@link Pageable} from
 	 * request data according to the setup of {@link PageableHandlerMethodArgumentResolver}. Note how the defaults can be
 	 * tweaked by using {@link PageableDefault}.
-	 * 
+	 *
 	 * @param pageable will never be {@literal null}.
 	 * @return
 	 */
@@ -74,7 +74,7 @@ class UserController {
 	/**
 	 * Registers a new {@link User} for the data provided by the given {@link UserForm}. Note, how an interface is used to
 	 * bind request parameters.
-	 * 
+	 *
 	 * @param userForm the request data bound to the {@link UserForm} instance.
 	 * @param binding the result of the binding operation.
 	 * @param model the Spring MVC {@link Model}.
@@ -100,7 +100,7 @@ class UserController {
 	/**
 	 * Populates the {@link Model} with the {@link UserForm} automatically created by Spring Data web components. It will
 	 * create a {@link Map}-backed proxy for the interface.
-	 * 
+	 *
 	 * @param model will never be {@literal null}.
 	 * @param userForm will never be {@literal null}.
 	 * @return
@@ -128,7 +128,7 @@ class UserController {
 
 		/**
 		 * Validates the {@link UserForm}.
-		 * 
+		 *
 		 * @param errors
 		 * @param userManagement
 		 */

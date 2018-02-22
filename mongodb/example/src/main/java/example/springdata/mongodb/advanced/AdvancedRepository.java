@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import example.springdata.mongodb.customer.CustomerRepository;
 
 /**
  * Repository interface to manage {@link Customer} instances.
- * 
+ *
  * @author Christoph Strobl
  */
 public interface AdvancedRepository extends CustomerRepository {
@@ -34,13 +34,13 @@ public interface AdvancedRepository extends CustomerRepository {
 	/**
 	 * Derived query using {@code $comment} meta attribute for quick lookup. <br />
 	 * Have a look at the {@literal mongodb shell} and execute:
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	 *  db['system.profile'].find({'query.$comment':'s2gx-2014-rocks!'})
 	 * </code>
 	 * </pre>
-	 * 
+	 *
 	 * @param firstname
 	 * @return
 	 */

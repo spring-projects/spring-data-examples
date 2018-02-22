@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests for {@link StoreRepository}.
- * 
+ *
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
@@ -48,18 +48,18 @@ public class StoreRepositoryTests {
 
 	/**
 	 * Get all the Starbucks stores within the triangle defined by
-	 * 
+	 *
 	 * <pre>
 	 * <ol>
 	 * <li>43rd & Ninth</li><li>60th & First</li><li>Fresh Meadows</li>
 	 * <ol>
 	 * </pre>
-	 * 
+	 *
 	 * Using {@code $geoWithin} and {@code $geometry} operators.
-	 * 
+	 *
 	 * <pre>
 	 * <code>
-	 * { 
+	 * {
 	 *   "location": {
 	 *     "$geoWithin": {
 	 *       "geometry": {
@@ -77,7 +77,7 @@ public class StoreRepositoryTests {
 	 *   }
 	 * }
 	 * </code>
-	 * 
+	 *
 	 * <pre>
 	 */
 	@Test
@@ -87,18 +87,18 @@ public class StoreRepositoryTests {
 
 	/**
 	 * The legacy format alternative to {@link #findWithinGeoJsonPolygon()}.
-	 * 
+	 *
 	 * <pre>
 	 * <code>
-	 * { 
-	 *   "location" : { 
+	 * {
+	 *   "location" : {
 	 *     "$geoWithin" : {
 	 *        "$polygon" : [ [ -73.992514, 40.758934 ] , [ -73.961138, 40.760348 ] , [ -73.991658, 40.730006 ] ]
 	 *     }
 	 *   }
 	 * }
 	 * </code>
-	 * 
+	 *
 	 * <pre>
 	 */
 	@Test

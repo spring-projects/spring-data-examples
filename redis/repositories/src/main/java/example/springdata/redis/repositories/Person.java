@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import org.springframework.data.redis.core.index.Indexed;
  * {@link Person} object stored inside a Redis {@literal HASH}. <br />
  * <br />
  * Sample (key = persons:9b0ed8ee-14be-46ec-b5fa-79570aadb91d):
- * 
+ *
  * <pre>
  * <code>
  * _class := example.springdata.redis.domain.Person
@@ -49,7 +49,7 @@ import org.springframework.data.redis.core.index.Indexed;
  * children.[5] := persons:9c2461aa-2ef2-469f-83a2-bd216df8357f
  * </code>
  * </pre>
- * 
+ *
  * @author Christoph Strobl
  */
 @Data
@@ -61,14 +61,14 @@ class Person {
 	/**
 	 * The {@literal id} and {@link RedisHash#toString()} build up the {@literal key} for the Redis {@literal HASH}.
 	 * <br />
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	 * {@link RedisHash#value()} + ":" + {@link Person#id}
 	 * //eg. persons:9b0ed8ee-14be-46ec-b5fa-79570aadb91d
 	 * </code>
 	 * </pre>
-	 * 
+	 *
 	 * <strong>Note:</strong> empty {@literal id} fields are automatically assigned during save operation.
 	 */
 	private @Id String id;
@@ -76,7 +76,7 @@ class Person {
 	/**
 	 * Using {@link Indexed} marks the property as for indexing which uses Redis {@literal SET} to keep track of
 	 * {@literal ids} for objects with matching values. <br />
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	 * {@link RedisHash#value()} + ":" + {@link Field#getName()} +":" + {@link Field#get(Object)}
@@ -98,7 +98,7 @@ class Person {
 	/**
 	 * Using {@link Reference} allows to link to existing objects via their {@literal key}. The values stored in the
 	 * objects {@literal HASH} looks like:
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	 * children.[0] := persons:41436096-aabe-42fa-bd5a-9a517fbf0260

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ interface SecureBusinessObjectRepository extends Repository<BusinessObject, Long
 	 * {@link example.springdata.jpa.security.SecurityEvaluationContextExtension} in place we can safely access auth
 	 * information provided by the Spring Security Context. The Spring Data Repository infrastructure will translate the
 	 * given query string into the parameterized form: <code>
-	 *     select o from BusinessObject o where o.owner.emailAddress like ? 
+	 *     select o from BusinessObject o where o.owner.emailAddress like ?
 	 * </code> and set the the result SpEL expression evaluated at method invocation time as parameter value.
 	 *
 	 * @return
@@ -42,7 +42,7 @@ interface SecureBusinessObjectRepository extends Repository<BusinessObject, Long
 
 	/**
 	 * Here we apply a dynamic filter condition in there query depending of the role of the current principal.
-	 * 
+	 *
 	 * @return
 	 */
 	@Query("select o from BusinessObject o where o.owner.id = ?#{principal.id} or 1=?#{hasRole('ROLE_ADMIN') ? 1 : 0}")

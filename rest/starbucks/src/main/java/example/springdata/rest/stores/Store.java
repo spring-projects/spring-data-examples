@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Entity to represent a {@link Store}.
- * 
+ *
  * @author Oliver Gierke
  */
 @Value
@@ -41,7 +41,7 @@ public class Store {
 
 	/**
 	 * Value object to represent an {@link Address}.
-	 * 
+	 *
 	 * @author Oliver Gierke
 	 */
 	@Value

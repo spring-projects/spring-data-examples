@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.data.rest.core.support.EntityLookupSupport;
  * property of the {@link User}. This one is not really used out of the box as it's not a Spring bean. It's just a
  * sample of how to deploy a customization in non-Java 8 environments which can't use the fluent API in use in
  * {@link SpringDataRestCustomization}.
- * 
+ *
  * @author Oliver Gierke
  * @see SpringDataRestCustomization#configureRepositoryRestConfiguration(org.springframework.data.rest.core.config.RepositoryRestConfiguration)
  */
@@ -37,7 +37,7 @@ public class UserEntityLookup extends EntityLookupSupport<User> {
 
 	private final @NonNull UserRepository repository;
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see org.springframework.data.rest.core.support.EntityLookup#getId(java.lang.Object)
 	 */
@@ -46,7 +46,7 @@ public class UserEntityLookup extends EntityLookupSupport<User> {
 		return entity.getUsername();
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see org.springframework.data.rest.core.support.EntityLookup#lookupEntity(java.lang.Object)
 	 */

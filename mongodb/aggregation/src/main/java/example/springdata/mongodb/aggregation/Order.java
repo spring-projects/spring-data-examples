@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2013-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * An entity representing an {@link Order}. Note how we don't need any MongoDB mapping annotations as {@code id} is
  * recognized as the id property by default.
- * 
+ *
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
@@ -44,7 +44,7 @@ public class Order {
 
 	/**
 	 * Creates a new {@link Order} for the given customer id and order date.
-	 * 
+	 *
 	 * @param customerId
 	 * @param orderDate
 	 */
@@ -54,7 +54,7 @@ public class Order {
 
 	/**
 	 * Adds a {@link LineItem} to the {@link Order}.
-	 * 
+	 *
 	 * @param item
 	 * @return
 	 */

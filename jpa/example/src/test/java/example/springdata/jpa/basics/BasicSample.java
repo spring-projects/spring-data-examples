@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 the original author or authors.
+ * Copyright 2013-2018 the original author or authors.
  *
  * Licenseimport static org.junit.Assert.*;
 
@@ -35,7 +35,7 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  * This unit tests shows plain usage of {@link SimpleJpaRepository}.
- * 
+ *
  * @author Oliver Gierke
  * @author Thomas Darimont
  */

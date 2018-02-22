@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2014 the original author or authors.
+ * Copyright 2011-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Service interface for {@link Customer}s.
- * 
+ *
  * @author Oliver Gierke
  */
 public interface CustomerService {
@@ -29,7 +29,7 @@ public interface CustomerService {
 	/**
 	 * Returns the {@link Customer} with the given id or {@literal null} if no {@link Customer} with the given id was
 	 * found.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -37,7 +37,7 @@ public interface CustomerService {
 
 	/**
 	 * Saves the given {@link Customer}.
-	 * 
+	 *
 	 * @param customer
 	 * @return
 	 */
@@ -45,14 +45,14 @@ public interface CustomerService {
 
 	/**
 	 * Returns all customers.
-	 * 
+	 *
 	 * @return
 	 */
 	List<Customer> findAll();
 
 	/**
 	 * Returns the page of {@link Customer}s with the given index of the given size.
-	 * 
+	 *
 	 * @param page
 	 * @param pageSize
 	 * @return
@@ -61,7 +61,7 @@ public interface CustomerService {
 
 	/**
 	 * Returns the page of {@link Customer}s with the given lastname and the given page index and page size.
-	 * 
+	 *
 	 * @param lastname
 	 * @param page
 	 * @param pageSize

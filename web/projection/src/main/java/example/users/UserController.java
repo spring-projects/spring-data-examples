@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import org.xmlbeam.annotation.XBRead;
 
 /**
  * Controller to handle web requests for {@link UserPayload}s.
- * 
+ *
  * @author Oliver Gierke
  */
 @RestController
@@ -42,7 +42,7 @@ class UserController {
 
 	/**
 	 * Receiving POST requests supporting both JSON and XML.
-	 * 
+	 *
 	 * @param user
 	 * @return
 	 */
@@ -55,7 +55,7 @@ class UserController {
 
 	/**
 	 * Returns a simple JSON payload.
-	 * 
+	 *
 	 * @return
 	 */
 	@GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,7 +70,7 @@ class UserController {
 
 	/**
 	 * Returns the payload of {@link #getJson()} wrapped into another element to simulate a change in the representation.
-	 * 
+	 *
 	 * @return
 	 */
 	@GetMapping(path = "/changed", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -80,7 +80,7 @@ class UserController {
 
 	/**
 	 * Returns a simple XML payload.
-	 * 
+	 *
 	 * @return
 	 */
 	@GetMapping(path = "/", produces = MediaType.APPLICATION_XML_VALUE)
@@ -91,7 +91,7 @@ class UserController {
 	/**
 	 * Returns the payload of {@link #getXml()} wrapped into another XML element to simulate a change in the
 	 * representation structure.
-	 * 
+	 *
 	 * @return
 	 */
 	@GetMapping(path = "/changed", produces = MediaType.APPLICATION_XML_VALUE)

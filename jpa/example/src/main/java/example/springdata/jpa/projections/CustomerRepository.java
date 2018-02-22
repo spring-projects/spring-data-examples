@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	/**
 	 * Uses a projection interface to indicate the fields to be returned. As the projection doesn't use any dynamic
 	 * fields, the query execution will be restricted to only the fields needed by the projection.
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<CustomerProjection> findAllProjectedBy();
@@ -41,7 +41,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	 * When a projection is used that contains dynamic properties (i.e. SpEL expressions in an {@link Value} annotation),
 	 * the normal target entity will be loaded but dynamically projected so that the target can be referred to in the
 	 * expression.
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<CustomerSummary> findAllSummarizedBy();
@@ -49,7 +49,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	/**
 	 * Projection interfaces can be used with manually declared queries, too. Make sure you alias the projects matching
 	 * the projection fields.
-	 * 
+	 *
 	 * @return
 	 */
 	@Query("select c.firstname as firstname, c.lastname as lastname from Customer c")
@@ -58,14 +58,14 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	/**
 	 * Uses a concrete DTO type to indicate the fields to be returned. This gets translated into a constructor expression
 	 * in the query.
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<CustomerDto> findAllDtoedBy();
 
 	/**
 	 * Passes in the projection type dynamically (either interface or DTO).
-	 * 
+	 *
 	 * @param firstname
 	 * @param projection
 	 * @return
@@ -74,7 +74,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
 	/**
 	 * Projection for a single entity.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -82,7 +82,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
 	/**
 	 * Dynamic projection for a single entity.
-	 * 
+	 *
 	 * @param id
 	 * @param projection
 	 * @return
@@ -91,7 +91,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
 	/**
 	 * Projections used with pagination.
-	 * 
+	 *
 	 * @param pageable
 	 * @return
 	 */
@@ -99,7 +99,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
 	/**
 	 * A DTO projection using a constructor expression in a manually declared query.
-	 * 
+	 *
 	 * @param firstname
 	 * @return
 	 */
@@ -108,7 +108,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
 	/**
 	 * A projection wrapped into an {@link Optional}.
-	 * 
+	 *
 	 * @param lastname
 	 * @return
 	 */

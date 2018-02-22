@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 the original author or authors.
+ * Copyright 2013-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.springframework.scheduling.annotation.Async;
 
 /**
  * Repository to manage {@link Customer} instances.
- * 
+ *
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
@@ -35,7 +35,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 
 	/**
 	 * Special customization of {@link CrudRepository#findOne(java.io.Serializable)} to return a JDK 8 {@link Optional}.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -43,7 +43,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 
 	/**
 	 * Saves the given {@link Customer}.
-	 * 
+	 *
 	 * @param customer
 	 * @return
 	 */
@@ -51,7 +51,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 
 	/**
 	 * Sample method to derive a query from using JDK 8's {@link Optional} as return type.
-	 * 
+	 *
 	 * @param lastname
 	 * @return
 	 */
@@ -59,7 +59,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 
 	/**
 	 * Sample default method to show JDK 8 feature support.
-	 * 
+	 *
 	 * @param customer
 	 * @return
 	 */
@@ -70,7 +70,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	/**
 	 * Sample method to demonstrate support for {@link Stream} as a return type with a custom query. The query is executed
 	 * in a streaming fashion which means that the method returns as soon as the first results are ready.
-	 * 
+	 *
 	 * @return
 	 */
 	@Query("select c from Customer c")
@@ -79,7 +79,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	/**
 	 * Sample method to demonstrate support for {@link Stream} as a return type with a derived query. The query is
 	 * executed in a streaming fashion which means that the method returns as soon as the first results are ready.
-	 * 
+	 *
 	 * @return
 	 */
 	Stream<Customer> findAllByLastnameIsNotNull();

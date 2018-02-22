@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * value object to represent user names.
- * 
+ *
  * @author Oliver Gierke
  */
 @EqualsAndHashCode
@@ -38,7 +38,7 @@ public class Username {
 
 	/**
 	 * Creates a new {@link Username}.
-	 * 
+	 *
 	 * @param username must not be {@literal null} or empty.
 	 */
 	public Username(String username) {
@@ -50,7 +50,7 @@ public class Username {
 		this.username = username;
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

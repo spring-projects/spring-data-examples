@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ class SecurityUtils {
 	/**
 	 * Configures the Spring Security {@link SecurityContext} to be authenticated as the user with the given username and
 	 * password as well as the given granted authorities.
-	 * 
+	 *
 	 * @param username must not be {@literal null} or empty.
 	 * @param password must not be {@literal null} or empty.
 	 * @param roles

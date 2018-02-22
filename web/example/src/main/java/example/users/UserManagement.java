@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import org.springframework.util.Assert;
 
 /**
  * Domain service to register {@link User}s in the system.
- * 
+ *
  * @author Oliver Gierke
  */
 @Transactional
@@ -43,7 +43,7 @@ public class UserManagement {
 
 	/**
 	 * Registers a {@link User} with the given {@link Username} and {@link Password}.
-	 * 
+	 *
 	 * @param username must not be {@literal null}.
 	 * @param password must not be {@literal null}.
 	 * @return
@@ -64,7 +64,7 @@ public class UserManagement {
 
 	/**
 	 * Returns a {@link Page} of {@link User} for the given {@link Pageable}.
-	 * 
+	 *
 	 * @param pageable must not be {@literal null}.
 	 * @return
 	 */
@@ -77,7 +77,7 @@ public class UserManagement {
 
 	/**
 	 * Returns the {@link User} with the given {@link Username}.
-	 * 
+	 *
 	 * @param username must not be {@literal null}.
 	 * @return
 	 */

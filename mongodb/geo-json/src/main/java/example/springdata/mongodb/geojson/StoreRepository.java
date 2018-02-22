@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  * Spring Data repository interface to manage {@link Store} instances.
- * 
+ *
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
@@ -30,7 +30,7 @@ interface StoreRepository extends CrudRepository<Store, String> {
 
 	/**
 	 * Returns all {@link Store}s located withing the given {@link Polygon}.
-	 * 
+	 *
 	 * @param polygon must not be {@literal null}.
 	 * @return
 	 */

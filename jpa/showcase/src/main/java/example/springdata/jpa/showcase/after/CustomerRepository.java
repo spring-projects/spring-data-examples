@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2014 the original author or authors.
+ * Copyright 2011-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Repository to manage {@link Customer} instances.
- * 
+ *
  * @author Oliver Gierke
  */
 public interface CustomerRepository extends CrudRepository<Customer, Long>, JpaSpecificationExecutor<Customer> {
 
 	/**
 	 * Returns a page of {@link Customer}s with the given lastname.
-	 * 
+	 *
 	 * @param lastname
 	 * @param pageable
 	 * @return

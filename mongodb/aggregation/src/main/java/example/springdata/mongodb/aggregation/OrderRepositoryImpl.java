@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
  * The manual implementation parts for {@link OrderRepository}. This will automatically be picked up by the Spring Data
  * infrastructure as we follow the naming convention of extending the core repository interface's name with {@code Impl}
  * .
- * 
+ *
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
@@ -42,7 +42,7 @@ class OrderRepositoryImpl implements OrderRepositoryCustom {
 	 * The implementation uses the MongoDB aggregation framework support Spring Data provides as well as SpEL expressions
 	 * to define arithmetical expressions. Note how we work with property names only and don't have to mitigate the nested
 	 * {@code $_id} fields MongoDB usually requires.
-	 * 
+	 *
 	 * @see example.springdata.mongodb.aggregation.OrderRepositoryCustom#getInvoiceFor(example.springdata.mongodb.aggregation.Order)
 	 */
 	@Override

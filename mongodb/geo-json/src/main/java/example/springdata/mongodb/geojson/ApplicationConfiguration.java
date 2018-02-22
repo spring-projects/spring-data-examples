@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Spring Boot sample application to show the usage of {@link GeoJson} types with Spring Data MongoDB.
- * 
+ *
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
@@ -40,7 +40,7 @@ public class ApplicationConfiguration {
 
 	/**
 	 * Read JSON data from disk and insert those stores.
-	 * 
+	 *
 	 * @return
 	 */
 	public @Bean AbstractRepositoryPopulatorFactoryBean repositoryPopulator() {

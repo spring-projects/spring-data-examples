@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import org.junit.runners.model.Statement;
 /**
  * {@link TestRule} implementation using {@link CloseableHttpClient} to check if Solr is running by sending
  * {@literal GET} request to {@literal /admin/info/system}.
- * 
+ *
  * @author Christoph Strobl
  */
 public class RequiresSolrServer implements TestRule {

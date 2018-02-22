@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Show usage of operations on redis keys using low level API provided by {@link RedisConnection}.
- * 
+ *
  * @author Christoph Strobl
  */
 @RunWith(SpringRunner.class)

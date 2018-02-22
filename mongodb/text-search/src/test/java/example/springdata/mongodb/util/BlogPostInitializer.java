@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import example.springdata.mongodb.textsearch.BlogPost;
 
 /**
  * Component to initialize {@link BlogPost}s by accessing the latest ones from the Spring blog.
- * 
+ *
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
@@ -37,7 +37,7 @@ public enum BlogPostInitializer {
 
 	/**
 	 * Initializes the given {@link MongoOperations} with {@link BlogPost}s from the Spring Blog.
-	 * 
+	 *
 	 * @param operations must not be {@literal null}.
 	 * @throws Exception
 	 */

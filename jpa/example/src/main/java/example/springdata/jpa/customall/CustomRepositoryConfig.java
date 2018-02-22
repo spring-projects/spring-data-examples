@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * Sample configuration to bootstrap Spring Data JPA through JavaConfig. Note how Spring Data JPA is configured with a
  * custom repository base class. This causes all repository interfaces being found for this configuration to use the
  * configured class as base repository.
- * 
+ *
  * @author Oliver Gierke
  * @soundtrack Tim Neuhaus - As life found you (The Cabinet)
  */

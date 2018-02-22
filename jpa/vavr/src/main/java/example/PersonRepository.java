@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2017 the original author or authors.
+ * Copyright 2016-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.data.repository.Repository;
 /**
  * Repository interface showing the usage of Vavr collections and its {@link Option} type as repository query method
  * return types.
- * 
+ *
  * @author Oliver Gierke
  */
 public interface PersonRepository extends Repository<Person, Long> {
@@ -37,7 +37,7 @@ public interface PersonRepository extends Repository<Person, Long> {
 
 	/**
 	 * {@link Option} can be used as alternative to JDK 8's {@link Optional}.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -46,7 +46,7 @@ public interface PersonRepository extends Repository<Person, Long> {
 	/**
 	 * {@link Seq} can be used as alternative to JDK's {@link List}. Vavr's {@link Set} and {@link Map} are supported,
 	 * too, and transparently mapped from their JDK counterparts.
-	 * 
+	 *
 	 * @param firstname
 	 * @return
 	 */

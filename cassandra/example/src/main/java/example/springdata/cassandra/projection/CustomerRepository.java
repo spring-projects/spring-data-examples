@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2016-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  * Sample repository managing customers to show projecting functionality of Spring Data Cassandra.
- * 
+ *
  * @author Mark Paluch
  */
 interface CustomerRepository extends CrudRepository<Customer, String> {
@@ -30,7 +30,7 @@ interface CustomerRepository extends CrudRepository<Customer, String> {
 	/**
 	 * Uses a projection interface to indicate the fields to be returned. As the projection doesn't use any dynamic
 	 * fields, the query execution will be restricted to only the fields needed by the projection.
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<CustomerProjection> findAllProjectedBy();
@@ -39,14 +39,14 @@ interface CustomerRepository extends CrudRepository<Customer, String> {
 	 * When a projection is used that contains dynamic properties (i.e. SpEL expressions in an {@link Value} annotation),
 	 * the normal target entity will be loaded but dynamically projected so that the target can be referred to in the
 	 * expression.
-	 * 
+	 *
 	 * @return
 	 */
 	Collection<CustomerSummary> findAllSummarizedBy();
 
 	/**
 	 * Passes in the projection type dynamically.
-	 * 
+	 *
 	 * @param id
 	 * @param projection
 	 * @return
@@ -55,7 +55,7 @@ interface CustomerRepository extends CrudRepository<Customer, String> {
 
 	/**
 	 * Projection for a single entity.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -63,7 +63,7 @@ interface CustomerRepository extends CrudRepository<Customer, String> {
 
 	/**
 	 * Dynamic projection for a single entity.
-	 * 
+	 *
 	 * @param id
 	 * @param projection
 	 * @return

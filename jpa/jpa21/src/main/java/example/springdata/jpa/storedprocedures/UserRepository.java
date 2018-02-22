@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 the original author or authors.
+ * Copyright 2013-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Simple repository interface for {@link User} instances. The interface is used to declare so called query methods,
  * methods to retrieve single entities or collections of them.
- * 
+ *
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
@@ -31,7 +31,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 	/**
 	 * Explicitly mapped to named stored procedure {@code User.plus1IO} in the {@link EntityManager}
-	 * 
+	 *
 	 * @see User
 	 */
 	@Procedure(name = "User.plus1")

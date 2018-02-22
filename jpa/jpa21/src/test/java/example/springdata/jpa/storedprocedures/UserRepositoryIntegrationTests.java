@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 the original author or authors.
+ * Copyright 2014-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Intergration test showing the usage of JPA 2.1 stored procedures support through Spring Data repositories.
- * 
+ *
  * @author Thomas Darimont
  * @author Oliver Gierke
  */

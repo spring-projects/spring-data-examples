@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2014 the original author or authors.
+ * Copyright 2011-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Repository to manage {@link Account} instances.
- * 
+ *
  * @author Oliver Gierke
  */
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
 	/**
 	 * Returns all accounts belonging to the given {@link Customer}.
-	 * 
+	 *
 	 * @param customer
 	 * @return
 	 */

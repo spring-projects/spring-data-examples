@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class ExtendedJpaRepository<T> extends SimpleJpaRepository<T, Long> implements B
 
 	/**
 	 * Creates a new {@link ExtendedJpaRepository} for the given {@link JpaEntityInformation} and {@link EntityManager}.
-	 * 
+	 *
 	 * @param entityInformation must not be {@literal null}.
 	 * @param entityManager must not be {@literal null}.
 	 */
@@ -36,7 +36,7 @@ class ExtendedJpaRepository<T> extends SimpleJpaRepository<T, Long> implements B
 		super(entityInformation, entityManager);
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see example.springdata.jpa.customall.BaseRepository#customMethod()
 	 */
