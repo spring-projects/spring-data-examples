@@ -18,7 +18,7 @@ package example.users;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.querydsl.core.types.dsl.StringPath;
 
@@ -31,7 +31,7 @@ import com.querydsl.core.types.dsl.StringPath;
  * @author Oliver Gierke
  */
 public interface UserRepository
-		extends CrudRepository<User, String>, QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
+		extends PagingAndSortingRepository<User, String>, QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
 
 	/*
 	 * (non-Javadoc)
