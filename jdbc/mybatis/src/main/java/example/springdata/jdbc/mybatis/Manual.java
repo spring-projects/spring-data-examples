@@ -27,13 +27,12 @@ import org.springframework.data.annotation.Id;
 @Data
 public class Manual {
 
-	@Id private Long id;
+	private @Id Long id = null;
 	private String author;
 	private String text;
 
 	Manual(String text, String author) {
 
-		this.id = null;
 		this.author = author;
 		this.text = text;
 	}

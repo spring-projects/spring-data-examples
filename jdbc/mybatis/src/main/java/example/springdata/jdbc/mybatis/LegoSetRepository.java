@@ -22,6 +22,4 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Jens Schauder
  */
-public interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {
-
-}
+public interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {}

@@ -36,17 +36,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 @MybatisTest
 public class MyBatisTests {
 
-	@Autowired private LegoSetRepository repository;
+	@Autowired LegoSetRepository repository;
 
 	@Test
 	public void exerciseSomewhatComplexEntity() {
 
 		LegoSet smallCar = createLegoSet();
+
 		smallCar.setManual(new Manual("Just put all the pieces together in the right order", "Jens Schauder"));
 		smallCar.addModel("suv", "SUV with sliding doors.");
 		smallCar.addModel("roadster", "Slick red roadster.");
 
 		repository.save(smallCar);
+
 		assertThat(smallCar.getId()).isNotNull();
 		assertThat(repository.findById(smallCar.getId()).get().getModels()).hasSize(2);
 
@@ -56,15 +58,17 @@ public class MyBatisTests {
 		smallCar.addModel("pickup", "A pickup truck with some tools in the back.");
 
 		repository.save(smallCar);
+
 		Output.list(repository.findAll(), "Updated");
 
 		smallCar.setManual(new Manual("One last attempt: Just build a car! Ok?", "Jens Schauder"));
 
 		repository.save(smallCar);
+
 		Output.list(repository.findAll(), "Manual replaced");
 	}
 
-	private LegoSet createLegoSet() {
+	private static LegoSet createLegoSet() {
 
 		LegoSet smallCar = new LegoSet();
 		smallCar.setName("Small Car 01");

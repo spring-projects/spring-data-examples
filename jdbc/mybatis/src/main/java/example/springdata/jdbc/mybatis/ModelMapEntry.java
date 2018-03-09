@@ -15,6 +15,8 @@
  */
 package example.springdata.jdbc.mybatis;
 
+import lombok.Getter;
+
 import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.Map;
@@ -22,6 +24,7 @@ import java.util.Map;
 /**
  * @author Jens Schauder
  */
+@Getter
 public class ModelMapEntry implements Map.Entry<String, Model> {
 
 	private final String key;
@@ -32,21 +35,12 @@ public class ModelMapEntry implements Map.Entry<String, Model> {
 		key = name;
 		value = new Model();
 		value.name = name;
+
 		try {
 			value.description = description.getSubString(1, (int) description.length());
 		} catch (SQLException se) {
 			throw new RuntimeException(se);
 		}
-	}
-
-	@Override
-	public String getKey() {
-		return key;
-	}
-
-	@Override
-	public Model getValue() {
-		return value;
 	}
 
 	@Override

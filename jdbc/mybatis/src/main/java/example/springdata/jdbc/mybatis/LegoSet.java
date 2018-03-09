@@ -17,8 +17,6 @@ package example.springdata.jdbc.mybatis;
 
 import lombok.Data;
 
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,17 +32,10 @@ public class LegoSet {
 
 	// You can build multiple models from one LegoSet
 	private final Map<String, Model> models = new HashMap<>();
-	@Id private Integer id;
+
+	private @Id Integer id;
 	private String name;
 	private Manual manual;
-
-	private static int toInt(Period period) {
-		return (int) (period == null ? 0 : period.get(ChronoUnit.YEARS));
-	}
-
-	private static Period toPeriod(int years) {
-		return Period.ofYears(years);
-	}
 
 	public void addModel(String name, String description) {
 

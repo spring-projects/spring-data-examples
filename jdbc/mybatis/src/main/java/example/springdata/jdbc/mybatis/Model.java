@@ -30,9 +30,7 @@ import org.springframework.lang.Nullable;
 @ToString
 public class Model implements Persistable<String> {
 
-	String name;
-
-	String description;
+	String name, description;
 
 	@Nullable
 	@Override
