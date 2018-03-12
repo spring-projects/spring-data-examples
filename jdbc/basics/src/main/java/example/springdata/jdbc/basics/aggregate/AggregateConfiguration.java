@@ -25,6 +25,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.jdbc.mapping.event.AfterSave;
 import org.springframework.data.jdbc.mapping.event.BeforeSave;
 import org.springframework.data.jdbc.mapping.model.ConversionCustomizer;
 import org.springframework.data.jdbc.mapping.model.JdbcPersistentProperty;
@@ -38,31 +39,30 @@ import org.springframework.lang.Nullable;
 @Configuration
 @EnableJdbcRepositories
 public class AggregateConfiguration {
+	final AtomicInteger id = new AtomicInteger(0);
 
 	@Bean
 	public ApplicationListener<?> idSetting() {
 
-		final AtomicInteger id = new AtomicInteger(0);
-
 		return (ApplicationListener<BeforeSave>) event -> {
 
-			Object entity = event.getEntity();
-
-			if (entity instanceof LegoSet) {
-
-				LegoSet legoSet = (LegoSet) entity;
-
-				if (legoSet.getId() == 0) {
-					legoSet.setId(id.incrementAndGet());
-				}
-
-				Manual manual = legoSet.getManual();
-
-				if (manual != null) {
-					manual.setId((long) legoSet.getId());
-				}
+			if (event.getEntity() instanceof LegoSet) {
+				setIds((LegoSet) event.getEntity());
 			}
 		};
+	}
+
+	private void setIds(LegoSet legoSet) {
+
+		if (legoSet.getId() == 0) {
+			legoSet.setId(id.incrementAndGet());
+		}
+
+		Manual manual = legoSet.getManual();
+
+		if (manual != null) {
+			manual.setId((long) legoSet.getId());
+		}
 	}
 
 	@Bean

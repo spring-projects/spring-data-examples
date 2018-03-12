@@ -15,11 +15,28 @@
  */
 package example.springdata.jdbc.basics.aggregate;
 
+import org.springframework.data.jdbc.repository.query.Modifying;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 /**
  * A repository for {@link LegoSet}.
  *
  * @author Jens Schauder
  */
-interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {}
+interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {
+
+	@Query("SELECT m.name modelName, m.description, l.name setName" +
+			"  FROM model m" +
+			"  JOIN LegoSet l" +
+			"  ON m.legoset = l.id" +
+			"  WHERE :age BETWEEN l.minAge and l.maxAge")
+	List<ModelReport> reportModelForAge(@Param("age") int age);
+
+	@Modifying
+	@Query("UPDATE model set name = lower(name) WHERE name <> lower(name)")
+	int lowerCaseMapKeys();
+}
