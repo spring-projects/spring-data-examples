@@ -31,6 +31,7 @@ import org.springframework.data.jdbc.core.DataAccessStrategy;
 import org.springframework.data.jdbc.core.DefaultDataAccessStrategy;
 import org.springframework.data.jdbc.core.DelegatingDataAccessStrategy;
 import org.springframework.data.jdbc.core.SqlGeneratorSource;
+import org.springframework.data.jdbc.mapping.event.AfterSave;
 import org.springframework.data.jdbc.mapping.event.BeforeSave;
 import org.springframework.data.jdbc.mapping.model.ConversionCustomizer;
 import org.springframework.data.jdbc.mapping.model.DefaultNamingStrategy;
@@ -48,31 +49,30 @@ import org.springframework.lang.Nullable;
 @Configuration
 @EnableJdbcRepositories
 public class AggregateConfiguration {
+	final AtomicInteger id = new AtomicInteger(0);
 
 	@Bean
 	public ApplicationListener<?> idSetting() {
 
-		final AtomicInteger id = new AtomicInteger(0);
-
 		return (ApplicationListener<BeforeSave>) event -> {
 
-			Object entity = event.getEntity();
-
-			if (entity instanceof LegoSet) {
-
-				LegoSet legoSet = (LegoSet) entity;
-
-				if (legoSet.getId() == 0) {
-					legoSet.setId(id.incrementAndGet());
-				}
-
-				Manual manual = legoSet.getManual();
-
-				if (manual != null) {
-					manual.setId((long) legoSet.getId());
-				}
+			if (event.getEntity() instanceof LegoSet) {
+				setIds((LegoSet) event.getEntity());
 			}
 		};
+	}
+
+	private void setIds(LegoSet legoSet) {
+
+		if (legoSet.getId() == 0) {
+			legoSet.setId(id.incrementAndGet());
+		}
+
+		Manual manual = legoSet.getManual();
+
+		if (manual != null) {
+			manual.setId((long) legoSet.getId());
+		}
 	}
 
 	@Bean
@@ -139,22 +139,5 @@ public class AggregateConfiguration {
 				}
 			}
 		});
-	}
-
-	// temporary workaround for https://jira.spring.io/browse/DATAJDBC-155
-	@Bean
-	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, DataSource dataSource) {
-
-		NamedParameterJdbcOperations operations = new NamedParameterJdbcTemplate(dataSource);
-		DelegatingDataAccessStrategy accessStrategy = new DelegatingDataAccessStrategy();
-
-		accessStrategy.setDelegate(new DefaultDataAccessStrategy( //
-				new SqlGeneratorSource(context), //
-				operations, //
-				context, //
-				accessStrategy) //
-		);
-
-		return accessStrategy;
 	}
 }

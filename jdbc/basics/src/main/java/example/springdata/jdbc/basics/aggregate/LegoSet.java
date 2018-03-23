@@ -77,10 +77,7 @@ public class LegoSet {
 
 	public void addModel(String name, String description) {
 
-		Model model = new Model();
-		model.name = name;
-		model.description = description;
-
+		Model model = new Model(name, description);
 		models.put(name, model);
 	}
 }

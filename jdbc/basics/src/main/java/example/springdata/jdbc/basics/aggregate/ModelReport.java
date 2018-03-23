@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,12 @@ package example.springdata.jdbc.basics.aggregate;
 import lombok.Value;
 
 /**
- * One of potentially multiple models that can be build from a single {@link LegoSet}. No getters or setters needed.
- *
  * @author Jens Schauder
  */
 @Value
-public class Model {
+public class ModelReport {
 
-	String name;
-	String description;
+	private final String modelName;
+	private final String description;
+	private final String setName;
 }

@@ -1,6 +1,5 @@
 == Spring Data JDBC basics
 
-
 === SimpleEntityTests
 
 This example demonstrate basic usage of JDBC based repositories.
@@ -26,3 +25,6 @@ This is achieved by providing a custom `NamingStrategy` which maps both to the s
 
 * When the database returns a data type for query which Spring Data JDBC doesn't map out of the box a custom conversion can be registered using a `ConversionCustomizer` as demonstrated in `AggregateContext.conversionCustomizer()`.
 
+* `LegoSetRepository` has methods that utilize `@Query` annotations.
+
+* Note that `Model` is a value class, i.e. it is immutable, and doesn't have an ID.

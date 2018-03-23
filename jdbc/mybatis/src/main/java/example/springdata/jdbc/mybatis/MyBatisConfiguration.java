@@ -15,23 +15,13 @@
  */
 package example.springdata.jdbc.mybatis;
 
-import static java.util.Arrays.*;
-
-import javax.sql.DataSource;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.core.CascadingDataAccessStrategy;
 import org.springframework.data.jdbc.core.DataAccessStrategy;
-import org.springframework.data.jdbc.core.DefaultDataAccessStrategy;
-import org.springframework.data.jdbc.core.DelegatingDataAccessStrategy;
-import org.springframework.data.jdbc.core.SqlGeneratorSource;
 import org.springframework.data.jdbc.mapping.model.JdbcMappingContext;
 import org.springframework.data.jdbc.mybatis.MyBatisDataAccessStrategy;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 /**
  * @author Jens Schauder
@@ -40,27 +30,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 @EnableJdbcRepositories
 public class MyBatisConfiguration {
 
-	// temporary workaround for https://jira.spring.io/browse/DATAJDBC-155
 	@Bean
-	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, DataSource dataSource,
-			SqlSession sqlSession) {
-
-		NamedParameterJdbcOperations operations = new NamedParameterJdbcTemplate(dataSource);
-
-		DelegatingDataAccessStrategy delegatingDataAccessStrategy = new DelegatingDataAccessStrategy();
-		MyBatisDataAccessStrategy myBatisDataAccessStrategy = new MyBatisDataAccessStrategy(sqlSession);
-
-		CascadingDataAccessStrategy cascadingDataAccessStrategy = new CascadingDataAccessStrategy(
-				asList(myBatisDataAccessStrategy, delegatingDataAccessStrategy));
-
-		DefaultDataAccessStrategy defaultDataAccessStrategy = new DefaultDataAccessStrategy( //
-				new SqlGeneratorSource(context), //
-				operations, //
-				context, //
-				cascadingDataAccessStrategy);
-
-		delegatingDataAccessStrategy.setDelegate(defaultDataAccessStrategy);
-
-		return cascadingDataAccessStrategy;
+	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, SqlSession sqlSession) {
+		return MyBatisDataAccessStrategy.createCombinedAccessStrategy(context, sqlSession);
 	}
 }
