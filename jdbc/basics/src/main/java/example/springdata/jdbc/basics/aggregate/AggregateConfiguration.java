@@ -140,21 +140,4 @@ public class AggregateConfiguration {
 			}
 		});
 	}
-
-	// temporary workaround for https://jira.spring.io/browse/DATAJDBC-155
-	@Bean
-	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, DataSource dataSource) {
-
-		NamedParameterJdbcOperations operations = new NamedParameterJdbcTemplate(dataSource);
-		DelegatingDataAccessStrategy accessStrategy = new DelegatingDataAccessStrategy();
-
-		accessStrategy.setDelegate(new DefaultDataAccessStrategy( //
-				new SqlGeneratorSource(context), //
-				operations, //
-				context, //
-				accessStrategy) //
-		);
-
-		return accessStrategy;
-	}
 }
