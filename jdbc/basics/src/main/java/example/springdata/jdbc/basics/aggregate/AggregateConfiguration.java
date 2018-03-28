@@ -21,25 +21,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.sql.DataSource;
-
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.jdbc.core.DataAccessStrategy;
-import org.springframework.data.jdbc.core.DefaultDataAccessStrategy;
-import org.springframework.data.jdbc.core.DelegatingDataAccessStrategy;
-import org.springframework.data.jdbc.core.SqlGeneratorSource;
 import org.springframework.data.jdbc.mapping.event.BeforeSave;
 import org.springframework.data.jdbc.mapping.model.ConversionCustomizer;
-import org.springframework.data.jdbc.mapping.model.DefaultNamingStrategy;
-import org.springframework.data.jdbc.mapping.model.JdbcMappingContext;
 import org.springframework.data.jdbc.mapping.model.JdbcPersistentProperty;
 import org.springframework.data.jdbc.mapping.model.NamingStrategy;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.lang.Nullable;
 
 /**
@@ -92,29 +82,30 @@ public class AggregateConfiguration {
 		Map<String, String> keyColumnAliases = new HashMap<String, String>();
 		keyColumnAliases.put("models", "name");
 
-		return new DefaultNamingStrategy() {
+		return new NamingStrategy() {
 
 			@Override
 			public String getColumnName(JdbcPersistentProperty property) {
 
-				String defaultName = super.getColumnName(property);
+				String defaultName = NamingStrategy.super.getColumnName(property);
 				String key = getTableName(property.getOwner().getType()) + "." + defaultName;
 				return columnAliases.computeIfAbsent(key, __ -> defaultName);
 			}
 
 			@Override
 			public String getTableName(Class<?> type) {
-				return tableAliases.computeIfAbsent(super.getTableName(type), key -> key);
+				return tableAliases.computeIfAbsent(NamingStrategy.super.getTableName(type), key -> key);
 			}
 
 			@Override
 			public String getReverseColumnName(JdbcPersistentProperty property) {
-				return reverseColumnAliases.computeIfAbsent(property.getName(), __ -> super.getReverseColumnName(property));
+				return reverseColumnAliases.computeIfAbsent(property.getName(),
+						__ -> NamingStrategy.super.getReverseColumnName(property));
 			}
 
 			@Override
 			public String getKeyColumn(JdbcPersistentProperty property) {
-				return keyColumnAliases.computeIfAbsent(property.getName(), __ -> super.getKeyColumn(property));
+				return keyColumnAliases.computeIfAbsent(property.getName(), __ -> NamingStrategy.super.getKeyColumn(property));
 			}
 		};
 	}
@@ -139,22 +130,5 @@ public class AggregateConfiguration {
 				}
 			}
 		});
-	}
-
-	// temporary workaround for https://jira.spring.io/browse/DATAJDBC-155
-	@Bean
-	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, DataSource dataSource) {
-
-		NamedParameterJdbcOperations operations = new NamedParameterJdbcTemplate(dataSource);
-		DelegatingDataAccessStrategy accessStrategy = new DelegatingDataAccessStrategy();
-
-		accessStrategy.setDelegate(new DefaultDataAccessStrategy( //
-				new SqlGeneratorSource(context), //
-				operations, //
-				context, //
-				accessStrategy) //
-		);
-
-		return accessStrategy;
 	}
 }

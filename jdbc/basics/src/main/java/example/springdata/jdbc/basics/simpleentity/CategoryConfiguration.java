@@ -15,22 +15,13 @@
  */
 package example.springdata.jdbc.basics.simpleentity;
 
-import javax.sql.DataSource;
-
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.core.DataAccessStrategy;
-import org.springframework.data.jdbc.core.DefaultDataAccessStrategy;
-import org.springframework.data.jdbc.core.DelegatingDataAccessStrategy;
-import org.springframework.data.jdbc.core.SqlGeneratorSource;
 import org.springframework.data.jdbc.mapping.event.BeforeSave;
 import org.springframework.data.jdbc.mapping.event.JdbcEvent;
-import org.springframework.data.jdbc.mapping.model.JdbcMappingContext;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 /**
  * Contains infrastructure necessary for creating repositories and two listeners.
@@ -65,22 +56,5 @@ public class CategoryConfiguration {
 				category.timeStamp();
 			}
 		};
-	}
-
-	// temporary workaround for https://jira.spring.io/browse/DATAJDBC-155
-	@Bean
-	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, DataSource dataSource) {
-
-		NamedParameterJdbcOperations operations = new NamedParameterJdbcTemplate(dataSource);
-		DelegatingDataAccessStrategy accessStrategy = new DelegatingDataAccessStrategy();
-
-		accessStrategy.setDelegate(new DefaultDataAccessStrategy( //
-				new SqlGeneratorSource(context), //
-				operations, //
-				context, //
-				accessStrategy) //
-		);
-
-		return accessStrategy;
 	}
 }
