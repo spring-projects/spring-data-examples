@@ -22,8 +22,5 @@ import lombok.Value;
  */
 @Value
 public class ModelReport {
-
-	private final String modelName;
-	private final String description;
-	private final String setName;
+	String modelName, description, setName;
 }
