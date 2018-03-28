@@ -24,7 +24,5 @@ import lombok.Value;
  */
 @Value
 public class Model {
-
-	String name;
-	String description;
+	String name, description;
 }
