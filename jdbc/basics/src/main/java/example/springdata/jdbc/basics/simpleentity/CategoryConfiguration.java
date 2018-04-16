@@ -19,7 +19,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.mapping.event.BeforeSave;
+import org.springframework.data.jdbc.mapping.event.BeforeSaveEvent;
 import org.springframework.data.jdbc.mapping.event.JdbcEvent;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
@@ -45,7 +45,7 @@ public class CategoryConfiguration {
 	}
 
 	@Bean
-	public ApplicationListener<BeforeSave> timeStampingSaveTime() {
+	public ApplicationListener<BeforeSaveEvent> timeStampingSaveTime() {
 
 		return event -> {
 

@@ -25,7 +25,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.jdbc.mapping.event.BeforeSave;
+import org.springframework.data.jdbc.mapping.event.BeforeSaveEvent;
 import org.springframework.data.jdbc.mapping.model.ConversionCustomizer;
 import org.springframework.data.jdbc.mapping.model.JdbcPersistentProperty;
 import org.springframework.data.jdbc.mapping.model.NamingStrategy;
@@ -44,7 +44,7 @@ public class AggregateConfiguration {
 
 		final AtomicInteger id = new AtomicInteger(0);
 
-		return (ApplicationListener<BeforeSave>) event -> {
+		return (ApplicationListener<BeforeSaveEvent>) event -> {
 
 			Object entity = event.getEntity();
 
