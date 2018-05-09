@@ -55,35 +55,35 @@ Calling `UserRepository.plus1BackedByOtherNamedStoredProcedure(…)` will execut
 
 ## Support for custom SqlResultSetMapping with ConstructorResult
 
-Sometimes, e.g. for analytics, it is handy to be able to return a different entity result type from a Repository query method than the base Repository entity type or an interface based projection. 
+Sometimes, e.g. for analytics, it is handy to be able to return a different entity result type from a Repository query method than the base Repository entity type or an interface based projection.
 
-In those cases one can leverage JPAs `SqlResultSetMapping` feature to map the columns of the result of a query to different fields. 
+In those cases one can leverage JPAs `SqlResultSetMapping` feature to map the columns of the result of a query to different fields.
 
 JPA 2.1 introduced the new `SqlResultSetMapping` type `ConstructorResult` which allows to map columns of a result set row to a constructor invocation
 which can be nicely used in combination with Value Objects.
 
-This example shows how to define a custom `SqlResultSetMapping` for the result of an analytical native query that reports the usage summary for a set of Subscriptions. 
+This example shows how to define a custom `SqlResultSetMapping` for the result of an analytical native query that reports the usage summary for a set of Subscriptions.
 
-`SqlResultSetMapping` definition on the Subscription entity class:
+`SqlResultSetMapping` definition on the `Subscription` entity class:
 ```java
 @Entity
 @NoArgsConstructor
 @SqlResultSetMapping(
-  name="subscriptionSummary",
+  name = "subscriptionSummary",
   classes = @ConstructorResult(
     targetClass = SubscriptionSummary.class,
-    columns={
-      @ColumnResult(name="productName", type=String.class),
-      @ColumnResult(name="subscriptions", type=long.class)
+    columns = {
+      @ColumnResult(name = "productName", type = String.class),
+      @ColumnResult(name = "subscriptions", type = long.class)
 }))
 @NamedNativeQuery(
-  name="Subscription.findAllSubscriptionSummaries",
-  query="select product_name as productName, count(user_id) as subscriptions from subscription group by product_name order by productName",
+  name = "Subscription.findAllSubscriptionSummaries",
+  query = "select product_name as productName, count(user_id) as subscriptions from subscription group by product_name order by productName",
   resultSetMapping = "subscriptionSummary"
 )
 @Data
 public class Subscription {
-...
+  …
 }
 ```
 
@@ -92,9 +92,8 @@ public class Subscription {
 @Value
 public class SubscriptionSummary {
 
-    private final String product;
-
-    private final Long usageCount;
+  String product;
+  Long usageCount;
 }
 ```
 
@@ -102,6 +101,7 @@ The `SubscriptionRepository` declares the custom query method `findAllSubscripti
 ```java
 interface SubscriptionRepository extends CrudRepository<Subscription,Long> {
 
-    List<SubscriptionSummary> findAllSubscriptionSummaries();
+  @Query(nativeQuery = true)
+  List<SubscriptionSummary> findAllSubscriptionSummaries();
 }
 ```
