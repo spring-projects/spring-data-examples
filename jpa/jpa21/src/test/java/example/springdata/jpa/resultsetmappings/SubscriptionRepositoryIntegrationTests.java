@@ -15,17 +15,16 @@
  */
 package example.springdata.jpa.resultsetmappings;
 
-import static java.util.Arrays.asList;
+import static java.util.Arrays.*;
 import static org.assertj.core.api.Assertions.*;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * @author Thomas Darimont
@@ -35,26 +34,36 @@ import java.util.List;
 @Transactional
 public class SubscriptionRepositoryIntegrationTests {
 
-    private static final String SERVICE_1 = "Service 1";
-    private static final String SERVICE_2 = "Service 2";
+	private static final String SERVICE_1 = "Service 1";
+	private static final String SERVICE_2 = "Service 2";
 
-    @Autowired
-    SubscriptionRepository repository;
+	@Autowired SubscriptionRepository repository;
 
-    @Test
-    public void shouldReturnCorrectSubscriptionSummary() {
+	@Before
+	public void setUp() {
 
-        repository.save(new Subscription(SERVICE_1, 1));
-        repository.save(new Subscription(SERVICE_1, 2));
-        repository.save(new Subscription(SERVICE_1, 3));
-        repository.save(new Subscription(SERVICE_2, 3));
-        repository.save(new Subscription(SERVICE_2, 4));
+		repository.save(new Subscription(SERVICE_1, 1));
+		repository.save(new Subscription(SERVICE_1, 2));
+		repository.save(new Subscription(SERVICE_1, 3));
+		repository.save(new Subscription(SERVICE_2, 3));
+		repository.save(new Subscription(SERVICE_2, 4));
+	}
 
-        List<SubscriptionSummary> subscriptionSummaries = repository.findAllSubscriptionSummaries();
+	@Test
+	@SuppressWarnings("unchecked")
+	public void shouldReturnCorrectSubscriptionSummary() {
 
-        assertThat(subscriptionSummaries) //
-                .flatExtracting(s -> asList(s.getProduct(), s.getUsageCount()))
-                .contains(SERVICE_1, 3L, SERVICE_2, 2L);
-    }
+		assertThat(repository.findAllSubscriptionSummaries()) //
+				.flatExtracting(s -> asList(s.getProduct(), s.getUsageCount())) //
+				.contains(SERVICE_1, 3L, SERVICE_2, 2L);
+	}
+
+	@Test
+	@SuppressWarnings("unchecked")
+	public void shouldReturnCorrectSubscriptionProjection() {
+
+		assertThat(repository.findAllSubscriptionProjections()) //
+				.flatExtracting(s -> asList(s.getProduct(), s.getUsageCount())) //
+				.contains(SERVICE_1, 3L, SERVICE_2, 2L);
+	}
 }
-

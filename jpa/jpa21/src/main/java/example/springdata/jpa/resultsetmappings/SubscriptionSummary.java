@@ -23,7 +23,6 @@ import lombok.Value;
 @Value
 public class SubscriptionSummary {
 
-    private final String product;
-
-    private final Long usageCount;
+	String product;
+	Long usageCount;
 }

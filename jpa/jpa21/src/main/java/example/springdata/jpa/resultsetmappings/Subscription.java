@@ -15,6 +15,8 @@
  */
 package example.springdata.jpa.resultsetmappings;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,39 +25,40 @@ import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 
 /**
  * @author Thomas Darimont
+ * @author Oliver Gierke
  */
-@Entity
-@NoArgsConstructor
+@NamedNativeQueries({
+
+		// A query using a dedicated SQL result set mapping (see below)
+		@NamedNativeQuery(name = "Subscription.findAllSubscriptionSummaries", //
+				query = "select product_name as productName, count(user_id) as subscriptions from subscription group by product_name order by productName", //
+				resultSetMapping = "subscriptionSummary"),
+
+		// A query using simple projections
+		@NamedNativeQuery(name = "Subscription.findAllSubscriptionProjections", //
+				query = "select product_name as product, count(user_id) as usageCount from subscription group by product_name order by product") })
+
 @SqlResultSetMapping( //
-        name="subscriptionSummary", //
-        classes = @ConstructorResult(
-                targetClass = SubscriptionSummary.class, //
-                columns={
-                        @ColumnResult(name="productName", type=String.class), //
-                        @ColumnResult(name="subscriptions", type=long.class)
-                }))
-@NamedNativeQuery(
-        name="Subscription.findAllSubscriptionSummaries", //
-        query="select product_name as productName, count(user_id) as subscriptions from subscription group by product_name order by productName", //
-        resultSetMapping = "subscriptionSummary")
+		name = "subscriptionSummary", //
+		classes = @ConstructorResult(targetClass = SubscriptionSummary.class, //
+				columns = { //
+						@ColumnResult(name = "productName", type = String.class), //
+						@ColumnResult(name = "subscriptions", type = long.class) //
+				}))
+
+@Entity
 @Data
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class Subscription {
 
-    @Id
-    @GeneratedValue
-    Long id;
-
-    String productName;
-
-    long userId;
-
-    public Subscription(String productName, long userId) {
-        this.productName = productName;
-        this.userId = userId;
-    }
+	private final @Id @GeneratedValue Long id = null;
+	private String productName;
+	private long userId;
 }

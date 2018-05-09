@@ -15,10 +15,12 @@
  */
 package example.springdata.jpa.resultsetmappings;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 /**
- * @author Thomas Darimont
+ * @author Oliver Gierke
  */
-@SpringBootApplication
-class CustomResultSetMappingsConfiguration {}
+interface SubscriptionProjection {
+
+	String getProduct();
+
+	long getUsageCount();
+}
