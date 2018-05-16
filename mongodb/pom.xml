@@ -26,6 +26,7 @@
 		<module>query-by-example</module>
 		<module>reactive</module>
 		<module>fluent-api</module>
+		<module>change-streams</module>
 	</modules>
 
 	<dependencies>
