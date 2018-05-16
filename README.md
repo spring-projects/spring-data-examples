@@ -31,6 +31,7 @@ We have separate folders for the samples of individual modules:
 * `reactive` - Example project to show reactive template and repository support.
 * `security` - Example project showing usage of Spring Security with MongoDB.
 * `text-search` - Example project showing usage of MongoDB text search feature.
+* `transactions` - Example project for synchronous and reactive MongoDB 4.0 transaction support.
 
 ## Spring Data REST
 
