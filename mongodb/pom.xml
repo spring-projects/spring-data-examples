@@ -27,6 +27,7 @@
 		<module>reactive</module>
 		<module>security</module>
 		<module>text-search</module>
+		<module>transactions</module>
 	</modules>
 
 	<dependencies>
