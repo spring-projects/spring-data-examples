@@ -4,13 +4,12 @@
 
 	<artifactId>spring-data-mongodb-gridfs</artifactId>
 
-	<name>Spring Data MongoDB - GridFs</name>
+	<name>Spring Data MongoDB - GridFs Example</name>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-mongodb-examples</artifactId>
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
-
 
 </project>

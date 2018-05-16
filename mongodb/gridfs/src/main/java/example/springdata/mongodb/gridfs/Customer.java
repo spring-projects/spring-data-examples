@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2018 the original author or authors.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,44 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package example.springdata.mongodb.gridfs;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * @author Hartmut Lang
+ */
+@Data
+@NoArgsConstructor
 public class Customer {
 
-    @Id
-    public String id;
+	@Id private String id;
 
-    public String firstName;
-    public String lastName;
+	private String firstName;
+	private String lastName;
 
-    public Customer() {}
-
-    public Customer(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "Customer[id=%s, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
-    }
-
+	public Customer(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
 }
