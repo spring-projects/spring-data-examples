@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package utils;
+package example.springdata.mongodb.util;
 
+import de.flapdoodle.embed.mongo.Command;
 import de.flapdoodle.embed.mongo.config.IMongoCmdOptions;
 import de.flapdoodle.embed.mongo.config.IMongodConfig;
 import de.flapdoodle.embed.mongo.config.IMongosConfig;
@@ -26,8 +27,9 @@ import de.flapdoodle.embed.mongo.config.Storage;
 import de.flapdoodle.embed.mongo.distribution.Feature;
 import de.flapdoodle.embed.mongo.distribution.IFeatureAwareVersion;
 import de.flapdoodle.embed.mongo.distribution.Versions;
-import de.flapdoodle.embed.mongo.tests.MongosSystemForTestFactory;
+import de.flapdoodle.embed.process.config.io.ProcessOutput;
 import de.flapdoodle.embed.process.distribution.GenericVersion;
+import de.flapdoodle.embed.process.io.Processors;
 import de.flapdoodle.embed.process.runtime.Network;
 
 import java.io.IOException;
@@ -37,6 +39,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
@@ -48,7 +51,10 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
 /**
+ * {@link org.junit.rules.TestRule} for a MongoDB server resource that is started/stopped along the test lifecycle.
+ *
  * @author Christoph Strobl
+ * @author Mark Paluch
  */
 public class EmbeddedMongo extends ExternalResource {
 
@@ -70,10 +76,20 @@ public class EmbeddedMongo extends ExternalResource {
 		this.resource = resource;
 	}
 
+	/**
+	 * Create a new {@link Builder} to build {@link EmbeddedMongo}.
+	 *
+	 * @return
+	 */
 	public static Builder builder() {
 		return new Builder();
 	}
 
+	/**
+	 * Create a new {@link Builder} that is initialized as replica set to build {@link EmbeddedMongo}.
+	 *
+	 * @return
+	 */
 	public static Builder replSet() {
 		return replSet(DEFAULT_REPLICA_SET_NAME);
 	}
@@ -82,12 +98,16 @@ public class EmbeddedMongo extends ExternalResource {
 		return new Builder().withReplicaSetName(replicaSetName);
 	}
 
+	/**
+	 * {@link Builder} for {@link EmbeddedMongo}.
+	 */
 	public static class Builder {
 
 		IFeatureAwareVersion version;
 		String replicaSetName;
 		List<Integer> serverPorts;
 		List<Integer> configServerPorts;
+		boolean silent = true;
 
 		Builder() {
 
@@ -97,21 +117,52 @@ public class EmbeddedMongo extends ExternalResource {
 			configServerPorts = Collections.emptyList();
 		}
 
+		/**
+		 * Configure the MongoDB {@link IFeatureAwareVersion version}.
+		 *
+		 * @param version
+		 * @return
+		 */
 		public Builder withVersion(IFeatureAwareVersion version) {
 
 			this.version = version;
 			return this;
 		}
 
+		/**
+		 * Configure the replica set name.
+		 *
+		 * @param version
+		 * @return
+		 */
 		public Builder withReplicaSetName(String replicaSetName) {
 
 			this.replicaSetName = replicaSetName;
 			return this;
 		}
 
+		/**
+		 * Configure the server ports.
+		 *
+		 * @param version
+		 * @return
+		 */
 		public Builder withServerPorts(Integer... ports) {
 
 			this.serverPorts = Arrays.asList(ports);
+			return this;
+		}
+
+		/**
+		 * Configure whether to stay silent (stream only Mongo process errors to stdout) or to stream all process output to
+		 * stdout. By default, only process errors are forwarded to stdout.
+		 *
+		 * @param silent
+		 * @return
+		 */
+		public Builder withSilent(boolean silent) {
+
+			this.silent = silent;
 			return this;
 		}
 
@@ -120,7 +171,8 @@ public class EmbeddedMongo extends ExternalResource {
 			if (serverPorts.size() > 1 || StringUtils.hasText(replicaSetName)) {
 
 				String rsName = StringUtils.hasText(replicaSetName) ? replicaSetName : DEFAULT_REPLICA_SET_NAME;
-				return new EmbeddedMongo(new ReplSet(version, rsName, serverPorts.toArray(new Integer[serverPorts.size()])));
+				return new EmbeddedMongo(
+						new ReplSet(version, rsName, silent, serverPorts.toArray(new Integer[serverPorts.size()])));
 			}
 
 			throw new UnsupportedOperationException("implement me");
@@ -155,12 +207,24 @@ public class EmbeddedMongo extends ExternalResource {
 		}
 	}
 
+	/**
+	 * Interface specifying a test resource which exposes lifecycle methods and connection coordinates.
+	 */
 	interface TestResource {
 
+		/**
+		 * Start the resource.
+		 */
 		void start();
 
+		/**
+		 * Stop the resource.
+		 */
 		void stop();
 
+		/**
+		 * @return the connection string to configure a MongoDB client.
+		 */
 		String connectionString();
 
 		default MongoClient mongoClient() {
@@ -179,10 +243,11 @@ public class EmbeddedMongo extends ExternalResource {
 		private final int mongosPort;
 		private final Integer[] serverPorts;
 		private final Integer[] configServerPorts;
+		private final Function<Command, ProcessOutput> outputFunction;
 
 		private MongosSystemForTestFactory mongosTestFactory;
 
-		ReplSet(IFeatureAwareVersion serverVersion, String replicaSetName, Integer... serverPorts) {
+		ReplSet(IFeatureAwareVersion serverVersion, String replicaSetName, boolean silent, Integer... serverPorts) {
 
 			this.serverVersion = serverVersion;
 			this.replicaSetName = replicaSetName;
@@ -190,6 +255,13 @@ public class EmbeddedMongo extends ExternalResource {
 			this.configServerPorts = defaultPortsIfRequired(null);
 			this.configServerReplicaSetName = DEFAULT_CONFIG_SERVER_REPLICA_SET_NAME;
 			this.mongosPort = randomOrDefaultServerPort();
+
+			if (silent) {
+				outputFunction = it -> new ProcessOutput(Processors.silent(),
+						Processors.namedConsole("[ " + it.commandName() + " error]"), Processors.console());
+			} else {
+				outputFunction = it -> ProcessOutput.getDefaultInstance(it.commandName());
+			}
 		}
 
 		Integer[] defaultPortsIfRequired(Integer[] ports) {
@@ -226,7 +298,7 @@ public class EmbeddedMongo extends ExternalResource {
 					configServerReplicaSetName, configServerPorts[0]);
 
 			mongosTestFactory = new MongosSystemForTestFactory(mongosConfig, replicaSets, Collections.emptyList(),
-					DEFAULT_SHARDING, DEFAULT_SHARDING, DEFAULT_SHARD_KEY);
+					DEFAULT_SHARDING, DEFAULT_SHARDING, DEFAULT_SHARD_KEY, outputFunction);
 
 			try {
 				LOGGER.info(String.format("Starting config servers at ports %s",
@@ -244,15 +316,17 @@ public class EmbeddedMongo extends ExternalResource {
 		}
 
 		private List<IMongodConfig> initReplicaSet() {
-			List<IMongodConfig> replicaSet1 = new ArrayList<>();
+
+			List<IMongodConfig> rs = new ArrayList<>();
 
 			for (int port : serverPorts) {
-				replicaSet1.add(defaultMongodConfig(serverVersion, port, defaultCommandOptions(), false, true, replicaSetName));
+				rs.add(defaultMongodConfig(serverVersion, port, defaultCommandOptions(), false, true, replicaSetName));
 			}
-			return replicaSet1;
+			return rs;
 		}
 
 		private List<IMongodConfig> initConfigServers() {
+
 			List<IMongodConfig> configServers = new ArrayList<>(configServerPorts.length);
 
 			for (Integer port : configServerPorts) {
@@ -280,6 +354,9 @@ public class EmbeddedMongo extends ExternalResource {
 		}
 	}
 
+	/**
+	 * @return Default {@link IMongoCmdOptions command options}.
+	 */
 	private static IMongoCmdOptions defaultCommandOptions() {
 
 		return new MongoCmdOptionsBuilder() //
@@ -291,12 +368,25 @@ public class EmbeddedMongo extends ExternalResource {
 				.build();
 	}
 
+	/**
+	 * Create a default {@code mongod} config.
+	 *
+	 * @param version
+	 * @param port
+	 * @param cmdOptions
+	 * @param configServer
+	 * @param shardServer
+	 * @param replicaSet
+	 * @return
+	 */
 	private static IMongodConfig defaultMongodConfig(IFeatureAwareVersion version, int port, IMongoCmdOptions cmdOptions,
 			boolean configServer, boolean shardServer, String replicaSet) {
 
 		try {
+
 			MongodConfigBuilder builder = new MongodConfigBuilder() //
 					.version(version) //
+					.withLaunchArgument("--quiet") //
 					.net(new Net(LOCALHOST, port, Network.localhostIsIPv6())) //
 					.configServer(configServer).cmdOptions(cmdOptions); //
 
@@ -318,12 +408,24 @@ public class EmbeddedMongo extends ExternalResource {
 		}
 	}
 
+	/**
+	 * Create a default {@code mongos} config.
+	 *
+	 * @param version
+	 * @param port
+	 * @param cmdOptions
+	 * @param configServerReplicaSet
+	 * @param configServerPort
+	 * @return
+	 */
 	private static IMongosConfig defaultMongosConfig(IFeatureAwareVersion version, int port, IMongoCmdOptions cmdOptions,
 			String configServerReplicaSet, int configServerPort) {
 
 		try {
+
 			MongosConfigBuilder builder = new MongosConfigBuilder() //
 					.version(version) //
+					.withLaunchArgument("--quiet", null) //
 					.net(new Net(LOCALHOST, port, Network.localhostIsIPv6())) //
 					.cmdOptions(cmdOptions);
 
