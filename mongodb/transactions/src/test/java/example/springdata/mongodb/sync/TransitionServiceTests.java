@@ -17,7 +17,7 @@ package example.springdata.mongodb.sync;
 
 import example.springdata.mongodb.Process;
 import example.springdata.mongodb.State;
-import utils.EmbeddedMongo;
+import example.springdata.mongodb.util.EmbeddedMongo;
 
 import java.util.function.Consumer;
 
@@ -36,6 +36,7 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -44,10 +45,13 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 
 /**
+ * Test showing MongoDB Transaction usage through a synchronous (imperative) API using Spring's managed transactions.
+ *
  * @author Christoph Strobl
  * @currentRead The Core - Peter V. Brett
+ * @see org.springframework.transaction.annotation.Transactional
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @ContextConfiguration
 public class TransitionServiceTests {
 

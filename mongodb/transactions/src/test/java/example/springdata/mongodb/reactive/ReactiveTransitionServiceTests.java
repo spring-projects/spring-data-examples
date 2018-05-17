@@ -19,9 +19,9 @@ import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.mongodb.Process;
 import example.springdata.mongodb.State;
+import example.springdata.mongodb.util.EmbeddedMongo;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
-import utils.EmbeddedMongo;
 
 import org.bson.Document;
 import org.junit.ClassRule;
@@ -40,6 +40,8 @@ import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 
 /**
+ * Test showing MongoDB Transaction usage through a reactive API.
+ *
  * @author Christoph Strobl
  * @currentRead The Core - Peter V. Brett
  */

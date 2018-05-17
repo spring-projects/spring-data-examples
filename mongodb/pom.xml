@@ -28,6 +28,7 @@
 		<module>security</module>
 		<module>text-search</module>
 		<module>transactions</module>
+		<module>util</module>
 	</modules>
 
 	<dependencies>
@@ -56,7 +57,7 @@
 		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<scope>runtime</scope>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>

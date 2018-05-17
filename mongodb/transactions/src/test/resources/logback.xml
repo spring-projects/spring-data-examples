@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="utils.EmbeddedMongo" level="info"/>
+    <logger name="example.springdata.mongodb.util.EmbeddedMongo" level="info"/>
     <logger name="org.mongodb.driver.protocol" level="debug"/>
 
     <root level="error">
