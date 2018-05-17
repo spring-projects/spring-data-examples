@@ -1,8 +1,14 @@
 language: java
 
-jdk:
-  - oraclejdk8
-  - oraclejdk9
+matrix:
+  include:
+    - jdk: oraclejdk8
+      env: JDK_RELEASE='Oracle JDK 8'
+    - jdk: oraclejdk9
+      env: JDK_RELEASE='Oracle JDK 9'
+    - env: JDK_RELEASE='Oracle JDK 10'
+      before_install: wget https://github.com/sormuras/bach/raw/master/install-jdk.sh && . ./install-jdk.sh -F 10 -L BCL
+
 
 addons:
   apt:
@@ -11,7 +17,6 @@ addons:
       - sourceline: 'deb http://packages.couchbase.com/ubuntu trusty trusty/main'
         key_url: 'http://packages.couchbase.com/ubuntu/couchbase.key'
     packages:
-      - oracle-java8-installer
       - couchbase-server-community
 
 services:
@@ -30,5 +35,9 @@ install:
   - curl -X POST http://127.0.0.1:8091/settings/web -d "username=Administrator&password=password&port=8091&"
   - /opt/couchbase/bin/cbdocloader -c 127.0.0.1:8091 -u Administrator -p password -b travel-sample -m 256 -d /opt/couchbase/samples/travel-sample.zip
   - /opt/couchbase/bin/couchbase-cli user-manage -c 127.0.0.1:8091 -u Administrator -p password --set  --rbac-username=travel-sample --rbac-password=password --roles=admin --auth-domain local
+  - wget https://projectlombok.org/lombok-edge.jar
+  - mvn install:install-file -Dfile=lombok-edge.jar -DgroupId=org.projectlombok -DartifactId=lombok -Dversion=edge-SNAPSHOT -Dpackaging=jar
 
-script: "mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B"
+script:
+  - mvn -version
+  - mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B -Dlombok.version=edge-SNAPSHOT

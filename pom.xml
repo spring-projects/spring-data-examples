@@ -72,10 +72,10 @@
 		</profile>
 
 		<profile>
-			<id>java9</id>
+			<id>java-next</id>
 
 			<activation>
-				<jdk>9</jdk>
+				<jdk>[9,)</jdk>
 			</activation>
 
 			<dependencies>
