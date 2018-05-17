@@ -52,7 +52,7 @@
 		<profile>
 			<id>spring-data-next-releasetrain-released</id>
 			<properties>
-				<spring-data-releasetrain.version>Lovelace-M2</spring-data-releasetrain.version>
+				<spring-data-releasetrain.version>Lovelace-M3</spring-data-releasetrain.version>
 			</properties>
 		</profile>
 
