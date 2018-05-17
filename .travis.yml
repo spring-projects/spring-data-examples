@@ -3,12 +3,13 @@ language: java
 matrix:
   include:
     - jdk: oraclejdk8
-      env: JDK_RELEASE='Oracle JDK 8'
+      env: JDK='Oracle JDK 8'
     - jdk: oraclejdk9
-      env: JDK_RELEASE='Oracle JDK 9'
-    - env: JDK_RELEASE='Oracle JDK 10'
+      env: JDK='Oracle JDK 9'
+    - env: JDK='Oracle JDK 10'
       before_install: wget https://github.com/sormuras/bach/raw/master/install-jdk.sh && . ./install-jdk.sh -F 10 -L BCL
-
+    - env: JDK='Oracle JDK 11'
+      before_install: wget https://github.com/sormuras/bach/raw/master/install-jdk.sh && . ./install-jdk.sh -F 11 -L BCL
 
 addons:
   apt:
