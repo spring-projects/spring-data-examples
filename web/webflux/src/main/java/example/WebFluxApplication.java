@@ -15,10 +15,19 @@
  */
 package example;
 
+import example.mongo.Person;
+
+import java.util.Arrays;
+
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 /**
+ * Main application configuration.
+ *
  * @author Mark Paluch
  */
 @SpringBootApplication
@@ -26,5 +35,21 @@ public class WebFluxApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WebFluxApplication.class, args);
+	}
+
+	/**
+	 * Initialize {@link Person} collection using the synchronous API to avoid synchronization and threading issues
+	 * through a {@link CommandLineRunner}.
+	 */
+	@Bean
+	CommandLineRunner initializer(MongoOperations mongoOperations) {
+
+		return args -> {
+
+			mongoOperations.dropCollection(Person.class);
+			mongoOperations.insert(
+					Arrays.asList(new Person("Walter", "White"), new Person("Hank", "Schrader"), new Person("Jesse", "Pinkman")),
+					Person.class);
+		};
 	}
 }
