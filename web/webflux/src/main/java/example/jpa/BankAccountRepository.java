@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.mongo;
+package example.jpa;
 
-import reactor.core.publisher.Mono;
-
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * Reactive repository for {@link Person}.
+ * Blocking JPA {@link CrudRepository} for {@link BankAccount}.
  *
  * @author Mark Paluch
  */
-public interface ReactivePersonRepository extends ReactiveCrudRepository<Person, String> {
+public interface BankAccountRepository extends CrudRepository<BankAccount, Long> {
 
-	Mono<Person> findByFirstnameIgnoringCase(String name);
+	BankAccount findByOwner(String id);
 }

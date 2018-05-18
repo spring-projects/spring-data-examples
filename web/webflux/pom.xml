@@ -12,6 +12,12 @@
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<mongodb.version>3.8.0-beta2</mongodb.version>
+		<mongo-driver-reactivestreams.version>1.9.0-beta1</mongo-driver-reactivestreams.version>
+		<spring-data-releasetrain.version>Lovelace-M3</spring-data-releasetrain.version>
+	</properties>
+
 	<dependencies>
 
 		<dependency>
@@ -25,8 +31,25 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>2.1.0.DATAJPA-1350-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 

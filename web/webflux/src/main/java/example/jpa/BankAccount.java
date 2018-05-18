@@ -13,18 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.mongo;
+package example.jpa;
 
-import reactor.core.publisher.Mono;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
- * Reactive repository for {@link Person}.
- *
  * @author Mark Paluch
  */
-public interface ReactivePersonRepository extends ReactiveCrudRepository<Person, String> {
+@Data
+@NoArgsConstructor
+@Entity
+public class BankAccount {
 
-	Mono<Person> findByFirstnameIgnoringCase(String name);
+	@Id @GeneratedValue Long accountNumber;
+	String owner;
+	BigDecimal balance;
+
+	public BankAccount(String owner, BigDecimal balance) {
+		this.owner = owner;
+		this.balance = balance;
+	}
 }

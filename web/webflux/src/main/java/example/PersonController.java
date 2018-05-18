@@ -15,19 +15,23 @@
  */
 package example;
 
+import example.jpa.BankAccount;
+import example.jpa.BankAccountRepository;
 import example.mongo.Person;
 import example.mongo.ReactivePersonRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import org.springframework.data.jpa.support.JpaExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller using a MongoDB {@link org.springframework.data.repository.reactive.ReactiveCrudRepository}.
- * 
+ *
  * @author Mark Paluch
  */
 @RestController
@@ -35,6 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PersonController {
 
 	final ReactivePersonRepository personRepository;
+	final BankAccountRepository bankAccountRepository;
+	final JpaExecutor jpaExecutor;
 
 	@GetMapping("people")
 	Flux<Person> getPeople() {
@@ -45,4 +51,21 @@ public class PersonController {
 	Mono<Person> storePerson(Person person) {
 		return personRepository.save(person);
 	}
+
+	@GetMapping("people/{name}")
+	Mono<Person> getPerson(@PathVariable String name) {
+		return personRepository.findByFirstnameIgnoringCase(name);
+	}
+
+	@GetMapping("people/{name}/bank-account")
+	Mono<BankAccount> getBankAccount(@PathVariable String name) {
+
+		// Lookup person from MongoDB
+		return getPerson(name).flatMap(it -> {
+
+			// access BankAccount stored in H2 DB through JPA
+			return jpaExecutor.read(bankAccountRepository, repo -> repo.findByOwner(it.getId()));
+		});
+	}
+
 }
