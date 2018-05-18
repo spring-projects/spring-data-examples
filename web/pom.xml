@@ -19,6 +19,7 @@
 	    <module>example</module>
 		<module>querydsl</module>
 		<module>projection</module>
+		<module>webflux</module>
 	</modules>
 
 	<dependencies>
