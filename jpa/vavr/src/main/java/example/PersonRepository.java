@@ -19,6 +19,7 @@ import io.vavr.collection.Map;
 import io.vavr.collection.Seq;
 import io.vavr.collection.Set;
 import io.vavr.control.Option;
+import io.vavr.control.Try;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,4 +52,12 @@ public interface PersonRepository extends Repository<Person, Long> {
 	 * @return
 	 */
 	Seq<Person> findByFirstnameContaining(String firstname);
+
+	/**
+	 * Returning a {@link Try} is supported out of the box with all exceptions being handled by {@link Try} immediately.
+	 * 
+	 * @param lastname
+	 * @return
+	 */
+	Try<Option<Person>> findByLastnameContaining(String lastname);
 }
