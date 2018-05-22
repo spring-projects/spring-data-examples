@@ -25,10 +25,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.jdbc.mapping.event.BeforeSaveEvent;
-import org.springframework.data.jdbc.mapping.model.ConversionCustomizer;
-import org.springframework.data.jdbc.mapping.model.JdbcPersistentProperty;
-import org.springframework.data.jdbc.mapping.model.NamingStrategy;
+import org.springframework.data.jdbc.core.mapping.event.BeforeSaveEvent;
+import org.springframework.data.jdbc.core.mapping.ConversionCustomizer;
+import org.springframework.data.jdbc.core.mapping.JdbcPersistentProperty;
+import org.springframework.data.jdbc.core.mapping.NamingStrategy;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.lang.Nullable;
 
