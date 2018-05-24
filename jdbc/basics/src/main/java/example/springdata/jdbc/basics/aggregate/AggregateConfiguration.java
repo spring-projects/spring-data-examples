@@ -68,15 +68,15 @@ public class AggregateConfiguration {
 	public NamingStrategy namingStrategy() {
 
 		Map<String, String> tableAliases = new HashMap<String, String>();
-		tableAliases.put("Manual", "Handbuch");
+		tableAliases.put("manual", "handbuch");
 
 		Map<String, String> columnAliases = new HashMap<String, String>();
-		columnAliases.put("LegoSet.intMaximumAge", "maxAge");
-		columnAliases.put("LegoSet.intMinimumAge", "minAge");
-		columnAliases.put("Handbuch.id", "Handbuch_id");
+		columnAliases.put("lego_set.int_maximum_age", "max_age");
+		columnAliases.put("lego_set.int_minimum_age", "min_age");
+		columnAliases.put("handbuch.id", "handbuch_id");
 
 		Map<String, String> reverseColumnAliases = new HashMap<String, String>();
-		reverseColumnAliases.put("manual", "Handbuch_id");
+		reverseColumnAliases.put("manual", "handbuch_id");
 
 		Map<String, String> keyColumnAliases = new HashMap<String, String>();
 		keyColumnAliases.put("models", "name");

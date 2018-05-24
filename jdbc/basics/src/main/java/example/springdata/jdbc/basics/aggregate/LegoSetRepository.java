@@ -29,11 +29,11 @@ import java.util.List;
  */
 interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {
 
-	@Query("SELECT m.name modelName, m.description, l.name setName" +
+	@Query("SELECT m.name model_name, m.description, l.name set_name" +
 			"  FROM model m" +
-			"  JOIN LegoSet l" +
-			"  ON m.legoset = l.id" +
-			"  WHERE :age BETWEEN l.minAge and l.maxAge")
+			"  JOIN lego_set l" +
+			"  ON m.lego_set = l.id" +
+			"  WHERE :age BETWEEN l.min_age and l.max_age")
 	List<ModelReport> reportModelForAge(@Param("age") int age);
 
 	@Modifying

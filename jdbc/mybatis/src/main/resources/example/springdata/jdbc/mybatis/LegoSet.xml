@@ -4,6 +4,6 @@
 	<select id="findAllByProperty-models" resultType="ModelMapEntry" parameterType="org.springframework.data.jdbc.mybatis.MyBatisContext">
 		SELECT name, description
 		FROM Model
-		WHERE legoset = #{id}
+		WHERE lego_set = #{id}
 	</select>
 </mapper>
