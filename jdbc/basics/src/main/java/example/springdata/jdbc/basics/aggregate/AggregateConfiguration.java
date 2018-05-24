@@ -38,6 +38,7 @@ import org.springframework.lang.Nullable;
 @Configuration
 @EnableJdbcRepositories
 public class AggregateConfiguration {
+
 	final AtomicInteger id = new AtomicInteger(0);
 
 	@Bean
@@ -67,13 +68,9 @@ public class AggregateConfiguration {
 	@Bean
 	public NamingStrategy namingStrategy() {
 
-		Map<String, String> tableAliases = new HashMap<String, String>();
-		tableAliases.put("manual", "handbuch");
-
 		Map<String, String> columnAliases = new HashMap<String, String>();
 		columnAliases.put("lego_set.int_maximum_age", "max_age");
 		columnAliases.put("lego_set.int_minimum_age", "min_age");
-		columnAliases.put("handbuch.id", "handbuch_id");
 
 		Map<String, String> reverseColumnAliases = new HashMap<String, String>();
 		reverseColumnAliases.put("manual", "handbuch_id");
@@ -89,11 +86,6 @@ public class AggregateConfiguration {
 				String defaultName = NamingStrategy.super.getColumnName(property);
 				String key = getTableName(property.getOwner().getType()) + "." + defaultName;
 				return columnAliases.computeIfAbsent(key, __ -> defaultName);
-			}
-
-			@Override
-			public String getTableName(Class<?> type) {
-				return tableAliases.computeIfAbsent(NamingStrategy.super.getTableName(type), key -> key);
 			}
 
 			@Override

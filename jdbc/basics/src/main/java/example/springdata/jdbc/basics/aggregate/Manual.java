@@ -18,6 +18,8 @@ package example.springdata.jdbc.basics.aggregate;
 import lombok.Data;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.jdbc.core.mapping.Column;
+import org.springframework.data.jdbc.core.mapping.Table;
 
 /**
  * A manual instructing how to assemble a {@link LegoSet}.
@@ -25,8 +27,10 @@ import org.springframework.data.annotation.Id;
  * @author Jens Schauder
  */
 @Data
+@Table("handbuch")
 public class Manual {
 
+	@Column("handbuch_id")
 	private @Id Long id;
 	private String author, text;
 
