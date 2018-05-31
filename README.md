@@ -17,7 +17,7 @@ We have separate folders for the samples of individual modules:
 * `query-by-example` - Example project showing usage of Query by Example with Spring Data JPA.
 * `security` - Example of how to integrate Spring Data JPA Repositories with Spring Security.
 * `showcase` - Refactoring show case of how to improve a plain-JPA-based persistence layer by using Spring Data JPA (read: removing close to all of the implementation code). Follow the `demo.txt` file for detailed instructions.
-* `vavr` - Shows the support of [Vavr](https://vavr.io) collection types as return types for query methods.
+* `vavr` - Shows the support of [Vavr](https://www.vavr.io) collection types as return types for query methods.
 
 ## Spring Data MongoDB
 
