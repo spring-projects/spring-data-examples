@@ -154,6 +154,16 @@
 			</build>
 		</profile>
 
+		<!-- Skip tests on JDK 11 as Eclipselink doesn't properly work on it -->
+		<!-- https://bugs.eclipse.org/bugs/show_bug.cgi?id=535774            -->
+
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+		</profile>
+
 	</profiles>
 
 </project>
