@@ -159,6 +159,9 @@
 
 		<profile>
 			<id>jdk11</id>
+			<activation>
+				<jdk>11</jdk>
+			</activation>
 			<properties>
 				<skipTests>true</skipTests>
 			</properties>
