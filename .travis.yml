@@ -36,9 +36,8 @@ install:
   - curl -X POST http://127.0.0.1:8091/settings/web -d "username=Administrator&password=password&port=8091&"
   - /opt/couchbase/bin/cbdocloader -c 127.0.0.1:8091 -u Administrator -p password -b travel-sample -m 256 -d /opt/couchbase/samples/travel-sample.zip
   - /opt/couchbase/bin/couchbase-cli user-manage -c 127.0.0.1:8091 -u Administrator -p password --set  --rbac-username=travel-sample --rbac-password=password --roles=admin --auth-domain local
-  - wget https://projectlombok.org/lombok-edge.jar
-  - mvn install:install-file -Dfile=lombok-edge.jar -DgroupId=org.projectlombok -DartifactId=lombok -Dversion=edge-SNAPSHOT -Dpackaging=jar
+
 
 script:
   - mvn -version
-  - mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B -Dlombok.version=edge-SNAPSHOT
+  - mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B
