@@ -19,6 +19,7 @@
 	<modules>
 		<module>basics</module>
 		<module>mybatis</module>
+		<module>r2dbc</module>
 	</modules>
 
 	<properties>
