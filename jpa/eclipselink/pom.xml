@@ -16,7 +16,7 @@
 	<name>Spring Data JPA - EclipseLink setup example</name>
 
 	<properties>
-		<eclipselink.version>2.7.1</eclipselink.version>
+		<eclipselink.version>2.7.2-RC1</eclipselink.version>
 	</properties>
 
 	<dependencies>
@@ -152,19 +152,6 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-
-		<!-- Skip tests on JDK 11 as Eclipselink doesn't properly work on it -->
-		<!-- https://bugs.eclipse.org/bugs/show_bug.cgi?id=535774            -->
-
-		<profile>
-			<id>jdk11</id>
-			<activation>
-				<jdk>11</jdk>
-			</activation>
-			<properties>
-				<skipTests>true</skipTests>
-			</properties>
 		</profile>
 
 	</profiles>
