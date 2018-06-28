@@ -25,11 +25,11 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.jdbc.core.mapping.event.BeforeSaveEvent;
-import org.springframework.data.jdbc.core.mapping.ConversionCustomizer;
-import org.springframework.data.jdbc.core.mapping.JdbcPersistentProperty;
-import org.springframework.data.jdbc.core.mapping.NamingStrategy;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
+import org.springframework.data.relational.core.mapping.ConversionCustomizer;
+import org.springframework.data.relational.core.mapping.RelationalPersistentProperty;
+import org.springframework.data.relational.core.mapping.NamingStrategy;
+import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;
 import org.springframework.lang.Nullable;
 
 /**
@@ -81,7 +81,7 @@ public class AggregateConfiguration {
 		return new NamingStrategy() {
 
 			@Override
-			public String getColumnName(JdbcPersistentProperty property) {
+			public String getColumnName(RelationalPersistentProperty property) {
 
 				String defaultName = NamingStrategy.super.getColumnName(property);
 				String key = getTableName(property.getOwner().getType()) + "." + defaultName;
@@ -89,13 +89,13 @@ public class AggregateConfiguration {
 			}
 
 			@Override
-			public String getReverseColumnName(JdbcPersistentProperty property) {
+			public String getReverseColumnName(RelationalPersistentProperty property) {
 				return reverseColumnAliases.computeIfAbsent(property.getName(),
 						__ -> NamingStrategy.super.getReverseColumnName(property));
 			}
 
 			@Override
-			public String getKeyColumn(JdbcPersistentProperty property) {
+			public String getKeyColumn(RelationalPersistentProperty property) {
 				return keyColumnAliases.computeIfAbsent(property.getName(), __ -> NamingStrategy.super.getKeyColumn(property));
 			}
 		};

@@ -19,9 +19,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.core.DataAccessStrategy;
-import org.springframework.data.jdbc.core.mapping.JdbcMappingContext;
 import org.springframework.data.jdbc.mybatis.MyBatisDataAccessStrategy;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
+import org.springframework.data.relational.core.mapping.RelationalMappingContext;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
 /**
@@ -32,7 +32,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 public class MyBatisConfiguration {
 
 	@Bean
-	DataAccessStrategy defaultDataAccessStrategy(JdbcMappingContext context, NamedParameterJdbcOperations operations, SqlSession sqlSession) {
+	DataAccessStrategy defaultDataAccessStrategy(RelationalMappingContext context,
+			NamedParameterJdbcOperations operations, SqlSession sqlSession) {
 		return MyBatisDataAccessStrategy.createCombinedAccessStrategy(context, operations, sqlSession);
 	}
 }

@@ -18,8 +18,8 @@ package example.springdata.jdbc.basics.aggregate;
 import lombok.Data;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.jdbc.core.mapping.Column;
-import org.springframework.data.jdbc.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * A manual instructing how to assemble a {@link LegoSet}.

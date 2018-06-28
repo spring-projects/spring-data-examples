@@ -21,9 +21,9 @@ import io.r2dbc.spi.ConnectionFactory;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.core.mapping.JdbcMappingContext;
 import org.springframework.data.r2dbc.function.DatabaseClient;
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactory;
+import org.springframework.data.relational.core.mapping.RelationalMappingContext;
 
 /**
  * @author Oliver Gierke
@@ -39,7 +39,7 @@ class InfrastructureConfiguration {
 	@Bean
 	R2dbcRepositoryFactory repositoryFactory(DatabaseClient client) {
 
-		JdbcMappingContext context = new JdbcMappingContext();
+		RelationalMappingContext context = new RelationalMappingContext();
 		context.afterPropertiesSet();
 
 		return new R2dbcRepositoryFactory(client, context);

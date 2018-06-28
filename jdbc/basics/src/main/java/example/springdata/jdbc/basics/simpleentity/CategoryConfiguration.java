@@ -19,9 +19,9 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.core.mapping.event.BeforeSaveEvent;
-import org.springframework.data.jdbc.core.mapping.event.JdbcEvent;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
+import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;
+import org.springframework.data.relational.core.mapping.event.RelationalEvent;
 
 /**
  * Contains infrastructure necessary for creating repositories and two listeners.
@@ -38,7 +38,7 @@ public class CategoryConfiguration {
 	public ApplicationListener<?> loggingListener() {
 
 		return (ApplicationListener<ApplicationEvent>) event -> {
-			if (event instanceof JdbcEvent) {
+			if (event instanceof RelationalEvent) {
 				System.out.println("Received an event: " + event);
 			}
 		};
