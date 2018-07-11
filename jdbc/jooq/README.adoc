@@ -1,0 +1,18 @@
+== Spring Data JDBC with jOOQ
+
+The `JooqMethods` class demonstrates how to access a database with jOOQ in combination with Spring Data JDBC.
+The domain model is based on the basic JDBC example for comparison.
+Another interesting aspect of this code could be the jOOQ configuration in the `pom.xml` file.
+
+To execute the tests, execute:
+[indent=0]
+----
+	$ mvn test
+----
+
+To rerun the code generator, just execute the following commands:
+[indent=0]
+----
+	$ rm -rf gensrc
+	$ mvn clean generate-sources
+----
