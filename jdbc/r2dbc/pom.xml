@@ -1,39 +1,65 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
-	<modelVersion>4.0.0</modelVersion>
-	
-	<parent>
-		<groupId>org.springframework.data.examples</groupId>
-		<artifactId>spring-data-jdbc-examples</artifactId>
-		<version>2.0.0.BUILD-SNAPSHOT</version>
-	</parent>
-	
-	<artifactId>spring-data-r2dbc</artifactId>
-	
-	<properties>
-		<reactor-bom.version>Californium-BUILD-SNAPSHOT</reactor-bom.version>
-	</properties>
-	
-	<dependencies>
-	
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jdbc</artifactId>
-			<version>1.0.0.r2dbc-SNAPSHOT</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>io.r2dbc</groupId>
-			<artifactId>r2dbc-postgresql</artifactId>
-			<version>1.0.0.BUILD-SNAPSHOT</version>
-			<scope>runtime</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-	</dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.data.examples</groupId>
+        <artifactId>spring-data-jdbc-examples</artifactId>
+        <version>2.0.0.BUILD-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>spring-data-r2dbc</artifactId>
+
+    <name>Spring Data JDBC - Demonstrating reactive repositories with R2DBC</name>
+    
+    <properties>
+        <reactor-bom.version>Californium-BUILD-SNAPSHOT</reactor-bom.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jdbc</artifactId>
+            <version>1.0.0.r2dbc-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-spi</artifactId>
+            <version>1.0.0.BUILD-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-postgresql</artifactId>
+            <version>1.0.0.BUILD-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor.ipc</groupId>
+            <artifactId>reactor-netty</artifactId>
+            <version>0.7.7.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor.addons</groupId>
+            <artifactId>reactor-extra</artifactId>
+        </dependency>
+
+    </dependencies>
 </project>

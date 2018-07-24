@@ -47,6 +47,7 @@ public class LegoSet {
 	private Manual manual;
 
 	// You can build multiple models from one LegoSet
+	@AccessType(Type.FIELD)
 	private final Map<String, Model> models = new HashMap<>();
 
 	// conversion for custom types currently has to be done through getters/setter + marking the underlying property with

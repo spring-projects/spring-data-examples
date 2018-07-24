@@ -15,6 +15,8 @@
  */
 package example.springdata.jdbc.basics.aggregate;
 
+import static java.util.Arrays.*;
+
 import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,10 +27,12 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.convert.CustomConversions;
+import org.springframework.data.jdbc.core.convert.JdbcCustomConversions;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.data.relational.core.mapping.ConversionCustomizer;
-import org.springframework.data.relational.core.mapping.RelationalPersistentProperty;
+import org.springframework.data.jdbc.repository.config.JdbcConfiguration;
 import org.springframework.data.relational.core.mapping.NamingStrategy;
+import org.springframework.data.relational.core.mapping.RelationalPersistentProperty;
 import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;
 import org.springframework.lang.Nullable;
 
@@ -37,7 +41,7 @@ import org.springframework.lang.Nullable;
  */
 @Configuration
 @EnableJdbcRepositories
-public class AggregateConfiguration {
+public class AggregateConfiguration extends JdbcConfiguration {
 
 	final AtomicInteger id = new AtomicInteger(0);
 
@@ -101,10 +105,10 @@ public class AggregateConfiguration {
 		};
 	}
 
-	@Bean
-	public ConversionCustomizer conversionCustomizer() {
+	@Override
+	protected CustomConversions jdbcCustomConversions() {
 
-		return conversions -> conversions.addConverter(new Converter<Clob, String>() {
+		return new JdbcCustomConversions(asList(new Converter<Clob, String>() {
 
 			@Nullable
 			@Override
@@ -120,6 +124,6 @@ public class AggregateConfiguration {
 					throw new IllegalStateException("Failed to convert CLOB to String.", e);
 				}
 			}
-		});
+		}));
 	}
 }
