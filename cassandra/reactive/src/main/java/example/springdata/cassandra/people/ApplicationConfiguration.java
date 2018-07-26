@@ -16,27 +16,12 @@
 package example.springdata.cassandra.people;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration;
-import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration;
-import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories;
 
 /**
  * Simple configuration for reactive Cassandra support.
  *
  * @author Mark Paluch
  */
-@SpringBootApplication(exclude = CassandraDataAutoConfiguration.class)
-@EnableReactiveCassandraRepositories
-class ApplicationConfiguration extends AbstractReactiveCassandraConfiguration {
-
-	@Override
-	protected String getKeyspaceName() {
-		return "example";
-	}
-
-	@Override
-	public SchemaAction getSchemaAction() {
-		return SchemaAction.RECREATE;
-	}
+@SpringBootApplication
+class ApplicationConfiguration {
 }

@@ -50,6 +50,7 @@ import org.springframework.data.mongodb.core.messaging.MessageListenerContainer;
 import org.springframework.data.mongodb.core.messaging.Subscription;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.mongodb.MongoClient;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import com.mongodb.reactivestreams.client.MongoClients;
 
@@ -82,6 +83,17 @@ public class ChangeStreamsTests {
 	 */
 	@SpringBootApplication(exclude = EmbeddedMongoAutoConfiguration.class)
 	static class Config {
+
+		/**
+		 * Configure {@link MongoClient} to enable
+		 * {@link org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration}.
+		 *
+		 * @return the {@link MongoClient}.
+		 */
+		@Bean
+		MongoClient mongoClient() {
+			return replSet.getMongoClient();
+		}
 
 		/**
 		 * Configure {@link SimpleMongoDbFactory} pointing to the embedded MongoDB connection.

@@ -19,12 +19,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.config.SchemaAction;
 import org.springframework.data.cassandra.core.convert.CassandraCustomConversions;
-import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 import org.springframework.util.StringUtils;
 
 import com.datastax.driver.core.Row;
@@ -35,26 +35,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  * @author Mark Paluch
  */
-@Configuration
-@EnableCassandraRepositories
-class ConverterConfiguration extends AbstractCassandraConfiguration {
+@SpringBootApplication
+@EntityScan(basePackageClasses = Addressbook.class)
+class ConverterConfiguration {
 
-	@Override
-	public String getKeyspaceName() {
-		return "example";
-	}
-
-	@Override
-	public String[] getEntityBasePackages() {
-		return new String[] { Addressbook.class.getPackage().getName() };
-	}
-
-	@Override
-	public SchemaAction getSchemaAction() {
-		return SchemaAction.RECREATE;
-	}
-
-	@Override
+	@Bean
 	public CassandraCustomConversions customConversions() {
 
 		List<Converter<?, ?>> converters = new ArrayList<>();

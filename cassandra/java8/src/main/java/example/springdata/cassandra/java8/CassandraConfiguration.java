@@ -15,31 +15,11 @@
  */
 package example.springdata.cassandra.java8;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Mark Paluch
  */
-@Configuration
-@EnableAutoConfiguration
+@SpringBootApplication
 class CassandraConfiguration {
-
-	@Configuration
-	@EnableCassandraRepositories
-	static class CassandraConfig extends AbstractCassandraConfiguration {
-
-		@Override
-		public String getKeyspaceName() {
-			return "example";
-		}
-
-		@Override
-		public SchemaAction getSchemaAction() {
-			return SchemaAction.RECREATE;
-		}
-	}
 }

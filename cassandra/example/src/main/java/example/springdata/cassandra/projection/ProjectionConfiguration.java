@@ -15,38 +15,16 @@
  */
 package example.springdata.cassandra.projection;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
 /**
  * Basic {@link Configuration} to create the necessary schema for the {@link Customer} table.
  *
  * @author Mark Paluch
  */
-@Configuration
-@EnableAutoConfiguration
+@SpringBootApplication
+@EntityScan(basePackageClasses = Customer.class)
 class ProjectionConfiguration {
-
-	@Configuration
-	@EnableCassandraRepositories
-	static class CassandraConfig extends AbstractCassandraConfiguration {
-
-		@Override
-		public String getKeyspaceName() {
-			return "example";
-		}
-
-		@Override
-		public String[] getEntityBasePackages() {
-			return new String[] { Customer.class.getPackage().getName() };
-		}
-
-		@Override
-		public SchemaAction getSchemaAction() {
-			return SchemaAction.RECREATE;
-		}
-	}
 }

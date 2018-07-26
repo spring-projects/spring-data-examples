@@ -15,15 +15,9 @@
  */
 package example.springdata.cassandra.basic;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.core.CassandraTemplate;
-import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
-
-import com.datastax.driver.core.Session;
 
 /**
  * Basic {@link Configuration} to create the necessary schema for the {@link User} table.
@@ -32,32 +26,7 @@ import com.datastax.driver.core.Session;
  * @author Thomas Darimont
  * @author Mark Paluch
  */
-@Configuration
-@EnableAutoConfiguration
+@SpringBootApplication
+@EntityScan(basePackageClasses = User.class)
 class BasicConfiguration {
-
-	@Configuration
-	@EnableCassandraRepositories
-	static class CassandraConfig extends AbstractCassandraConfiguration {
-
-		@Override
-		public String getKeyspaceName() {
-			return "example";
-		}
-
-		@Bean
-		public CassandraTemplate cassandraTemplate(Session session) {
-			return new CassandraTemplate(session);
-		}
-
-		@Override
-		public String[] getEntityBasePackages() {
-			return new String[] { User.class.getPackage().getName() };
-		}
-
-		@Override
-		public SchemaAction getSchemaAction() {
-			return SchemaAction.RECREATE;
-		}
-	}
 }
