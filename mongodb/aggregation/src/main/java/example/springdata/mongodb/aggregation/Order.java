@@ -15,12 +15,12 @@
  */
 package example.springdata.mongodb.aggregation;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -31,16 +31,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @Data
-@RequiredArgsConstructor(onConstructor = @__(@PersistenceConstructor))
+@AllArgsConstructor(onConstructor = @__(@PersistenceConstructor))
 @Document
 public class Order {
 
-	private final String id;
-	private final String customerId;
-	private final Date orderDate;
-	private final List<LineItem> items;
+	private String id;
+	private String customerId;
+	private Date orderDate;
+	private List<LineItem> items;
 
 	/**
 	 * Creates a new {@link Order} for the given customer id and order date.
@@ -49,7 +50,7 @@ public class Order {
 	 * @param orderDate
 	 */
 	public Order(String customerId, Date orderDate) {
-		this(null, customerId, orderDate, new ArrayList<LineItem>());
+		this(null, customerId, orderDate, new ArrayList<>());
 	}
 
 	/**

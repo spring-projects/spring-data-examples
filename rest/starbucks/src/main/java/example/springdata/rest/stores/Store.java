@@ -18,6 +18,7 @@ package example.springdata.rest.stores;
 import static org.springframework.data.mongodb.core.index.GeoSpatialIndexType.*;
 
 import lombok.Value;
+import lombok.experimental.Wither;
 
 import java.util.UUID;
 
@@ -30,12 +31,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Entity to represent a {@link Store}.
  *
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @Value
+@Wither
 @Document
 public class Store {
 
-	@Id UUID id = UUID.randomUUID();
+	@Id UUID id;
 	String name;
 	Address address;
 
