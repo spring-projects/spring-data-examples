@@ -32,22 +32,12 @@ public class Category {
 
 	private final @Id Long id;
 	private String name, description;
-	private LocalDateTime created = LocalDateTime.now();
-	private @Setter long inserted;
 	private AgeGroup ageGroup;
 
 	public Category(String name, String description, AgeGroup ageGroup) {
-
 		this.id = null;
 		this.name = name;
 		this.description = description;
 		this.ageGroup = ageGroup;
-	}
-
-	public void timeStamp() {
-
-		if (inserted == 0) {
-			inserted = System.currentTimeMillis();
-		}
 	}
 }

@@ -58,20 +58,6 @@ public class CategoryConfiguration {
 	}
 
 	@Bean
-	public ApplicationListener<BeforeSaveEvent> timeStampingSaveTime() {
-
-		return event -> {
-
-			Object entity = event.getEntity();
-
-			if (entity instanceof Category) {
-				Category category = (Category) entity;
-				category.timeStamp();
-			}
-		};
-	}
-
-	@Bean
 	public DataSourceConnectionProvider connectionProvider() {
 		return new DataSourceConnectionProvider(new TransactionAwareDataSourceProxy(dataSource));
 	}
