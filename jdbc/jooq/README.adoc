@@ -10,9 +10,9 @@ To execute the tests, execute:
 	$ mvn test
 ----
 
-To rerun the code generator, just execute the following commands:
+The code generator is automatically run when executing the tests.
+If you want to rerun the code generator manually, just execute the following command:
 [indent=0]
 ----
-	$ rm -rf gensrc
 	$ mvn clean generate-sources
 ----
