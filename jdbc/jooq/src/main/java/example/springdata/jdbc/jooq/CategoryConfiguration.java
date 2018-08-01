@@ -15,7 +15,9 @@
  */
 package example.springdata.jdbc.jooq;
 
-import org.jooq.impl.*;
+import org.jooq.impl.DataSourceConnectionProvider;
+import org.jooq.impl.DefaultConfiguration;
+import org.jooq.impl.DefaultDSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -24,7 +26,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jdbc.repository.config.JdbcConfiguration;
-import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;
 import org.springframework.data.relational.core.mapping.event.RelationalEvent;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 

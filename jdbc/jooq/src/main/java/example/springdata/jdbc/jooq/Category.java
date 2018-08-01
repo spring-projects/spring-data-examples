@@ -16,16 +16,13 @@
 package example.springdata.jdbc.jooq;
 
 import lombok.Data;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
-
 import org.springframework.data.annotation.Id;
 
 /**
  * Coarse classification for LegoSets, like "Car", "Plane", "Building" and so on.
  *
  * @author Jens Schauder
+ * @author Florian Lüdiger
  */
 @Data
 public class Category {
@@ -34,8 +31,8 @@ public class Category {
 	private String name, description;
 	private AgeGroup ageGroup;
 
-	public Category(String name, String description, AgeGroup ageGroup) {
-		this.id = null;
+	public Category(Long id, String name, String description, AgeGroup ageGroup) {
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.ageGroup = ageGroup;

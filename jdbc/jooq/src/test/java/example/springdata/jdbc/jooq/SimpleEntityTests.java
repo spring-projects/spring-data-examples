@@ -43,16 +43,13 @@ public class SimpleEntityTests {
 	@Autowired
     CategoryRepository repository;
 
-	@Autowired
-    JooqMethods jooqMethods;
-
 	@Test
 	public void exerciseRepositoryForSimpleEntity() {
 
 		// create some categories
-		Category cars = new Category("Cars", "Anything that has approximately 4 wheels", AgeGroup._3to8);
+		Category cars = new Category(null,"Cars", "Anything that has approximately 4 wheels", AgeGroup._3to8);
 
-		Category buildings = new Category("Buildings", null, AgeGroup._12andOlder);
+		Category buildings = new Category(null,"Buildings", null, AgeGroup._12andOlder);
 
 		// save categories
 		repository.saveAll(asList(cars, buildings));
@@ -66,7 +63,7 @@ public class SimpleEntityTests {
 		repository.save(buildings);
 		Output.list(repository.findAll(), "`Buildings` has a description");
 
-		List<Category> categoryList = jooqMethods.getCategoriesWithAgeGroup(AgeGroup._3to8);
+		List<Category> categoryList = repository.getCategoriesWithAgeGroup(AgeGroup._3to8);
 		assertThat(categoryList.size()).isEqualTo(1);
 		assertThat(categoryList.get(0).getName()).isEqualTo(cars.getName());
 		assertThat(categoryList.get(0).getDescription()).isEqualTo(cars.getDescription());

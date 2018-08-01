@@ -22,5 +22,5 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Jens Schauder
  */
-interface CategoryRepository extends CrudRepository<Category, Long> {
+interface CategoryRepository extends CrudRepository<Category, Long>, JooqRepository {
 }
