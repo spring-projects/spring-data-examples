@@ -15,6 +15,11 @@
  */
 package example.springdata.jdbc.jooq;
 
+import static java.util.Arrays.*;
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +27,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Demonstrates simple CRUD operations with a simple entity without any references.
@@ -40,16 +40,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ComponentScan
 public class SimpleEntityTests {
 
-	@Autowired
-    CategoryRepository repository;
+	@Autowired CategoryRepository repository;
 
 	@Test
 	public void exerciseRepositoryForSimpleEntity() {
 
 		// create some categories
-		Category cars = new Category(null,"Cars", "Anything that has approximately 4 wheels", AgeGroup._3to8);
+		Category cars = new Category(null, "Cars", "Anything that has approximately 4 wheels", AgeGroup._3to8);
 
-		Category buildings = new Category(null,"Buildings", null, AgeGroup._12andOlder);
+		Category buildings = new Category(null, "Buildings", null, AgeGroup._12andOlder);
 
 		// save categories
 		repository.saveAll(asList(cars, buildings));
@@ -64,9 +63,11 @@ public class SimpleEntityTests {
 		Output.list(repository.findAll(), "`Buildings` has a description");
 
 		List<Category> categoryList = repository.getCategoriesWithAgeGroup(AgeGroup._3to8);
-		assertThat(categoryList.size()).isEqualTo(1);
-		assertThat(categoryList.get(0).getName()).isEqualTo(cars.getName());
-		assertThat(categoryList.get(0).getDescription()).isEqualTo(cars.getDescription());
-		assertThat(categoryList.get(0).getAgeGroup()).isEqualTo(cars.getAgeGroup());
+
+		assertThat(categoryList) //
+				.extracting(Category::getName, Category::getDescription, Category::getAgeGroup) //
+				.containsExactly( //
+						tuple(cars.getName(), cars.getDescription(), cars.getAgeGroup()) //
+				);
 	}
 }

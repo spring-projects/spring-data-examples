@@ -15,6 +15,8 @@
  */
 package example.springdata.jdbc.jooq;
 
+import javax.sql.DataSource;
+
 import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
 import org.jooq.impl.DefaultDSLContext;
@@ -28,8 +30,6 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jdbc.repository.config.JdbcConfiguration;
 import org.springframework.data.relational.core.mapping.event.RelationalEvent;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
-
-import javax.sql.DataSource;
 
 /**
  * Contains infrastructure necessary for creating repositories and two listeners.
@@ -45,18 +45,7 @@ import javax.sql.DataSource;
 @Import(JdbcConfiguration.class)
 public class CategoryConfiguration {
 
-	@Autowired
-	private DataSource dataSource;
-
-	@Bean
-	public ApplicationListener<?> loggingListener() {
-
-		return (ApplicationListener<ApplicationEvent>) event -> {
-			if (event instanceof RelationalEvent) {
-				System.out.println("Received an event: " + event);
-			}
-		};
-	}
+	@Autowired private DataSource dataSource;
 
 	@Bean
 	public DataSourceConnectionProvider connectionProvider() {

@@ -19,11 +19,9 @@ package example.springdata.jdbc.jooq;
  * Age group for which a LegoSet is intended.
  *
  * @author Jens Schauder
+ * @author Florian Lüdiger
  */
 public enum AgeGroup {
 
- 	_0to3,
- 	_3to8,
- 	_8to12,
-	_12andOlder
+	_0to3, _3to8, _8to12, _12andOlder
 }

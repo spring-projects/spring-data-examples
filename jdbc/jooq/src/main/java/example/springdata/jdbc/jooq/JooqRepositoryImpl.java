@@ -1,10 +1,10 @@
 package example.springdata.jdbc.jooq;
 
-import org.jooq.DSLContext;
+import static example.springdata.jdbc.basics.simpleentity.domain.tables.Category.*;
 
 import java.util.List;
 
-import static example.springdata.jdbc.basics.simpleentity.domain.tables.Category.CATEGORY;
+import org.jooq.DSLContext;
 
 /**
  * Implementations for custom repository access using jOOQ.
@@ -13,17 +13,14 @@ import static example.springdata.jdbc.basics.simpleentity.domain.tables.Category
  */
 public class JooqRepositoryImpl implements JooqRepository {
 
-    private final DSLContext dslContext;
+	private final DSLContext dslContext;
 
-    public JooqRepositoryImpl(DSLContext dslContext) {
-        this.dslContext = dslContext;
-    }
+	public JooqRepositoryImpl(DSLContext dslContext) {
+		this.dslContext = dslContext;
+	}
 
-    public List<Category> getCategoriesWithAgeGroup(AgeGroup ageGroup) {
-        return this.dslContext
-                .select()
-                .from(CATEGORY)
-                .where(CATEGORY.AGE_GROUP.equal(ageGroup.name()))
-                .fetchInto(Category.class);
-    }
+	public List<Category> getCategoriesWithAgeGroup(AgeGroup ageGroup) {
+		return this.dslContext.select().from(CATEGORY).where(CATEGORY.AGE_GROUP.equal(ageGroup.name()))
+				.fetchInto(Category.class);
+	}
 }

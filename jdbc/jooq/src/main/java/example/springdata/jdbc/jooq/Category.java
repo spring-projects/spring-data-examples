@@ -16,6 +16,7 @@
 package example.springdata.jdbc.jooq;
 
 import lombok.Data;
+
 import org.springframework.data.annotation.Id;
 
 /**
