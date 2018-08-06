@@ -15,11 +15,22 @@
  */
 package example.springdata.neo4j;
 
+import java.util.List;
+
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 
 /**
- * {@link GraphRepository} for {@link Actor}s.
+ * {@link Neo4jRepository} for {@link Actor actors}.
  *
  * @author Luanne Misquitta
+ * @author Michael J. Simons
  */
-public interface ActorRepository extends Neo4jRepository<Actor, Long> {}
+public interface ActorRepository extends Neo4jRepository<Actor, Long> {
+	/**
+	 * Nested property from select from roles -> movie -> title,
+	 * where this here represents the start node in a relationship and movie the end node.
+	 * @param title
+	 * @return
+	 */
+	List<Actor> findAllByRolesMovieTitle(String title);
+}
