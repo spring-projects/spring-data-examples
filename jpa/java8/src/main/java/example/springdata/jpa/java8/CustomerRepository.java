@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
@@ -31,6 +32,7 @@ import org.springframework.scheduling.annotation.Async;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
+@Lazy
 public interface CustomerRepository extends Repository<Customer, Long> {
 
 	/**

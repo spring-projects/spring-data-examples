@@ -17,12 +17,15 @@ package example.springdata.jdbc.basics.simpleentity;
 
 import example.springdata.jdbc.basics.aggregate.AgeGroup;
 import example.springdata.jdbc.basics.aggregate.LegoSet;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 /**
  * Coarse classification for {@link LegoSet}s, like "Car", "Plane", "Building" and so on.
@@ -30,6 +33,7 @@ import org.springframework.data.annotation.Id;
  * @author Jens Schauder
  */
 @Data
+@AllArgsConstructor(access = AccessLevel.PROTECTED, onConstructor = @__(@PersistenceConstructor))
 public class Category {
 
 	private final @Id Long id;

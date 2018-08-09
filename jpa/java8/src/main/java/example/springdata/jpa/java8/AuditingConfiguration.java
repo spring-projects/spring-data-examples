@@ -15,11 +15,44 @@
  */
 package example.springdata.jpa.java8;
 
+import java.util.Arrays;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.JpaContext;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.orm.jpa.AbstractEntityManagerFactoryBean;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @EnableAsync
 @SpringBootApplication
 @EnableJpaAuditing
-class AuditingConfiguration {}
+class AuditingConfiguration {
+
+	@Bean
+	public static BeanFactoryPostProcessor foo() {
+
+		return new BeanFactoryPostProcessor() {
+
+			@Override
+			public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+
+				Arrays.stream(beanFactory.getBeanNamesForType(AbstractEntityManagerFactoryBean.class, false, false))
+						.peek(it -> System.out.println(it)) //
+						.forEach(it -> beanFactory.getBeanDefinition(it.substring(1)).setLazyInit(true));
+
+				Arrays.stream(beanFactory.getBeanNamesForType(PlatformTransactionManager.class, false, false)) //
+						.peek(it -> System.out.println(it)) //
+						.forEach(it -> beanFactory.getBeanDefinition(it).setLazyInit(true));
+
+				Arrays.stream(beanFactory.getBeanNamesForType(JpaContext.class, false, false)) //
+						.peek(it -> System.out.println(it)) //
+						.forEach(it -> beanFactory.getBeanDefinition(it).setLazyInit(true));
+			}
+		};
+	}
+}

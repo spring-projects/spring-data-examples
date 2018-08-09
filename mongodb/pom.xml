@@ -17,7 +17,7 @@
 	<inceptionYear>2011</inceptionYear>
 
 	<modules>
-	    <module>aggregation</module>
+		<module>aggregation</module>
 		<module>change-streams</module>
 		<module>example</module>
 		<module>fluent-api</module>

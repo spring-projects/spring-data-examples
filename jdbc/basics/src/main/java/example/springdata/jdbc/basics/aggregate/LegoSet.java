@@ -16,6 +16,7 @@
 package example.springdata.jdbc.basics.aggregate;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
@@ -34,6 +35,7 @@ import org.springframework.data.annotation.Transient;
  */
 @Data
 @AccessType(Type.PROPERTY)
+@RequiredArgsConstructor
 public class LegoSet {
 
 	private @Id int id;
@@ -47,7 +49,7 @@ public class LegoSet {
 	private Manual manual;
 
 	// You can build multiple models from one LegoSet
-	private final Map<String, Model> models = new HashMap<>();
+	private final @AccessType(Type.FIELD) Map<String, Model> models = new HashMap<>();
 
 	// conversion for custom types currently has to be done through getters/setter + marking the underlying property with
 	// @Transient.
