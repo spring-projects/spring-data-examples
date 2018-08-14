@@ -53,7 +53,7 @@ public class ElasticsearchOperationsTest {
 		String expectedDate = "2014-10-29";
 		String expectedWord = "java";
 		CriteriaQuery query = new CriteriaQuery(
-				new Criteria("_all").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
+				new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
 
 		List<Conference> result = operations.queryForList(query, Conference.class);
 
