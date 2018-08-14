@@ -10,9 +10,9 @@
 
 	<artifactId>spring-data-jpa-vavr</artifactId>
 	<name>Spring Data JPA - Vavr integration</name>
-	
+
 	<properties>
-		<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+		<spring-data-releasetrain.version>Lovelace-RC1</spring-data-releasetrain.version>
 	</properties>
 
 	<dependencies>

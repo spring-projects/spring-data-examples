@@ -189,9 +189,9 @@ public class ChangeStreamsTests {
 	@Test
 	public void reactiveChangeEvents() {
 
-		Flux<ChangeStreamEvent<Person>> changeStream = reactiveTemplate.changeStream(
-				newAggregation(match(where("operationType").is("insert"))), Person.class, ChangeStreamOptions.empty(),
-				"person");
+		Flux<ChangeStreamEvent<Person>> changeStream = reactiveTemplate.changeStream("person",
+				ChangeStreamOptions.builder().filter(newAggregation(match(where("operationType").is("insert")))).build(),
+				Person.class);
 
 		StepVerifier.create(changeStream) //
 				.expectSubscription() //
