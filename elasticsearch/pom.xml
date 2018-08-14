@@ -15,10 +15,6 @@
 	<description>Sample projects for Spring Data Elasticsearch</description>
 	<url>https://github.com/spring-projects/spring-data-elasticsearch</url>
 
-	<properties>
-		<spring-data-releasetrain.version>Kay-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
-
 	<modules>
 		<module>example</module>
 	</modules>
