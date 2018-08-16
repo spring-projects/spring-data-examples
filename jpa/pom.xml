@@ -27,6 +27,7 @@
 		<module>eclipselink</module>
 		<module>query-by-example</module>
 		<module>vavr</module>
+		<module>deferred</module>
 	</modules>
 
 	<profiles>
