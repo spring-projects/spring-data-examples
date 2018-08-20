@@ -12,7 +12,7 @@
 	<name>Spring Data JPA - Deferred bootstrap modes</name>
 
 	<properties>
-		<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+		<spring-data-releasetrain.version>Lovelace-RC2</spring-data-releasetrain.version>
 	</properties>
 
 	<build>
