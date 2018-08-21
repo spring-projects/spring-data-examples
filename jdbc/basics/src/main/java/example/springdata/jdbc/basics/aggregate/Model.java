@@ -15,7 +15,9 @@
  */
 package example.springdata.jdbc.basics.aggregate;
 
+import lombok.AccessLevel;
 import lombok.Value;
+import lombok.experimental.Wither;
 
 /**
  * One of potentially multiple models that can be build from a single {@link LegoSet}. No getters or setters needed.
@@ -23,6 +25,7 @@ import lombok.Value;
  * @author Jens Schauder
  */
 @Value
+@Wither(AccessLevel.PACKAGE)
 public class Model {
 	String name, description;
 }

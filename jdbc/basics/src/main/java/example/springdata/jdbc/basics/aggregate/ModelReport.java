@@ -15,12 +15,15 @@
  */
 package example.springdata.jdbc.basics.aggregate;
 
+import lombok.AccessLevel;
 import lombok.Value;
+import lombok.experimental.Wither;
 
 /**
  * @author Jens Schauder
  */
 @Value
+@Wither(AccessLevel.PACKAGE)
 public class ModelReport {
 	String modelName, description, setName;
 }

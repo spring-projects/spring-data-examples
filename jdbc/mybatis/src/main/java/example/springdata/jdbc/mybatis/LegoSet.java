@@ -30,8 +30,7 @@ import org.springframework.data.annotation.Id;
 @Data
 public class LegoSet {
 
-	// You can build multiple models from one LegoSet
-	private final Map<String, Model> models = new HashMap<>();
+	private Map<String, Model> models = new HashMap<>();
 
 	private @Id Integer id;
 	private String name;

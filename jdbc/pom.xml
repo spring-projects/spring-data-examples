@@ -24,7 +24,7 @@
 	</modules>
 
 	<properties>
-		<spring-data-releasetrain.version>Lovelace-RC2</spring-data-releasetrain.version>
+		<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
 	</properties>
 
 	<profiles>
@@ -34,7 +34,7 @@
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-releasetrain.version>Lovelace-RC2</spring-data-releasetrain.version>
+				<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
 			</properties>
 		</profile>
 
