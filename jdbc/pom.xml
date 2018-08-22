@@ -25,6 +25,7 @@
 
 	<properties>
 		<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+		<spring.version>5.0.9.BUILD-SNAPSHOT</spring.version>
 	</properties>
 
 	<profiles>
