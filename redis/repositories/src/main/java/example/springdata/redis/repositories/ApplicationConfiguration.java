@@ -23,24 +23,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 /**
+ * Redis connection, template, etc autoconfigured via application.properties
  * @author Christoph Strobl
  * @author Mark Paluch
  */
 @Configuration
 @EnableRedisRepositories
 public class ApplicationConfiguration {
-
-	@Bean
-	RedisConnectionFactory connectionFactory() {
-		return new LettuceConnectionFactory();
-	}
-
-	@Bean
-	RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
-
-		RedisTemplate<byte[], byte[]> template = new RedisTemplate<>();
-		template.setConnectionFactory(connectionFactory);
-
-		return template;
-	}
 }
