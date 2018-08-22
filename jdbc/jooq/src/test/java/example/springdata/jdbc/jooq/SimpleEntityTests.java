@@ -51,11 +51,10 @@ public class SimpleEntityTests {
 		Category buildings = new Category(null, "Buildings", null, AgeGroup._12andOlder);
 
 		// save categories
-		repository.saveAll(asList(cars, buildings));
+		Iterable<Category> saved = repository.saveAll(asList(cars, buildings));
 		Output.list(repository.findAll(), "`Cars` and `Buildings` got saved");
 
-		assertThat(cars.getId()).isNotNull();
-		assertThat(buildings.getId()).isNotNull();
+		assertThat(saved).extracting(c -> c.getId()).isNotNull();
 
 		// update one
 		buildings.setDescription("Famous and impressive buildings incl. the 'bike shed'.");

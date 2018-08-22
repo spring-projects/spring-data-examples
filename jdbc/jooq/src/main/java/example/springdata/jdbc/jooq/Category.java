@@ -17,6 +17,7 @@ package example.springdata.jdbc.jooq;
 
 import lombok.Data;
 
+import lombok.experimental.Wither;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -28,6 +29,7 @@ import org.springframework.data.annotation.Id;
 @Data
 public class Category {
 
+	@Wither
 	private final @Id Long id;
 	private String name, description;
 	private AgeGroup ageGroup;
