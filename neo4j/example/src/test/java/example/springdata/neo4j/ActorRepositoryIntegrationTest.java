@@ -16,18 +16,20 @@
 package example.springdata.neo4j;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assume.*;
 
 import java.util.Optional;
 
-import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.util.Version;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ClassUtils;
 
 /**
  * Simple integration test demonstrating the use of the ActorRepository
@@ -47,7 +49,7 @@ public class ActorRepositoryIntegrationTest {
 
 	@Autowired ActorRepository actorRepository;
 
-	@Test // see #131
+	@Test // #131
 	public void shouldBeAbleToSaveAndLoadActor() {
 
 		Movie goblet = new Movie("Harry Potter and the Goblet of Fire");
@@ -64,10 +66,10 @@ public class ActorRepositoryIntegrationTest {
 		});
 	}
 
-	@Test // SEE #386
+	@Test // #386
 	public void shouldBeAbleToHandleNestedProperties() {
 
-		Assume.assumeTrue(thatSupportForNestedPropertiesIsAvailable());
+		assumeTrue(thatSupportForNestedPropertiesIsAvailable());
 
 		Movie theParentTrap = new Movie("The Parent Trap");
 		Movie iKnowWhoKilledMe = new Movie("I Know Who Killed Me");
@@ -90,24 +92,22 @@ public class ActorRepositoryIntegrationTest {
 
 	private static boolean thatSupportForNestedPropertiesIsAvailable() {
 
-		Optional<String> version = Optional.ofNullable(SpringBootVersion.getVersion());
-		return version.map(v -> v.split("\\."))
-			.filter(c -> c.length >= 3)
-			.map(v -> new Integer[] { Integer.valueOf(v[0]), Integer.valueOf(v[1]), Integer.valueOf(v[2]) })
-			.map(c -> c[0] >= 2 && (c[1] >= 1 || c[1] == 0 && c[2] >= 5))
-			.orElseGet(ActorRepositoryIntegrationTest::boot210Or205SpecificMethodExists);
+		Version minVersion = Version.parse("2.0.5");
+		Optional<String> currentSpringBootVersion = Optional.ofNullable(SpringBootVersion.getVersion());
+
+		return currentSpringBootVersion.map(Version::parse)
+			.map(v -> v.isGreaterThanOrEqualTo(minVersion))
+			.orElseGet(ActorRepositoryIntegrationTest::fallBackToVersionSpecificClasses);
 	}
 
-	private static boolean boot210Or205SpecificMethodExists() {
+	private static boolean fallBackToVersionSpecificClasses() {
 
-		boolean methodExistsSince21 = false;
-		try {
-			methodExistsSince21 =
-				SpringBootApplication.class.getMethod("setAllowBeanDefinitionOverriding", boolean.class)
-					!= null;
-			// Something similar for 2.0.5 need to be defined?
-		} catch (NoSuchMethodException e) {
-		}
-		return methodExistsSince21;
+		ClassLoader usedClassLoader = ActorRepositoryIntegrationTest.class.getClassLoader();
+
+		String fqnBoot210Class = "org.springframework.boot.autoconfigure.insight.InsightsProperties";
+		String fqnBoot205Class = "org.springframework.boot.autoconfigure.security.servlet.RequestMatcherProvider";
+
+		return ClassUtils.isPresent(fqnBoot210Class, usedClassLoader) || ClassUtils
+			.isPresent(fqnBoot205Class, usedClassLoader);
 	}
 }
