@@ -27,7 +27,7 @@ import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Version;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 
@@ -38,14 +38,13 @@ import org.springframework.util.ClassUtils;
  * @author Oliver Gierke
  * @author Michael J. Simons
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class ActorRepositoryIntegrationTest {
 
 	@SpringBootApplication
-	static class ExampleConfig {
-	}
+	static class ExampleConfig {}
 
 	@Autowired ActorRepository actorRepository;
 
@@ -62,7 +61,7 @@ public class ActorRepositoryIntegrationTest {
 		assertThat(actorRepository.findById(daniel.getId())).hasValueSatisfying(actor -> {
 			assertThat(actor.getName()).isEqualTo(daniel.getName());
 			assertThat(actor.getRoles()).hasSize(1).first()
-				.satisfies(role -> assertThat(role.getRole()).isEqualTo("Harry Potter"));
+					.satisfies(role -> assertThat(role.getRole()).isEqualTo("Harry Potter"));
 		});
 	}
 
@@ -87,17 +86,16 @@ public class ActorRepositoryIntegrationTest {
 		actorRepository.save(nealMcDonough);
 
 		assertThat(actorRepository.findAllByRolesMovieTitle(iKnowWhoKilledMe.getTitle())).hasSize(2)
-			.extracting(Actor::getName).contains(lindsayLohan.getName(), nealMcDonough.getName());
+				.extracting(Actor::getName).contains(lindsayLohan.getName(), nealMcDonough.getName());
 	}
 
 	private static boolean thatSupportForNestedPropertiesIsAvailable() {
 
 		Version minVersion = Version.parse("2.0.5");
-		Optional<String> currentSpringBootVersion = Optional.ofNullable(SpringBootVersion.getVersion());
 
-		return currentSpringBootVersion.map(Version::parse)
-			.map(v -> v.isGreaterThanOrEqualTo(minVersion))
-			.orElseGet(ActorRepositoryIntegrationTest::fallBackToVersionSpecificClasses);
+		return Optional.ofNullable(SpringBootVersion.getVersion()).map(Version::parse) //
+				.map(v -> v.isGreaterThanOrEqualTo(minVersion)) //
+				.orElseGet(ActorRepositoryIntegrationTest::fallBackToVersionSpecificClasses);
 	}
 
 	private static boolean fallBackToVersionSpecificClasses() {
@@ -107,7 +105,7 @@ public class ActorRepositoryIntegrationTest {
 		String fqnBoot210Class = "org.springframework.boot.autoconfigure.insight.InsightsProperties";
 		String fqnBoot205Class = "org.springframework.boot.autoconfigure.security.servlet.RequestMatcherProvider";
 
-		return ClassUtils.isPresent(fqnBoot210Class, usedClassLoader) || ClassUtils
-			.isPresent(fqnBoot205Class, usedClassLoader);
+		return ClassUtils.isPresent(fqnBoot210Class, usedClassLoader) //
+				|| ClassUtils.isPresent(fqnBoot205Class, usedClassLoader);
 	}
 }

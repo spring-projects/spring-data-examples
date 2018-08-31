@@ -26,9 +26,11 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
  * @author Michael J. Simons
  */
 public interface ActorRepository extends Neo4jRepository<Actor, Long> {
+
 	/**
-	 * Nested property from select from roles -> movie -> title,
-	 * where this here represents the start node in a relationship and movie the end node.
+	 * Nested property from select from roles -> movie -> title, where this here represents the start node in a
+	 * relationship and movie the end node.
+	 * 
 	 * @param title
 	 * @return
 	 */
