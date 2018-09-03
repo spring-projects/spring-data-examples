@@ -1,0 +1,48 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+env:
+  matrix:
+    - DUMMY=run-as-is
+    - PROFILE=spring-data-next
+    - PROFILE=spring-data-next-releasetrain
+    - PROFILE=spring-data-next-releasetrain-released
+    - PROFILE=hibernate-53
+    - PROFILE=spring-data-next,hibernate-53
+    - PROFILE=spring-data-next-releasetrain,hibernate-53
+    - PROFILE=spring-data-next-releasetrain-released,hibernate-53
+    - BOOT=2.0.4.BUILD-SNAPSHOT
+    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next
+    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain
+    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released
+    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=hibernate-53
+    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next,hibernate-53
+    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain,hibernate-53
+    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released,hibernate-53
+    - BOOT=2.1.0.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain
+    - BOOT=2.1.0.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released
+    - BOOT=2.1.0.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain,hibernate-53
+    - BOOT=2.1.0.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released,hibernate-53
+
+addons:
+  apt:
+    packages:
+    - oracle-java8-installer
+
+services:
+  - redis-server
+
+cache:
+  directories:
+    - $HOME/.m2
+
+sudo: false
+
+install: true
+
+script:
+ - git clone https://github.com/spring-projects/spring-data-examples.git
+ - cp -f settings.xml $HOME/.m2/settings.xml
+ - ./run.sh

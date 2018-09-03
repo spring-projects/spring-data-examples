@@ -1,0 +1,25 @@
+# Exclude all of Spring Data Examples
+bom/
+cassandra/
+couchbase/
+elasticsearch/
+jdbc/
+jpa/
+ldap/
+map/
+mongodb/
+multi-store/
+neo4j/
+redis/
+rest/
+solr/
+web/
+.settings/
+.idea/
+.classpath
+.project
+pom.xml
+*.iml
+
+# Checkout directory
+spring-data-examples/
