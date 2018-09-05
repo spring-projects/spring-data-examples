@@ -86,6 +86,7 @@
 				<!-- Required for Java 11 -->
 				<hibernate.version>5.3.0.Final</hibernate.version>
 				<byte-buddy.version>1.8.11</byte-buddy.version>
+				<spring.version>5.0.9.BUILD-SNAPSHOT</spring.version>
 			</properties>
 
 			<dependencies>
