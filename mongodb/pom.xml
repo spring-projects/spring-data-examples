@@ -29,6 +29,7 @@
 		<module>security</module>
 		<module>text-search</module>
 		<module>transactions</module>
+		<module>schema-validation</module>
 		<module>util</module>
 	</modules>
 
@@ -59,6 +60,7 @@
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
 			<scope>provided</scope>
+			<version>2.1.1</version>
 		</dependency>
 
 	</dependencies>
