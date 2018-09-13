@@ -13,14 +13,14 @@ env:
     - PROFILE=spring-data-next,hibernate-53
     - PROFILE=spring-data-next-releasetrain,hibernate-53
     - PROFILE=spring-data-next-releasetrain-released,hibernate-53
-    - BOOT=2.0.4.BUILD-SNAPSHOT
-    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next
-    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain
-    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released
-    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=hibernate-53
-    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next,hibernate-53
-    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain,hibernate-53
-    - BOOT=2.0.4.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released,hibernate-53
+    - BOOT=2.0.6.BUILD-SNAPSHOT
+    - BOOT=2.0.6.BUILD-SNAPSHOT PROFILE=spring-data-next
+    - BOOT=2.0.6.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain
+    - BOOT=2.0.6.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released
+    - BOOT=2.0.6.BUILD-SNAPSHOT PROFILE=hibernate-53
+    - BOOT=2.0.6.BUILD-SNAPSHOT PROFILE=spring-data-next,hibernate-53
+    - BOOT=2.0.6.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain,hibernate-53
+    - BOOT=2.0.6.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released,hibernate-53
     - BOOT=2.1.0.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain
     - BOOT=2.1.0.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released
     - BOOT=2.1.0.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain,hibernate-53
