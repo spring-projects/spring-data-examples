@@ -17,5 +17,8 @@ package example.springdata.mongodb.schema;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author Christoph Strobl
+ */
 @SpringBootApplication
 public class Application {}

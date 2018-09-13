@@ -18,15 +18,16 @@ MongoDB (as of version 3.2) supports validating documents against a given struct
     }
 }
 ```
+
 The structure can be built from `Criteria` objects in the same way as they are used for defining queries.
 
 ```java
 Validator.criteria(where("name").exists(true).ne(null).type(2)
 	.and("age").exists(true).ne(null).type(16).gte(0).lte(125));
 ```
-	 
+
 MongoDB 3.6 supports collections that validate documents against a provided [JSON Schema](https://docs.mongodb.com/manual/core/schema-validation/#json-schema) that
-complies to the JSON schema specification (draft 4).
+complies with the JSON schema specification (draft 4).
 
 ```json
 {
@@ -58,13 +59,13 @@ MongoJsonSchema schema = MongoJsonSchema.builder() //
     ).build();
 ```
 
-The schema can not only be used to set up `Document` validation for a collection
+The schema can be used for various funcitionality: Set up `Document` validation for a collection:
 
 ```java
 template.createCollection(Jedi.class, CollectionOptions.empty().validator(Validator.schema(schema)));
 ```
 
-but also to query the store for documents matching a given blueprint.
+and to query the store for documents matching a given blueprint:
 
 ```java
 template.find(query(matchingDocumentStructure(schema)), Jedi.class);
