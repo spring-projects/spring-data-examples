@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
+ * @author Andrea Rizzini
  */
 @RunWith(SpringRunner.class)
 @Transactional
@@ -56,13 +57,12 @@ public class CachingRepositoryTests {
 		assertThat(cache.get("dmatthews").get()).isEqualTo(dave);
 	}
 
-
 	@Test
 	public void checkCacheEviction() {
 
 		User dave = new User();
 		dave.setUsername("dmatthews");
-		dave = repository.save(dave);
+		repository.save(dave);
 
 		// Verify entity evicted on cache
 		Cache cache = cacheManager.getCache("byUsername");

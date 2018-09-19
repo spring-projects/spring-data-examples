@@ -24,11 +24,12 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
+ * @author Andrea Rizzini
  */
 public interface CachingUserRepository extends CrudRepository<User, Long> {
 
 	@Override
-	@CacheEvict(value="byUsername", key="#p0.username")
+	@CacheEvict(value = "byUsername", key = "#p0.username")
 	<S extends User> S save(S entity);
 
 	@Cacheable("byUsername")
