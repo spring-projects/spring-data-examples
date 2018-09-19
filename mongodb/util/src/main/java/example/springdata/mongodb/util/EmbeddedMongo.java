@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.junit.AssumptionViolatedException;
 import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -181,13 +182,24 @@ public class EmbeddedMongo extends ExternalResource {
 	}
 
 	@Override
-	protected void before() throws Throwable {
-		resource.start();
+	protected void before() {
+
+		try {
+			resource.start();
+		} catch (RuntimeException e) {
+			LOGGER.error("Cannot start MongoDB", e);
+			throw new AssumptionViolatedException("Cannot start MongoDB. Skipping", e);
+		}
 	}
 
 	@Override
 	protected void after() {
-		resource.stop();
+
+		try {
+			resource.stop();
+		} catch (RuntimeException e) {
+			LOGGER.error("Cannot stop MongoDB", e);
+		}
 	}
 
 	public MongoClient getMongoClient() {
