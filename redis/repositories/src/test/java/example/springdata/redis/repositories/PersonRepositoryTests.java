@@ -44,16 +44,16 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.index.GeoIndexed;
 import org.springframework.data.redis.core.index.Indexed;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
  * @author Mark Paluch
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationConfiguration.class)
-public class PersonRepositoryTests<K, V> {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class PersonRepositoryTests {
 
 	/**
 	 * We need to have a Redis server instance available. <br />
@@ -67,7 +67,7 @@ public class PersonRepositoryTests<K, V> {
 	/** {@link Charset} for String conversion **/
 	private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-	@Autowired RedisOperations<K, V> operations;
+	@Autowired RedisOperations<Object, Object> operations;
 	@Autowired PersonRepository repository;
 
 	/*
