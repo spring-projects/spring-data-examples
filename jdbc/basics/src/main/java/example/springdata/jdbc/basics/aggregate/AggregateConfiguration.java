@@ -25,7 +25,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.convert.CustomConversions;
 import org.springframework.data.jdbc.core.convert.JdbcCustomConversions;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jdbc.repository.config.JdbcConfiguration;
@@ -34,6 +33,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * @author Jens Schauder
+ * @author Mark Paluch
  */
 @Configuration
 @EnableJdbcRepositories
@@ -66,7 +66,7 @@ public class AggregateConfiguration extends JdbcConfiguration {
 	}
 
 	@Override
-	protected CustomConversions jdbcCustomConversions() {
+	protected JdbcCustomConversions jdbcCustomConversions() {
 
 		return new JdbcCustomConversions(asList(new Converter<Clob, String>() {
 
