@@ -40,4 +40,4 @@ install:
 
 script:
   - mvn -version
-  - mvn clean dependency:list test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B
+  - mvn clean test -U -Dsort -Dmaven.test.redirectTestOutputToFile=true -B
