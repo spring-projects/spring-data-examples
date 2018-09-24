@@ -14,7 +14,7 @@
 	<name>Spring Data JDBC - Demonstrating reactive repositories with R2DBC</name>
 
 	<properties>
-		<reactor-bom.version>Californium-BUILD-SNAPSHOT</reactor-bom.version>
+		<reactor-bom.version>Californium-RELEASE</reactor-bom.version>
 	</properties>
 
 	<dependencies>
@@ -28,7 +28,14 @@
 		<dependency>
 			<groupId>io.r2dbc</groupId>
 			<artifactId>r2dbc-spi</artifactId>
-			<version>1.0.0.BUILD-SNAPSHOT</version>
+			<version>1.0.0.M5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.r2dbc</groupId>
+			<artifactId>r2dbc-postgresql</artifactId>
+			<version>1.0.0.M5</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -37,22 +44,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.r2dbc</groupId>
-			<artifactId>r2dbc-postgresql</artifactId>
-			<version>1.0.0.BUILD-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.projectreactor.ipc</groupId>
-			<artifactId>reactor-netty</artifactId>
-			<version>0.7.7.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
 
