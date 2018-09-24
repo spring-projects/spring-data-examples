@@ -11,26 +11,6 @@
 	<artifactId>spring-data-mongodb-transactions</artifactId>
 	<name>Spring Data MongoDB - Transactions</name>
 
-	<properties>
-		<mongodb.version>3.8.0</mongodb.version>
-		<mongo-driver-reactivestreams.version>1.9.0</mongo-driver-reactivestreams.version>
-		<spring-data-releasetrain.version>Lovelace-RC1</spring-data-releasetrain.version>
-		<reactor-bom.version>Californium-M1</reactor-bom.version>
-	</properties>
-
-	<profiles>
-
-		<!-- Override property as the module always needs Lovelace -->
-
-		<profile>
-			<id>spring-data-next</id>
-			<properties>
-				<spring-data-releasetrain.version>Lovelace-RC1</spring-data-releasetrain.version>
-			</properties>
-		</profile>
-
-	</profiles>
-
 	<dependencies>
 
 		<dependency>

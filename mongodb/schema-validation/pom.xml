@@ -12,23 +12,4 @@
         <version>2.0.0.BUILD-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <mongodb.version>3.8.0</mongodb.version>
-        <mongo-driver-reactivestreams.version>1.9.0</mongo-driver-reactivestreams.version>
-        <spring-data-releasetrain.version>Lovelace-RC2</spring-data-releasetrain.version>
-    </properties>
-
-    <profiles>
-
-        <!-- Override property as the module always needs Lovelace -->
-
-        <profile>
-            <id>spring-data-next</id>
-            <properties>
-                <spring-data-releasetrain.version>Lovelace-RC2</spring-data-releasetrain.version>
-            </properties>
-        </profile>
-
-    </profiles>
-
 </project>

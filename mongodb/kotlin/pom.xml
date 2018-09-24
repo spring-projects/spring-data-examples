@@ -11,11 +11,6 @@
 	<artifactId>spring-data-mongodb-kotlin</artifactId>
 	<name>Spring Data MongoDB - Kotlin features</name>
 
-	<!-- Fix not released yet -->
-	<properties>
-		<spring-data-releasetrain.version>Kay-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
