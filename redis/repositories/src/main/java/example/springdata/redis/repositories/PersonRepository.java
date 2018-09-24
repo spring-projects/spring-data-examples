@@ -21,12 +21,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Circle;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 /**
  * @author Christoph Strobl
  * @author Mark Paluch
  */
-interface PersonRepository extends CrudRepository<Person, String> {
+interface PersonRepository extends CrudRepository<Person, String>, QueryByExampleExecutor<Person> {
 
 	List<Person> findByLastname(String lastname);
 

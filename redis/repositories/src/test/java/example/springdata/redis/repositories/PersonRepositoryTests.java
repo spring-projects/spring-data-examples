@@ -33,6 +33,7 @@ import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -142,6 +143,21 @@ public class PersonRepositoryTests {
 		List<Person> aryaAndJon = repository.findByFirstnameOrLastname(arya.getFirstname(), jon.getLastname());
 
 		assertThat(aryaAndJon).containsOnly(arya, jon);
+	}
+
+	/**
+	 * Find entities by {@link Example Query by Example}.
+	 */
+	@Test
+	public void findByQueryByExample() {
+
+		flushTestUsers();
+
+		Example<Person> example = Example.of(new Person(null, "stark", null));
+
+		Iterable<Person> starks = repository.findAll(example);
+
+		assertThat(starks).contains(arya, eddard).doesNotContain(jon);
 	}
 
 	/**
