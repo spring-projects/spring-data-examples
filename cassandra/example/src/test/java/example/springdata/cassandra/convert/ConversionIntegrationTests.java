@@ -20,6 +20,9 @@ import static org.assertj.core.api.Assertions.*;
 import example.springdata.cassandra.util.CassandraKeyspace;
 
 import java.util.Arrays;
+import java.util.Currency;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -31,6 +34,7 @@ import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.datastax.driver.core.Row;
+import com.datastax.driver.core.TupleValue;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 
 /**
@@ -45,8 +49,8 @@ public class ConversionIntegrationTests {
 	@Autowired CassandraOperations operations;
 
 	@Before
-	public void setUp() throws Exception {
-		operations.getCqlOperations().execute("TRUNCATE addressbook");
+	public void setUp() {
+		operations.truncate(Addressbook.class);
 	}
 
 	/**
@@ -113,5 +117,42 @@ public class ConversionIntegrationTests {
 
 		assertThat(loaded.getTheId()).isEqualTo(addressbook.getId());
 		assertThat(loaded.getMyDetailsAsJson()).contains("\"firstname\":\"Walter\"");
+	}
+
+	/**
+	 * Creates and stores a new {@link Addressbook} inside of Cassandra writing map and tuple columns.
+	 */
+	@Test
+	public void shouldWriteConvertedMapsAndTuples() {
+
+		Addressbook addressbook = new Addressbook();
+		addressbook.setId("private");
+
+		Map<Integer, Currency> preferredCurrencies = new HashMap<>();
+		preferredCurrencies.put(1, Currency.getInstance("USD"));
+		preferredCurrencies.put(2, Currency.getInstance("EUR"));
+
+		Address address = new Address();
+		address.setAddress("3828 Piermont Dr");
+		address.setCity("Albuquerque");
+		address.setZip("87111");
+
+		addressbook.setPreferredCurrencies(preferredCurrencies);
+		addressbook.setAddress(address);
+
+		operations.insert(addressbook);
+
+		Row row = operations.selectOne(QueryBuilder.select().from("addressbook"), Row.class);
+
+		assertThat(row).isNotNull();
+
+		TupleValue tupleValue = row.getTupleValue("address");
+		assertThat(tupleValue.getString(0)).isEqualTo(address.getAddress());
+		assertThat(tupleValue.getString(1)).isEqualTo(address.getCity());
+		assertThat(tupleValue.getString(2)).isEqualTo(address.getZip());
+
+		Map<Integer, String> rawPreferredCurrencies = row.getMap("preferredCurrencies", Integer.class, String.class);
+
+		assertThat(rawPreferredCurrencies).containsEntry(1, "USD").containsEntry(2, "EUR");
 	}
 }
