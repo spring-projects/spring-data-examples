@@ -17,6 +17,7 @@ package example.springdata.cassandra.convert;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -46,6 +47,8 @@ class ConverterConfiguration {
 		converters.add(new PersonWriteConverter());
 		converters.add(new PersonReadConverter());
 		converters.add(new CustomAddressbookReadConverter());
+		converters.add(CurrencyToStringConverter.INSTANCE);
+		converters.add(StringToCurrencyConverter.INSTANCE);
 
 		return new CassandraCustomConversions(converters);
 	}
@@ -96,6 +99,25 @@ class ConverterConfiguration {
 			result.setMyDetailsAsJson(source.getString("me"));
 
 			return result;
+		}
+	}
+
+	enum StringToCurrencyConverter implements Converter<String, Currency> {
+		INSTANCE;
+
+		@Override
+		public Currency convert(String source) {
+			return Currency.getInstance(source);
+		}
+	}
+
+	enum CurrencyToStringConverter implements Converter<Currency, String> {
+
+		INSTANCE;
+
+		@Override
+		public String convert(Currency source) {
+			return source.getCurrencyCode();
 		}
 	}
 }

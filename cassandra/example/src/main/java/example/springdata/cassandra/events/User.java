@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 the original author or authors.
+ * Copyright 2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.cassandra.convert;
+package example.springdata.cassandra.events;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Currency;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 /**
- * Sample Addressbook class.
+ * Sample user class.
  *
  * @author Mark Paluch
  */
 @Data
-@Table
-public class Addressbook {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(value = "users")
+public class User {
 
-	@Id String id;
+	private @PrimaryKey long id;
 
-	Contact me;
-	List<Contact> friends;
-
-	Address address;
-	Map<Integer, Currency> preferredCurrencies;
+	private String firstname;
+	private String lastname;
 }
