@@ -80,16 +80,6 @@
 				<jdk>[9,)</jdk>
 			</activation>
 
-			<properties>
-
-				<lombok.version>1.18.2</lombok.version>
-
-				<!-- Required for Java 11 -->
-				<hibernate.version>5.3.0.Final</hibernate.version>
-				<byte-buddy.version>1.8.11</byte-buddy.version>
-				<spring.version>5.0.9.BUILD-SNAPSHOT</spring.version>
-			</properties>
-
 			<dependencies>
 				<dependency>
 					<groupId>javax.xml.bind</groupId>
