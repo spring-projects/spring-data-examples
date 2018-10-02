@@ -24,12 +24,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.function.DatabaseClient;
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactory;
 import org.springframework.data.relational.core.mapping.RelationalMappingContext;
+import org.testcontainers.containers.PostgreSQLContainer;
+
+import javax.annotation.PreDestroy;
 
 /**
  * @author Oliver Gierke
  */
 @Configuration
 class InfrastructureConfiguration {
+
+	private PostgreSQLContainer postgres = new PostgreSQLContainer();
 
 	@Bean
 	CustomerRepository customerRepository(R2dbcRepositoryFactory factory) {
@@ -56,14 +61,22 @@ class InfrastructureConfiguration {
 	@Bean
 	PostgresqlConnectionFactory connectionFactory() {
 
+
+		postgres.start();
+
 		PostgresqlConnectionConfiguration config = PostgresqlConnectionConfiguration.builder() //
-				.host("localhost") //
-				.port(5432) //
-				.database("postgres") //
-				.username("postgres") //
-				.password("") //
+				.host(postgres.getContainerIpAddress()) //
+				.port(postgres.getFirstMappedPort()) //
+				.database(postgres.getDatabaseName()) //
+				.username(postgres.getUsername()) //
+				.password(postgres.getPassword()) //
 				.build();
 
 		return new PostgresqlConnectionFactory(config);
+	}
+
+	@PreDestroy
+	void shutdown() {
+		postgres.stop();
 	}
 }
