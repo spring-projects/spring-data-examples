@@ -1,17 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>spring-data-r2dbc-examples</artifactId>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
-		<artifactId>spring-data-jdbc-examples</artifactId>
+		<artifactId>spring-data-examples</artifactId>
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>spring-data-r2dbc</artifactId>
+	<name>Spring Data R2DBC - Examples</name>
+	<description>Sample projects for Spring Data R2DBC</description>
 
-	<name>Spring Data JDBC - Demonstrating reactive repositories with R2DBC</name>
+	<inceptionYear>2018</inceptionYear>
+
+	<modules>
+		<module>example</module>
+	</modules>
 
 	<properties>
 		<reactor-bom.version>Californium-RELEASE</reactor-bom.version>
@@ -21,8 +28,8 @@
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jdbc</artifactId>
-			<version>1.0.0.r2dbc-SNAPSHOT</version>
+			<artifactId>spring-data-r2dbc</artifactId>
+			<version>1.0.0.BUILD-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -61,4 +68,5 @@
 		</dependency>
 
 	</dependencies>
+
 </project>
