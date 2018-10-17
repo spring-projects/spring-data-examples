@@ -26,6 +26,7 @@
 		<module>mongodb</module>
 		<module>multi-store</module>
 		<module>neo4j</module>
+		<module>r2dbc</module>
 		<module>rest</module>
 		<module>redis</module>
 		<module>solr</module>

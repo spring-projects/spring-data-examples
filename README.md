@@ -82,6 +82,10 @@ We have separate folders for the samples of individual modules:
 
 * `basic` - Basic usage of Spring Data JDBC.
 
+## Spring Data R2DBC
+
+* `example` - Basic usage of Spring Data R2DBC.
+
 ## Miscellaneous
 
 * `bom` - Example project how to use the Spring Data release train bom in non-Spring-Boot scenarios.
