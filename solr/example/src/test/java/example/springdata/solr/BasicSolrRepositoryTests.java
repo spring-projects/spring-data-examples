@@ -15,10 +15,15 @@
  */
 package example.springdata.solr;
 
+import example.springdata.solr.product.Product;
 import example.springdata.solr.product.ProductRepository;
-import example.springdata.solr.test.util.RequiresSolrServer;
+import example.springdata.test.util.InfrastructureRule;
 
-import org.junit.ClassRule;
+import java.util.stream.IntStream;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +32,35 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
+ * @author Jens Schauder
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SolrTestConfiguration.class)
+@SpringBootTest
 public class BasicSolrRepositoryTests {
 
-	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
+
+
+	@Rule @Autowired public InfrastructureRule requiresRunningServer;
 
 	@Autowired ProductRepository repository;
+
+	/**
+	 * Remove test data when context is shut down.
+	 */
+	public @After void deleteDocumentsOnShutdown() {
+		repository.deleteAll();
+	}
+
+	/**
+	 * Initialize Solr instance with test data once context has started.
+	 */
+	public @Before void initWithTestData() {
+
+		repository.deleteAll();
+
+		IntStream.range(0, 100)
+				.forEach(index -> repository.save(Product.builder().id("p-" + index).name("foobar").build()));
+	}
 
 	/**
 	 * Finds all entries using a single request.

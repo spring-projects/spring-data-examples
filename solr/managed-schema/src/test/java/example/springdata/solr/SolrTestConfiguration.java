@@ -19,6 +19,8 @@ import example.springdata.solr.product.ProductRepository;
 
 import javax.annotation.PreDestroy;
 
+import example.springdata.solr.test.util.SolrInfrastructureRule;
+import example.springdata.test.util.InfrastructureRule;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +43,13 @@ public class SolrTestConfiguration {
 
 	@Autowired ProductRepository repo;
 
+	public @Bean
+	InfrastructureRule<String> infrastructureRule() {
+		return new SolrInfrastructureRule("schemaless");
+	}
+
 	public @Bean SolrClient solrClient() {
-		return new HttpSolrClient.Builder().withBaseSolrUrl("http://localhost:8983/solr").build();
+		return new HttpSolrClient.Builder().withBaseSolrUrl(infrastructureRule().getInfo()).build();
 	}
 
 	/**

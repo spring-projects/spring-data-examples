@@ -16,13 +16,12 @@
 package example.springdata.solr;
 
 import example.springdata.solr.product.Product;
-
-import java.util.stream.IntStream;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import example.springdata.solr.test.util.SolrInfrastructureRule;
+import example.springdata.test.util.InfrastructureRule;
 
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -32,33 +31,22 @@ import org.springframework.data.solr.core.SolrTemplate;
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
+ * @author Jens Schauder
  */
 @SpringBootApplication
 public class SolrTestConfiguration {
 
 	@Autowired CrudRepository<Product, String> repo;
 
+	private static final Logger LOG = LoggerFactory.getLogger(SolrTestConfiguration.class);
+
+	public @Bean InfrastructureRule<String> infrastructureRule() {
+
+		return new SolrInfrastructureRule("techproducts");
+	}
+
 	public @Bean SolrTemplate solrTemplate() {
-		return new SolrTemplate(new HttpSolrClient.Builder().withBaseSolrUrl("http://localhost:8983/solr").build());
+		return new SolrTemplate(new HttpSolrClient.Builder().withBaseSolrUrl(infrastructureRule().getInfo()).build());
 	}
 
-	/**
-	 * Remove test data when context is shut down.
-	 */
-	public @PreDestroy void deleteDocumentsOnShutdown() {
-		repo.deleteAll();
-	}
-
-	/**
-	 * Initialize Solr instance with test data once context has started.
-	 */
-	public @PostConstruct void initWithTestData() {
-		doInitTestData(repo);
-	}
-
-	protected void doInitTestData(CrudRepository<Product, String> repository) {
-
-		IntStream.range(0, 100)
-				.forEach(index -> repository.save(Product.builder().id("p-" + index).name("foobar").build()));
-	}
 }

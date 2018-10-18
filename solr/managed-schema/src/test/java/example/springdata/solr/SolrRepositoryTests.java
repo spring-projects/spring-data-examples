@@ -17,9 +17,9 @@ package example.springdata.solr;
 
 import example.springdata.solr.product.ManagedProduct;
 import example.springdata.solr.product.ProductRepository;
-import example.springdata.solr.test.util.RequiresSolrServer;
+import example.springdata.test.util.InfrastructureRule;
 
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +28,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
+ * @author Jens Schauder
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SolrRepositoryTests {
 
-	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
+	@Rule @Autowired public InfrastructureRule<String> requiresRunningServer;
 
 	@Autowired ProductRepository repo;
 

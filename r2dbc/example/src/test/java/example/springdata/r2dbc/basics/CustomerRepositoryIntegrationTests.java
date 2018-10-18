@@ -15,6 +15,7 @@
  */
 package example.springdata.r2dbc.basics;
 
+import example.springdata.test.util.InfrastructureRule;
 import reactor.core.publisher.Hooks;
 import reactor.test.StepVerifier;
 
@@ -23,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,10 @@ import org.springframework.data.r2dbc.function.DatabaseClient;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
+ * Tests demonstrating the use of R2DBC.
+ *
  * @author Oliver Gierke
+ * @author Jens Schauder
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = InfrastructureConfiguration.class)
@@ -39,6 +44,8 @@ public class CustomerRepositoryIntegrationTests {
 
 	@Autowired CustomerRepository customers;
 	@Autowired DatabaseClient database;
+
+	@Rule @Autowired public InfrastructureRule requiresPostgres;
 
 	@Before
 	public void setUp() {

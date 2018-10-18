@@ -22,20 +22,20 @@ import static org.springframework.data.solr.core.query.ExistsFunction.*;
 
 import example.springdata.solr.product.Product;
 import example.springdata.solr.product.ProductRepository;
-import example.springdata.solr.test.util.RequiresSolrServer;
+import example.springdata.test.util.InfrastructureRule;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.junit.ClassRule;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.Function;
 import org.springframework.data.solr.core.query.Query;
@@ -48,33 +48,41 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Christoph Strobl
  * @author Oliver Gierke
  * @author Mark Paluch
+ * @author Jens Schauder
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AdvancedSolrRepositoryTests {
 
-	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
-
-	@Configuration
-	static class Config extends SolrTestConfiguration {
-
-		@Override
-		protected void doInitTestData(CrudRepository<Product, String> repository) {
-
-			Product playstation = Product.builder().id("id-1").name("Playstation")
-					.description("The Sony playstation was the top selling gaming system in 1994.").popularity(5).build();
-			Product playstation2 = Product.builder().id("id-2").name("Playstation Two")
-					.description("Playstation two is the successor of playstation in 2000.").build();
-			Product superNES = Product.builder().id("id-3").name("Super Nintendo").popularity(3).build();
-			Product nintendo64 = Product.builder().id("id-4").name("N64").description("Nintendo 64").popularity(2).build();
-
-			repository.saveAll(Arrays.asList(playstation, playstation2, superNES, nintendo64));
-		}
-	}
+	@Rule @Autowired public InfrastructureRule requiresRunningServer;
 
 	@Autowired ProductRepository repository;
 	@Autowired SolrOperations operations;
 
+
+	/**
+	 * Remove test data when context is shut down.
+	 */
+	public @After void deleteDocumentsOnShutdown() {
+		repository.deleteAll();
+	}
+
+	/**
+	 * Initialize Solr instance with test data once context has started.
+	 */
+	public @Before void initWithTestData() throws InterruptedException {
+
+		repository.deleteAll();
+
+		Product playstation = Product.builder().id("id-1").name("Playstation")
+				.description("The Sony playstation was the top selling gaming system in 1994.").popularity(5).build();
+		Product playstation2 = Product.builder().id("id-2").name("Playstation Two")
+				.description("Playstation two is the successor of playstation in 2000.").build();
+		Product superNES = Product.builder().id("id-3").name("Super Nintendo").popularity(3).build();
+		Product nintendo64 = Product.builder().id("id-4").name("N64").description("Nintendo 64").popularity(2).build();
+
+		repository.saveAll(Arrays.asList(playstation, playstation2, superNES, nintendo64));
+	}
 	/**
 	 * {@link HighlightPage} holds next to the entities found also information about where a match was found within the
 	 * document. This allows to fine grained display snipplets of data containing the matching term in context.

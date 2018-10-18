@@ -43,7 +43,7 @@ public class Product {
 	private @Indexed(name = "cat") List<String> category;
 	private @Indexed(name = "store") Point location;
 	private @Indexed String description;
-	private @Indexed boolean inStock;
+	private @Indexed Boolean inStock;
 	private @Indexed Integer popularity;
 	private @Score Float score;
 }

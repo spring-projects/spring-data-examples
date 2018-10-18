@@ -4,7 +4,11 @@ This projects shows some sample usage of the work-in-progress R2DBC support for 
 
 === Requirements
 
-- A PostgreSQL database server running on port 5432, a database instance named `postgres` with a user `postgres` and an empty password.
+- A PostgreSQL database server running on port 5432, a database instance named `postgres` with a user `postgres` and an empty password
+- **Or** a working Docker environment as described by [Testcontainers](https://www.testcontainers.org/usage.html#prerequisites).
+
+If neither is provided all tests will get ignored, essentially disabling the examples.
+If you want to fail the build instead add -DignoreMissingInfrastructure=true
 
 === Interesting bits to look at
 

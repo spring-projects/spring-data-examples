@@ -15,18 +15,19 @@
  */
 package example.springdata.r2dbc.basics;
 
+import example.springdata.test.util.InfrastructureRule;
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import io.r2dbc.spi.ConnectionFactory;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.function.DatabaseClient;
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactory;
 import org.springframework.data.relational.core.mapping.RelationalMappingContext;
 import org.testcontainers.containers.PostgreSQLContainer;
-
-import javax.annotation.PreDestroy;
+import reactor.test.StepVerifier;
 
 /**
  * @author Oliver Gierke
@@ -34,7 +35,14 @@ import javax.annotation.PreDestroy;
 @Configuration
 class InfrastructureConfiguration {
 
-	private PostgreSQLContainer postgres = new PostgreSQLContainer();
+	@Bean
+	InfrastructureRule<PostgresqlConnectionConfiguration> infrastructureRule() {
+
+		return new InfrastructureRule<>( //
+				this::checkForlLocalPostgres, //
+				this::startPostgresInDocker //
+		);
+	}
 
 	@Bean
 	CustomerRepository customerRepository(R2dbcRepositoryFactory factory) {
@@ -61,10 +69,16 @@ class InfrastructureConfiguration {
 	@Bean
 	PostgresqlConnectionFactory connectionFactory() {
 
+		return new PostgresqlConnectionFactory(infrastructureRule().getInfo());
+	}
 
+	@NotNull
+	private InfrastructureRule.InfrastructureInfo<PostgresqlConnectionConfiguration> startPostgresInDocker() {
+
+		PostgreSQLContainer postgres = new PostgreSQLContainer();
 		postgres.start();
 
-		PostgresqlConnectionConfiguration config = PostgresqlConnectionConfiguration.builder() //
+		PostgresqlConnectionConfiguration configuration = PostgresqlConnectionConfiguration.builder() //
 				.host(postgres.getContainerIpAddress()) //
 				.port(postgres.getFirstMappedPort()) //
 				.database(postgres.getDatabaseName()) //
@@ -72,11 +86,33 @@ class InfrastructureConfiguration {
 				.password(postgres.getPassword()) //
 				.build();
 
-		return new PostgresqlConnectionFactory(config);
+		return new InfrastructureRule.InfrastructureInfo<>(true, configuration, null, postgres::stop);
 	}
 
-	@PreDestroy
-	void shutdown() {
-		postgres.stop();
+	@NotNull
+	private InfrastructureRule.InfrastructureInfo<PostgresqlConnectionConfiguration> checkForlLocalPostgres() {
+
+		PostgresqlConnectionConfiguration configuration = PostgresqlConnectionConfiguration.builder() //
+				.host("localhost") //
+				.port(5432) //
+				.database("postgres") //
+				.username("postgres") //
+				.password("") //
+				.build();
+
+		try {
+
+			new PostgresqlConnectionFactory(configuration).create()
+					.as(StepVerifier::create) //
+					.assertNext(c -> {
+					}) //
+					.verifyComplete();
+		} catch (AssertionError re) {
+
+			return new InfrastructureRule.InfrastructureInfo<>(false, null, re, () ->{});
+		}
+
+		return new InfrastructureRule.InfrastructureInfo<>(true, configuration, null, () ->{});
 	}
+
 }

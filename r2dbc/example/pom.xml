@@ -13,4 +13,11 @@
 
 	<name>Spring Data R2DBC - Example</name>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.data.examples</groupId>
+			<artifactId>spring-data-examples-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 </project>
