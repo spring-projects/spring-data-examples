@@ -12,7 +12,7 @@
 	<name>Spring Data Cassandra - Kotlin features</name>
 
 	<properties>
-		<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+		<spring-data-releasetrain.version>Lovelace-RELEASE</spring-data-releasetrain.version>
 	</properties>
 
 	<profiles>
