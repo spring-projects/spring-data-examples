@@ -33,7 +33,8 @@ addons:
 
 services:
   - redis-server
-
+  - docker
+  
 cache:
   directories:
     - $HOME/.m2
