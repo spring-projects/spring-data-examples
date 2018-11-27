@@ -17,50 +17,28 @@ package example.springdata.r2dbc.basics;
 
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
-import io.r2dbc.spi.ConnectionFactory;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.r2dbc.function.DatabaseClient;
-import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactory;
-import org.springframework.data.relational.core.mapping.RelationalMappingContext;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.annotation.PreDestroy;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.r2dbc.repository.config.AbstractR2dbcConfiguration;
+import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
+import org.testcontainers.containers.PostgreSQLContainer;
+
 /**
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @Configuration
-class InfrastructureConfiguration {
+@EnableR2dbcRepositories
+class InfrastructureConfiguration extends AbstractR2dbcConfiguration {
 
 	private PostgreSQLContainer postgres = new PostgreSQLContainer();
 
 	@Bean
-	CustomerRepository customerRepository(R2dbcRepositoryFactory factory) {
-		return factory.getRepository(CustomerRepository.class);
-	}
-
-	@Bean
-	R2dbcRepositoryFactory repositoryFactory(DatabaseClient client) {
-
-		RelationalMappingContext context = new RelationalMappingContext();
-		context.afterPropertiesSet();
-
-		return new R2dbcRepositoryFactory(client, context);
-	}
-
-	@Bean
-	DatabaseClient databaseClient(ConnectionFactory factory) {
-
-		return DatabaseClient.builder() //
-				.connectionFactory(factory) //
-				.build();
-	}
-
-	@Bean
-	PostgresqlConnectionFactory connectionFactory() {
-
+	@Override
+	public PostgresqlConnectionFactory connectionFactory() {
 
 		postgres.start();
 
