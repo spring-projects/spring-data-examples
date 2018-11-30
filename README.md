@@ -27,6 +27,7 @@ We have separate folders for the samples of individual modules:
 * `geo-json` - Example project showing usage of [GeoJSON](http://geojson.org) with MongoDB.
 * `gridfs` - Example project showing usage of gridFS with MongoDB.
 * `java8` - Example of how to use Spring Data MongoDB with Java 8 date time types as well as the usage of `Optional` as return type for repository methods. Note, this project requires to be build with JDK 8.
+* `kotlin` - Example for using Cassandra with MongoDB.
 * `query-by-example` - Example project showing usage of Query by Example with MongoDB.
 * `reactive` - Example project to show reactive template and repository support.
 * `security` - Example project showing usage of Spring Security with MongoDB.
@@ -46,6 +47,7 @@ We have separate folders for the samples of individual modules:
 
 * `cluster` - Example for Redis Cluster support.
 * `example` - Example for basic Spring Data Redis setup.
+* `reactive` - Example project to show reactive template support.
 * `repositories` - Example demonstrating Spring Data repository abstraction on top of Redis.
 * `sentinel` - Example for Redis Sentinel support.
 
@@ -66,13 +68,14 @@ We have separate folders for the samples of individual modules:
 
 * `projections` - Example for Spring Data web support for JSONPath and XPath expressions on projection interfaces.
 * `querydsl` - Example for Spring Data Querydsl web integration (creating a `Predicate` from web requests).
-* `web` - Example for Spring Data web integration (binding `Pageable` instances to Spring MVC controller methods, using interfaces to bind Spring MVCrequest payloads).
+* `web` - Example for Spring Data web integration (binding `Pageable` instances to Spring MVC controller methods, using interfaces to bind Spring MVC request payloads).
 
 ## Spring Data for Apache Cassandra
 
 * `example` - Shows core Spring Data support for Apache Cassandra.
 * `java8` - Java 8 specific functionality like the support for JSR-310 types in object mapping.
-* `reactive` - Examples for the reactive support.
+* `kotlin` - Example for using Cassandra with Kotlin.
+* `reactive` - Example project to show reactive template and repository support.
 
 ## Spring Data LDAP
 
