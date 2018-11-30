@@ -11,23 +11,6 @@
 	<artifactId>spring-data-cassandra-kotlin</artifactId>
 	<name>Spring Data Cassandra - Kotlin features</name>
 
-	<properties>
-		<spring-data-releasetrain.version>Lovelace-RELEASE</spring-data-releasetrain.version>
-	</properties>
-
-	<profiles>
-
-		<!-- Override property as the module always needs Lovelace -->
-
-		<profile>
-			<id>spring-data-next</id>
-			<properties>
-				<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-			</properties>
-		</profile>
-
-	</profiles>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>

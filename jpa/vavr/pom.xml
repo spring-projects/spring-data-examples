@@ -11,10 +11,6 @@
 	<artifactId>spring-data-jpa-vavr</artifactId>
 	<name>Spring Data JPA - Vavr integration</name>
 
-	<properties>
-		<spring-data-releasetrain.version>Lovelace-RC1</spring-data-releasetrain.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>io.vavr</groupId>

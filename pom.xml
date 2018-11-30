@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.5.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 	</parent>
 
 	<modules>
@@ -42,19 +42,19 @@
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-releasetrain.version>Kay-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+				<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
 			</properties>
 		</profile>
 		<profile>
 			<id>spring-data-next-releasetrain</id>
 			<properties>
-				<spring-data-releasetrain.version>Lovelace-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+				<spring-data-releasetrain.version>Moore-BUILD-SNAPSHOT</spring-data-releasetrain.version>
 			</properties>
 		</profile>
 		<profile>
 			<id>spring-data-next-releasetrain-released</id>
 			<properties>
-				<spring-data-releasetrain.version>Lovelace-RC2</spring-data-releasetrain.version>
+				<spring-data-releasetrain.version>Lovelace-SR3</spring-data-releasetrain.version>
 			</properties>
 		</profile>
 

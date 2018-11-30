@@ -41,10 +41,11 @@
 			<artifactId>cassandra-driver-core</artifactId>
 		</dependency>
 
+		<!-- Required for Embedded Cassandra -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>3.0.2</version>
 		</dependency>
 
 	</dependencies>
