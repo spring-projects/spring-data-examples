@@ -18,11 +18,6 @@ env:
     - BOOT=2.1.2.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain,hibernate-53
     - BOOT=2.1.2.BUILD-SNAPSHOT PROFILE=spring-data-next-releasetrain-released,hibernate-53
 
-addons:
-  apt:
-    packages:
-    - oracle-java8-installer
-
 services:
   - redis-server
   - docker
