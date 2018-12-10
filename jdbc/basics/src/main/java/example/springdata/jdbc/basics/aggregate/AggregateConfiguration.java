@@ -66,7 +66,7 @@ public class AggregateConfiguration extends JdbcConfiguration {
 	}
 
 	@Override
-	protected JdbcCustomConversions jdbcCustomConversions() {
+	public JdbcCustomConversions jdbcCustomConversions() {
 
 		return new JdbcCustomConversions(asList(new Converter<Clob, String>() {
 
