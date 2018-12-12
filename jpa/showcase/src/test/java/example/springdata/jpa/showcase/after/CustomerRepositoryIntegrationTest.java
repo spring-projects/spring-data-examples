@@ -17,8 +17,6 @@ package example.springdata.jpa.showcase.after;
 
 import static example.springdata.jpa.showcase.snippets.CustomerSpecifications.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.jpa.domain.Specifications.*;
-
 import example.springdata.jpa.showcase.AbstractShowcaseTest;
 import example.springdata.jpa.showcase.core.Customer;
 
@@ -69,7 +67,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractShowcaseTest {
 		Optional<Customer> dave = repository.findById(1L);
 
 		LocalDate expiryLimit = new LocalDate(2011, 3, 1);
-		List<Customer> result = repository.findAll(where(accountExpiresBefore(expiryLimit)));
+		List<Customer> result = repository.findAll(accountExpiresBefore(expiryLimit));
 
 		assertThat(result).hasSize(1);
 		assertThat(dave).hasValueSatisfying(it -> assertThat(result).contains(it));
