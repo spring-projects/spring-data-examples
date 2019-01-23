@@ -29,6 +29,8 @@ import org.springframework.data.jdbc.core.convert.JdbcCustomConversions;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jdbc.repository.config.JdbcConfiguration;
 import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.lang.Nullable;
 
 /**
@@ -85,5 +87,10 @@ public class AggregateConfiguration extends JdbcConfiguration {
 				}
 			}
 		}));
+	}
+
+	@Bean
+	public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcOperations operations) {
+		return new NamedParameterJdbcTemplate(operations);
 	}
 }

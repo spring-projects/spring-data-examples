@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,20 @@
  */
 package example.springdata.jdbc.basics.simpleentity;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
+import org.springframework.data.relational.core.mapping.event.WithId;
 
 /**
- * Repository for Categories.
- *
  * @author Jens Schauder
  */
-interface CategoryRepository extends CrudRepository<Category, Long>, WithInsert<Category> {}
+public class WithInsertImpl<T> implements WithInsert<T> {
+	@Autowired
+	JdbcAggregateTemplate template;
+
+
+	@Override
+	public T insert(T t) {
+		return template.insert(t);
+	}
+}
