@@ -43,7 +43,7 @@ public class SimpleEntityTests {
 	public void exerciseRepositoryForSimpleEntity() {
 
 		// create some categories
-		Category cars = repository.save(new Category("Cars", "Anything that has approximately 4 wheels", AgeGroup._3to8));
+		Category cars = repository.save(new Category("Cars", "Anything that has approximately 4 wheels.", AgeGroup._3to8));
 		Category buildings = repository.save(new Category("Buildings", null, AgeGroup._12andOlder));
 
 		// save categories
@@ -60,5 +60,14 @@ public class SimpleEntityTests {
 		// delete stuff again
 		repository.delete(cars);
 		Output.list(repository.findAll(), "`Cars` is gone.");
+	}
+
+	@Test
+	public void directInsert(){
+
+		Category cars = new Category("Cars", "Anything that has approximately 4 wheels.", AgeGroup._3to8).withId(23L);
+		repository.insert(cars);
+
+		Output.list(repository.findAll(), "`Cars` inserted with id 23L");
 	}
 }

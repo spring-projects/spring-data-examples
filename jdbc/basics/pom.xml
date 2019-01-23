@@ -21,4 +21,12 @@
 		</dependency>
 	</dependencies>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jdbc</artifactId>
+			<version>1.1.0.BUILD-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
 </project>
