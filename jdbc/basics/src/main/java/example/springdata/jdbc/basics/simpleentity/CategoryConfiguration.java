@@ -79,10 +79,4 @@ public class CategoryConfiguration {
 		return new NamedParameterJdbcTemplate(operations);
 	}
 
-	@Bean
-	public JdbcAggregateOperations jdbcAggregateOperations(ApplicationEventPublisher publisher,
-														   RelationalMappingContext context, RelationalConverter converter, NamedParameterJdbcOperations operations) {
-		DataAccessStrategy dataAccessStrategy = new DefaultDataAccessStrategy(new SqlGeneratorSource(context), context, converter, operations);
-		return new JdbcAggregateTemplate(publisher, context, converter, dataAccessStrategy);
-	}
 }
