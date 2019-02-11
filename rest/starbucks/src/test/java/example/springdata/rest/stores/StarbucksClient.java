@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 the original author or authors.
+ * Copyright 2014-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,18 +32,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Links;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.PagedResources.PageMetadata;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.PagedModel.PageMetadata;
 import org.springframework.hateoas.client.Traverson;
 import org.springframework.hateoas.client.Traverson.TraversalBuilder;
-import org.springframework.hateoas.mvc.TypeReferences.PagedResourcesType;
-import org.springframework.hateoas.mvc.TypeReferences.ResourceType;
-import org.springframework.hateoas.mvc.TypeReferences.ResourcesType;
+import org.springframework.hateoas.server.core.TypeReferences.CollectionModelType;
+import org.springframework.hateoas.server.core.TypeReferences.EntityModelType;
+import org.springframework.hateoas.server.core.TypeReferences.PagedModelType;
 import org.springframework.http.RequestEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestOperations;
@@ -90,16 +90,16 @@ public class StarbucksClient {
 		parameters.put("location", "40.740337,-73.995146");
 		parameters.put("distance", "0.5miles");
 
-		PagedResources<Resource<Store>> resources = builder.//
+		PagedModel<EntityModel<Store>> resources = builder.//
 				withTemplateParameters(parameters).//
-				toObject(new PagedResourcesType<Resource<Store>>() {});
+				toObject(new PagedModelType<EntityModel<Store>>() {});
 
 		PageMetadata metadata = resources.getMetadata();
 
 		log.info("Got {} of {} stores: ", resources.getContent().size(), metadata.getTotalElements());
 
 		StreamSupport.stream(resources.spliterator(), false).//
-				map(Resource::getContent).//
+				map(EntityModel::getContent).//
 				forEach(store -> log.info("{} - {}", store.name, store.address));
 	}
 
@@ -112,14 +112,15 @@ public class StarbucksClient {
 
 		URI uri = URI.create(String.format(SERVICE_URI, port));
 		RequestEntity<Void> request = RequestEntity.get(uri).accept(HAL_JSON).build();
-		Resource<Object> rootLinks = restOperations.exchange(request, new ResourceType<Object>() {}).getBody();
-		Links links = new Links(rootLinks.getLinks());
+		EntityModel<Object> rootLinks = restOperations.exchange(request, new EntityModelType<Object>() {}).getBody();
+		Links links = rootLinks.getLinks();
 
 		// Follow stores link
 
-		Link storesLink = links.getLink("stores").expand();
+		Link storesLink = links.getRequiredLink("stores").expand();
+
 		request = RequestEntity.get(URI.create(storesLink.getHref())).accept(HAL_JSON).build();
-		Resources<Store> stores = restOperations.exchange(request, new ResourcesType<Store>() {}).getBody();
+		CollectionModel<Store> stores = restOperations.exchange(request, new CollectionModelType<Store>() {}).getBody();
 
 		stores.getContent().forEach(store -> log.info("{} - {}", store.name, store.address));
 	}

@@ -16,7 +16,7 @@
 package example.springdata.rest.uris;
 
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,16 +25,16 @@ import org.springframework.stereotype.Component;
  * @author Oliver Gierke
  */
 @Component
-public class SpringDataRestCustomization extends RepositoryRestConfigurerAdapter {
+public class SpringDataRestCustomization implements RepositoryRestConfigurer {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter#configureRepositoryRestConfiguration(org.springframework.data.rest.core.config.RepositoryRestConfiguration)
+	 * @see org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer#configureRepositoryRestConfiguration(org.springframework.data.rest.core.config.RepositoryRestConfiguration)
 	 */
 	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
 
-		config.withEntityLookup().//
-				forRepository(UserRepository.class, User::getUsername, UserRepository::findByUsername);
+		config.withEntityLookup() //
+				.forRepository(UserRepository.class, User::getUsername, UserRepository::findByUsername);
 	}
 }

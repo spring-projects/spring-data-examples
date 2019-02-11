@@ -26,7 +26,7 @@ import org.springframework.data.rest.core.support.EntityLookupSupport;
 /**
  * Custom {@link EntityLookup} to replace the usage of the database identifier in item resource URIs with the username
  * property of the {@link User}. This one is not really used out of the box as it's not a Spring bean. It's just a
- * sample of how to deploy a customization in non-Java 8 environments which can't use the fluent API in use in
+ * sample of how to deploy a customization in pre-Java 8 environments which can't use the fluent API in use in
  * {@link SpringDataRestCustomization}.
  *
  * @author Oliver Gierke
@@ -53,5 +53,14 @@ public class UserEntityLookup extends EntityLookupSupport<User> {
 	@Override
 	public Optional<User> lookupEntity(Object id) {
 		return repository.findByUsername(id.toString());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.data.rest.core.support.EntityLookup#getLookupProperty()
+	 */
+	@Override
+	public Optional<String> getLookupProperty() {
+		return Optional.of("username");
 	}
 }

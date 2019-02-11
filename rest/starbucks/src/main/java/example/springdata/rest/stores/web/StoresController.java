@@ -34,6 +34,7 @@ import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
+import org.springframework.hateoas.LinkRelation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,7 +90,8 @@ class StoresController {
 		model.addAttribute("selectedDistance", distance.orElse(DEFAULT_DISTANCE));
 		model.addAttribute("location", point);
 		model.addAttribute("locations", KNOWN_LOCATIONS);
-		model.addAttribute("api", entityLinks.linkToSearchResource(Store.class, "by-location", pageable).getHref());
+		model.addAttribute("api",
+				entityLinks.linkToSearchResource(Store.class, LinkRelation.of("by-location"), pageable).getHref());
 
 		return "index";
 	}

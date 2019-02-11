@@ -30,7 +30,13 @@
 		<profile>
 			<id>spring-data-next-releasetrain</id>
 			<properties>
-				<elasticsearch.version>6.5.0</elasticsearch.version>
+				<elasticsearch.version>6.6.0</elasticsearch.version>
+			</properties>
+		</profile>
+		<profile>
+			<id>spring-data-next-releasetrain-released</id>
+			<properties>
+				<elasticsearch.version>6.6.0</elasticsearch.version>
 			</properties>
 		</profile>
 	</profiles>
