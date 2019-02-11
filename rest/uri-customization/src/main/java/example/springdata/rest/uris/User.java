@@ -16,6 +16,7 @@
 package example.springdata.rest.uris;
 
 import lombok.Value;
+import lombok.experimental.NonFinal;
 
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ import org.springframework.data.annotation.Id;
  *
  * @author Oliver Gierke
  */
+@NonFinal
 @Value
 public class User {
 

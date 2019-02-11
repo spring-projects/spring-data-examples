@@ -13,5 +13,12 @@
 
 	<name>Spring Data JDBC - Basic usage examples</name>
 	<description>Sample project demonstrating Spring Data JDBC features</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>
