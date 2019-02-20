@@ -23,10 +23,14 @@ Note, that we don't declare a Spring Framework dependency here. The import of th
 
 == Gradle
 
-Gradle does not support Maven BOMs out of the box so the first thing to do is to declare a buildscript dependency on the https://github.com/spring-gradle-plugins/dependency-management-plugin[dependency management plugin] and apply it to the project.
+Gradle does not support Maven BOMs (Bill of Materials) out of the box, so the first thing to do is important the
+https://github.com/spring-gradle-plugins/dependency-management-plugin[dependency management plugin]. This example is based on Java,
+but if you need a different language plugin (e.g. Kotlin), you can do so.
 
-With the plugin applied, the `dependencyManagement` section can be used to import the Spring Framework and Spring Data BOMs.
+The `dependencyManagement` section can be used to import the Spring Framework BOM and Spring Data BOM.
 
-The standard `dependencies` section can now list Spring and Spring Data dependencies without declaring a version and still be sure all libraries are in matching versions.
+The standard `dependencies` section can now list Spring and Spring Data dependencies without declaring a version and still
+be sure all libraries are align with each other.
 
-Note, that we don't declare a Spring Framework dependency here. The dependency management plugin and Spring Framework BOM nonetheless makes sure we control the version of all transitive Spring Framework dependencies pulled in by the Spring Data modules.
+Note how you don't declare a Spring Framework dependency. Nevertheless, the dependency management plugin and the Spring Framework BOM
+ensures you control the version of all transitive Spring Framework dependencies pulled in by Spring Data.
