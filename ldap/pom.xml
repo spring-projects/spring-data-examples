@@ -14,7 +14,7 @@
 
 	<name>Spring Data LDAP - Examples</name>
 	<description>Sample projects for Spring Data LDAP</description>
-	<url>http://projects.spring.io/spring-data-ldap</url>
+	<url>https://projects.spring.io/spring-data-ldap</url>
 
 	<modules>
 		<module>example</module>

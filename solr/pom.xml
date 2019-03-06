@@ -13,7 +13,7 @@
 
 	<name>Spring Data Solr - Examples</name>
 	<description>Sample projects for Spring Data Solr</description>
-	<url>http://projects.spring.io/spring-data-solr</url>
+	<url>https://projects.spring.io/spring-data-solr</url>
 
 	<modules>
 		<module>util</module>
