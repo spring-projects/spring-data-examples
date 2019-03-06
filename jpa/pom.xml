@@ -13,7 +13,7 @@
 
 	<name>Spring Data JPA - Examples</name>
 	<description>Sample projects for Spring Data JPA</description>
-	<url>http://projects.spring.io/spring-data-jpa</url>
+	<url>https://projects.spring.io/spring-data-jpa</url>
 	<inceptionYear>2011-2014</inceptionYear>
 
 	<modules>

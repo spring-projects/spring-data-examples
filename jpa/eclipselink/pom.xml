@@ -83,14 +83,14 @@
 			<repositories>
 				<repository>
 					<id>com.ethlo.eclipselink.tools</id>
-					<url>http://ethlo.com/maven</url>
+					<url>https://ethlo.com/maven</url>
 				</repository>
 			</repositories>
 
 			<pluginRepositories>
 				<pluginRepository>
 					<id>com.ethlo.eclipselink.tools</id>
-					<url>http://ethlo.com/maven</url>
+					<url>https://ethlo.com/maven</url>
 				</pluginRepository>
 			</pluginRepositories>
 

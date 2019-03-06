@@ -13,7 +13,7 @@
 
 	<name>Spring Data JDBC - Examples</name>
 	<description>Sample projects for Spring Data JDBC</description>
-	<url>http://projects.spring.io/spring-data-jdbc</url>
+	<url>https://projects.spring.io/spring-data-jdbc</url>
 	<inceptionYear>2017</inceptionYear>
 
 	<modules>
