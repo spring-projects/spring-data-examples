@@ -28,6 +28,8 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,15 +52,15 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Mark Paluch
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = SolrTestConfiguration.class)
 public class AdvancedSolrRepositoryTests {
 
 	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
 
 	@Configuration
-	static class Config extends SolrTestConfiguration {
+	static class Config {
 
-		@Override
+		@PostConstruct
 		protected void doInitTestData(CrudRepository<Product, String> repository) {
 
 			Product playstation = Product.builder().id("id-1").name("Playstation")

@@ -33,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class SolrRepositoryTests {
 
-	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
+	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost().withCollection("gettingstarted");
 
 	@Autowired ProductRepository repo;
 
