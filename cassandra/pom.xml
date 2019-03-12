@@ -24,6 +24,10 @@
 		<module>reactive</module>
 	</modules>
 
+	<properties>
+		<spring-data-releasetrain.version>Moore-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+	</properties>
+
 	<dependencies>
 
 		<dependency>
