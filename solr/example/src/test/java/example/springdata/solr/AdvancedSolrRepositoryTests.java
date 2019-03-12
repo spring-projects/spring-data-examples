@@ -55,7 +55,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = SolrTestConfiguration.class)
 public class AdvancedSolrRepositoryTests {
 
-	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost();
+	public static @ClassRule RequiresSolrServer requiresRunningServer = RequiresSolrServer.onLocalhost().withCollection("techproducts");
 
 	@Configuration
 	static class Config {
