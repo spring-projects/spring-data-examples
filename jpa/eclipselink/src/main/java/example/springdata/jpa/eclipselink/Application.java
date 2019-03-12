@@ -25,7 +25,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers;
 import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
 import org.springframework.transaction.jta.JtaTransactionManager;
@@ -46,9 +45,8 @@ public class Application extends JpaBaseConfiguration {
 	 * @param jtaTransactionManagerProvider
 	 */
 	protected Application(DataSource dataSource, JpaProperties properties,
-			ObjectProvider<JtaTransactionManager> jtaTransactionManagerProvider,
-			ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
-		super(dataSource, properties, jtaTransactionManagerProvider, transactionManagerCustomizers);
+			ObjectProvider<JtaTransactionManager> jtaTransactionManagerProvider) {
+		super(dataSource, properties, jtaTransactionManagerProvider);
 	}
 
 	/*
