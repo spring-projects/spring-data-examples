@@ -27,6 +27,8 @@ import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 
 /**
  * {@link TestRule} implementation using {@link CloseableHttpClient} to check if Solr is running by sending
@@ -39,13 +41,24 @@ public class RequiresSolrServer implements TestRule {
 	private static final String PING_PATH = "/admin/info/system";
 
 	private final String baseUrl;
+	private final @Nullable String collection;
 
 	private RequiresSolrServer(String baseUrl) {
+		this(baseUrl, null);
+	}
+
+	private RequiresSolrServer(String baseUrl, @Nullable String collection) {
+
 		this.baseUrl = baseUrl;
+		this.collection = collection;
 	}
 
 	public static RequiresSolrServer onLocalhost() {
 		return new RequiresSolrServer("http://localhost:8983/solr");
+	}
+
+	public RequiresSolrServer withCollection(String collection) {
+		return new RequiresSolrServer(baseUrl, collection);
 	}
 
 	@Override
@@ -64,7 +77,10 @@ public class RequiresSolrServer implements TestRule {
 	private void checkServerRunning() {
 
 		try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-			CloseableHttpResponse response = client.execute(new HttpGet(baseUrl + PING_PATH));
+
+			String url = StringUtils.hasText(collection) ? baseUrl + "/" + collection + "/select?q=*:*" : baseUrl + PING_PATH;
+
+			CloseableHttpResponse response = client.execute(new HttpGet(url));
 			if (response != null && response.getStatusLine() != null) {
 				Assume.assumeThat(response.getStatusLine().getStatusCode(), Is.is(200));
 			}
