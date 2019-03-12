@@ -37,6 +37,7 @@ class InfrastructureConfiguration extends AbstractR2dbcConfiguration {
 
 		H2ConnectionConfiguration config = H2ConnectionConfiguration.builder() //
 				.inMemory("test-database2") //
+				.option("DB_CLOSE_DELAY=-1") //
 				.build();
 
 		return new H2ConnectionFactory(config);
