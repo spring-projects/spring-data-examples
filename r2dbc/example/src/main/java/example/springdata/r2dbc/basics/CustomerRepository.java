@@ -25,6 +25,6 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
  */
 interface CustomerRepository extends ReactiveCrudRepository<Customer, Long> {
 
-	@Query("select id, firstname, lastname from customer c where c.lastname = $1")
+	@Query("select id, firstname, lastname from customer c where c.lastname = :lastname")
 	Flux<Customer> findByLastnameLike(String lastname);
 }

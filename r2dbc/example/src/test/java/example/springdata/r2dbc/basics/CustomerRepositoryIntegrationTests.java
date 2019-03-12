@@ -54,6 +54,7 @@ public class CustomerRepositoryIntegrationTests {
 				.fetch() //
 				.rowsUpdated() //
 				.as(StepVerifier::create) //
+				.expectNextCount(1) //
 				.verifyComplete());
 	}
 
