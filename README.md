@@ -59,6 +59,7 @@ We have separate folders for the samples of individual modules:
 ## Spring Data Elasticsearch
 
 * `example` - Example how to use basic text search, geo-spatial search and facets.
+* `reactive` - Example how to use reactive client, template and repository features.
 
 ## Spring Data Neo4j
 
