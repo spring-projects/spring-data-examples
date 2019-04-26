@@ -2,10 +2,6 @@
 
 This projects shows some sample usage of the work-in-progress R2DBC support for Spring Data.
 
-=== Requirements
-
-- A PostgreSQL database server running on port 5432, a database instance named `postgres` with a user `postgres` and an empty password.
-
 === Interesting bits to look at
 
 - `InfrastructureConfiguration` - sets up a R2DBC `ConnectionFactory` based on the R2DBC Postgres driver (https://github.com/r2dbc/r2dbc-postgresql[r2dbc-postgresql]), a `DatabaseClient` and a `R2dbcRepositoryFactory` to eventually create a `CustomerRepository`.
