@@ -17,7 +17,6 @@ package example.springdata.r2dbc.basics;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Value;
 
 import org.springframework.data.annotation.Id;
 
@@ -27,6 +26,11 @@ import org.springframework.data.annotation.Id;
 @Data
 @AllArgsConstructor
 class Customer {
+
 	@Id Integer id;
 	String firstname, lastname;
+
+	boolean hasId() {
+		return id != null;
+	}
 }

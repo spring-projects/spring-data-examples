@@ -21,7 +21,8 @@
 	</modules>
 
 	<properties>
-		<h2.version>1.4.197</h2.version>
+		<h2.version>1.4.199</h2.version>
+		<spring.version>5.2.0.BUILD-SNAPSHOT</spring.version>
 	</properties>
 
 	<dependencyManagement>
@@ -29,7 +30,7 @@
 			<dependency>
 				<groupId>io.r2dbc</groupId>
 				<artifactId>r2dbc-bom</artifactId>
-				<version>Arabba-M7</version>
+				<version>Arabba-BUILD-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -39,14 +40,9 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-r2dbc</artifactId>
-			<version>1.0.0.BUILD-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.r2dbc</groupId>
-			<artifactId>r2dbc-spi</artifactId>
+			<groupId>org.springframework.boot.experimental</groupId>
+			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
+			<version>0.1.0.BUILD-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -61,19 +57,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-core</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.projectreactor.addons</groupId>
-			<artifactId>reactor-extra</artifactId>
 		</dependency>
 
 	</dependencies>
@@ -85,8 +76,7 @@
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-releasetrain.version>Moore-BUILD-SNAPSHOT
-				</spring-data-releasetrain.version>
+				<spring-data-releasetrain.version>Moore-BUILD-SNAPSHOT</spring-data-releasetrain.version>
 			</properties>
 		</profile>
 
