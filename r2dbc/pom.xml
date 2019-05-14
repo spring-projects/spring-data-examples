@@ -22,7 +22,7 @@
 
 	<properties>
 		<h2.version>1.4.199</h2.version>
-		<spring.version>5.2.0.BUILD-SNAPSHOT</spring.version>
+		<spring.version>5.2.0.M2</spring.version>
 	</properties>
 
 	<dependencyManagement>
@@ -30,7 +30,7 @@
 			<dependency>
 				<groupId>io.r2dbc</groupId>
 				<artifactId>r2dbc-bom</artifactId>
-				<version>Arabba-BUILD-SNAPSHOT</version>
+				<version>Arabba-M8</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
