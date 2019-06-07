@@ -62,7 +62,7 @@ public class StoreRepositoryIntegrationTests {
 		store = repository.save(store);
 
 		Page<Store> stores = repository.findByAddressLocationNear(location, new Distance(1.0, Metrics.KILOMETERS),
-				new PageRequest(0, 10));
+				PageRequest.of(0, 10));
 
 		assertThat(stores.getContent(), hasSize(1));
 		assertThat(stores.getContent(), hasItem(store));
