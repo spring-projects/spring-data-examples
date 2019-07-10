@@ -16,7 +16,7 @@
 	<name>Spring Data JPA - EclipseLink setup example</name>
 
 	<properties>
-		<eclipselink.version>2.7.2-RC1</eclipselink.version>
+		<eclipselink.version>2.7.4</eclipselink.version>
 	</properties>
 
 	<dependencies>
