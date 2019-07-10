@@ -37,6 +37,14 @@
 			<artifactId>org.eclipse.persistence.jpa</artifactId>
 			<version>${eclipselink.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.zalando.stups</groupId>
+			<artifactId>data-jpa-eclipselink-spring-boot-starter</artifactId>
+			<version>0.10.1</version>
+			<scope>runtime</scope>
+		</dependency>
+
 	</dependencies>
 
 	<profiles>
