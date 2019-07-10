@@ -121,11 +121,11 @@
 							<dependency>
 								<groupId>org.springframework</groupId>
 								<artifactId>spring-instrument</artifactId>
-								<version>${spring.version}</version>
+								<version>${spring-framework.version}</version>
 							</dependency>
 						</dependencies>
 						<configuration>
-							<argLine>-javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar</argLine>
+							<argLine>-javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring-framework.version}/spring-instrument-${spring-framework.version}.jar</argLine>
 						</configuration>
 					</plugin>
 					<plugin>
@@ -143,11 +143,11 @@
 							<dependency>
 								<groupId>org.springframework</groupId>
 								<artifactId>spring-instrument</artifactId>
-								<version>${spring.version}</version>
+								<version>${spring-framework.version}</version>
 							</dependency>
 						</dependencies>
 						<configuration>
-							<agent>${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar</agent>
+							<agent>${settings.localRepository}/org/springframework/spring-instrument/${spring-framework.version}/spring-instrument-${spring-framework.version}.jar</agent>
 						</configuration>
 					</plugin>
 				</plugins>
