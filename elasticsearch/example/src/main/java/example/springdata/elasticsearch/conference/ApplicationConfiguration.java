@@ -68,8 +68,6 @@ class ApplicationConfiguration {
 	@PostConstruct
 	public void insertDataSample() {
 
-		// Remove all documents
-		repository.deleteAll();
 		operations.refresh(Conference.class);
 
 		// Save data sample
