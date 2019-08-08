@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>example</module>
+		<module>rest</module>
 		<module>reactive</module>
 	</modules>
 
@@ -31,13 +32,13 @@
 		<profile>
 			<id>spring-data-next-releasetrain</id>
 			<properties>
-				<elasticsearch.version>6.6.1</elasticsearch.version>
+				<elasticsearch.version>6.8.2</elasticsearch.version>
 			</properties>
 		</profile>
 		<profile>
 			<id>spring-data-next-releasetrain-released</id>
 			<properties>
-				<elasticsearch.version>6.6.1</elasticsearch.version>
+				<elasticsearch.version>6.8.2</elasticsearch.version>
 			</properties>
 		</profile>
 	</profiles>
