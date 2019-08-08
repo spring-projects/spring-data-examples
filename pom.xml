@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.0.BUILD-SNAPSHOT</version>
+		<version>2.2.0.M5</version>
 	</parent>
 
 	<modules>
@@ -36,8 +36,6 @@
 	<properties>
 		<apt.version>1.1.3</apt.version>
 		<lombok.version>1.18.6</lombok.version>
-		<spring-data-releasetrain.version>Moore-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-		<spring-hateoas.version>1.0.0.BUILD-SNAPSHOT</spring-hateoas.version>
 	</properties>
 
 	<profiles>
@@ -84,9 +82,9 @@
 
 	<developers>
 		<developer>
-			<id>ogierke</id>
-			<name>Oliver Gierke</name>
-			<email>ogierke@pivotal.io</email>
+			<id>odrotbohm</id>
+			<name>Oliver Drotbohm</name>
+			<email>odrotbohm@pivotal.io</email>
 		</developer>
 		<developer>
 			<id>tdarimont</id>
