@@ -31,6 +31,7 @@
 		<module>text-search</module>
 		<module>transactions</module>
 		<module>schema-validation</module>
+		<module>querydsl</module>
 		<module>util</module>
 	</modules>
 
