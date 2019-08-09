@@ -44,14 +44,6 @@ public class RedisTestConfiguration {
 	}
 
 	/**
-	 * Configures a {@link ReactiveRedisTemplate} with {@link String} keys and values.
-	 */
-	@Bean
-	public ReactiveRedisTemplate<String, String> reactiveRedisTemplate(ReactiveRedisConnectionFactory connectionFactory) {
-		return new ReactiveRedisTemplate<>(connectionFactory, RedisSerializationContext.string());
-	}
-
-	/**
 	 * Configures a {@link ReactiveRedisTemplate} with {@link String} keys and a typed
 	 * {@link Jackson2JsonRedisSerializer}.
 	 */
