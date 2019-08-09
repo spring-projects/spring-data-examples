@@ -14,13 +14,13 @@ matrix:
 addons:
   apt:
     sources:
-      - sourceline: 'deb http://packages.couchbase.com/releases/couchbase-server/community/deb/  trusty trusty/main'
-      - sourceline: 'deb http://packages.couchbase.com/ubuntu trusty trusty/main'
+      - sourceline: 'deb http://packages.couchbase.com/releases/couchbase-server/community/deb/  xenial xenial/main'
         key_url: 'http://packages.couchbase.com/ubuntu/couchbase.key'
     packages:
       - couchbase-server-community
 
 services:
+  - couchbase-server
   - redis-server
   - docker
 
@@ -37,7 +37,6 @@ install:
   - curl -X POST http://127.0.0.1:8091/settings/web -d "username=Administrator&password=password&port=8091&"
   - /opt/couchbase/bin/cbdocloader -c 127.0.0.1:8091 -u Administrator -p password -b travel-sample -m 256 -d /opt/couchbase/samples/travel-sample.zip
   - /opt/couchbase/bin/couchbase-cli user-manage -c 127.0.0.1:8091 -u Administrator -p password --set  --rbac-username=travel-sample --rbac-password=password --roles=admin --auth-domain local
-
 
 script:
   - mvn -version
