@@ -63,3 +63,16 @@ Using the `Criteria` extensions allows to write type-safe queries via an ideomat
 operations.find<Person>(Query(Person::firstname isEqualTo "Tyrion"))
 ```
 
+## Coroutines and Flow support
+
+```kotlin
+runBlocking {
+	operations.find<Person>(Query(where("firstname").isEqualTo("Tyrion"))).awaitSingle()
+}
+```
+
+```kotlin
+runBlocking {
+	operations.findAll<Person>().asFlow().toList()
+}
+```
