@@ -54,3 +54,12 @@ interface PersonRepository : CrudRepository<Person, String> {
 	fun findOneByFirstname(firstname: String): Person
 }
 ```
+
+## Type-Safe Kotlin Mongo Query DSL
+
+Using the `Criteria` extensions allows to write type-safe queries via an ideomatic API.
+
+```kotlin
+operations.find<Person>(Query(Person::firstname isEqualTo "Tyrion"))
+```
+
