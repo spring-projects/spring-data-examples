@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.mongodb.sync;
+package example.springdata.mongodb.imperative;
 
 import example.springdata.mongodb.Process;
 import example.springdata.mongodb.State;

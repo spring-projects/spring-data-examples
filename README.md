@@ -29,11 +29,11 @@ We have separate folders for the samples of individual modules:
 * `java8` - Example of how to use Spring Data MongoDB with Java 8 date time types as well as the usage of `Optional` as return type for repository methods. Note, this project requires to be build with JDK 8.
 * `kotlin` - Example for using Cassandra with MongoDB.
 * `query-by-example` - Example project showing usage of Query by Example with MongoDB.
-* `querydsl` - Example project showing sync/reactive [Querydsl](https://github.com/querydsl/querydsl) support for MongoDB.
+* `querydsl` - Example project showing imperative and reactive [Querydsl](https://github.com/querydsl/querydsl) support for MongoDB.
 * `reactive` - Example project to show reactive template and repository support.
 * `security` - Example project showing usage of Spring Security with MongoDB.
 * `text-search` - Example project showing usage of MongoDB text search feature.
-* `transactions` - Example project for synchronous and reactive MongoDB 4.0 transaction support.
+* `transactions` - Example project for imperative and reactive MongoDB 4.0 transaction support.
 
 ## Spring Data REST
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.mongodb.sync;
+package example.springdata.mongodb.imperative;
 
-import example.springdata.mongodb.Customer;
+import example.springdata.mongodb.Process;
 
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Sync Querydsl supporting repository interface to manage {@link Customer} instances.
- *
  * @author Christoph Strobl
+ * @currentRead The Core - Peter V. Brett
  */
-interface CustomerQuerydslRepository extends CrudRepository<Customer, String>, QuerydslPredicateExecutor<Customer> {
+interface ProcessRepository extends CrudRepository<Process, Integer> {
 
 }

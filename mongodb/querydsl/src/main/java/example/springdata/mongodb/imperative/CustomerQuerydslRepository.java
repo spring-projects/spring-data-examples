@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.mongodb.sync;
+package example.springdata.mongodb.imperative;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import example.springdata.mongodb.Customer;
 
-import com.mongodb.MongoClient;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * Configuration to connect to MongoDB using a {@link MongoClient}. <br />
- * Enables Spring Data repositories for MongoDB.
+ * Sync Querydsl supporting repository interface to manage {@link Customer} instances.
  *
  * @author Christoph Strobl
  */
-@SpringBootApplication
-class ApplicationConfiguration {}
+interface CustomerQuerydslRepository extends CrudRepository<Customer, String>, QuerydslPredicateExecutor<Customer> {
+
+}

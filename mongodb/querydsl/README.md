@@ -7,13 +7,13 @@ Spring Data integrates with Querydsl via `QuerydslPredicateExecutor` and its rea
 
 **NOTE**: You may have to run `mvn compile` to generate the required `Q` classes first.
 
-## Sync
+## Imperative
 
 ```java
-interface SyncCustomerRepository 
+interface CustomerQuerydslRepository 
         extends CrudRepository<Customer, String>, QuerydslPredicateExecutor<Customer> { }
 
-@Autowired SyncCustomerRepository repository;
+@Autowired CustomerQuerydslRepository repository;
 
 // ...
 
@@ -23,10 +23,10 @@ List<Customer> result = repository.findAll(QCustomer.customer.lastname.eq("Matth
 ## Reactive
 
 ```java
-interface ReactiveCustomerRepository
+interface ReactiveCustomerQuerydslRepository
 		extends ReactiveCrudRepository<Customer, String>, ReactiveQuerydslPredicateExecutor<Customer> { }
 		
-@Autowired ReactiveCustomerRepository repository;
+@Autowired ReactiveCustomerQuerydslRepository repository;
 
 // ...
 

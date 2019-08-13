@@ -21,9 +21,12 @@ import example.springdata.mongodb.Customer;
 import example.springdata.mongodb.QCustomer;
 import reactor.test.StepVerifier;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -50,9 +53,7 @@ public class ReactiveCustomerRepositoryTests {
 		oliver = new Customer("Oliver August", "Matthews");
 		carter = new Customer("Carter", "Beauford");
 
-		repository.save(dave).then().as(StepVerifier::create).verifyComplete();
-		repository.save(oliver).then().as(StepVerifier::create).verifyComplete();
-		repository.save(carter).then().as(StepVerifier::create).verifyComplete();
+		repository.saveAll(Arrays.asList(dave, oliver, carter)).then().as(StepVerifier::create).verifyComplete();
 	}
 
 	@Test
