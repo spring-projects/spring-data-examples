@@ -33,6 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import reactor.test.StepVerifier
 
 /**
+ * Tests showing Coroutine capabilities.
  *
  * @author Christoph Strobl
  */

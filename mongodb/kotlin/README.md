@@ -57,7 +57,7 @@ interface PersonRepository : CrudRepository<Person, String> {
 
 ## Type-Safe Kotlin Mongo Query DSL
 
-Using the `Criteria` extensions allows to write type-safe queries via an ideomatic API.
+Using the `Criteria` extensions allows to write type-safe queries via an idiomatic API.
 
 ```kotlin
 operations.find<Person>(Query(Person::firstname isEqualTo "Tyrion"))

@@ -32,6 +32,8 @@ import org.springframework.data.mongodb.core.query.regex
 import org.springframework.test.context.junit4.SpringRunner
 
 /**
+ * Tests showing the Mongo Criteria DSL.
+ *
  * @author Christoph Strobl
  */
 @RunWith(SpringRunner::class)
