@@ -15,17 +15,20 @@
  */
 package example.springdata.jdbc.basics.simpleentity;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
-import org.springframework.data.relational.core.mapping.event.WithId;
 
 /**
+ * Fragment implementation providing the {@link WithInsert#insert(Object)} implementation.
+ *
  * @author Jens Schauder
  */
 public class WithInsertImpl<T> implements WithInsert<T> {
-	@Autowired
-	JdbcAggregateTemplate template;
 
+	private final JdbcAggregateTemplate template;
+
+	public WithInsertImpl(JdbcAggregateTemplate template) {
+		this.template = template;
+	}
 
 	@Override
 	public T insert(T t) {

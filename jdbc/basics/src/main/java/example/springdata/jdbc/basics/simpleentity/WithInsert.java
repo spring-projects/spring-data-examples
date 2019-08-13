@@ -16,8 +16,17 @@
 package example.springdata.jdbc.basics.simpleentity;
 
 /**
+ * Fragment interface providing the {@link WithInsert#insert(Object)} signature.
+ *
  * @author Jens Schauder
  */
 public interface WithInsert<T> {
+
+	/**
+	 * Custom insert method.
+	 *
+	 * @param t
+	 * @return
+	 */
 	T insert(T t);
 }

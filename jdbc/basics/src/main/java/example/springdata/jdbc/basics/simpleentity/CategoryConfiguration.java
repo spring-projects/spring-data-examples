@@ -16,28 +16,16 @@
 package example.springdata.jdbc.basics.simpleentity;
 
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.jdbc.core.DataAccessStrategy;
-import org.springframework.data.jdbc.core.DefaultDataAccessStrategy;
-import org.springframework.data.jdbc.core.JdbcAggregateOperations;
-import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
-import org.springframework.data.jdbc.core.SqlGeneratorSource;
+import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.data.jdbc.repository.config.JdbcConfiguration;
-import org.springframework.data.relational.core.conversion.RelationalConverter;
-import org.springframework.data.relational.core.mapping.RelationalMappingContext;
-import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;
+import org.springframework.data.relational.core.mapping.event.BeforeSaveCallback;
 import org.springframework.data.relational.core.mapping.event.RelationalEvent;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 /**
- * Contains infrastructure necessary for creating repositories and two listeners.
+ * Contains infrastructure necessary for creating repositories, listeners and EntityCallbacks.
  * <p>
  * Not that a listener may change an entity without any problem.
  *
@@ -46,9 +34,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
  */
 @Configuration
 @EnableJdbcRepositories
-@Import(JdbcConfiguration.class)
-public class CategoryConfiguration {
+public class CategoryConfiguration extends AbstractJdbcConfiguration {
 
+	/**
+	 * @return {@link ApplicationListener} for {@link RelationalEvent}s.
+	 */
 	@Bean
 	public ApplicationListener<?> loggingListener() {
 
@@ -59,24 +49,17 @@ public class CategoryConfiguration {
 		};
 	}
 
+	/**
+	 * @return {@link BeforeSaveCallback} for {@link Category}.
+	 */
 	@Bean
-	public ApplicationListener<BeforeSaveEvent> timeStampingSaveTime() {
+	public BeforeSaveCallback<Category> timeStampingSaveTime() {
 
-		return event -> {
+		return (entity, aggregateChange) -> {
 
-			Object entity = event.getEntity();
+			entity.timeStamp();
 
-			if (entity instanceof Category) {
-				Category category = (Category) entity;
-				category.timeStamp();
-			}
+			return entity;
 		};
 	}
-
-	// the following bean definitions are only necessary for providing JdbcAggregateOperations for injection into WithInsertImpl.
-	@Bean
-	public NamedParameterJdbcOperations namedParameterJdbcOperations(JdbcOperations operations) {
-		return new NamedParameterJdbcTemplate(operations);
-	}
-
 }
