@@ -15,6 +15,10 @@
  */
 package example.springdata.mongodb.aggregation;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -22,7 +26,13 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
+ * @author Christoph Strobl
  */
 public interface OrderRepository extends CrudRepository<Order, String>, OrderRepositoryCustom {
 
+	@Aggregation("{ $group : { _id : $customerId, total : { $sum : 1 } } }")
+	List<OrdersPerCustomer> totalOrdersPerCustomer(Sort sort);
+
+	@Aggregation(pipeline = { "{ $match : { customerId : ?0 } }", "{ $count : total }" })
+	Long totalOrdersForCustomer(String customerId);
 }

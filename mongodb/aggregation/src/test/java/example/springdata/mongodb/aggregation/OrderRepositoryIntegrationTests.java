@@ -21,11 +21,13 @@ import static org.junit.Assert.*;
 
 import java.util.Date;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -33,6 +35,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
+ * @author Christoph Strobl
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -63,5 +66,34 @@ public class OrderRepositoryIntegrationTests {
 		assertThat(invoice.getNetAmount(), is(closeTo(8.3, 000001)));
 		assertThat(invoice.getTaxAmount(), is(closeTo(1.577, 000001)));
 		assertThat(invoice.getTotalAmount(), is(closeTo(9.877, 000001)));
+	}
+
+	@Test
+	public void declarativeAggregationWithSort() {
+
+		repository.save(new Order("c42", new Date()).addItem(product1));
+		repository.save(new Order("c42", new Date()).addItem(product2));
+		repository.save(new Order("c42", new Date()).addItem(product3));
+
+		repository.save(new Order("b12", new Date()).addItem(product1));
+		repository.save(new Order("b12", new Date()).addItem(product1));
+
+		Assertions.assertThat(repository.totalOrdersPerCustomer(Sort.by(Sort.Order.desc("total")))) //
+				.containsExactly( //
+						new OrdersPerCustomer("c42", 3L), new OrdersPerCustomer("b12", 2L) //
+				);
+	}
+
+	@Test
+	public void multiStageDeclarativeAggregation() {
+
+		repository.save(new Order("c42", new Date()).addItem(product1));
+		repository.save(new Order("c42", new Date()).addItem(product2));
+		repository.save(new Order("c42", new Date()).addItem(product3));
+
+		repository.save(new Order("b12", new Date()).addItem(product1));
+		repository.save(new Order("b12", new Date()).addItem(product1));
+
+		Assertions.assertThat(repository.totalOrdersForCustomer("c42")).isEqualTo(3);
 	}
 }
