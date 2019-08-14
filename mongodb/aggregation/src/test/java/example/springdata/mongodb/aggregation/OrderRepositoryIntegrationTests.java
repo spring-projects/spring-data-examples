@@ -15,13 +15,11 @@
  */
 package example.springdata.mongodb.aggregation;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.number.IsCloseTo.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.data.Offset.offset;
 
 import java.util.Date;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,11 +59,11 @@ public class OrderRepositoryIntegrationTests {
 
 		Invoice invoice = repository.getInvoiceFor(order);
 
-		assertThat(invoice, is(notNullValue()));
-		assertThat(invoice.getOrderId(), is(order.getId()));
-		assertThat(invoice.getNetAmount(), is(closeTo(8.3, 000001)));
-		assertThat(invoice.getTaxAmount(), is(closeTo(1.577, 000001)));
-		assertThat(invoice.getTotalAmount(), is(closeTo(9.877, 000001)));
+		assertThat(invoice).isNotNull();
+		assertThat(invoice.getOrderId()).isEqualTo(order.getId());
+		assertThat(invoice.getNetAmount()).isCloseTo(8.3D, offset(0.00001));
+		assertThat(invoice.getTaxAmount()).isCloseTo(1.577D, offset(0.00001));
+		assertThat(invoice.getTotalAmount()).isCloseTo(9.877, offset(0.00001));
 	}
 
 	@Test
@@ -78,7 +76,7 @@ public class OrderRepositoryIntegrationTests {
 		repository.save(new Order("b12", new Date()).addItem(product1));
 		repository.save(new Order("b12", new Date()).addItem(product1));
 
-		Assertions.assertThat(repository.totalOrdersPerCustomer(Sort.by(Sort.Order.desc("total")))) //
+		assertThat(repository.totalOrdersPerCustomer(Sort.by(Sort.Order.desc("total")))) //
 				.containsExactly( //
 						new OrdersPerCustomer("c42", 3L), new OrdersPerCustomer("b12", 2L) //
 				);
@@ -94,6 +92,6 @@ public class OrderRepositoryIntegrationTests {
 		repository.save(new Order("b12", new Date()).addItem(product1));
 		repository.save(new Order("b12", new Date()).addItem(product1));
 
-		Assertions.assertThat(repository.totalOrdersForCustomer("c42")).isEqualTo(3);
+		assertThat(repository.totalOrdersForCustomer("c42")).isEqualTo(3);
 	}
 }
