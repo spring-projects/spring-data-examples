@@ -1,7 +1,7 @@
 # Spring Data MongoDB - Aggregations
 
-This project contains usage samples for using MongoDB [Aggregations](https://docs.mongodb.com/manual/aggregation/) 
-showing both the programmatic and declarative approach for integrating an Aggregation Pipeline into the repository lay.
+This project contains samples for using MongoDB [Aggregations](https://docs.mongodb.com/manual/aggregation/) 
+showing both the programmatic and declarative approach for integrating an Aggregation Pipeline into a repository.
 
 ## Programmatic
 
