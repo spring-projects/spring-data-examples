@@ -21,6 +21,7 @@
 		<module>reactive</module>
 		<module>repositories</module>
 		<module>sentinel</module>
+		<module>streams</module>
 		<module>util</module>
 	</modules>
 

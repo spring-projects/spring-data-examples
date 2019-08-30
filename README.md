@@ -51,6 +51,7 @@ We have separate folders for the samples of individual modules:
 * `reactive` - Example project to show reactive template support.
 * `repositories` - Example demonstrating Spring Data repository abstraction on top of Redis.
 * `sentinel` - Example for Redis Sentinel support.
+* `streams` - Example for [Redis Streams](https://redis.io/topics/streams-intro) support.
 
 ## Spring Data for Apache Solr
 
