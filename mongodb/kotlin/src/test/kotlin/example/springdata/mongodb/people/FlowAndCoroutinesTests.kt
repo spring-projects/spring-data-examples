@@ -15,9 +15,10 @@
  */
 package example.springdata.mongodb.people
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactive.awaitSingle
-import kotlinx.coroutines.reactive.flow.asFlow
+import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -62,6 +63,7 @@ class FlowAndCoroutinesTests {
 	}
 
 	@Test
+	@ExperimentalCoroutinesApi
 	fun `find - the flow way`() {
 
 		StepVerifier.create(operations.insert<Person>().one(Person("Tyrion", "Lannister"))).expectNextCount(1).verifyComplete()
