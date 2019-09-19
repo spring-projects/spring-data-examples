@@ -22,6 +22,7 @@
 
 	<properties>
 		<spring-boot-data-r2dbc.version>0.1.0.BUILD-SNAPSHOT</spring-boot-data-r2dbc.version>
+		<r2dbc-h2.version>0.8.0.BUILD-SNAPSHOT</r2dbc-h2.version>
 	</properties>
 
 	<dependencies>
@@ -33,9 +34,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot.experimental</groupId>
-			<artifactId>spring-boot-starter-r2dbc-h2</artifactId>
-			<version>${spring-boot-data-r2dbc.version}</version>
+			<groupId>io.r2dbc</groupId>
+			<artifactId>r2dbc-h2</artifactId>
+			<version>${r2dbc-h2.version}</version>
 		</dependency>
 
 		<dependency>
