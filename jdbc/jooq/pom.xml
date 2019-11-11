@@ -14,21 +14,14 @@
 	<name>Spring Data JDBC - Usage with jOOQ</name>
 	<description>Sample project demonstrating Spring Data JDBC features</description>
 
-	<properties>
-		<jooq.version>3.11.0</jooq.version>
-		<spring-boot-starter-jooq.version>2.0.3.RELEASE</spring-boot-starter-jooq.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>${jooq.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jooq</artifactId>
-			<version>${spring-boot-starter-jooq.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jooq</groupId>
@@ -42,7 +35,6 @@
 			<plugin>
 				<groupId>org.jooq</groupId>
 				<artifactId>jooq-codegen-maven</artifactId>
-				<version>${jooq.version}</version>
 
 				<executions>
 					<execution>
