@@ -24,6 +24,7 @@ import org.springframework.data.redis.stream.StreamListener;
 
 /**
  * @author Christoph Strobl
+ * @author Mark Paluch
  */
 public class CapturingStreamListener implements StreamListener<String, MapRecord<String, String, String>> {
 
@@ -36,8 +37,8 @@ public class CapturingStreamListener implements StreamListener<String, MapRecord
 	@Override
 	public void onMessage(MapRecord<String, String, String> record) {
 
-		deque.add(record);
 		counter.incrementAndGet();
+		deque.add(record);
 	}
 
 	/**
