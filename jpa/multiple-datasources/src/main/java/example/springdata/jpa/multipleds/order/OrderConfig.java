@@ -32,7 +32,7 @@ import org.springframework.transaction.PlatformTransactionManager;
  * Configuration for the {@link Order} slice of the system. A dedicated {@link DataSource},
  * {@link JpaTransactionManager} and {@link EntityManagerFactory}. Note that there could of course be some deduplication
  * with {@link example.springdata.jpa.multipleds.customer.CustomerConfig}. I just decided to keep it to focus on the
- * sepeartion of the two. Also, some overlaps might not even occur in real world scenarios (whether to create DDl or the
+ * separation of the two. Also, some overlaps might not even occur in real world scenarios (whether to create DDL or the
  * like).
  *
  * @author Oliver Gierke
