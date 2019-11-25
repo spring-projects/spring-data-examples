@@ -92,7 +92,7 @@ public class DataInitializer {
 	}
 
 	public void initOrderSchema() {
-		Resource script = new ClassPathResource("customer.sql");
+		Resource script = new ClassPathResource("order.sql");
 		ScriptUtils.executeSqlScript(DataSourceUtils.getConnection(orderDataSource), script);
 	}
 }

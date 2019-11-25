@@ -17,6 +17,7 @@ package example.springdata.jdbc.multipleds.order;
 
 import java.util.List;
 
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import example.springdata.jdbc.multipleds.customer.Customer;
@@ -34,5 +35,6 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 	 *
 	 * @param id must not be {@literal null}.
 	 */
+	@Query("blah")
 	List<Order> findByCustomer(CustomerId id);
 }

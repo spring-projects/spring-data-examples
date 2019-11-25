@@ -17,10 +17,17 @@ package example.springdata.jdbc.multipleds.customer;
 
 import javax.sql.DataSource;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
+import org.springframework.data.jdbc.core.convert.DataAccessStrategy;
+import org.springframework.data.jdbc.core.convert.JdbcConverter;
+import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
+import org.springframework.data.jdbc.repository.support.JdbcRepositoryFactory;
+import org.springframework.data.relational.core.mapping.RelationalMappingContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -35,8 +42,7 @@ import org.springframework.transaction.PlatformTransactionManager;
  * @author Jens Schauder
  */
 @Configuration
-@EnableJdbcRepositories(jdbcOperationsRef = "customerTemplate")
-class CustomerConfig {
+class CustomerConfig extends AbstractJdbcConfiguration {
 
 	@Bean
 	PlatformTransactionManager customerTransactionManager() {
@@ -44,8 +50,8 @@ class CustomerConfig {
 	}
 
 	@Bean
-	JdbcTemplate customerTemplate() {
-		return new JdbcTemplate(customerDataSource());
+	NamedParameterJdbcTemplate customerNamedParameterTemplate() {
+		return new NamedParameterJdbcTemplate(customerDataSource());
 	}
 
 	@Bean
@@ -56,4 +62,10 @@ class CustomerConfig {
 				setName("customers").//
 				build();
 	}
+
+	@Bean
+	JdbcRepositoryFactory repositoryFactory(DataAccessStrategy dataAccessStrategy, RelationalMappingContext mappingContext, JdbcConverter converter, ApplicationEventPublisher publisher, NamedParameterJdbcOperations template) {
+		return new JdbcRepositoryFactory(dataAccessStrategy, mappingContext, converter, publisher, template);
+	}
+
 }
