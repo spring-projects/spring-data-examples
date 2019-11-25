@@ -9,6 +9,6 @@
 	</parent>
 
 	<artifactId>spring-data-jpa-multiple-datasources</artifactId>
-	<name>Spring Data JPA - Multple datasources</name>
+	<name>Spring Data JPA - Multiple datasources</name>
 
 </project>
