@@ -15,52 +15,39 @@
  */
 package example.springdata.jdbc.multipleds.order;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import example.springdata.jdbc.multipleds.customer.CustomerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * Configuration for the {@link Order} slice of the system. A dedicated {@link DataSource},
- * {@link JpaTransactionManager} and {@link EntityManagerFactory}. Note that there could of course be some deduplication
- * with {@link CustomerConfig}. I just decided to keep it to focus on the
- * sepeartion of the two. Also, some overlaps might not even occur in real world scenarios (whether to create DDl or the
+ * {@link DataSourceTransactionManager} and {@link JdbcTemplate}. Note that there could of course be some deduplication
+ * with {@link example.springdata.jdbc.multipleds.customer.CustomerConfig}. I just decided to keep it to focus on the
+ * separation of the two. Also, some overlaps might not even occur in real world scenarios (whether to create DDL or the
  * like).
  *
  * @author Jens Schauder
  */
 @Configuration
-@EnableJpaRepositories(entityManagerFactoryRef = "orderEntityManagerFactory",
-		transactionManagerRef = "orderTransactionManager")
+@EnableJdbcRepositories(jdbcOperationsRef = "orderTemplate")
 class OrderConfig {
 
 	@Bean
 	PlatformTransactionManager orderTransactionManager() {
-		return new JpaTransactionManager(orderEntityManagerFactory().getObject());
+		return new DataSourceTransactionManager(orderDataSource());
 	}
 
 	@Bean
-	LocalContainerEntityManagerFactoryBean orderEntityManagerFactory() {
+	JdbcTemplate orderTemplate() {
 
-		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setGenerateDdl(true);
-
-		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-
-		factoryBean.setDataSource(orderDataSource());
-		factoryBean.setJpaVendorAdapter(vendorAdapter);
-		factoryBean.setPackagesToScan(OrderConfig.class.getPackage().getName());
-
-		return factoryBean;
+		return new JdbcTemplate(orderDataSource());
 	}
 
 	@Bean
