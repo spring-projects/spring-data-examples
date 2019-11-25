@@ -11,4 +11,10 @@
 	<artifactId>spring-data-jpa-multiple-datasources</artifactId>
 	<name>Spring Data JPA - Multiple datasources</name>
 
+	<dependencies>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency></dependencies>
+
 </project>

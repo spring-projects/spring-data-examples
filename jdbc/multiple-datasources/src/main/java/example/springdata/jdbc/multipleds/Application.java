@@ -44,6 +44,9 @@ public class Application {
 	@PostConstruct
 	public void init() {
 
+		initializer.initCustomerSchema();
+		initializer.initOrderSchema();
+
 		CustomerId customerId = initializer.initializeCustomer();
 		initializer.initializeOrder(customerId);
 	}

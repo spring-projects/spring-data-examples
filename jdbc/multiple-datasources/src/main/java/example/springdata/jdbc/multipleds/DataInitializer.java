@@ -26,6 +26,10 @@ import lombok.RequiredArgsConstructor;
 
 import javax.sql.DataSource;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -48,6 +52,9 @@ import org.springframework.util.Assert;
 @RequiredArgsConstructor
 public class DataInitializer {
 
+	private final @NonNull DataSource customerDataSource;
+	private final @NonNull DataSource orderDataSource;
+
 	private final @NonNull OrderRepository orders;
 	private final @NonNull CustomerRepository customers;
 
@@ -58,6 +65,7 @@ public class DataInitializer {
 	 */
 	@Transactional("customerTransactionManager")
 	public CustomerId initializeCustomer() {
+
 		return customers.save(new Customer("Dave", "Matthews")).getId();
 	}
 
@@ -76,5 +84,15 @@ public class DataInitializer {
 		order.add(new LineItem("Lakewood Guitar"));
 
 		return orders.save(order);
+	}
+
+	public void initCustomerSchema() {
+		Resource script = new ClassPathResource("customer.sql");
+		ScriptUtils.executeSqlScript(DataSourceUtils.getConnection(customerDataSource), script);
+	}
+
+	public void initOrderSchema() {
+		Resource script = new ClassPathResource("customer.sql");
+		ScriptUtils.executeSqlScript(DataSourceUtils.getConnection(orderDataSource), script);
 	}
 }

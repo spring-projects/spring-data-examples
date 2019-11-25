@@ -30,15 +30,11 @@ import org.springframework.data.annotation.Id;
  */
 @EqualsAndHashCode(of = "id")
 @ToString
+@RequiredArgsConstructor
 public class Customer {
 
 	private @Id Long id;
 	private final String firstname, lastname;
-
-	Customer() {
-		this.firstname = null;
-		this.lastname = null;
-	}
 
 	public CustomerId getId() {
 		return new CustomerId(id);
