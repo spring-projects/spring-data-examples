@@ -6,6 +6,12 @@ This repository contains example projects for the different Spring Data modules 
 
 We have separate folders for the samples of individual modules:
 
+## Spring Data for Apache Geode
+
+* `advanced-examples` - Examples to show case how higher-level use cases are solved.
+* `client-server-examples` - Examples that pertain to the client-server paradigm. These examples will involve a client connecting to a server to perform operations.
+* `server-config-examples` - Examples to demonstrate the configuration of servers. This includes regions, persistence, wan, subscriptions, functions and indexes.
+
 ## Spring Data JPA
 
 * `eclipselink` - Sample project to show how to use Spring Data JPA with Spring Boot and [Eclipselink](https://www.eclipse.org/eclipselink/).

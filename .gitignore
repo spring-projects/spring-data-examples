@@ -7,3 +7,7 @@ target/
 #IntelliJ Stuff
 .idea
 *.iml
+
+#Geode Stuff
+*.log
+*.dat
