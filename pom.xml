@@ -19,6 +19,7 @@
 		<module>bom</module>
 		<module>couchbase</module>
 		<module>elasticsearch</module>
+		<module>geode</module>
 		<module>jdbc</module>
 		<module>jpa</module>
 		<module>ldap</module>
