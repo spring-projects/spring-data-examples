@@ -15,19 +15,17 @@
  */
 package example.springdata.jpa.showcase.snippets;
 
+import example.springdata.jpa.showcase.core.Account;
+import example.springdata.jpa.showcase.core.Customer;
+
+import java.time.LocalDate;
 import java.util.Date;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.joda.time.LocalDate;
 import org.springframework.data.jpa.domain.Specification;
-
-import example.springdata.jpa.showcase.core.Account;
-import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Collection of {@link Specification} implementations.
@@ -42,20 +40,16 @@ public class CustomerSpecifications {
 	 * @param date
 	 * @return
 	 */
-	public static Specification<Customer> accountExpiresBefore(final LocalDate date) {
+	public static Specification<Customer> accountExpiresBefore(LocalDate date) {
 
-		return new Specification<Customer>() {
+		return (Specification<Customer>) (root, query, cb) -> {
 
-			@Override
-			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+			Root<Account> accounts = query.from(Account.class);
+			Path<Date> expiryDate = accounts.<Date> get("expiryDate");
+			Predicate customerIsAccountOwner = cb.equal(accounts.<Customer> get("customer"), root);
+			Predicate accountExpiryDateBefore = cb.lessThan(expiryDate, java.sql.Date.valueOf(date));
 
-				Root<Account> accounts = query.from(Account.class);
-				Path<Date> expiryDate = accounts.<Date> get("expiryDate");
-				Predicate customerIsAccountOwner = cb.equal(accounts.<Customer> get("customer"), root);
-				Predicate accountExpiryDateBefore = cb.lessThan(expiryDate, date.toDateTimeAtStartOfDay().toDate());
-
-				return cb.and(customerIsAccountOwner, accountExpiryDateBefore);
-			}
+			return cb.and(customerIsAccountOwner, accountExpiryDateBefore);
 		};
 	}
 }

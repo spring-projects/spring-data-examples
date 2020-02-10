@@ -23,9 +23,8 @@ import static org.junit.Assert.assertThat;
 import example.springdata.jpa.showcase.core.Account;
 import example.springdata.jpa.showcase.snippets.AccountRepository;
 
+import java.time.LocalDate;
 import java.util.Optional;
-
-import org.joda.time.LocalDate;
 
 /**
  * @author Oliver Gierke
@@ -36,7 +35,7 @@ public abstract class AccountRepositoryIntegrationTest {
 
 	public void removesExpiredAccountsCorrectly() throws Exception {
 
-		accountRepository.removedExpiredAccounts(new LocalDate(2011, 1, 1));
+		accountRepository.removedExpiredAccounts(LocalDate.of(2011, 1, 1));
 		assertThat(accountRepository.count(), is(1L));
 	}
 
@@ -45,7 +44,7 @@ public abstract class AccountRepositoryIntegrationTest {
 		Optional<Account> expired = accountRepository.findById(1L);
 		Optional<Account> valid = accountRepository.findById(2L);
 
-		Iterable<Account> findAll = accountRepository.findAll(expiresBefore(new LocalDate(2011, 3, 1)));
+		Iterable<Account> findAll = accountRepository.findAll(expiresBefore(LocalDate.of(2011, 3, 1)));
 
 		assertThat(findAll).contains(expired.get());
 		assertThat(findAll).doesNotContain(valid.get());

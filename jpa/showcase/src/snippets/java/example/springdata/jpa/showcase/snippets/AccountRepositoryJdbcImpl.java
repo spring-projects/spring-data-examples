@@ -15,7 +15,9 @@
  */
 package example.springdata.jpa.showcase.snippets;
 
-import org.joda.time.LocalDate;
+import java.sql.Date;
+import java.time.LocalDate;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -37,6 +39,6 @@ class AccountRepositoryJdbcImpl implements AccountRepositoryCustom {
 	 */
 	@Override
 	public void removedExpiredAccounts(LocalDate reference) {
-		template.update("DELETE Account AS a WHERE a.expiryDate < ?", reference.toDateTimeAtStartOfDay().toDate());
+		template.update("DELETE Account AS a WHERE a.expiryDate < ?", Date.valueOf(reference));
 	}
 }

@@ -21,10 +21,10 @@ import static org.assertj.core.api.Assertions.*;
 import example.springdata.jpa.showcase.after.CustomerRepository;
 import example.springdata.jpa.showcase.core.Customer;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.joda.time.LocalDate;
 import org.springframework.data.jpa.domain.Specification;
 
 /**
@@ -40,7 +40,7 @@ public class CustomerRepositoryIntegrationTest {
 
 		Optional<Customer> dave = repository.findById(1L);
 
-		LocalDate expiryLimit = new LocalDate(2011, 3, 1);
+		LocalDate expiryLimit = LocalDate.of(2011, 3, 1);
 		List<Customer> result = repository.findAll(accountExpiresBefore(expiryLimit));
 
 		assertThat(result).hasSize(1);

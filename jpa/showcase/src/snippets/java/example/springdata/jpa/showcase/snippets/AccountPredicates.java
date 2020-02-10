@@ -18,7 +18,8 @@ package example.springdata.jpa.showcase.snippets;
 import example.springdata.jpa.showcase.core.Account;
 import example.springdata.jpa.showcase.core.QAccount;
 
-import org.joda.time.LocalDate;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 
@@ -32,10 +33,10 @@ public class AccountPredicates {
 	private static QAccount account = QAccount.account;
 
 	public static BooleanExpression isExpired() {
-		return expiresBefore(new LocalDate());
+		return expiresBefore(LocalDate.now());
 	}
 
 	public static BooleanExpression expiresBefore(LocalDate date) {
-		return account.expiryDate.before(date.toDateTimeAtStartOfDay().toDate());
+		return account.expiryDate.before(Date.valueOf(date));
 	}
 }

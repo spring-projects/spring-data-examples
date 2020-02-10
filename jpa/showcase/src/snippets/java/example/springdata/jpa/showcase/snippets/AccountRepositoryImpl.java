@@ -15,6 +15,7 @@
  */
 package example.springdata.jpa.showcase.snippets;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -22,7 +23,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -52,7 +52,7 @@ class AccountRepositoryImpl implements AccountRepositoryCustom {
 		CriteriaQuery<Account> query = cb.createQuery(Account.class);
 		Root<Account> account = query.from(Account.class);
 
-		query.where(cb.lessThan(account.get("expiryDate").as(Date.class), reference.toDateTimeAtStartOfDay().toDate()));
+		query.where(cb.lessThan(account.get("expiryDate").as(Date.class), java.sql.Date.valueOf(reference)));
 
 		for (Account each : em.createQuery(query).getResultList()) {
 			em.remove(each);

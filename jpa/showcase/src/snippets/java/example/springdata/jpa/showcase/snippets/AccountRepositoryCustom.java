@@ -15,7 +15,7 @@
  */
 package example.springdata.jpa.showcase.snippets;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 /**
  * @author Oliver Gierke

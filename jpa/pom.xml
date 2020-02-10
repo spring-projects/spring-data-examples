@@ -14,7 +14,7 @@
 	<name>Spring Data JPA - Examples</name>
 	<description>Sample projects for Spring Data JPA</description>
 	<url>https://projects.spring.io/spring-data-jpa</url>
-	<inceptionYear>2011-2014</inceptionYear>
+	<inceptionYear>2011</inceptionYear>
 
 	<modules>
 		<module>example</module>
@@ -54,11 +54,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
 		</dependency>
 
 		<dependency>
