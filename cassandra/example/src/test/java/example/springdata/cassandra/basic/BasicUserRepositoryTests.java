@@ -25,12 +25,13 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Version;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.datastax.driver.core.Session;
+import com.datastax.oss.driver.api.core.CqlSession;
 
 /**
  * Integration test showing the basic usage of {@link BasicUserRepository}.
@@ -49,7 +50,7 @@ public class BasicUserRepositoryTests {
 	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired BasicUserRepository repository;
-	@Autowired Session session;
+	@Autowired CqlSession session;
 	User user;
 
 	@Before

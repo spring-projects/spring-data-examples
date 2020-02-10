@@ -59,17 +59,4 @@ public class Jsr310IntegrationTests {
 
 		assertThat(repository.findOrderByOrderDateAndZoneId(order.getOrderDate(), order.getZoneId())).isEqualTo(order);
 	}
-
-	@Test
-	public void findOneByConvertedTypes() {
-
-		Order order = new Order("42", LocalDate.of(2010, 1, 2), ZoneId.systemDefault());
-
-		repository.save(order);
-
-		com.datastax.driver.core.LocalDate date = com.datastax.driver.core.LocalDate.fromYearMonthDay(2010, 1, 2);
-		String zoneId = order.getZoneId().getId();
-
-		assertThat(repository.findOrderByDate(date, zoneId)).isEqualTo(order);
-	}
 }

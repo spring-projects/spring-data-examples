@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
@@ -34,9 +35,9 @@ import org.springframework.data.cassandra.core.CassandraAdminOperations;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.datastax.driver.core.KeyspaceMetadata;
-import com.datastax.driver.core.UDTValue;
-import com.datastax.driver.core.UserType;
+import com.datastax.oss.driver.api.core.data.UdtValue;
+import com.datastax.oss.driver.api.core.metadata.schema.KeyspaceMetadata;
+import com.datastax.oss.driver.api.core.type.UserDefinedType;
 
 /**
  * Integration test to show User-Defined type support.
@@ -56,6 +57,11 @@ public class UserDefinedTypeIntegrationTest {
 		@Override
 		public String getKeyspaceName() {
 			return "example";
+		}
+
+		@Override
+		protected String getLocalDataCenter() {
+			return "datacenter1";
 		}
 
 		@Override
@@ -106,9 +112,9 @@ public class UserDefinedTypeIntegrationTest {
 	public void insertRawUdt() {
 
 		KeyspaceMetadata keyspaceMetadata = adminOperations.getKeyspaceMetadata();
-		UserType address = keyspaceMetadata.getUserType("address");
+		UserDefinedType address = keyspaceMetadata.getUserDefinedType("address").get();
 
-		UDTValue udtValue = address.newValue();
+		UdtValue udtValue = address.newValue();
 		udtValue.setString("street", "308 Negra Arroyo Lane");
 		udtValue.setString("zip", "87104");
 		udtValue.setString("city", "Albuquerque");

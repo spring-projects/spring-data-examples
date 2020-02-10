@@ -15,18 +15,14 @@
  */
 package example.springdata.cassandra.util;
 
-import io.netty.channel.EventLoopGroup;
-
-import java.util.concurrent.TimeUnit;
+import java.net.InetSocketAddress;
 
 import org.junit.AssumptionViolatedException;
+
 import org.springframework.data.util.Version;
 import org.springframework.util.Assert;
 
-import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.NettyOptions;
-import com.datastax.driver.core.ProtocolOptions;
-import com.datastax.driver.core.Session;
+import com.datastax.oss.driver.api.core.CqlSession;
 
 /**
  * {@link CassandraResource} to require (create or reuse) an Apache Cassandra keyspace and optionally require a specific
@@ -58,8 +54,8 @@ public class CassandraKeyspace extends CassandraResource {
 	 * @return the {@link CassandraKeyspace} rule.
 	 */
 	public static CassandraKeyspace onLocalhost() {
-		return new CassandraKeyspace("localhost", ProtocolOptions.DEFAULT_PORT, "example",
-				Cassandra.embeddedIfNotRunning("localhost", ProtocolOptions.DEFAULT_PORT), new Version(0, 0, 0));
+		return new CassandraKeyspace("localhost", 9042, "example", Cassandra.embeddedIfNotRunning("localhost", 9042),
+				new Version(0, 0, 0));
 	}
 
 	/**
@@ -97,17 +93,8 @@ public class CassandraKeyspace extends CassandraResource {
 
 		dependency.before();
 
-		Cluster cluster = Cluster.builder().addContactPoint(getHost()).withPort(getPort())
-				.withNettyOptions(new NettyOptions() {
-					@Override
-					public void onClusterClose(EventLoopGroup eventLoopGroup) {
-						eventLoopGroup.shutdownGracefully(0, 0, TimeUnit.MILLISECONDS).syncUninterruptibly();
-					}
-				}).build();
-
-		Session session = cluster.newSession();
-
-		try {
+		try (CqlSession session = CqlSession.builder().addContactPoint(new InetSocketAddress(getHost(), getPort()))
+				.withLocalDatacenter("datacenter1").build()) {
 
 			if (requiredVersion != null) {
 
@@ -122,9 +109,6 @@ public class CassandraKeyspace extends CassandraResource {
 
 			session.execute(String.format("CREATE KEYSPACE IF NOT EXISTS %s \n"
 					+ "WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };", keyspaceName));
-		} finally {
-			session.close();
-			cluster.close();
 		}
 	}
 

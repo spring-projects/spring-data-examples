@@ -23,8 +23,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import com.datastax.driver.core.DataType.Name;
-import com.datastax.driver.core.UDTValue;
+import com.datastax.oss.driver.api.core.data.UdtValue;
 
 /**
  * @author Mark Paluch
@@ -39,6 +38,5 @@ public class Person {
 	Address current;
 	List<Address> previous;
 
-	@CassandraType(type = Name.UDT, userTypeName = "address")
-	UDTValue alternative;
+	@CassandraType(type = CassandraType.Name.UDT, userTypeName = "address") UdtValue alternative;
 }

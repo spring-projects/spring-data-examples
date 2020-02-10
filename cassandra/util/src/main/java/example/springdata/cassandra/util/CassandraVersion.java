@@ -15,14 +15,14 @@
  */
 package example.springdata.cassandra.util;
 
+import lombok.experimental.UtilityClass;
+
 import org.springframework.data.util.Version;
 import org.springframework.util.Assert;
 
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
-
-import lombok.experimental.UtilityClass;
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.cql.ResultSet;
+import com.datastax.oss.driver.api.core.cql.Row;
 
 /**
  * Utility to retrieve the Cassandra release version.
@@ -38,7 +38,7 @@ public class CassandraVersion {
 	 * @param session must not be {@literal null}.
 	 * @return the release {@link Version}.
 	 */
-	public static Version getReleaseVersion(Session session) {
+	public static Version getReleaseVersion(CqlSession session) {
 
 		Assert.notNull(session, "Session must not be null");
 

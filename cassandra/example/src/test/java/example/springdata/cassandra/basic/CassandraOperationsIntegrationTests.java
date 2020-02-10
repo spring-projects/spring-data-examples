@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.AsyncCassandraTemplate;
@@ -36,10 +37,10 @@ import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
-import com.datastax.driver.core.querybuilder.Insert;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.cql.Row;
+import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
+import com.datastax.oss.driver.api.querybuilder.insert.Insert;
 
 /**
  * Integration test showing the basic usage of {@link CassandraTemplate}.
@@ -52,7 +53,7 @@ public class CassandraOperationsIntegrationTests {
 
 	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
-	@Autowired Session session;
+	@Autowired CqlSession session;
 	@Autowired CassandraOperations template;
 
 	@Before
@@ -67,18 +68,18 @@ public class CassandraOperationsIntegrationTests {
 	@Test
 	public void insertAndSelect() {
 
-		Insert insert = QueryBuilder.insertInto("users").value("user_id", 42L) //
-				.value("uname", "heisenberg") //
-				.value("fname", "Walter") //
-				.value("lname", "White") //
+		Insert insert = QueryBuilder.insertInto("users").value("user_id", QueryBuilder.literal(42L)) //
+				.value("uname", QueryBuilder.literal("heisenberg")) //
+				.value("fname", QueryBuilder.literal("Walter")) //
+				.value("lname", QueryBuilder.literal("White")) //
 				.ifNotExists(); //
 
-		template.getCqlOperations().execute(insert);
+		template.getCqlOperations().execute(insert.asCql());
 
 		User user = template.selectOneById(42L, User.class);
 		assertThat(user.getUsername()).isEqualTo("heisenberg");
 
-		List<User> users = template.select(QueryBuilder.select().from("users"), User.class);
+		List<User> users = template.select(QueryBuilder.selectFrom("users").all().asCql(), User.class);
 		assertThat(users).hasSize(1);
 		assertThat(users.get(0)).isEqualTo(user);
 	}
@@ -148,13 +149,13 @@ public class CassandraOperationsIntegrationTests {
 
 		template.insert(user);
 
-		Long id = template.selectOne(QueryBuilder.select("user_id").from("users"), Long.class);
+		Long id = template.selectOne(QueryBuilder.selectFrom("users").column("user_id").asCql(), Long.class);
 		assertThat(id).isEqualTo(user.getId());
 
-		Row row = template.selectOne(QueryBuilder.select("user_id").from("users"), Row.class);
+		Row row = template.selectOne(QueryBuilder.selectFrom("users").column("user_id").asCql(), Row.class);
 		assertThat(row.getLong(0)).isEqualTo(user.getId());
 
-		Map<String, Object> map = template.selectOne(QueryBuilder.select().from("users"), Map.class);
+		Map<String, Object> map = template.selectOne(QueryBuilder.selectFrom("users").all().asCql(), Map.class);
 		assertThat(map).containsEntry("user_id", user.getId());
 		assertThat(map).containsEntry("fname", "Walter");
 	}

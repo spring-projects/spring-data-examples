@@ -17,6 +17,9 @@ package example.springdata.cassandra.convert;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.datastax.oss.driver.api.core.cql.Row;
+import com.datastax.oss.driver.api.core.data.TupleValue;
+import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 import example.springdata.cassandra.util.CassandraKeyspace;
 
 import java.util.Arrays;
@@ -33,9 +36,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.TupleValue;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
 
 /**
  * @author Mark Paluch
@@ -68,7 +68,7 @@ public class ConversionIntegrationTests {
 
 		operations.insert(addressbook);
 
-		Row row = operations.selectOne(QueryBuilder.select().from("addressbook"), Row.class);
+		Row row = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Row.class);
 
 		assertThat(row).isNotNull();
 
@@ -92,7 +92,7 @@ public class ConversionIntegrationTests {
 
 		operations.insert(addressbook);
 
-		Addressbook loaded = operations.selectOne(QueryBuilder.select().from("addressbook"), Addressbook.class);
+		Addressbook loaded = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Addressbook.class);
 
 		assertThat(loaded.getMe()).isEqualTo(addressbook.getMe());
 		assertThat(loaded.getFriends()).isEqualTo(addressbook.getFriends());
@@ -113,7 +113,8 @@ public class ConversionIntegrationTests {
 
 		operations.insert(addressbook);
 
-		CustomAddressbook loaded = operations.selectOne(QueryBuilder.select().from("addressbook"), CustomAddressbook.class);
+		CustomAddressbook loaded = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(),
+				CustomAddressbook.class);
 
 		assertThat(loaded.getTheId()).isEqualTo(addressbook.getId());
 		assertThat(loaded.getMyDetailsAsJson()).contains("\"firstname\":\"Walter\"");
@@ -142,7 +143,7 @@ public class ConversionIntegrationTests {
 
 		operations.insert(addressbook);
 
-		Row row = operations.selectOne(QueryBuilder.select().from("addressbook"), Row.class);
+		Row row = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Row.class);
 
 		assertThat(row).isNotNull();
 

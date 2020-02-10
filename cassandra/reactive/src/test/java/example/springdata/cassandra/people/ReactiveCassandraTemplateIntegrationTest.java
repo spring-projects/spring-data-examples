@@ -15,7 +15,6 @@
  */
 package example.springdata.cassandra.people;
 
-import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
@@ -87,7 +86,7 @@ public class ReactiveCassandraTemplateIntegrationTest {
 	@Test
 	public void convertReactorTypesToRxJava1() throws Exception {
 
-		Flux<Person> flux = template.select(select().from("person").where(eq("lastname", "White")), Person.class);
+		Flux<Person> flux = template.select("SELECT * FROM person WHERE lastname = 'White'", Person.class);
 
 		long count = RxReactiveStreams.toObservable(flux) //
 				.count() //

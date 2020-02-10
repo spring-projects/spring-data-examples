@@ -15,8 +15,8 @@
  */
 package example.springdata.cassandra.kotlin
 
-import com.datastax.driver.core.Row
-import com.datastax.driver.core.querybuilder.QueryBuilder
+import com.datastax.oss.driver.api.core.CqlIdentifier
+import com.datastax.oss.driver.api.querybuilder.QueryBuilder
 import example.springdata.cassandra.util.CassandraKeyspace
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -26,7 +26,6 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.cassandra.core.*
-import org.springframework.data.cassandra.core.cql.CqlIdentifier
 import org.springframework.data.cassandra.core.query.Query.query
 import org.springframework.data.cassandra.core.query.isEqualTo
 import org.springframework.data.cassandra.core.query.where
@@ -60,7 +59,7 @@ class TemplateTests {
 
 	@Test
 	fun `should create collection leveraging reified type parameters`() {
-		assertThat(operations.getTableName<Person>()).isEqualTo(CqlIdentifier.of("person"))
+		assertThat(operations.getTableName<Person>()).isEqualTo(CqlIdentifier.fromCql("person"))
 	}
 
 	@Test
@@ -115,7 +114,7 @@ class TemplateTests {
 	@Test
 	fun `should apply defaulting for absent properties`() {
 
-		operations.cqlOperations.execute(QueryBuilder.insertInto("person").value("firstname", "Walter"))
+		operations.cqlOperations.execute(QueryBuilder.insertInto("person").value("firstname", QueryBuilder.literal("Walter")).asCql())
 
 		val person = operations.query<Person>()
 				.matching(query(where("firstname").isEqualTo("Walter")))

@@ -28,7 +28,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.cassandra.core.convert.CassandraCustomConversions;
 import org.springframework.util.StringUtils;
 
-import com.datastax.driver.core.Row;
+import com.datastax.oss.driver.api.core.cql.Row;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

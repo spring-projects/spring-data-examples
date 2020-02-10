@@ -36,11 +36,6 @@
 			<artifactId>spring-boot-starter-data-cassandra</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.datastax.cassandra</groupId>
-			<artifactId>cassandra-driver-core</artifactId>
-		</dependency>
-
 		<!-- Required for Embedded Cassandra -->
 		<dependency>
 			<groupId>com.codahale.metrics</groupId>
