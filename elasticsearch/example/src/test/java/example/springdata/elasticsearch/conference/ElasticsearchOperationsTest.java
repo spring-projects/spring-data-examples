@@ -15,8 +15,6 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,10 +25,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Test case to show Spring Data Elasticsearch functionality.
@@ -55,13 +58,13 @@ public class ElasticsearchOperationsTest {
 		CriteriaQuery query = new CriteriaQuery(
 				new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
 
-		List<Conference> result = operations.queryForList(query, Conference.class);
+		SearchHits<Conference> result = operations.search(query, Conference.class, IndexCoordinates.of("conference-index"));
 
-		assertThat(result, hasSize(3));
+		assertThat(result).hasSize(3);
 
-		for (Conference conference : result) {
-			assertThat(conference.getKeywords(), hasItem(expectedWord));
-			assertThat(format.parse(conference.getDate()), greaterThan(format.parse(expectedDate)));
+		for (SearchHit<Conference> conference : result) {
+			assertThat(conference.getContent().getKeywords()).contains(expectedWord);
+			assertThat(format.parse(conference.getContent().getDate())).isAfter(format.parse(expectedDate));
 		}
 	}
 
@@ -72,8 +75,8 @@ public class ElasticsearchOperationsTest {
 		String range = "330mi"; // or 530km
 		CriteriaQuery query = new CriteriaQuery(new Criteria("location").within(startLocation, range));
 
-		List<Conference> result = operations.queryForList(query, Conference.class);
+		SearchHits<Conference> result = operations.search(query, Conference.class, IndexCoordinates.of("conference-index"));
 
-		assertThat(result, hasSize(2));
+		assertThat(result).hasSize(2);
 	}
 }
