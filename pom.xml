@@ -36,6 +36,7 @@
 
 	<properties>
 		<apt.version>1.1.3</apt.version>
+		<jvm.enable-preview></jvm.enable-preview>
 	</properties>
 
 	<profiles>
@@ -114,20 +115,34 @@
 				<jdk>[13,)</jdk>
 			</activation>
 
+			<properties>
+				<jvm.enable-preview>--enable-preview</jvm.enable-preview>
+			</properties>
+
 			<build>
 				<plugins>
 					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<release>13</release>
+							<compilerArgs>
+								${jvm.enable-preview}
+							</compilerArgs>
+						</configuration>
+					</plugin>
+					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
-							<argLine>--enable-preview</argLine>
+							<argLine>${jvm.enable-preview}</argLine>
 						</configuration>
 					</plugin>
 					<plugin>
 						<artifactId>maven-failsafe-plugin</artifactId>
 						<configuration>
-							<argLine>--enable-preview</argLine>
+							<argLine>${jvm.enable-preview}</argLine>
 						</configuration>
 					</plugin>
+
 				</plugins>
 			</build>
 		</profile>
@@ -145,9 +160,6 @@
 						<artifactId>maven-compiler-plugin</artifactId>
 						<configuration>
 							<release>13</release>
-							<compilerArgs>
-								--enable-preview
-							</compilerArgs>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -167,9 +179,6 @@
 						<artifactId>maven-compiler-plugin</artifactId>
 						<configuration>
 							<release>14</release>
-							<compilerArgs>
-								--enable-preview
-							</compilerArgs>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -189,9 +198,6 @@
 						<artifactId>maven-compiler-plugin</artifactId>
 						<configuration>
 							<release>15</release>
-							<compilerArgs>
-								--enable-preview
-							</compilerArgs>
 						</configuration>
 					</plugin>
 				</plugins>

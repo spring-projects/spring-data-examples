@@ -16,7 +16,7 @@
 	<name>Spring Data JPA - EclipseLink setup example</name>
 
 	<properties>
-		<eclipselink.version>2.7.4</eclipselink.version>
+		<eclipselink.version>2.7.6</eclipselink.version>
 	</properties>
 
 	<dependencies>
@@ -133,7 +133,7 @@
 							</dependency>
 						</dependencies>
 						<configuration>
-							<argLine>-javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring-framework.version}/spring-instrument-${spring-framework.version}.jar</argLine>
+							<argLine>${jvm.enable-preview} -javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring-framework.version}/spring-instrument-${spring-framework.version}.jar</argLine>
 						</configuration>
 					</plugin>
 					<plugin>
