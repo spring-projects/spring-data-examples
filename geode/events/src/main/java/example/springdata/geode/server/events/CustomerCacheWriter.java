@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.events;
 
 import org.apache.geode.cache.CacheWriterException;
@@ -22,6 +21,9 @@ import org.apache.geode.cache.util.CacheWriterAdapter;
 import org.apache.geode.internal.cache.EntryEventImpl;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Patrick Johnson
+ */
 @Component
 public class CustomerCacheWriter extends CacheWriterAdapter<Long, Customer> {
 

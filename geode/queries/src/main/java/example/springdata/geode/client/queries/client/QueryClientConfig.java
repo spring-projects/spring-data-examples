@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.queries.client;
 
 import org.apache.geode.cache.GemFireCache;
@@ -28,9 +27,13 @@ import org.springframework.data.gemfire.config.annotation.EnableContinuousQuerie
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 import org.springframework.data.gemfire.search.lucene.LuceneTemplate;
 
+/**
+ * @author Patrick Johnson
+ */
 @Configuration
-@EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
-@ClientCacheApplication(name = "CQClientCache", logLevel = "error", pingInterval = 5000L, readTimeout = 15000, subscriptionEnabled = true, readyForEvents = true)
+@EnableGemfireRepositories
+@ClientCacheApplication(name = "CQClientCache", logLevel = "error", pingInterval = 5000L, readTimeout = 15000,
+		subscriptionEnabled = true, readyForEvents = true)
 @EnableContinuousQueries
 @EnableClusterDefinedRegions(clientRegionShortcut = ClientRegionShortcut.PROXY)
 public class QueryClientConfig {

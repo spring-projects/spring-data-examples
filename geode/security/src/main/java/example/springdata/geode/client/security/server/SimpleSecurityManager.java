@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security.server;
 
 import example.springdata.geode.client.security.Role;
 import example.springdata.geode.client.security.User;
-import org.apache.geode.security.AuthenticationFailedException;
-import org.apache.geode.security.ResourcePermission;
-import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
+import org.apache.geode.security.AuthenticationFailedException;
+import org.apache.geode.security.ResourcePermission;
+
+import org.springframework.stereotype.Service;
+
 /**
- * The [SimpleSecurityManager] class is an example Apache Geode [SecurityManager] provider implementation
- * used to secure Apache Geode.
+ * The [SimpleSecurityManager] class is an example Apache Geode [SecurityManager] provider implementation used to secure
+ * Apache Geode.
  *
  * @author John Blum
  * @see SecurityManagerSupport
@@ -81,8 +82,8 @@ public class SimpleSecurityManager extends SecurityManagerSupport {
 	 */
 	@Override
 	public boolean authorize(Object principal, ResourcePermission permission) {
-		logDebug("Principal [{}] is requesting access to a Resource {} with the required Permission [{}]",
-				principal, permission.getResource(), permission);
+		logDebug("Principal [{}] is requesting access to a Resource {} with the required Permission [{}]", principal,
+				permission.getResource(), permission);
 
 		return isAuthorized(principal, permission);
 	}

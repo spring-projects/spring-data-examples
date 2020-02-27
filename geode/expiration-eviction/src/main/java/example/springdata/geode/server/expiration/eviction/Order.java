@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.expiration.eviction;
 
 import lombok.Data;
@@ -31,10 +30,11 @@ import java.io.Serializable;
  * @author Patrick Johnson
  */
 @Data
-@IdleTimeoutExpiration(action = "DESTROY", timeout = "2")
-@TimeToLiveExpiration(action = "DESTROY", timeout = "4")
+@IdleTimeoutExpiration(action = "DESTROY", timeout = "1")
+@TimeToLiveExpiration(action = "DESTROY", timeout = "2")
 @Region("Orders")
 public class Order implements Serializable {
+
 	@Id
 	private Long id;
 	private Long total;

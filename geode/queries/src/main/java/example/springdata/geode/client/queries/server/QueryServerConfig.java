@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.queries.server;
 
 import example.springdata.geode.client.queries.Customer;
 import example.springdata.geode.client.queries.client.CustomerRepository;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -27,6 +27,9 @@ import org.springframework.data.gemfire.config.annotation.EnableIndexing;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 import org.springframework.data.gemfire.search.lucene.LuceneTemplate;
 
+/**
+ * @author Patrick Johnson
+ */
 @Configuration
 @CacheServerApplication(logLevel = "error")
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.wan.event.server.siteA;
 
 import org.apache.geode.cache.Cache;
@@ -28,15 +27,19 @@ import org.springframework.data.gemfire.config.annotation.EnableLocator;
 import org.springframework.data.gemfire.wan.GatewayReceiverFactoryBean;
 import org.springframework.data.gemfire.wan.GatewaySenderFactoryBean;
 
+/**
+ * @author Patrick Johnson
+ */
 @Configuration
 @CacheServerApplication(port = 0, locators = "localhost[10334]", name = "SiteA_Server", logLevel = "error")
-@Profile({"default", "SiteA"})
+@Profile({ "default", "SiteA" })
 @EnableLocator
 @EnableGemFireProperties(distributedSystemId = 1, remoteLocators = "localhost[20334]")
 public class SiteAWanEnabledServerConfig {
+
 	@Bean
 	GatewayReceiverFactoryBean createGatewayReceiver(GemFireCache gemFireCache) {
-		final GatewayReceiverFactoryBean gatewayReceiverFactoryBean = new GatewayReceiverFactoryBean((Cache) gemFireCache);
+		GatewayReceiverFactoryBean gatewayReceiverFactoryBean = new GatewayReceiverFactoryBean((Cache) gemFireCache);
 		gatewayReceiverFactoryBean.setStartPort(15000);
 		gatewayReceiverFactoryBean.setEndPort(15010);
 		gatewayReceiverFactoryBean.setManualStart(false);
@@ -46,7 +49,7 @@ public class SiteAWanEnabledServerConfig {
 	@Bean
 	@DependsOn("DiskStore")
 	GatewaySenderFactoryBean createGatewaySender(GemFireCache gemFireCache) {
-		final GatewaySenderFactoryBean gatewaySenderFactoryBean = new GatewaySenderFactoryBean(gemFireCache);
+		GatewaySenderFactoryBean gatewaySenderFactoryBean = new GatewaySenderFactoryBean(gemFireCache);
 		gatewaySenderFactoryBean.setBatchSize(15);
 		gatewaySenderFactoryBean.setBatchTimeInterval(1000);
 		gatewaySenderFactoryBean.setRemoteDistributedSystemId(2);

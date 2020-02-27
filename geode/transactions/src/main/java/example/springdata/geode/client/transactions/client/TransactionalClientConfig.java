@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.transactions.client;
 
 import org.apache.geode.cache.client.ClientRegionShortcut;
@@ -26,6 +25,9 @@ import org.springframework.data.gemfire.repository.config.EnableGemfireRepositor
 import org.springframework.data.gemfire.transaction.config.EnableGemfireCacheTransactions;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * @author Patrick Johnson
+ */
 @EnableClusterDefinedRegions(clientRegionShortcut = ClientRegionShortcut.PROXY)
 @EnableTransactionManagement
 @EnableGemfireCacheTransactions
@@ -33,6 +35,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnablePdx
 @ComponentScan(basePackageClasses = CustomerService.class)
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
-@ClientCacheApplication(name = "TransactionalClient", logLevel = "error", pingInterval = 5000L, readTimeout = 15000, retryAttempts = 1)
-public class TransactionalClientConfig {
-}
+@ClientCacheApplication(name = "TransactionalClient", logLevel = "error", pingInterval = 5000L, readTimeout = 15000,
+		retryAttempts = 1)
+public class TransactionalClientConfig {}

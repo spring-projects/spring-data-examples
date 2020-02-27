@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security.server;
 
 import example.springdata.geode.client.security.Customer;
+
+import javax.sql.DataSource;
+
 import org.apache.geode.cache.RegionShortcut;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -29,32 +32,25 @@ import org.springframework.data.gemfire.config.annotation.EnableManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import javax.sql.DataSource;
-
+/**
+ * @author Patrick Johnson
+ */
 @Configuration
 @EnableLocator
 @EnableIndexing
 @EnableManager
-@Import({ApacheShiroIniConfiguration.class, GeodeIntegratedSecurityProxyConfiguration.class})
+@Import({ ApacheShiroIniConfiguration.class, GeodeIntegratedSecurityProxyConfiguration.class })
 @CacheServerApplication(port = 0, logLevel = "error")
 @EnableEntityDefinedRegions(basePackageClasses = Customer.class, serverRegionShortcut = RegionShortcut.REPLICATE)
 public class SecurityEnabledServerConfiguration {
 
 	@Bean
 	DataSource hsqlDataSource() {
-		return new EmbeddedDatabaseBuilder()
-				.setName("geode_security")
-				.setScriptEncoding("UTF-8")
-				.setType(EmbeddedDatabaseType.HSQL)
-				.addScript("sql/geode-security-schema-ddl.sql")
-				.addScript("sql/define-roles-table-ddl.sql")
-				.addScript("sql/define-roles-permissions-table-ddl.sql")
-				.addScript("sql/define-users-table-ddl.sql")
-				.addScript("sql/define-users-roles-table-ddl.sql")
-				.addScript("sql/insert-roles-dml.sql")
-				.addScript("sql/insert-roles-permissions-dml.sql")
-				.addScript("sql/insert-users-dml.sql")
-				.addScript("sql/insert-users-roles-dml.sql")
-				.build();
+		return new EmbeddedDatabaseBuilder().setName("geode_security").setScriptEncoding("UTF-8")
+				.setType(EmbeddedDatabaseType.HSQL).addScript("sql/geode-security-schema-ddl.sql")
+				.addScript("sql/define-roles-table-ddl.sql").addScript("sql/define-roles-permissions-table-ddl.sql")
+				.addScript("sql/define-users-table-ddl.sql").addScript("sql/define-users-roles-table-ddl.sql")
+				.addScript("sql/insert-roles-dml.sql").addScript("sql/insert-roles-permissions-dml.sql")
+				.addScript("sql/insert-users-dml.sql").addScript("sql/insert-users-roles-dml.sql").build();
 	}
 }

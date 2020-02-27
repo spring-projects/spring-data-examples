@@ -20,12 +20,14 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.gemfire.config.annotation.EnableExpiration;
 import org.springframework.data.gemfire.expiration.ExpirationActionType;
 
+/**
+ * @author Patrick Johnson
+ */
 @Profile("!default")
 @Configuration
 @EnableExpiration(policies = {
-		@EnableExpiration.ExpirationPolicy(timeout = 4, action = ExpirationActionType.DESTROY,
-				regionNames = {"Customers"}, types = {EnableExpiration.ExpirationType.TIME_TO_LIVE}),
 		@EnableExpiration.ExpirationPolicy(timeout = 2, action = ExpirationActionType.DESTROY,
-				regionNames = {"Customers"}, types = {EnableExpiration.ExpirationType.IDLE_TIMEOUT})})
-public class ExpirationPolicyConfig {
-}
+				regionNames = { "Customers" }, types = { EnableExpiration.ExpirationType.TIME_TO_LIVE }),
+		@EnableExpiration.ExpirationPolicy(timeout = 1, action = ExpirationActionType.DESTROY,
+				regionNames = { "Customers" }, types = { EnableExpiration.ExpirationType.IDLE_TIMEOUT }) })
+public class ExpirationPolicyConfig {}

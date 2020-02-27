@@ -13,26 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.transactions.server;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.geode.cache.TransactionEvent;
 import org.apache.geode.cache.TransactionWriter;
 import org.apache.geode.cache.TransactionWriterException;
 import org.apache.geode.internal.cache.TXEntryState;
 import org.apache.geode.internal.cache.TXEvent;
+
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
+/**
+ * @author Patrick Johnson
+ */
 @Component
 public class CustomerTransactionWriter implements TransactionWriter {
 
 	@Override
 	public void beforeCommit(TransactionEvent transactionEvent) throws TransactionWriterException {
+
 		AtomicBoolean six_found = new AtomicBoolean(false);
+
 		((TXEvent) transactionEvent).getEvents().forEach(event -> {
-			if (event instanceof TXEntryState.TxEntryEventImpl && ((TXEntryState.TxEntryEventImpl) event).getKey().equals(6L)) {
+			if (event instanceof TXEntryState.TxEntryEventImpl
+					&& ((TXEntryState.TxEntryEventImpl) event).getKey().equals(6L)) {
 				six_found.set(true);
 			}
 		});

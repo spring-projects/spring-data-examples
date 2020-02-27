@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.events;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.asyncqueue.AsyncEvent;
 import org.apache.geode.cache.asyncqueue.AsyncEventListener;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-
+/**
+ * @author Patrick Johnson
+ */
 public class OrderAsyncQueueListener implements AsyncEventListener {
 
 	private Region<Long, OrderProductSummary> summaryRegion;
@@ -34,9 +37,9 @@ public class OrderAsyncQueueListener implements AsyncEventListener {
 
 	@Override
 	public boolean processEvents(List<AsyncEvent> list) {
-		HashMap<Long, OrderProductSummary> summaryMap = new HashMap<>();
+		Map<Long, OrderProductSummary> summaryMap = new HashMap<>();
 		list.forEach(asyncEvent -> {
-			final Order order = (Order) asyncEvent.getDeserializedValue();
+			Order order = (Order) asyncEvent.getDeserializedValue();
 			if (order != null) {
 				order.getLineItems().forEach(lineItem -> {
 					OrderProductSummary orderProductSummary = summaryMap.get(lineItem.getProductId());
@@ -50,14 +53,15 @@ public class OrderAsyncQueueListener implements AsyncEventListener {
 		});
 
 		summaryMap.forEach((orderProductSummaryKey, orderProductSummary) -> {
-			final OrderProductSummary productSummary = summaryRegion.get(orderProductSummaryKey);
+			OrderProductSummary productSummary = summaryRegion.get(orderProductSummaryKey);
 			if (productSummary != null) {
-				final BigDecimal newSummaryAmount = productSummary.getSummaryAmount().add(orderProductSummary.getSummaryAmount());
+				BigDecimal newSummaryAmount = productSummary.getSummaryAmount().add(orderProductSummary.getSummaryAmount());
 				summaryRegion.put(orderProductSummaryKey, new OrderProductSummary(orderProductSummaryKey, newSummaryAmount));
 			} else {
 				summaryRegion.put(orderProductSummaryKey, orderProductSummary);
 			}
 		});
+
 		return true;
 	}
 }

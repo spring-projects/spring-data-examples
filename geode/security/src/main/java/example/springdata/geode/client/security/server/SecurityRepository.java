@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security.server;
 
 import example.springdata.geode.client.security.Role;
@@ -24,8 +23,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * The [SecurityRepository] interface is a contract for Data Access Objects (DAO) implementing this interface
- * to perform CRUD and query operations on [User] information, pertinent to the security of the system.
+ * The [SecurityRepository] interface is a contract for Data Access Objects (DAO) implementing this interface to perform
+ * CRUD and query operations on [User] information, pertinent to the security of the system.
  *
  * @author John Blum
  * @author Udo Kohlmeyer
@@ -35,6 +34,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public interface SecurityRepository {
+
 	/**
 	 * Finds all [Users][User] of the system.
 	 *
@@ -154,4 +154,3 @@ public interface SecurityRepository {
 		return saved;
 	}
 }
-

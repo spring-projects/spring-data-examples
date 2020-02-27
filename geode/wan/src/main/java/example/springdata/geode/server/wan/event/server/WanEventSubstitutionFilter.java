@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.wan.event.server;
 
 import example.springdata.geode.server.wan.event.Customer;
+
 import org.apache.geode.cache.EntryEvent;
 import org.apache.geode.cache.wan.GatewayEventSubstitutionFilter;
+
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Patrick Johnson
+ */
 @Component
 public class WanEventSubstitutionFilter implements GatewayEventSubstitutionFilter<Long, Customer> {
 
 	@Override
 	public Object getSubstituteValue(EntryEvent<Long, Customer> event) {
 		Customer customer = event.getNewValue();
-		return new Customer(customer.getId(), customer.getEmailAddress(), customer.getFirstName(), customer.getLastName().substring(0, 1));
+		return new Customer(customer.getId(), customer.getEmailAddress(), customer.getFirstName(),
+				customer.getLastName().substring(0, 1));
 	}
 }

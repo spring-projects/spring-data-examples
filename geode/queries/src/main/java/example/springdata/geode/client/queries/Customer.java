@@ -33,11 +33,10 @@ import java.io.Serializable;
 @Data
 @PartitionRegion(name = "Customers")
 public class Customer implements Serializable {
+
 	@Id
 	private Long id;
-
 	private EmailAddress emailAddress;
-
 	private String firstName;
 
 	@LuceneIndexed(name = "lastName_lucene")

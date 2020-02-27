@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.wan.event.server.siteB;
 
 import example.springdata.geode.server.wan.event.Customer;
 import example.springdata.geode.server.wan.event.server.EvenNumberedKeyWanEventFilter;
 import example.springdata.geode.server.wan.event.server.WanEventSubstitutionFilter;
 import example.springdata.geode.server.wan.event.server.WanTransportEncryptionListener;
+
+import java.util.Collections;
+
 import org.apache.geode.cache.Cache;
 import org.apache.geode.cache.GemFireCache;
 import org.apache.geode.cache.wan.GatewayEventFilter;
 import org.apache.geode.cache.wan.GatewayEventSubstitutionFilter;
 import org.apache.geode.cache.wan.GatewayTransportFilter;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -36,18 +39,20 @@ import org.springframework.data.gemfire.config.annotation.EnableLocator;
 import org.springframework.data.gemfire.wan.GatewayReceiverFactoryBean;
 import org.springframework.data.gemfire.wan.GatewaySenderFactoryBean;
 
-import java.util.Collections;
-
+/**
+ * @author Patrick Johnson
+ */
 @Configuration
 @CacheServerApplication(port = 0, locators = "localhost[20334]", name = "SiteB_Server", logLevel = "error")
 @Profile("SiteB")
 @EnableLocator(port = 20334)
 @EnableGemFireProperties(distributedSystemId = 2, remoteLocators = "localhost[10334]")
-@Import({EvenNumberedKeyWanEventFilter.class, WanEventSubstitutionFilter.class, WanTransportEncryptionListener.class})
+@Import({ EvenNumberedKeyWanEventFilter.class, WanEventSubstitutionFilter.class, WanTransportEncryptionListener.class })
 public class SiteBWanServerConfig {
+
 	@Bean
 	GatewayReceiverFactoryBean createGatewayReceiver(GemFireCache gemFireCache) {
-		final GatewayReceiverFactoryBean gatewayReceiverFactoryBean = new GatewayReceiverFactoryBean((Cache) gemFireCache);
+		GatewayReceiverFactoryBean gatewayReceiverFactoryBean = new GatewayReceiverFactoryBean((Cache) gemFireCache);
 		gatewayReceiverFactoryBean.setStartPort(25000);
 		gatewayReceiverFactoryBean.setEndPort(25010);
 		return gatewayReceiverFactoryBean;
@@ -56,8 +61,9 @@ public class SiteBWanServerConfig {
 	@Bean
 	@DependsOn("DiskStore")
 	GatewaySenderFactoryBean createGatewaySender(GemFireCache gemFireCache, GatewayEventFilter gatewayEventFilter,
-												 GatewayTransportFilter gatewayTransportFilter, GatewayEventSubstitutionFilter<Long, Customer> gatewayEventSubstitutionFilter) {
-		final GatewaySenderFactoryBean gatewaySenderFactoryBean = new GatewaySenderFactoryBean(gemFireCache);
+			GatewayTransportFilter gatewayTransportFilter,
+			GatewayEventSubstitutionFilter<Long, Customer> gatewayEventSubstitutionFilter) {
+		GatewaySenderFactoryBean gatewaySenderFactoryBean = new GatewaySenderFactoryBean(gemFireCache);
 		gatewaySenderFactoryBean.setBatchSize(15);
 		gatewaySenderFactoryBean.setBatchTimeInterval(1000);
 		gatewaySenderFactoryBean.setRemoteDistributedSystemId(1);

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.transactions;
 
 import lombok.Data;
@@ -26,6 +25,7 @@ import lombok.Data;
  */
 @Data
 public class EmailAddress {
+
 	private String value;
 
 	public EmailAddress(String value) {

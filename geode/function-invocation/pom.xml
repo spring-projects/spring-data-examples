@@ -2,17 +2,14 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>example.springdata.geode</groupId>
-        <artifactId>spring-data-geode-examples</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>function-invocation</artifactId>
-    <version>1.0-SNAPSHOT</version>
+	<modelVersion>4.0.0</modelVersion>
 
-    <dependencies>
+	<parent>
+		<groupId>org.springframework.data.examples</groupId>
+		<artifactId>spring-data-geode-examples</artifactId>
+		<version>2.0.0.BUILD-SNAPSHOT</version>
+	</parent>
 
-    </dependencies>
+	<artifactId>function-invocation</artifactId>
 
 </project>

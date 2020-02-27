@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.expiration.eviction;
 
 import org.springframework.data.gemfire.mapping.annotation.Region;
 import org.springframework.data.repository.CrudRepository;
 
+/**
+ * @author Patrick Johnson
+ */
 @Region("Customers")
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
-}
+public interface CustomerRepository extends CrudRepository<Customer, Long> {}

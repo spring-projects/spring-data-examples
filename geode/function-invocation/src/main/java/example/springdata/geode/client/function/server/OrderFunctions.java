@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.function.server;
 
 import example.springdata.geode.client.function.Order;
-import org.springframework.data.gemfire.function.annotation.GemfireFunction;
-import org.springframework.data.gemfire.function.annotation.RegionData;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
+import org.springframework.data.gemfire.function.annotation.GemfireFunction;
+import org.springframework.data.gemfire.function.annotation.RegionData;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author Patrick Johnson
+ */
 @Component
 public class OrderFunctions {
 

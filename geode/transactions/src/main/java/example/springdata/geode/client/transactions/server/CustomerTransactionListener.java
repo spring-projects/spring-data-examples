@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.transactions.server;
 
+import java.util.stream.Collectors;
+
+import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.geode.cache.CacheEvent;
 import org.apache.geode.cache.TransactionEvent;
 import org.apache.geode.cache.util.TransactionListenerAdapter;
 import org.apache.geode.internal.cache.TXEntryState;
+
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
+/**
+ * @author Patrick Johnson
+ */
 @Component
+@CommonsLog
 public class CustomerTransactionListener extends TransactionListenerAdapter {
-	private Log log = LogFactory.getLog(CustomerTransactionListener.class);
 
 	@Override
 	public void afterFailedCommit(TransactionEvent event) {
@@ -37,7 +41,8 @@ public class CustomerTransactionListener extends TransactionListenerAdapter {
 
 	@Override
 	public void afterRollback(TransactionEvent event) {
-		log.info("In afterRollback for entry(s) [" + event.getEvents().stream().map(this::getEventInfo).collect(Collectors.toList()) + "]");
+		log.info("In afterRollback for entry(s) ["
+				+ event.getEvents().stream().map(this::getEventInfo).collect(Collectors.toList()) + "]");
 	}
 
 	private String getEventInfo(CacheEvent cacheEvent) {

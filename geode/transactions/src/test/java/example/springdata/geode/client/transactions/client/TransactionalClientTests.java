@@ -13,41 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.transactions.client;
+
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.geode.client.transactions.Customer;
 import example.springdata.geode.client.transactions.EmailAddress;
 import example.springdata.geode.client.transactions.server.TransactionalServer;
+import lombok.extern.apachecommons.CommonsLog;
+
+import java.io.IOException;
+
+import javax.annotation.Resource;
+
 import org.apache.geode.cache.Region;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.gemfire.tests.integration.ForkingClientServerIntegrationTestsSupport;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
-import java.io.IOException;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+/**
+ * @author Patrick Johnson
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = TransactionalClientConfig.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@SpringBootTest(classes = TransactionalClientConfig.class)
+@CommonsLog
 public class TransactionalClientTests extends ForkingClientServerIntegrationTestsSupport {
 
-	@Autowired
-	private CustomerService customerService;
+	@Autowired private CustomerService customerService;
 
-	@Resource(name = "Customers")
-	private Region<Long, Customer> customers;
-
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Resource(name = "Customers") private Region<Long, Customer> customers;
 
 	@BeforeClass
 	public static void setup() throws IOException {
@@ -57,26 +56,26 @@ public class TransactionalClientTests extends ForkingClientServerIntegrationTest
 	@Test
 	public void transactionsConfiguredCorrectly() throws InterruptedException {
 
-		logger.info("Number of Entries stored before = " + customerService.numberEntriesStoredOnServer());
+		log.info("Number of Entries stored before = " + customerService.numberEntriesStoredOnServer());
 		customerService.createFiveCustomers();
 		assertThat(customerService.numberEntriesStoredOnServer()).isEqualTo(5);
-		logger.info("Number of Entries stored after = " + customerService.numberEntriesStoredOnServer());
-		logger.info("Customer for ID before (transaction commit success) = " + customerService.findById(2L).get());
+		log.info("Number of Entries stored after = " + customerService.numberEntriesStoredOnServer());
+		log.info("Customer for ID before (transaction commit success) = " + customerService.findById(2L).get());
 		customerService.updateCustomersSuccess();
 		assertThat(customerService.numberEntriesStoredOnServer()).isEqualTo(5);
 		Customer customer = customerService.findById(2L).get();
 		assertThat(customer.getFirstName()).isEqualTo("Humpty");
-		logger.info("Customer for ID after (transaction commit success) = " + customer);
+		log.info("Customer for ID after (transaction commit success) = " + customer);
 
 		try {
 			customerService.updateCustomersFailure();
 		} catch (IllegalArgumentException exception) {
-			exception.printStackTrace();
+			// do not print the exception to not spam the log
 		}
 
 		customer = customerService.findById(2L).get();
 		assertThat(customer.getFirstName()).isEqualTo("Humpty");
-		logger.info("Customer for ID after (transaction commit failure) = " + customerService.findById(2L).get());
+		log.info("Customer for ID after (transaction commit failure) = " + customerService.findById(2L).get());
 
 		Customer numpty = new Customer(2L, new EmailAddress("2@2.com"), "Numpty", "Hamilton");
 		Customer frumpy = new Customer(2L, new EmailAddress("2@2.com"), "Frumpy", "Hamilton");
@@ -84,6 +83,6 @@ public class TransactionalClientTests extends ForkingClientServerIntegrationTest
 		customerService.updateCustomersWithDelay(10, frumpy);
 		customer = customerService.findById(2L).get();
 		assertThat(customer).isEqualTo(frumpy);
-		logger.info("Customer for ID after 2 updates with delay = " + customer);
+		log.info("Customer for ID after 2 updates with delay = " + customer);
 	}
 }

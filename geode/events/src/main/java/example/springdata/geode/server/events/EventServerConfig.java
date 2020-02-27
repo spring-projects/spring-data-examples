@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.events;
 
 import org.apache.geode.cache.Cache;
@@ -48,7 +47,7 @@ public class EventServerConfig {
 
 	@Bean
 	AsyncEventQueueFactoryBean orderAsyncEventQueue(GemFireCache gemFireCache, AsyncEventListener orderAsyncEventListener) {
-		final AsyncEventQueueFactoryBean asyncEventQueueFactoryBean = new AsyncEventQueueFactoryBean((Cache) gemFireCache);
+		AsyncEventQueueFactoryBean asyncEventQueueFactoryBean = new AsyncEventQueueFactoryBean((Cache) gemFireCache);
 		asyncEventQueueFactoryBean.setBatchTimeInterval(1000);
 		asyncEventQueueFactoryBean.setBatchSize(5);
 		asyncEventQueueFactoryBean.setAsyncEventListener(orderAsyncEventListener);
@@ -57,7 +56,7 @@ public class EventServerConfig {
 
 	@Bean(name = "OrderProductSummary")
 	PartitionedRegionFactoryBean<Long, Order> createOrderProductSummaryRegion(GemFireCache gemFireCache) {
-		final PartitionedRegionFactoryBean<Long, Order> partitionedRegionFactoryBean = new PartitionedRegionFactoryBean<>();
+		PartitionedRegionFactoryBean<Long, Order> partitionedRegionFactoryBean = new PartitionedRegionFactoryBean<>();
 		partitionedRegionFactoryBean.setCache(gemFireCache);
 		partitionedRegionFactoryBean.setRegionName("OrderProductSummary");
 		partitionedRegionFactoryBean.setDataPolicy(DataPolicy.PARTITION);
@@ -66,7 +65,7 @@ public class EventServerConfig {
 
 	@Bean("Orders")
 	PartitionedRegionFactoryBean<Long, Order> createOrderRegion(GemFireCache gemFireCache, AsyncEventQueue orderAsyncEventQueue) {
-		final PartitionedRegionFactoryBean<Long, Order> partitionedRegionFactoryBean = new PartitionedRegionFactoryBean<>();
+		PartitionedRegionFactoryBean<Long, Order> partitionedRegionFactoryBean = new PartitionedRegionFactoryBean<>();
 		partitionedRegionFactoryBean.setCache(gemFireCache);
 		partitionedRegionFactoryBean.setRegionName("Orders");
 		partitionedRegionFactoryBean.setDataPolicy(DataPolicy.PARTITION);
@@ -77,7 +76,7 @@ public class EventServerConfig {
 	@Bean("Products")
 	ReplicatedRegionFactoryBean<Long, Product> createProductRegion(GemFireCache gemFireCache, CacheListener<Long, Product> loggingCacheListener,
 																   CacheLoader<Long, Product> productCacheLoader) {
-		final ReplicatedRegionFactoryBean<Long, Product> replicatedRegionFactoryBean = new ReplicatedRegionFactoryBean<>();
+		ReplicatedRegionFactoryBean<Long, Product> replicatedRegionFactoryBean = new ReplicatedRegionFactoryBean<>();
 		replicatedRegionFactoryBean.setCache(gemFireCache);
 		replicatedRegionFactoryBean.setRegionName("Products");
 		replicatedRegionFactoryBean.setDataPolicy(DataPolicy.REPLICATE);
@@ -90,7 +89,7 @@ public class EventServerConfig {
 	ReplicatedRegionFactoryBean<Long, Customer> createCustomerRegion(GemFireCache gemFireCache,
 																	 CacheWriter<Long, Customer> customerCacheWriter,
 																	 CacheListener<Long, Customer> loggingCacheListener) {
-		final ReplicatedRegionFactoryBean<Long, Customer> replicatedRegionFactoryBean = new ReplicatedRegionFactoryBean<>();
+		ReplicatedRegionFactoryBean<Long, Customer> replicatedRegionFactoryBean = new ReplicatedRegionFactoryBean<>();
 		replicatedRegionFactoryBean.setCache(gemFireCache);
 		replicatedRegionFactoryBean.setRegionName("Customers");
 		replicatedRegionFactoryBean.setDataPolicy(DataPolicy.REPLICATE);

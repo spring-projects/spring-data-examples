@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.expiration.eviction;
 
 import org.apache.geode.cache.CustomExpiry;
@@ -21,10 +20,12 @@ import org.apache.geode.cache.ExpirationAction;
 import org.apache.geode.cache.ExpirationAttributes;
 import org.apache.geode.cache.Region;
 
-
+/**
+ * @author Patrick Johnson
+ */
 public class CustomCustomerExpiry implements CustomExpiry<Long, Product> {
 
-	private int timeout;
+	private final int timeout;
 
 	public CustomCustomerExpiry(int timeout) {
 		this.timeout = timeout;

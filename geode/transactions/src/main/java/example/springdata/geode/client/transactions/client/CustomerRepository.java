@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.transactions.client;
 
 import example.springdata.geode.client.transactions.Customer;
+
 import org.springframework.data.gemfire.mapping.annotation.ClientRegion;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
+/**
+ * @author Patrick Johnson
+ */
 @ClientRegion("Customers")
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
-
-	List<Customer> findAll();
-}
+public interface CustomerRepository extends CrudRepository<Customer, Long> {}

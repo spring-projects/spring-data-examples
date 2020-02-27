@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security.client;
 
 import example.springdata.geode.client.security.Customer;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
+import org.springframework.data.repository.CrudRepository;
+
+/**
+ * @author Patrick Johnson
+ */
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
+
+	@Override
 	List<Customer> findAll();
+
 }

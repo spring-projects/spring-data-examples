@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.function.client;
 
 import example.springdata.geode.client.function.Customer;
 import example.springdata.geode.client.function.Order;
 import example.springdata.geode.client.function.Product;
+
 import org.apache.geode.cache.GemFireCache;
 import org.apache.geode.cache.client.ClientRegionShortcut;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.gemfire.client.ClientRegionFactoryBean;
@@ -35,11 +36,11 @@ import org.springframework.data.gemfire.transaction.config.EnableGemfireCacheTra
  * @author Udo Kohlmeyer
  * @author Patrick Johnson
  */
-
 @Configuration
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
 @EnableGemfireFunctionExecutions(basePackageClasses = CustomerFunctionExecutions.class)
-@ClientCacheApplication(name = "FunctionInvocationClient", logLevel = "error", pingInterval = 5000L, readTimeout = 15000, retryAttempts = 1)
+@ClientCacheApplication(name = "FunctionInvocationClient", logLevel = "error", pingInterval = 5000L,
+		readTimeout = 15000, retryAttempts = 1)
 @EnableGemfireCacheTransactions
 public class FunctionInvocationClientApplicationConfig {
 

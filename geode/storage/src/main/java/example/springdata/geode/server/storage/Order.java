@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.storage;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.gemfire.mapping.annotation.Region;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.gemfire.mapping.annotation.Region;
 
 /**
  * Orders object used in the examples
@@ -34,8 +34,8 @@ import java.util.List;
 @Data
 @Region("Orders")
 public class Order implements Serializable {
-	@Id
-	private Long id;
+
+	@Id private Long id;
 	private Long customerId;
 	private Address billingAddress;
 	private Address shippingAddress;

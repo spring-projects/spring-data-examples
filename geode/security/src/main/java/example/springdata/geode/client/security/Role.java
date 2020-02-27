@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security;
 
 import lombok.Data;
-import org.apache.geode.security.ResourcePermission;
-import org.cp.elements.lang.Identifiable;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+
+import org.apache.geode.security.ResourcePermission;
 
 /**
  * The [Role] class is an Abstract Data Type (ADT) modeling a role of a user (e.g. Admin).
@@ -34,11 +33,10 @@ import java.util.Iterator;
  * @see Comparable
  * @see Iterable
  * @see ResourcePermission
- * @see org.cp.elements.lang.Identifiable
  * @since 1.0.0
  */
 @Data
-public class Role implements Comparable<Role>, Identifiable<String>, Iterable<ResourcePermission>, Serializable {
+public class Role implements Comparable<Role>, Iterable<ResourcePermission>, Serializable {
 
 	private String name;
 	private HashSet<ResourcePermission> permissions = new HashSet<>();
@@ -47,12 +45,10 @@ public class Role implements Comparable<Role>, Identifiable<String>, Iterable<Re
 		this.name = name;
 	}
 
-	@Override
 	public String getId() {
 		return name;
 	}
 
-	@Override
 	public void setId(String id) {
 		throw new UnsupportedOperationException("Operation Not Supported");
 	}
@@ -69,8 +65,8 @@ public class Role implements Comparable<Role>, Identifiable<String>, Iterable<Re
 	 * Determines whether this [Role] has been assigned (granted) the given [permission][ResourcePermission].
 	 *
 	 * @param permission [ResourcePermission] to evaluate.
-	 * @return a boolean value indicating whether this [Role] has been assigned (granted)
-	 * the given [permission][ResourcePermission].
+	 * @return a boolean value indicating whether this [Role] has been assigned (granted) the given
+	 *         [permission][ResourcePermission].
 	 * @see ResourcePermission
 	 */
 	public boolean hasPermission(ResourcePermission permission) {

@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.function.client;
 
 import example.springdata.geode.client.function.Customer;
+
+import java.util.List;
+
 import org.springframework.data.gemfire.mapping.annotation.ClientRegion;
 import org.springframework.data.gemfire.repository.Query;
 import org.springframework.data.gemfire.repository.query.annotation.Hint;
@@ -24,8 +26,9 @@ import org.springframework.data.gemfire.repository.query.annotation.Limit;
 import org.springframework.data.gemfire.repository.query.annotation.Trace;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
+/**
+ * @author Patrick Johnson
+ */
 @ClientRegion("Customers")
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 

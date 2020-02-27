@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.expiration.eviction;
 
-import com.github.javafaker.Faker;
 import org.apache.geode.cache.CustomExpiry;
 import org.apache.geode.cache.DataPolicy;
 import org.apache.geode.cache.GemFireCache;
 import org.apache.geode.cache.Scope;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,16 +33,19 @@ import org.springframework.data.gemfire.eviction.EvictionActionType;
 import org.springframework.data.gemfire.eviction.EvictionPolicyType;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 
+import com.github.javafaker.Faker;
+
+/**
+ * @author Patrick Johnson
+ */
 @Configuration
 @CacheServerApplication(logLevel = "error")
 @EnableLocator
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
 @EnableExpiration
 @Import(ExpirationPolicyConfig.class)
-@EnableEviction(policies = @EnableEviction.EvictionPolicy(regionNames = "Orders",
-		maximum = 10,
-		action = EvictionActionType.LOCAL_DESTROY,
-		type = EvictionPolicyType.ENTRY_COUNT))
+@EnableEviction(policies = @EnableEviction.EvictionPolicy(regionNames = "Orders", maximum = 10,
+		action = EvictionActionType.LOCAL_DESTROY, type = EvictionPolicyType.ENTRY_COUNT))
 public class ExpirationEvictionServerConfig {
 
 	@Bean
@@ -63,9 +65,9 @@ public class ExpirationEvictionServerConfig {
 
 	@Bean("Products")
 	public ReplicatedRegionFactoryBean<Long, Product> createProductRegion(GemFireCache gemFireCache,
-																		  @Qualifier("IDLE") CustomExpiry<Long, Product> idleExpiry,
-																		  @Qualifier("TTL") CustomExpiry<Long, Product> ttlExpiry) {
-		final ReplicatedRegionFactoryBean<Long, Product> regionFactoryBean = new ReplicatedRegionFactoryBean<>();
+			@Qualifier("IDLE") CustomExpiry<Long, Product> idleExpiry,
+			@Qualifier("TTL") CustomExpiry<Long, Product> ttlExpiry) {
+		ReplicatedRegionFactoryBean<Long, Product> regionFactoryBean = new ReplicatedRegionFactoryBean<>();
 		regionFactoryBean.setCache(gemFireCache);
 		regionFactoryBean.setScope(Scope.DISTRIBUTED_ACK);
 		regionFactoryBean.setDataPolicy(DataPolicy.REPLICATE);
@@ -77,7 +79,7 @@ public class ExpirationEvictionServerConfig {
 
 	@Bean("Customers")
 	public ReplicatedRegionFactoryBean<Long, Customer> createCustomerRegion(GemFireCache gemFireCache) {
-		final ReplicatedRegionFactoryBean<Long, Customer> regionFactoryBean = new ReplicatedRegionFactoryBean<>();
+		ReplicatedRegionFactoryBean<Long, Customer> regionFactoryBean = new ReplicatedRegionFactoryBean<>();
 		regionFactoryBean.setCache(gemFireCache);
 		regionFactoryBean.setScope(Scope.DISTRIBUTED_ACK);
 		regionFactoryBean.setDataPolicy(DataPolicy.REPLICATE);
@@ -87,7 +89,7 @@ public class ExpirationEvictionServerConfig {
 
 	@Bean("Orders")
 	public ReplicatedRegionFactoryBean<Long, Order> createOrderRegion(GemFireCache gemFireCache) {
-		final ReplicatedRegionFactoryBean<Long, Order> regionFactoryBean = new ReplicatedRegionFactoryBean<>();
+		ReplicatedRegionFactoryBean<Long, Order> regionFactoryBean = new ReplicatedRegionFactoryBean<>();
 		regionFactoryBean.setCache(gemFireCache);
 		regionFactoryBean.setScope(Scope.DISTRIBUTED_ACK);
 		regionFactoryBean.setDataPolicy(DataPolicy.REPLICATE);

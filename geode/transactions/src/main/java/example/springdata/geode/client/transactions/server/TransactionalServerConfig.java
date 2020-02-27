@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.transactions.server;
 
 import example.springdata.geode.client.transactions.Customer;
+
 import org.apache.geode.cache.DataPolicy;
 import org.apache.geode.cache.GemFireCache;
 import org.apache.geode.cache.Scope;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.gemfire.ReplicatedRegionFactoryBean;
 import org.springframework.data.gemfire.config.annotation.CacheServerApplication;
@@ -28,6 +29,9 @@ import org.springframework.data.gemfire.config.annotation.EnableManager;
 import org.springframework.data.gemfire.transaction.config.EnableGemfireCacheTransactions;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * @author Patrick Johnson
+ */
 @EnableLocator
 @EnableTransactionManagement
 @EnableGemfireCacheTransactions

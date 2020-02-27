@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.wan.event.client;
 
 import example.springdata.geode.server.wan.event.Customer;
 import example.springdata.geode.server.wan.event.CustomerRepository;
+
+import java.util.Collections;
+
 import org.apache.geode.cache.GemFireCache;
 import org.apache.geode.cache.client.ClientRegionShortcut;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,8 +32,6 @@ import org.springframework.data.gemfire.config.annotation.ClientCacheConfigurer;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 import org.springframework.data.gemfire.support.ConnectionEndpoint;
 
-import java.util.Collections;
-
 /**
  * Spring JavaConfig configuration class to setup a Spring container and infrastructure components.
  *
@@ -39,8 +40,10 @@ import java.util.Collections;
  */
 @Configuration
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
-@ClientCacheApplication(name = "WanClient", logLevel = "error", pingInterval = 5000L, readTimeout = 15000, retryAttempts = 1)
+@ClientCacheApplication(name = "WanClient", logLevel = "error", pingInterval = 5000L, readTimeout = 15000,
+		retryAttempts = 1)
 public class WanClientConfig {
+
 	@Bean("Customers")
 	protected ClientRegionFactoryBean<Long, Customer> configureProxyClientCustomerRegion(GemFireCache gemFireCache) {
 		ClientRegionFactoryBean<Long, Customer> clientRegionFactoryBean = new ClientRegionFactoryBean<>();
@@ -55,7 +58,7 @@ public class WanClientConfig {
 			@Value("${spring.data.geode.locator.host:localhost}") String hostname,
 			@Value("${spring.data.geode.locator.port:10334}") int port) {
 
-		return (beanName, clientCacheFactoryBean) -> clientCacheFactoryBean.setLocators(Collections.singletonList(
-				new ConnectionEndpoint(hostname, port)));
+		return (beanName, clientCacheFactoryBean) -> clientCacheFactoryBean
+				.setLocators(Collections.singletonList(new ConnectionEndpoint(hostname, port)));
 	}
 }

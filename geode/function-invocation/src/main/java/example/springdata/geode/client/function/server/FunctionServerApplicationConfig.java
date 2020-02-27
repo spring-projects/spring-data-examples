@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.function.server;
 
 import example.springdata.geode.client.function.Customer;
 import example.springdata.geode.client.function.Order;
 import example.springdata.geode.client.function.Product;
 import example.springdata.geode.client.function.client.CustomerRepository;
+
 import org.apache.geode.cache.DataPolicy;
 import org.apache.geode.cache.GemFireCache;
 import org.apache.geode.cache.Scope;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,9 @@ import org.springframework.data.gemfire.config.annotation.EnableManager;
 import org.springframework.data.gemfire.function.config.EnableGemfireFunctions;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 
+/**
+ * @author Patrick Johnson
+ */
 @Configuration
 @ComponentScan(basePackageClasses = CustomerFunctions.class)
 @EnableGemfireFunctions

@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security;
 
 import lombok.Data;
-import org.apache.geode.security.ResourcePermission;
-import org.cp.elements.lang.Identifiable;
 
 import java.io.Serializable;
 import java.security.Principal;
@@ -28,8 +25,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.geode.security.ResourcePermission;
+
+/**
+ * @author Patrick Johnson
+ */
 @Data
-public class User implements Comparable<User>, Cloneable, Principal, Serializable, Iterable<Role>, Identifiable<String> {
+public class User implements Comparable<User>, Cloneable, Principal, Serializable, Iterable<Role> {
 
 	private String name;
 	private List<Role> roles;
@@ -42,15 +44,13 @@ public class User implements Comparable<User>, Cloneable, Principal, Serializabl
 	}
 
 	public User(String name) {
-		this(name, new ArrayList<Role>());
+		this(name, new ArrayList<>());
 	}
 
-	@Override
 	public void setId(String id) {
 		throw new UnsupportedOperationException("Operation Not Supported");
 	}
 
-	@Override
 	public String getId() {
 		return name;
 	}
@@ -80,8 +80,7 @@ public class User implements Comparable<User>, Cloneable, Principal, Serializabl
 	 * Determines whether this [User] has been granted (assigned) the given [permission][ResourcePermission].
 	 *
 	 * @param permission [ResourcePermission] to evalute.
-	 * @return a boolean value indicating whether this [User] has been granted (assigned)
-	 * the given [ResourcePermission].
+	 * @return a boolean value indicating whether this [User] has been granted (assigned) the given [ResourcePermission].
 	 * @see ResourcePermission
 	 */
 	public boolean hasPermission(ResourcePermission permission) {

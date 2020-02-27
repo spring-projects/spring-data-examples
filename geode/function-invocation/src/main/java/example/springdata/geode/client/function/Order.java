@@ -34,6 +34,7 @@ import java.util.List;
 @Data
 @Region("Orders")
 public class Order implements Serializable {
+
 	@Id
 	private Long id;
 	private Long customerId;

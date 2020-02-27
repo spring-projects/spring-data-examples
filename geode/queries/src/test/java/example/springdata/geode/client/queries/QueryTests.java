@@ -13,12 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.queries;
+
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.geode.client.queries.client.CustomerRepository;
 import example.springdata.geode.client.queries.client.QueryClientConfig;
 import example.springdata.geode.client.queries.server.QueryServer;
+import lombok.extern.apachecommons.CommonsLog;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.Resource;
+
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.lucene.LuceneResultStruct;
 import org.apache.geode.cache.query.CqEvent;
@@ -27,8 +37,7 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.gemfire.GemfireTemplate;
@@ -36,40 +45,27 @@ import org.springframework.data.gemfire.listener.ContinuousQueryListenerContaine
 import org.springframework.data.gemfire.listener.annotation.ContinuousQuery;
 import org.springframework.data.gemfire.search.lucene.LuceneTemplate;
 import org.springframework.data.gemfire.tests.integration.ForkingClientServerIntegrationTestsSupport;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+/**
+ * @author Patrick Johnson
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = QueryClientConfig.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@SpringBootTest(classes = QueryClientConfig.class)
+@CommonsLog
 public class QueryTests extends ForkingClientServerIntegrationTestsSupport {
 
-	@Autowired
-	private ContinuousQueryListenerContainer container;
+	@Autowired private ContinuousQueryListenerContainer container;
 
-	@Autowired
-	private CustomerRepository customerRepository;
+	@Autowired private CustomerRepository customerRepository;
 
-	@Autowired
-	private GemfireTemplate customerTemplate;
+	@Autowired private GemfireTemplate customerTemplate;
 
-	@Resource(name = "Customers")
-	private Region<Long, Customer> customers;
+	@Resource(name = "Customers") private Region<Long, Customer> customers;
 
-	@Autowired
-	private LuceneTemplate luceneTemplate;
+	@Autowired private LuceneTemplate luceneTemplate;
 
 	private AtomicInteger counter = new AtomicInteger(0);
-
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@BeforeClass
 	public static void setup() throws IOException {
@@ -88,14 +84,14 @@ public class QueryTests extends ForkingClientServerIntegrationTestsSupport {
 		List<LuceneResultStruct<Long, Customer>> lastName = luceneTemplate.query("D*", "lastName", 10);
 
 		assertThat(lastName.size()).isEqualTo(3);
-		logger.info("Customers with last names beginning with 'D':");
-		lastName.forEach(result -> logger.info(result.getValue().toString()));
+		log.info("Customers with last names beginning with 'D':");
+		lastName.forEach(result -> log.info(result.getValue().toString()));
 	}
 
 	@Test
 	public void oqlQueriesConfiguredCorrectly() {
 
-		logger.info("Inserting 3 entries for keys: 1, 2, 3");
+		log.info("Inserting 3 entries for keys: 1, 2, 3");
 		Customer john = new Customer(1L, new EmailAddress("2@2.com"), "John", "Smith");
 		Customer frank = new Customer(2L, new EmailAddress("3@3.com"), "Frank", "Lamport");
 		Customer jude = new Customer(3L, new EmailAddress("5@5.com"), "Jude", "Simmons");
@@ -106,11 +102,11 @@ public class QueryTests extends ForkingClientServerIntegrationTestsSupport {
 
 		Customer customer = customerRepository.findById(2L).get();
 		assertThat(customer).isEqualTo(frank);
-		logger.info("Find customer with key=2 using GemFireRepository: " + customer);
+		log.info("Find customer with key=2 using GemFireRepository: " + customer);
 		List customerList = customerTemplate.find("select * from /Customers where id=$1", 2L).asList();
 		assertThat(customerList.size()).isEqualTo(1);
 		assertThat(customerList.contains(frank)).isTrue();
-		logger.info("Find customer with key=2 using GemFireTemplate: " + customerList);
+		log.info("Find customer with key=2 using GemFireTemplate: " + customerList);
 
 		customer = new Customer(1L, new EmailAddress("3@3.com"), "Jude", "Smith");
 		customerRepository.save(customer);
@@ -120,25 +116,33 @@ public class QueryTests extends ForkingClientServerIntegrationTestsSupport {
 		assertThat(customerList.size()).isEqualTo(2);
 		assertThat(customerList.contains(frank)).isTrue();
 		assertThat(customerList.contains(customer)).isTrue();
-		logger.info("Find customers with emailAddress=3@3.com: " + customerList);
+		log.info("Find customers with emailAddress=3@3.com: " + customerList);
 
 		customerList = customerRepository.findByFirstNameUsingIndex("Frank");
 		assertThat(customerList.get(0)).isEqualTo(frank);
-		logger.info("Find customers with firstName=Frank: " + customerList);
+
+		log.info("Find customers with firstName=Frank: " + customerList);
+
 		customerList = customerRepository.findByFirstNameUsingIndex("Jude");
+
 		assertThat(customerList.size()).isEqualTo(2);
 		assertThat(customerList.contains(jude)).isTrue();
 		assertThat(customerList.contains(customer)).isTrue();
-		logger.info("Find customers with firstName=Jude: " + customerList);
+
+		log.info("Find customers with firstName=Jude: " + customerList);
 	}
 
 	@Test
 	public void continuousQueryWorkingCorrectly() {
+
 		assertThat(this.customers).isEmpty();
-		logger.info("Inserting 3 entries for keys: 1, 2, 3");
+
+		log.info("Inserting 3 entries for keys: 1, 2, 3");
+
 		customerRepository.save(new Customer(1L, new EmailAddress("2@2.com"), "John", "Smith"));
 		customerRepository.save(new Customer(2L, new EmailAddress("3@3.com"), "Frank", "Lamport"));
 		customerRepository.save(new Customer(3L, new EmailAddress("5@5.com"), "Jude", "Simmons"));
+
 		assertThat(customers.keySetOnServer().size()).isEqualTo(3);
 
 		Awaitility.await().atMost(30, TimeUnit.SECONDS).until(() -> this.counter.get() == 3);
@@ -146,7 +150,7 @@ public class QueryTests extends ForkingClientServerIntegrationTestsSupport {
 
 	@ContinuousQuery(name = "CustomerCQ", query = "SELECT * FROM /Customers")
 	public void handleEvent(CqEvent event) {
-		logger.info("Received message for CQ 'CustomerCQ'" + event);
+		log.info("Received message for CQ 'CustomerCQ'" + event);
 		counter.incrementAndGet();
 	}
 

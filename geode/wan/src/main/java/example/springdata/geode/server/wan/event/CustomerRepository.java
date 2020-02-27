@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.wan.event;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
-}
+/**
+ * @author Patrick Johnson
+ */
+public interface CustomerRepository extends CrudRepository<Customer, Long> {}

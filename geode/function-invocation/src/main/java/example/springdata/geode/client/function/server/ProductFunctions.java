@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.function.server;
 
 import example.springdata.geode.client.function.Product;
-import org.springframework.data.gemfire.function.annotation.GemfireFunction;
-import org.springframework.data.gemfire.function.annotation.RegionData;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
+import org.springframework.data.gemfire.function.annotation.GemfireFunction;
+import org.springframework.data.gemfire.function.annotation.RegionData;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author Patrick Johnson
+ */
 @Component
 public class ProductFunctions {
 
-	@GemfireFunction(id = "sumPricesForAllProductsFnc", HA = true, optimizeForWrite = false, hasResult = true)
+	@GemfireFunction(id = "sumPricesForAllProductsFnc", HA = true, hasResult = true)
 	public BigDecimal sumPricesForAllProductsFnc(@RegionData Map<Long, Product> productData) {
 		return productData.values().stream().map(Product::getPrice).reduce(BigDecimal::add).get();
 	}

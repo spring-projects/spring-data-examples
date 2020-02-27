@@ -13,42 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security.server;
 
 import example.springdata.geode.client.security.Role;
 import example.springdata.geode.client.security.User;
-import org.apache.geode.security.ResourcePermission;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
+import lombok.extern.apachecommons.CommonsLog;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-@Repository
-public class JdbcSecurityRepository extends CachingSecurityRepository implements InitializingBean {
+import org.apache.geode.security.ResourcePermission;
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author Patrick Johnson
+ */
+@Repository
+@CommonsLog
+public class JdbcSecurityRepository extends CachingSecurityRepository implements InitializingBean {
 
 	private final JdbcTemplate jdbcTemplate;
 	private static final String ROLES_QUERY = "SELECT name FROM geode_security.roles";
 	private static final String ROLE_PERMISSIONS_QUERY = ""
 			+ " SELECT rolePerms.resource, rolePerms.operation, rolePerms.region_name, rolePerms.key_name"
 			+ " FROM geode_security.roles_permissions rolePerms"
-			+ " INNER JOIN geode_security.roles roles ON roles.id = rolePerms.role_id "
-			+ " WHERE roles.name = ?";
+			+ " INNER JOIN geode_security.roles roles ON roles.id = rolePerms.role_id " + " WHERE roles.name = ?";
 	private static final String USERS_QUERY = "SELECT name, credentials FROM geode_security.users";
-	private static final String USER_ROLES_QUERY = ""
-			+ " SELECT roles.name"
-			+ " FROM geode_security.roles roles"
+	private static final String USER_ROLES_QUERY = "" + " SELECT roles.name" + " FROM geode_security.roles roles"
 			+ " INNER JOIN geode_security.users_roles userRoles ON roles.id = userRoles.role_id"
-			+ " INNER JOIN geode_security.users users ON userRoles.user_id = users.id"
-			+ " WHERE users.name = ?";
+			+ " INNER JOIN geode_security.users users ON userRoles.user_id = users.id" + " WHERE users.name = ?";
 
 	public JdbcSecurityRepository(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -61,15 +59,14 @@ public class JdbcSecurityRepository extends CachingSecurityRepository implements
 
 		roles.forEach((role) -> {
 			this.jdbcTemplate.query(ROLE_PERMISSIONS_QUERY, Collections.singleton(role.getName()).toArray(),
-					(RowMapper<Object>) (resultSet, i) -> role.withPermissions(newResourcePermission(
-							resultSet.getString(1), resultSet.getString(2),
-							resultSet.getString(3), resultSet.getString(4))));
+					(RowMapper<Object>) (resultSet, i) -> role.withPermissions(newResourcePermission(resultSet.getString(1),
+							resultSet.getString(2), resultSet.getString(3), resultSet.getString(4))));
 
 			roleMapping.put(role.getName(), role);
 		});
 
-		List<User> users = this.jdbcTemplate.query(USERS_QUERY, (resultSet, i) ->
-				createUser(resultSet.getString(1)).withCredentials(resultSet.getString(2)));
+		List<User> users = this.jdbcTemplate.query(USERS_QUERY,
+				(resultSet, i) -> createUser(resultSet.getString(1)).withCredentials(resultSet.getString(2)));
 
 		users.forEach((role) -> {
 			this.jdbcTemplate.query(USER_ROLES_QUERY, Collections.singleton(role.getName()).toArray(),
@@ -78,7 +75,7 @@ public class JdbcSecurityRepository extends CachingSecurityRepository implements
 			save(role);
 		});
 
-		logger.debug("Users {}", users);
+		log.debug(String.format("Users %s", users));
 	}
 
 	protected ResourcePermission newResourcePermission(String resource, String operation, String region, String key) {

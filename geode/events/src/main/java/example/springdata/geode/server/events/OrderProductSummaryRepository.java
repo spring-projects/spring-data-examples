@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.events;
+
+import java.util.List;
 
 import org.springframework.data.gemfire.mapping.annotation.Region;
 import org.springframework.data.gemfire.repository.Query;
 import org.springframework.data.gemfire.repository.query.annotation.Hint;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
+/**
+ * @author Patrick Johnson
+ */
 @Region("OrderProductSummary")
 public interface OrderProductSummaryRepository extends CrudRepository<OrderProductSummary, Long> {
 	@Hint("emailAddressIndex")

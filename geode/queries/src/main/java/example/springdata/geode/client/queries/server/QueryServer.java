@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.queries.server;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@SpringBootApplication(scanBasePackageClasses = QueryServerConfig.class)
+/**
+ * @author Patrick Johnson
+ */
+@SpringBootApplication
 public class QueryServer {
 
 	public static void main(String[] args) {

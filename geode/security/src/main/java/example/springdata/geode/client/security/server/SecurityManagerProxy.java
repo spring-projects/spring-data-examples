@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security.server;
-
-import org.apache.geode.security.AuthenticationFailedException;
-import org.apache.geode.security.ResourcePermission;
-import org.cp.elements.lang.Assert;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.gemfire.support.LazyWiringDeclarableSupport;
 
 import java.util.Properties;
 
+import org.apache.geode.security.AuthenticationFailedException;
+import org.apache.geode.security.ResourcePermission;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.gemfire.support.LazyWiringDeclarableSupport;
+import org.springframework.util.Assert;
+
 /**
  * The {@link SecurityManagerProxy} class is a Proxy delegating to an underlying Apache Geode
- * {@link org.apache.geode.security.SecurityManager} implementation, that maybe a Spring managed bean
- * in a Spring context that may have been configured and auto-wired the Spring container, or possibly
- * other managed environment (Cloud or Java EE Server, etc).
+ * {@link org.apache.geode.security.SecurityManager} implementation, that maybe a Spring managed bean in a Spring
+ * context that may have been configured and auto-wired the Spring container, or possibly other managed environment
+ * (Cloud or Java EE Server, etc).
  *
  * @author John Blum
  * @see org.apache.geode.security.SecurityManager
@@ -42,8 +42,8 @@ public class SecurityManagerProxy extends LazyWiringDeclarableSupport
 	private org.apache.geode.security.SecurityManager securityManager;
 
 	/**
-	 * Constructs an instance of the {@link SecurityManagerProxy}, whick will delegate all Apache Geode
-	 * security operations to a Spring managed {@link org.apache.geode.security.SecurityManager} bean.
+	 * Constructs an instance of the {@link SecurityManagerProxy}, whick will delegate all Apache Geode security
+	 * operations to a Spring managed {@link org.apache.geode.security.SecurityManager} bean.
 	 */
 	public SecurityManagerProxy() {
 		// TODO remove init() call when GEODE-2083 (https://issues.apache.org/jira/browse/GEODE-2083) is resolved!
@@ -56,13 +56,13 @@ public class SecurityManagerProxy extends LazyWiringDeclarableSupport
 	}
 
 	/**
-	 * Returns a reference to the Apache Geode {@link org.apache.geode.security.SecurityManager} instance
-	 * delegated to by this {@link SecurityManagerProxy}.
+	 * Returns a reference to the Apache Geode {@link org.apache.geode.security.SecurityManager} instance delegated to by
+	 * this {@link SecurityManagerProxy}.
 	 *
-	 * @return a reference to the underlying, Apache Geode {@link org.apache.geode.security.SecurityManager}
-	 * instance delegated to by this {@link SecurityManagerProxy}.
-	 * @throws IllegalStateException if the configured Apache Geode {@link org.apache.geode.security.SecurityManager}
-	 *                               was not properly initialized.
+	 * @return a reference to the underlying, Apache Geode {@link org.apache.geode.security.SecurityManager} instance
+	 *         delegated to by this {@link SecurityManagerProxy}.
+	 * @throws IllegalStateException if the configured Apache Geode {@link org.apache.geode.security.SecurityManager} was
+	 *           not properly initialized.
 	 * @see org.apache.geode.security.SecurityManager
 	 */
 	protected org.apache.geode.security.SecurityManager getSecurityManager() {
@@ -71,13 +71,13 @@ public class SecurityManagerProxy extends LazyWiringDeclarableSupport
 	}
 
 	/**
-	 * Sets a reference to the Apache Geode {@link org.apache.geode.security.SecurityManager} instance
-	 * delegated to by this {@link SecurityManagerProxy}.
+	 * Sets a reference to the Apache Geode {@link org.apache.geode.security.SecurityManager} instance delegated to by
+	 * this {@link SecurityManagerProxy}.
 	 *
 	 * @param securityManager reference to the underlying, Apache Geode {@link org.apache.geode.security.SecurityManager}
-	 *                        instance delegated to by this {@link SecurityManagerProxy}.
-	 * @throws IllegalArgumentException if the Apache Geode {@link org.apache.geode.security.SecurityManager} reference
-	 *                                  is {@literal null}.
+	 *          instance delegated to by this {@link SecurityManagerProxy}.
+	 * @throws IllegalArgumentException if the Apache Geode {@link org.apache.geode.security.SecurityManager} reference is
+	 *           {@literal null}.
 	 * @see org.apache.geode.security.SecurityManager
 	 */
 	@Autowired

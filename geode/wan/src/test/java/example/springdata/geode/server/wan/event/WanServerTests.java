@@ -16,36 +16,36 @@
 
 package example.springdata.geode.server.wan.event;
 
+import static org.assertj.core.api.Assertions.*;
+
 import example.springdata.geode.server.wan.event.client.WanClientConfig;
 import example.springdata.geode.server.wan.event.server.WanServer;
-import org.apache.geode.cache.Region;
-import org.awaitility.Awaitility;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.gemfire.tests.integration.ForkingClientServerIntegrationTestsSupport;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import lombok.extern.apachecommons.CommonsLog;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import javax.annotation.Resource;
 
+import org.apache.geode.cache.Region;
+import org.awaitility.Awaitility;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.gemfire.tests.integration.ForkingClientServerIntegrationTestsSupport;
+import org.springframework.test.context.junit4.SpringRunner;
+
+/**
+ * @author Patrick Johnson
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = WanClientConfig.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@SpringBootTest(classes = WanClientConfig.class)
+@CommonsLog
 public class WanServerTests extends ForkingClientServerIntegrationTestsSupport {
 
-	@Resource(name = "Customers")
-	private Region<Long, Customer> customers;
-
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Resource(name = "Customers") private Region<Long, Customer> customers;
 
 	@BeforeClass
 	public static void setup() throws IOException {
@@ -55,13 +55,16 @@ public class WanServerTests extends ForkingClientServerIntegrationTestsSupport {
 	}
 
 	@Test
-	@Ignore
 	public void wanReplicationOccursCorrectly() {
-		Awaitility.await().atMost(10, TimeUnit.SECONDS).until(() -> customers.keySetOnServer().size() == 150);
-		assertThat(customers.keySetOnServer().size()).isEqualTo(150);
-		logger.info(customers.keySetOnServer().size() + " entries replicated to siteA");
 
-		customers.getAll(customers.keySetOnServer()).forEach((key, value) -> assertThat(value.getLastName().length()).isEqualTo(1));
-		logger.info("All customers' last names changed to last initial on siteA");
+		Awaitility.await().atMost(10, TimeUnit.SECONDS).until(() -> customers.keySetOnServer().size() == 150);
+
+		assertThat(customers.keySetOnServer()).hasSize(150);
+
+		log.info(customers.keySetOnServer().size() + " entries replicated to siteA");
+
+		customers.getAll(customers.keySetOnServer())
+				.forEach((key, value) -> assertThat(value.getLastName().length()).isEqualTo(1));
+		log.info("All customers' last names changed to last initial on siteA");
 	}
 }

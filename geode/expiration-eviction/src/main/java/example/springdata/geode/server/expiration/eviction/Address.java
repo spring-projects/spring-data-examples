@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.expiration.eviction;
 
 import lombok.Data;
@@ -29,6 +28,7 @@ import java.io.Serializable;
  */
 @Data
 public class Address implements Serializable {
+
 	private String street;
 	private String city;
 	private String country;

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.events;
 
 import lombok.Data;
@@ -28,6 +27,7 @@ import java.io.Serializable;
  */
 @Data
 public class EmailAddress implements Serializable {
+
 	private String value;
 
 	public EmailAddress(String value) {

@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.function.client;
 
 import example.springdata.geode.client.function.Customer;
-import org.springframework.data.gemfire.function.annotation.FunctionId;
-import org.springframework.data.gemfire.function.annotation.OnRegion;
 
 import java.util.List;
 
+import org.springframework.data.gemfire.function.annotation.FunctionId;
+import org.springframework.data.gemfire.function.annotation.OnRegion;
+
+/**
+ * @author Patrick Johnson
+ */
 @OnRegion(region = "Customers")
 public interface CustomerFunctionExecutions {
 

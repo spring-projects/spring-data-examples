@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.storage;
 
 import org.apache.geode.cache.DataPolicy;
@@ -33,11 +32,14 @@ import org.springframework.data.gemfire.config.annotation.CacheServerApplication
 import org.springframework.data.gemfire.config.annotation.EnableOffHeap;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 
+/**
+ * @author Patrick Johnson
+ */
 @Configuration
 @ComponentScan
 @CacheServerApplication(logLevel = "error")
 @EnableGemfireRepositories(basePackageClasses = CustomerRepository.class)
-@EnableOffHeap(memorySize = "8192m", regionNames = "Products")
+@EnableOffHeap(memorySize = "512m", regionNames = "Products")
 public class StorageServerConfig {
 
 	@Bean
@@ -47,22 +49,23 @@ public class StorageServerConfig {
 
 	@Bean
 	RegionAttributesFactoryBean<Long, Order> regionAttributes(PartitionAttributes<Long, Order> partitionAttributes) {
-		final RegionAttributesFactoryBean<Long, Order> regionAttributesFactoryBean = new RegionAttributesFactoryBean<>();
+		RegionAttributesFactoryBean<Long, Order> regionAttributesFactoryBean = new RegionAttributesFactoryBean<>();
 		regionAttributesFactoryBean.setPartitionAttributes(partitionAttributes);
 		return regionAttributesFactoryBean;
 	}
 
 	@Bean
 	PartitionAttributesFactoryBean<Long, Order> partitionAttributes() {
-		final PartitionAttributesFactoryBean<Long, Order> partitionAttributesFactoryBean = new PartitionAttributesFactoryBean<>();
+		PartitionAttributesFactoryBean<Long, Order> partitionAttributesFactoryBean = new PartitionAttributesFactoryBean<>();
 		partitionAttributesFactoryBean.setTotalNumBuckets(11);
 		partitionAttributesFactoryBean.setRedundantCopies(1);
 		return partitionAttributesFactoryBean;
 	}
 
 	@Bean("Orders")
-	PartitionedRegionFactoryBean<Long, Order> createOrderRegion(GemFireCache gemFireCache, RegionAttributes<Long, Order> regionAttributes) {
-		final PartitionedRegionFactoryBean<Long, Order> partitionedRegionFactoryBean = new PartitionedRegionFactoryBean<>();
+	PartitionedRegionFactoryBean<Long, Order> createOrderRegion(GemFireCache gemFireCache,
+			RegionAttributes<Long, Order> regionAttributes) {
+		PartitionedRegionFactoryBean<Long, Order> partitionedRegionFactoryBean = new PartitionedRegionFactoryBean<>();
 		partitionedRegionFactoryBean.setCache(gemFireCache);
 		partitionedRegionFactoryBean.setRegionName("Orders");
 		partitionedRegionFactoryBean.setDataPolicy(DataPolicy.PARTITION);
@@ -72,7 +75,7 @@ public class StorageServerConfig {
 
 	@Bean("Products")
 	ReplicatedRegionFactoryBean<Long, Product> createProductRegion(GemFireCache gemFireCache) {
-		final ReplicatedRegionFactoryBean<Long, Product> replicatedRegionFactoryBean = new ReplicatedRegionFactoryBean<>();
+		ReplicatedRegionFactoryBean<Long, Product> replicatedRegionFactoryBean = new ReplicatedRegionFactoryBean<>();
 		replicatedRegionFactoryBean.setCache(gemFireCache);
 		replicatedRegionFactoryBean.setRegionName("Products");
 		replicatedRegionFactoryBean.setDataPolicy(DataPolicy.REPLICATE);
@@ -81,7 +84,7 @@ public class StorageServerConfig {
 
 	@Bean("Customers")
 	ReplicatedRegionFactoryBean<Long, Customer> createCustomerRegion(GemFireCache gemFireCache, Compressor compressor) {
-		final ReplicatedRegionFactoryBean<Long, Customer> replicatedRegionFactoryBean = new ReplicatedRegionFactoryBean<>();
+		ReplicatedRegionFactoryBean<Long, Customer> replicatedRegionFactoryBean = new ReplicatedRegionFactoryBean<>();
 		replicatedRegionFactoryBean.setCache(gemFireCache);
 		replicatedRegionFactoryBean.setRegionName("Customers");
 		replicatedRegionFactoryBean.setDataPolicy(DataPolicy.REPLICATE);

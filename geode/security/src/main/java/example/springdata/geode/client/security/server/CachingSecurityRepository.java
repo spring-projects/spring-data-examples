@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.security.server;
 
 import example.springdata.geode.client.security.User;
@@ -31,6 +30,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 public abstract class CachingSecurityRepository implements SecurityRepository {
+
 	private Map<String, User> users = new HashMap<>();
 
 	@Override

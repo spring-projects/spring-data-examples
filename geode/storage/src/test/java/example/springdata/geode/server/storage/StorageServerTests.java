@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.storage;
+
+import static org.assertj.core.api.Assertions.*;
+
+import javax.annotation.Resource;
 
 import org.apache.geode.cache.Cache;
 import org.apache.geode.cache.Region;
@@ -22,30 +25,25 @@ import org.apache.geode.compression.SnappyCompressor;
 import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+/**
+ * @author Patrick Johnson
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = StorageServer.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@SpringBootTest
 public class StorageServerTests {
-	@Resource(name = "Customers")
-	private Region<Long, Customer> customers;
 
-	@Resource(name = "Orders")
-	private Region<Long, Order> orders;
+	@Resource(name = "Customers") private Region<Long, Customer> customers;
 
-	@Resource(name = "Products")
-	private Region<Long, Product> products;
+	@Resource(name = "Orders") private Region<Long, Order> orders;
 
-	@Autowired
-	Cache cache;
+	@Resource(name = "Products") private Region<Long, Product> products;
+
+	@Autowired Cache cache;
 
 	@Test
 	public void partitionAttributesConfiguredCorrectly() {
@@ -55,9 +53,13 @@ public class StorageServerTests {
 
 	@Test
 	public void compressorIsEnabled() {
+
 		assertThat(customers.getAttributes().getCompressor()).isInstanceOf(SnappyCompressor.class);
+
 		GemFireCacheImpl impl = (GemFireCacheImpl) cache;
-		assertThat(impl.getCachePerfStats().getTotalPostCompressedBytes()).isLessThan(impl.getCachePerfStats().getTotalPreCompressedBytes());
+
+		assertThat(impl.getCachePerfStats().getTotalPostCompressedBytes())
+				.isLessThan(impl.getCachePerfStats().getTotalPreCompressedBytes());
 	}
 
 	@Test

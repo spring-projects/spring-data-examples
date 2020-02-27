@@ -13,17 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.events;
 
-import com.github.javafaker.Faker;
+import lombok.SneakyThrows;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
 import org.apache.geode.cache.CacheLoader;
 import org.apache.geode.cache.CacheLoaderException;
 import org.apache.geode.cache.LoaderHelper;
+
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
+import com.github.javafaker.Faker;
 
+/**
+ * @author Patrick Johnson
+ */
 @Component
 public class ProductCacheLoader implements CacheLoader<Long, Product> {
 	private Faker faker = new Faker();
@@ -33,8 +40,9 @@ public class ProductCacheLoader implements CacheLoader<Long, Product> {
 		return new Product((long) loaderHelper.getKey(), randomStringName(), randomPrice(), "");
 	}
 
+	@SneakyThrows
 	private BigDecimal randomPrice() {
-		return new BigDecimal(faker.commerce().price());
+		return new BigDecimal(new DecimalFormat("#0.00").parse(faker.commerce().price()).toString());
 	}
 
 	private String randomStringName() {

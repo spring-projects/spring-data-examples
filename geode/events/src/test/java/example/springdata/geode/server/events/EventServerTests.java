@@ -13,32 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.server.events;
+
+import static org.assertj.core.api.Assertions.*;
 
 import org.apache.geode.cache.Cache;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+/**
+ * @author Patrick Johnson
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = EventServer.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@SpringBootTest
 public class EventServerTests {
 
-	@Autowired
-	Cache cache;
+	@Autowired Cache cache;
 
-	@Autowired
-	private ProductRepository productRepository;
+	@Autowired private ProductRepository productRepository;
 
-	@Autowired
-	private OrderProductSummaryRepository orderProductSummaryRepository;
+	@Autowired private OrderProductSummaryRepository orderProductSummaryRepository;
 
 	@Test
 	public void asyncEventQueueEasConfiguredCorrectly() {
@@ -47,9 +45,12 @@ public class EventServerTests {
 
 	@Test
 	public void productCacheLoaderWorks() {
+
 		long size = productRepository.count();
+
 		assertThat(this.productRepository.findById(777L)).isNotNull();
 		assertThat(productRepository.count()).isEqualTo(size + 1);
+
 		productRepository.deleteById(777L);
 	}
 }

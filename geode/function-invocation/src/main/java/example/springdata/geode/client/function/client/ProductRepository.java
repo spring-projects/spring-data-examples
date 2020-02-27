@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package example.springdata.geode.client.function.client;
 
 import example.springdata.geode.client.function.Product;
+
 import org.springframework.data.gemfire.mapping.annotation.ClientRegion;
 import org.springframework.data.repository.CrudRepository;
 
+/**
+ * @author Patrick Johnson
+ */
 @ClientRegion("Products")
-public interface ProductRepository extends CrudRepository<Product, Long> {
-
-}
+public interface ProductRepository extends CrudRepository<Product, Long> {}
