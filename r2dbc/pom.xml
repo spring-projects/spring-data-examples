@@ -21,7 +21,7 @@
 	</modules>
 
 	<properties>
-		<spring-boot-data-r2dbc.version>0.1.0.BUILD-SNAPSHOT</spring-boot-data-r2dbc.version>
+		<spring-boot-data-r2dbc.version>0.1.0.M3</spring-boot-data-r2dbc.version>
 		<r2dbc-h2.version>0.8.0.RELEASE</r2dbc-h2.version>
 	</properties>
 
