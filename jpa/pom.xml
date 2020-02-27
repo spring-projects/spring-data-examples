@@ -24,7 +24,6 @@
 		<module>jpa21</module>
 		<module>security</module>
 		<module>multiple-datasources</module>
-		<module>eclipselink</module>
 		<module>query-by-example</module>
 		<module>vavr</module>
 		<module>deferred</module>
@@ -36,6 +35,17 @@
 			<properties>
 				<hibernate.version>5.3.0.Final</hibernate.version>
 			</properties>
+		</profile>
+		<profile>
+			<id>java-next</id>
+
+			<activation>
+				<jdk>[8,14]</jdk>
+			</activation>
+
+			<modules>
+				<module>eclipselink</module>
+			</modules>
 		</profile>
 	</profiles>
 
