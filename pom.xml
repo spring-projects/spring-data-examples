@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.springframework.data.examples</groupId>
@@ -19,7 +20,6 @@
 		<module>bom</module>
 		<module>couchbase</module>
 		<module>elasticsearch</module>
-		<module>geode</module>
 		<module>jdbc</module>
 		<module>jpa</module>
 		<module>ldap</module>
@@ -69,6 +69,22 @@
 				<!-- Embedded Cassandra (cassandra-all) is not compatible with Java runtime 9 and higher.
 				 See https://issues.apache.org/jira/browse/CASSANDRA-9608 -->
 				<module>cassandra</module>
+				<module>geode</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>java11</id>
+
+			<activation>
+				<jdk>11</jdk>
+			</activation>
+
+			<modules>
+
+				<!-- Embedded Cassandra (cassandra-all) is not compatible with Java runtime 9 and higher.
+				 See https://issues.apache.org/jira/browse/CASSANDRA-9608 -->
+				<module>geode</module>
 			</modules>
 		</profile>
 
@@ -84,7 +100,102 @@
 					<groupId>javax.xml.bind</groupId>
 					<artifactId>jaxb-api</artifactId>
 				</dependency>
+				<dependency>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</dependency>
 			</dependencies>
+		</profile>
+
+		<profile>
+			<id>java-13+</id>
+
+			<activation>
+				<jdk>[13,)</jdk>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<argLine>--enable-preview</argLine>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<configuration>
+							<argLine>--enable-preview</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>java-13</id>
+
+			<activation>
+				<jdk>13</jdk>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<release>13</release>
+							<compilerArgs>
+								--enable-preview
+							</compilerArgs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>java-14</id>
+
+			<activation>
+				<jdk>14</jdk>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<release>14</release>
+							<compilerArgs>
+								--enable-preview
+							</compilerArgs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>java-15</id>
+
+			<activation>
+				<jdk>15</jdk>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<release>15</release>
+							<compilerArgs>
+								--enable-preview
+							</compilerArgs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 	</profiles>
