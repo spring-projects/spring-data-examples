@@ -53,8 +53,6 @@
 			<id>spring-data-next</id>
 			<properties>
 				<spring-data-releasetrain.version>Moore-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-				<spring-hateoas.version>1.0.0.RELEASE</spring-hateoas.version>
-				<spring-plugin.version>2.0.0.RELEASE</spring-plugin.version>
 			</properties>
 		</profile>
 
