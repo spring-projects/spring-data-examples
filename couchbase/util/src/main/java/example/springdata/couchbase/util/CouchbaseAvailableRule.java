@@ -25,7 +25,6 @@ import javax.net.SocketFactory;
 import org.junit.AssumptionViolatedException;
 import org.junit.rules.ExternalResource;
 
-import com.couchbase.client.core.env.DefaultCoreEnvironment;
 
 /**
  * Rule to check Couchbase server availability. If Couchbase is not running, tests are skipped.
@@ -44,13 +43,12 @@ public class CouchbaseAvailableRule extends ExternalResource {
 	}
 
 	/**
-	 * Create a new rule requiring Couchbase running on {@code localhost} on
-	 * {@link DefaultCoreEnvironment#BOOTSTRAP_HTTP_DIRECT_PORT}.
+	 * Create a new rule requiring Couchbase running on {@code localhost} on {@code 8091}.
 	 *
 	 * @return the test rule.
 	 */
 	public static CouchbaseAvailableRule onLocalhost() {
-		return new CouchbaseAvailableRule("localhost", DefaultCoreEnvironment.BOOTSTRAP_HTTP_DIRECT_PORT);
+		return new CouchbaseAvailableRule("localhost", 8091);
 	}
 
 	@Override
