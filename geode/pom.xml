@@ -31,7 +31,7 @@
 	</modules>
 
 	<properties>
-		<spring.test.data.geode.version>0.0.12.RELEASE</spring.test.data.geode.version>
+		<spring.test.data.geode.version>0.0.14.RELEASE</spring.test.data.geode.version>
 	</properties>
 
 	<dependencyManagement>
