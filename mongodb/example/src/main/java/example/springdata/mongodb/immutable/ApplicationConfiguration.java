@@ -21,10 +21,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertCallback;
 
-import com.mongodb.MongoClient;
 
 /**
- * Test configuration to connect to a MongoDB named "test" using a {@link MongoClient}. <br />
+ * Test configuration to connect to a MongoDB named "test" using a {@code MongoClient}. <br />
  * Also enables Spring Data repositories for MongoDB.
  *
  * @author Mark Paluch

@@ -23,10 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.core.MongoOperations;
 
-import com.mongodb.MongoClient;
-
 /**
- * Test configuration to connect to a MongoDB named "test" and using a {@link MongoClient} with profiling enabled.
+ * Test configuration to connect to a MongoDB named "test" and using a {@code MongoClient} with profiling enabled.
  *
  * @author Christoph Strobl
  */

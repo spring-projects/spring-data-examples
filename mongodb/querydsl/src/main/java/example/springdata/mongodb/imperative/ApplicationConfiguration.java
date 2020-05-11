@@ -17,10 +17,8 @@ package example.springdata.mongodb.imperative;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.mongodb.MongoClient;
-
 /**
- * Configuration to connect to MongoDB using a {@link MongoClient}. <br />
+ * Configuration to connect to MongoDB using a {@code MongoClient}. <br />
  * Enables Spring Data repositories for MongoDB.
  *
  * @author Christoph Strobl

@@ -30,6 +30,7 @@ import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -44,8 +45,6 @@ import org.springframework.data.mongodb.core.aggregation.BucketAutoOperation.Gra
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.util.JSON;
 
 /**
  * Examples for Spring Books using the MongoDB Aggregation Framework. Data originates from Google's Book search.
@@ -70,7 +69,8 @@ public class SpringBooksIntegrationTests {
 
 			File file = new ClassPathResource("books.json").getFile();
 			String content = Files.contentOf(file, StandardCharsets.UTF_8);
-			List<Object> books = (List<Object>) JSON.parse(content);
+			Document wrapper = Document.parse("{wrapper: " + content + "}");
+			List<Object> books = wrapper.getList("wrapper", Object.class);
 
 			operations.insert(books, "books");
 		}
@@ -202,13 +202,13 @@ public class SpringBooksIntegrationTests {
 		List<BookFacetPerPage> mappedResults = result.getMappedResults();
 
 		BookFacetPerPage facet_20_to_100_pages = mappedResults.get(0);
-		assertThat(facet_20_to_100_pages.getMin()).isEqualTo(20);
-		assertThat(facet_20_to_100_pages.getMax()).isEqualTo(100);
+		assertThat(facet_20_to_100_pages.getId().getMin()).isEqualTo(20);
+		assertThat(facet_20_to_100_pages.getId().getMax()).isEqualTo(100);
 		assertThat(facet_20_to_100_pages.getCount()).isEqualTo(12);
 
 		BookFacetPerPage facet_100_to_500_pages = mappedResults.get(1);
-		assertThat(facet_100_to_500_pages.getMin()).isEqualTo(100);
-		assertThat(facet_100_to_500_pages.getMax()).isEqualTo(500);
+		assertThat(facet_100_to_500_pages.getId().getMin()).isEqualTo(100);
+		assertThat(facet_100_to_500_pages.getId().getMax()).isEqualTo(500);
 		assertThat(facet_100_to_500_pages.getCount()).isEqualTo(63);
 		assertThat(facet_100_to_500_pages.getTitles()).contains("Spring Data");
 	}
@@ -280,9 +280,15 @@ public class SpringBooksIntegrationTests {
 	@Value
 	@Getter
 	static class BookFacetPerPage {
-		int min;
-		int max;
+		BookFacetPerPageId id;
 		int count;
 		List<String> titles;
+	}
+
+	@Value
+	@Getter
+	static class BookFacetPerPageId {
+		int min;
+		int max;
 	}
 }

@@ -26,20 +26,21 @@ import org.bson.Document;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 
@@ -59,16 +60,16 @@ public class TransitionServiceTests {
 	static final String DB_NAME = "spring-data-tx-examples";
 
 	@Autowired TransitionService transitionService;
-	@Autowired com.mongodb.MongoClient client;
+	@Autowired MongoClient client;
 
 	@Configuration
 	@ComponentScan
 	@EnableMongoRepositories
 	@EnableTransactionManagement
-	static class Config extends AbstractMongoConfiguration {
+	static class Config extends AbstractMongoClientConfiguration {
 
 		@Bean
-		PlatformTransactionManager transactionManager(MongoDbFactory dbFactory) {
+		PlatformTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
 			return new MongoTransactionManager(dbFactory);
 		}
 

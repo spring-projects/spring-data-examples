@@ -17,11 +17,10 @@ package example.springdata.mongodb.aggregation;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.mongodb.MongoClient;
 
 /**
- * Test configuration to connect to a MongoDB named "test" and using a {@link MongoClient}. Also enables Spring Data
- * repositories for MongoDB.
+ * Test configuration to connect to a MongoDB named "test" and using a {@link com.mongodb.client.MongoClient}. Also
+ * enables Spring Data repositories for MongoDB.
  *
  * @author Oliver Gierke
  */

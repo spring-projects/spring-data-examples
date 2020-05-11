@@ -45,11 +45,12 @@ import org.junit.AssumptionViolatedException;
 import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 
 /**
  * {@link org.junit.rules.TestRule} for a MongoDB server resource that is started/stopped along the test lifecycle.
@@ -240,7 +241,7 @@ public class EmbeddedMongo extends ExternalResource {
 		String connectionString();
 
 		default MongoClient mongoClient() {
-			return new MongoClient(new MongoClientURI(connectionString()));
+			return MongoClients.create(connectionString());
 		}
 	}
 

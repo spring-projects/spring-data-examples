@@ -21,6 +21,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.*;
 import static org.springframework.data.mongodb.core.query.Query.*;
 import static org.springframework.data.mongodb.core.query.Update.*;
 
+import com.mongodb.client.MongoClient;
 import example.springdata.mongodb.util.EmbeddedMongo;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
@@ -41,7 +42,7 @@ import org.springframework.data.mongodb.core.ChangeStreamEvent;
 import org.springframework.data.mongodb.core.ChangeStreamOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.SimpleReactiveMongoDatabaseFactory;
 import org.springframework.data.mongodb.core.messaging.ChangeStreamRequest;
 import org.springframework.data.mongodb.core.messaging.DefaultMessageListenerContainer;
@@ -50,7 +51,6 @@ import org.springframework.data.mongodb.core.messaging.MessageListenerContainer;
 import org.springframework.data.mongodb.core.messaging.Subscription;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.mongodb.MongoClient;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import com.mongodb.reactivestreams.client.MongoClients;
 
@@ -101,8 +101,8 @@ public class ChangeStreamsTests {
 		 * @return a new {@link SimpleReactiveMongoDatabaseFactory}.
 		 */
 		@Bean
-		SimpleMongoDbFactory mongoDbFactory() {
-			return new SimpleMongoDbFactory(replSet.getMongoClient(), "changestreams");
+		SimpleMongoClientDatabaseFactory mongoDbFactory() {
+			return new SimpleMongoClientDatabaseFactory(replSet.getMongoClient(), "changestreams");
 		}
 
 		/**

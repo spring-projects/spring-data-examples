@@ -15,19 +15,6 @@
  */
 package example.springdata.mongodb.util;
 
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.Map.Entry;
-
-import com.mongodb.*;
-import de.flapdoodle.embed.process.config.IRuntimeConfig;
-import de.flapdoodle.embed.process.config.io.ProcessOutput;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.flapdoodle.embed.mongo.Command;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;
@@ -37,7 +24,34 @@ import de.flapdoodle.embed.mongo.MongosProcess;
 import de.flapdoodle.embed.mongo.MongosStarter;
 import de.flapdoodle.embed.mongo.config.IMongodConfig;
 import de.flapdoodle.embed.mongo.config.IMongosConfig;
+import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.config.RuntimeConfigBuilder;
+import de.flapdoodle.embed.process.config.IRuntimeConfig;
+import de.flapdoodle.embed.process.config.io.ProcessOutput;
+import lombok.SneakyThrows;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
 
 class MongosSystemForTestFactory {
 
@@ -113,16 +127,14 @@ class MongosSystemForTestFactory {
 			mongodProcessList.add(process);
 		}
 		Thread.sleep(1000);
-		MongoClientOptions mo = MongoClientOptions.builder()
-				.connectTimeout(10)
+		MongoClientSettings mo = MongoClientSettings.builder()
+				.applyToSocketSettings(builder -> builder.connectTimeout(10, TimeUnit.SECONDS)).applyToClusterSettings(
+						builder -> builder.hosts(Collections.singletonList(toAddress(mongoConfigList.get(0).net()))))
 				.build();
-		MongoClient mongo = new MongoClient(new ServerAddress(mongoConfigList.get(0).net()
-				.getServerAddress().getHostName(), mongoConfigList.get(0).net()
-				.getPort()), mo);
-		DB mongoAdminDB = mongo.getDB(ADMIN_DATABASE_NAME);
+		MongoClient mongo = MongoClients.create(mo);
+		MongoDatabase mongoAdminDB = mongo.getDatabase(ADMIN_DATABASE_NAME);
 
-		CommandResult cr = mongoAdminDB
-				.command(new BasicDBObject("isMaster", 1));
+		Document cr = mongoAdminDB.runCommand(new Document("isMaster", 1));
 		logger.info("isMaster: {}", cr);
 
 		// Build BSON object replica set settings
@@ -141,19 +153,19 @@ class MongosSystemForTestFactory {
 		replicaSetSetting.put("members", members);
 		logger.info(replicaSetSetting.toString());
 		// Initialize replica set
-		cr = mongoAdminDB.command(new BasicDBObject("replSetInitiate",
+		cr = mongoAdminDB.runCommand(new Document("replSetInitiate",
 				replicaSetSetting));
 		logger.info("replSetInitiate: {}", cr);
 
 		Thread.sleep(5000);
-		cr = mongoAdminDB.command(new BasicDBObject("replSetGetStatus", 1));
+		cr = mongoAdminDB.runCommand(new Document("replSetGetStatus", 1));
 		logger.info("replSetGetStatus: {}", cr);
 
 		// Check replica set status before to proceed
 		while (!isReplicaSetStarted(cr)) {
 			logger.info("Waiting for 3 seconds...");
 			Thread.sleep(1000);
-			cr = mongoAdminDB.command(new BasicDBObject("replSetGetStatus", 1));
+			cr = mongoAdminDB.runCommand(new Document("replSetGetStatus", 1));
 			logger.info("replSetGetStatus: {}", cr);
 		}
 
@@ -161,16 +173,16 @@ class MongosSystemForTestFactory {
 		mongo = null;
 	}
 
-	private boolean isReplicaSetStarted(BasicDBObject setting) {
+	private boolean isReplicaSetStarted(Document setting) {
 		if (setting.get("members") == null) {
 			return false;
 		}
 
-		BasicDBList members = (BasicDBList) setting.get("members");
-		for (Object m : members.toArray()) {
-			BasicDBObject member = (BasicDBObject) m;
+		List members = (List) setting.get("members");
+		for (Object m : members) {
+			Document member = (Document) m;
 			logger.info(member.toString());
-			int state = member.getInt("state");
+			int state = member.getInteger("state", 0);
 			logger.info("state: {}", state);
 			// 1 - PRIMARY, 2 - SECONDARY, 7 - ARBITER
 			if (state != 1 && state != 2 && state != 7) {
@@ -202,14 +214,13 @@ class MongosSystemForTestFactory {
 	}
 
 	private void configureMongos() throws Exception {
-		CommandResult cr;
-		MongoClientOptions options = MongoClientOptions.builder()
-				.connectTimeout(10)
+		Document cr;
+		MongoClientSettings options = MongoClientSettings.builder()
+				.applyToSocketSettings(builder -> builder.connectTimeout(10, TimeUnit.SECONDS))
+				.applyToClusterSettings(builder -> builder.hosts(Collections.singletonList(toAddress(this.config.net()))))
 				.build();
-		try (MongoClient mongo = new MongoClient(
-				new ServerAddress(this.config.net().getServerAddress()
-						.getHostName(), this.config.net().getPort()), options)) {
-			DB mongoAdminDB = mongo.getDB(ADMIN_DATABASE_NAME);
+		try (MongoClient mongo = MongoClients.create(options)) {
+			MongoDatabase mongoAdminDB = mongo.getDatabase(ADMIN_DATABASE_NAME);
 
 			// Add shard from the replica set list
 			for (Entry<String, List<IMongodConfig>> entry : this.replicaSets
@@ -226,46 +237,47 @@ class MongosSystemForTestFactory {
 							+ ":" + mongodConfig.net().getPort();
 				}
 				logger.info("Execute add shard command: {}", command);
-				cr = mongoAdminDB.command(new BasicDBObject("addShard", command));
+				cr = mongoAdminDB.runCommand(new Document("addShard", command));
 				logger.info(cr.toString());
 			}
 
 			logger.info("Execute list shards.");
-			cr = mongoAdminDB.command(new BasicDBObject("listShards", 1));
+			cr = mongoAdminDB.runCommand(new Document("listShards", 1));
 			logger.info(cr.toString());
 
 			// Enabled sharding at database level
 			logger.info("Enabled sharding at database level");
-			cr = mongoAdminDB.command(new BasicDBObject("enableSharding",
+			cr = mongoAdminDB.runCommand(new Document("enableSharding",
 					this.shardDatabase));
 			logger.info(cr.toString());
 
 			// Create index in sharded collection
 			logger.info("Create index in sharded collection");
-			DB db = mongo.getDB(this.shardDatabase);
-			db.getCollection(this.shardCollection).createIndex(this.shardKey);
+			MongoDatabase db = mongo.getDatabase(this.shardDatabase);
+			db.getCollection(this.shardCollection).createIndex(new Document(this.shardKey, 1));
 
 			// Shard the collection
 			logger.info("Shard the collection: {}.{}", this.shardDatabase, this.shardCollection);
-			DBObject cmd = new BasicDBObject();
+			Document cmd = new Document();
 			cmd.put("shardCollection", this.shardDatabase + "." + this.shardCollection);
 			cmd.put("key", new BasicDBObject(this.shardKey, 1));
-			cr = mongoAdminDB.command(cmd);
+			cr = mongoAdminDB.runCommand(cmd);
 			logger.info(cr.toString());
 
 			logger.info("Get info from config/shards");
-			DBCursor cursor = mongo.getDB("config").getCollection("shards").find();
-			while (cursor.hasNext()) {
-				DBObject item = cursor.next();
+			FindIterable<Document> cursor = mongo.getDatabase("config").getCollection("shards").find();
+			MongoCursor<Document> iterator = cursor.iterator();
+			while (iterator.hasNext()) {
+				Document item = iterator.next();
 				logger.info(item.toString());
 			}
 		}
 
 	}
 
-	public Mongo getMongo() throws UnknownHostException, MongoException {
-		return new MongoClient(new ServerAddress(mongosProcess.getConfig().net()
-				.getServerAddress(), mongosProcess.getConfig().net().getPort()));
+	@SneakyThrows
+	private static ServerAddress toAddress(Net net) {
+		return new ServerAddress(net.getServerAddress(), net.getPort());
 	}
 
 	public void stop() {

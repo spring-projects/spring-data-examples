@@ -15,6 +15,7 @@
  */
 package example.springdata.mongodb.textsearch;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.index.IndexResolver;
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @Configuration
 @SpringBootApplication
@@ -41,6 +44,14 @@ public class MongoTestConfiguration {
 		Jackson2RepositoryPopulatorFactoryBean factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
 		factoryBean.setResources(new Resource[] { new ClassPathResource("spring-blog.atom.json") });
 		return factoryBean;
+	}
+
+	@PostConstruct
+	private void postConstruct() {
+
+		IndexResolver resolver = IndexResolver.create(operations.getConverter().getMappingContext());
+
+		resolver.resolveIndexFor(BlogPost.class).forEach(operations.indexOps(BlogPost.class)::ensureIndex);
 	}
 
 	/**
