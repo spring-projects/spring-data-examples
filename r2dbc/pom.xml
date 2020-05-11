@@ -20,23 +20,16 @@
 		<module>example</module>
 	</modules>
 
-	<properties>
-		<spring-boot-data-r2dbc.version>0.1.0.M3</spring-boot-data-r2dbc.version>
-		<r2dbc-h2.version>0.8.0.RELEASE</r2dbc-h2.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
-			<groupId>org.springframework.boot.experimental</groupId>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
-			<version>${spring-boot-data-r2dbc.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.r2dbc</groupId>
 			<artifactId>r2dbc-h2</artifactId>
-			<version>${r2dbc-h2.version}</version>
 		</dependency>
 
 		<dependency>
