@@ -62,13 +62,13 @@ class ApplicationConfiguration {
 
 	@PreDestroy
 	public void deleteIndex() {
-		operations.getIndexOperations().deleteIndex(Conference.class);
+		operations.indexOps(Conference.class).delete();
 	}
 
 	@PostConstruct
 	public void insertDataSample() {
 
-		operations.getIndexOperations().refresh(Conference.class);
+		operations.indexOps(Conference.class).refresh();
 
 		// Save data sample
 		repository.save(Conference.builder().date("2014-11-06").name("Spring eXchange 2014 - London")

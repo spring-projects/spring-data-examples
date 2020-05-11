@@ -49,14 +49,14 @@ class ApplicationConfiguration extends AbstractElasticsearchConfiguration {
 
 	@PreDestroy
 	public void deleteIndex() {
-		elasticsearchOperations.getIndexOperations().refresh(Conference.class);
+		elasticsearchOperations.indexOps(Conference.class).delete();
 	}
 
 	@PostConstruct
 	public void insertDataSample() {
 
 		repository.deleteAll();
-		elasticsearchOperations.getIndexOperations().refresh(Conference.class);
+		elasticsearchOperations.indexOps(Conference.class).refresh();
 
 		// Save data sample
 		repository.save(Conference.builder().date("2014-11-06").name("Spring eXchange 2014 - London")
