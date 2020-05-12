@@ -21,7 +21,6 @@ import example.springdata.couchbase.model.Airline;
 import example.springdata.couchbase.util.CouchbaseAvailableRule;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.ClassRule;

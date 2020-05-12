@@ -15,17 +15,12 @@
  */
 package example.springdata.couchbase.template;
 
-import static org.assertj.core.api.Assertions.*;
-
 import example.springdata.couchbase.model.Airline;
 import example.springdata.couchbase.util.CouchbaseAvailableRule;
 import org.springframework.data.couchbase.core.CouchbaseOperations;
 import org.springframework.data.couchbase.core.ReactiveCouchbaseOperations;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-import rx.Observable;
-import rx.observers.AssertableSubscriber;
 
 import org.junit.Before;
 import org.junit.ClassRule;
