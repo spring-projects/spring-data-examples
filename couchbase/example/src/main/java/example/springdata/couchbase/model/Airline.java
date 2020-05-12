@@ -15,12 +15,14 @@
  */
 package example.springdata.couchbase.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.couchbase.core.mapping.Field;
 
-import com.couchbase.client.java.repository.annotation.Field;
-import com.couchbase.client.java.repository.annotation.Id;
 
 /**
  * A domain object representing an Airline
@@ -29,19 +31,17 @@ import com.couchbase.client.java.repository.annotation.Id;
  */
 @Data
 @Document
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Airline {
 
 	@Id
 	private String id;
 
 	@Field
-	private String type;
-
-	@Field
 	private String name;
 
-	@Field("iata")
-	private String iataCode;
+	@Field
+	private String iata;
 
 	@Field
 	private String icao;

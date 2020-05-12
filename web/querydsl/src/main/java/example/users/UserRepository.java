@@ -30,17 +30,17 @@ import com.querydsl.core.types.dsl.StringPath;
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-public interface UserRepository
-		extends CrudRepository<User, String>, QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.querydsl.binding.QuerydslBinderCustomizer#customize(org.springframework.data.querydsl.binding.QuerydslBindings, com.mysema.query.types.EntityPath)
-	 */
-	@Override
-	default public void customize(QuerydslBindings bindings, QUser root) {
-
-		bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
-		bindings.excluding(root.password);
-	}
+public interface UserRepository {
+//		extends CrudRepository<User, String>, QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
+//
+//	/*
+//	 * (non-Javadoc)
+//	 * @see org.springframework.data.querydsl.binding.QuerydslBinderCustomizer#customize(org.springframework.data.querydsl.binding.QuerydslBindings, com.mysema.query.types.EntityPath)
+//	 */
+//	@Override
+//	default public void customize(QuerydslBindings bindings, QUser root) {
+//
+//		bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
+//		bindings.excluding(root.password);
+//	}
 }
