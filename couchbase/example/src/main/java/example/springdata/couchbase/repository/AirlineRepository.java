@@ -18,7 +18,7 @@ package example.springdata.couchbase.repository;
 import example.springdata.couchbase.model.Airline;
 
 import java.util.List;
-import org.springframework.data.couchbase.repository.CouchbaseRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
  * @author Denis Rosa
  */
 @Repository
-public interface AirlineRepository extends CouchbaseRepository<Airline, String> {
+public interface AirlineRepository extends CrudRepository<Airline, String> {
 
 	/**
 	 * Derived query selecting by {@code iataCode}.

@@ -21,32 +21,11 @@
 		<module>util</module>
 	</modules>
 
-	<repositories>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>
-		<repository>
-			<id>spring-libs-snapshot</id>
-			<name>Spring Snapshot Repository</name>
-			<url>https://repo.spring.io/libs-snapshot</url>
-		</repository>
-	</repositories>
-
-
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-couchbase</artifactId>
-			<version>4.0.0.RC2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.couchbase.client</groupId>
-			<artifactId>java-client</artifactId>
-			<version>3.0.3</version>
 		</dependency>
 	</dependencies>
 </project>
