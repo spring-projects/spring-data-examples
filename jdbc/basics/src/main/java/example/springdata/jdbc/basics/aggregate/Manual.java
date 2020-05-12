@@ -27,10 +27,10 @@ import org.springframework.data.relational.core.mapping.Table;
  * @author Jens Schauder
  */
 @Data
-@Table("handbuch")
+@Table("HANDBUCH")
 public class Manual {
 
-	@Column("handbuch_id")
+	@Column("HANDBUCH_ID")
 	private @Id Long id;
 	private String author, text;
 

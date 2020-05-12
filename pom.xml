@@ -20,7 +20,7 @@
 		<module>bom</module>
 		<!-- <module>couchbase</module> -->
 		<module>elasticsearch</module>
-		<!-- <module>jdbc</module> -->
+		<module>jdbc</module>
 		<module>jpa</module>
 		<module>ldap</module>
 		<module>map</module>

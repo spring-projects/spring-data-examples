@@ -18,7 +18,7 @@ package example.springdata.jdbc.basics.aggregate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.experimental.Wither;
+import lombok.With;
 
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
@@ -30,6 +30,7 @@ import org.springframework.data.annotation.AccessType.Type;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 
 /**
  * A Lego Set consisting of multiple Blocks and a manual
@@ -49,12 +50,12 @@ public class LegoSet {
 	 * Since Manuals are part of a {@link LegoSet} and only make sense inside a {@link LegoSet} it is considered part of
 	 * the Aggregate.
 	 */
-	@Column("handbuch_id")
+	@Column("HANDBUCH_ID")
 	private Manual manual;
 
 	// You can build multiple models from one LegoSet
-	@Column(keyColumn = "name")
-	private final @AccessType(Type.FIELD) @Wither(AccessLevel.PACKAGE) Map<String, Model> models;
+	@MappedCollection(keyColumn = "NAME")
+	private final @AccessType(Type.FIELD) @With(AccessLevel.PACKAGE) Map<String, Model> models;
 
 	LegoSet() {
 		this.models = new HashMap<>();
@@ -62,7 +63,7 @@ public class LegoSet {
 
 	// conversion for custom types currently has to be done through getters/setter + marking the underlying property with
 	// @Transient.
-	@Column("min_age")
+	@Column("MIN_AGE")
 	public int getIntMinimumAge() {
 		return toInt(this.minimumAge);
 	}
@@ -71,7 +72,7 @@ public class LegoSet {
 		minimumAge = toPeriod(years);
 	}
 
-	@Column("max_age")
+	@Column("MAX_AGE")
 	public int getIntMaximumAge() {
 		return toInt(this.maximumAge);
 	}
