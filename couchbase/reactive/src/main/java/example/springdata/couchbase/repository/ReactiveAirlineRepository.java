@@ -26,7 +26,7 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
  * Repository interface to manage {@link Airline} instances.
  *
  * @author Mark Paluch
- * @author Denis Paluch
+ * @author Denis Rosa
  */
 public interface ReactiveAirlineRepository extends ReactiveCrudRepository<Airline, String> {
 
