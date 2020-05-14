@@ -17,6 +17,7 @@ package example.springdata.jdbc.mybatis;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -39,6 +40,7 @@ public class MyBatisTests {
 	@Autowired LegoSetRepository repository;
 
 	@Test
+	@Ignore // this is currently broken until the fix for DATAJDBC-542 is released.
 	public void exerciseSomewhatComplexEntity() {
 
 		LegoSet smallCar = createLegoSet();

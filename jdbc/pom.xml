@@ -18,7 +18,7 @@
 
 	<modules>
 		<module>basics</module>
-		<!-- <module>mybatis</module> -->
+		<module>mybatis</module>
 		<module>jooq</module>
 	</modules>
 
