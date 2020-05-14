@@ -23,6 +23,7 @@ import java.time.Period;
 import java.util.Arrays;
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,7 +73,6 @@ public class AggregateTests {
 		legoSets = repository.findAll();
 		Output.list(legoSets, "Manual replaced");
 		checkLegoSets(legoSets, "One last attempt: Just build a car! Ok?", 3);
-
 	}
 
 	@Test
@@ -111,6 +111,9 @@ public class AggregateTests {
 		// SUV, F1 Ferrari 2018 and Muck get updated
 		assertThat(updated).isEqualTo(3);
 
+
+		final List<LegoSet> legoSetsByName = repository.findByName("Small Car 01");
+		assertThat(legoSetsByName).hasSize(1);
 	}
 
 	private LegoSet createLegoSet(String name, int minimumAge, int maximumAge) {

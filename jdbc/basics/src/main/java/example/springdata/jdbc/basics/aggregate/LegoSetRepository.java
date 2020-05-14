@@ -36,6 +36,16 @@ interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {
 			"  WHERE :age BETWEEN l.min_age and l.max_age")
 	List<ModelReport> reportModelForAge(@Param("age") int age);
 
+	/**
+	 * See https://stackoverflow.com/questions/52978700/how-to-write-a-custom-query-in-spring-data-jdbc
+	 * @param name
+	 * @return
+	 */
+	@Query("select a.*, b.handbuch_id as manual_handbuch_id, b.author as manual_author, b.text as manual_text from lego_set a " +
+			"join handbuch b on a.id = b.handbuch_id " +
+			"where name = :name")
+	List<LegoSet> findByName(@Param("name") String name);
+
 	@Modifying
 	@Query("UPDATE model set name = lower(name) WHERE name <> lower(name)")
 	int lowerCaseMapKeys();

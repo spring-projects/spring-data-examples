@@ -18,6 +18,7 @@ package example.springdata.jdbc.basics.aggregate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.With;
 import lombok.experimental.Wither;
 
 import java.time.Period;
@@ -54,7 +55,7 @@ public class LegoSet {
 
 	// You can build multiple models from one LegoSet
 	@Column(keyColumn = "name")
-	private final @AccessType(Type.FIELD) @Wither(AccessLevel.PACKAGE) Map<String, Model> models;
+	private final @AccessType(Type.FIELD) @With(AccessLevel.PACKAGE) Map<String, Model> models;
 
 	LegoSet() {
 		this.models = new HashMap<>();
