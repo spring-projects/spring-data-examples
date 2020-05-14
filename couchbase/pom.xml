@@ -21,10 +21,11 @@
 		<module>util</module>
 	</modules>
 
+
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-couchbase</artifactId>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-couchbase</artifactId>
 		</dependency>
 	</dependencies>
 </project>

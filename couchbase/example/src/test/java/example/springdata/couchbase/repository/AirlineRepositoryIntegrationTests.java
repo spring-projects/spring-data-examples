@@ -34,8 +34,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * Integration tests showing basic CRUD operations through {@link AirlineRepository}.
  *
- * @author Chandana Kithalagama
- * @author Mark Paluch
+ * @author Denis Rosa
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,10 +48,15 @@ public class AirlineRepositoryIntegrationTests {
 
 	@Autowired CouchbaseOperations couchbaseOperations;
 
+
+
 	@Before
 	public void before() {
-		airlineRepository.findById("LH").ifPresent(couchbaseOperations::remove);
+		if( couchbaseOperations.existsById().one("LH")) {
+			couchbaseOperations.removeById().one("LH");
+		}
 	}
+
 
 	/**
 	 * The derived query executes a N1QL query emitting a single element.
@@ -60,9 +64,8 @@ public class AirlineRepositoryIntegrationTests {
 	@Test
 	public void shouldFindAirlineN1ql() {
 
-		Airline airline = airlineRepository.findAirlineByIataCode("TQ");
-
-		assertThat(airline.getCallsign()).isEqualTo("TXW");
+		List<Airline> airlines = airlineRepository.findByIata("TQ");
+		assertThat(airlines.get(0).getCallsign()).isEqualTo("TXW");
 	}
 
 	/**
@@ -73,10 +76,8 @@ public class AirlineRepositoryIntegrationTests {
 	@Test
 	public void shouldFindById() {
 
-		Airline airline = airlineRepository.findAirlineByIataCode("TQ");
-
-		assertThat(airlineRepository.findById(airline.getId())).contains(airline);
-		assertThat(airlineRepository.findById("unknown")).isEmpty();
+		Airline airline = airlineRepository.findByIata("TQ").get(0);
+		assertThat(airlineRepository.findById(airline.getId()).isPresent());
 	}
 
 	/**
@@ -87,7 +88,7 @@ public class AirlineRepositoryIntegrationTests {
 
 		List<Airline> airlines = airlineRepository.findAllBy();
 
-		assertThat(airlines).hasSize(187);
+		assertThat(airlines).hasSize(374);
 	}
 
 	/**
@@ -100,7 +101,7 @@ public class AirlineRepositoryIntegrationTests {
 		Airline airline = new Airline();
 
 		airline.setId("LH");
-		airline.setIataCode("LH");
+		airline.setIata("LH");
 		airline.setIcao("DLH");
 		airline.setCallsign("Lufthansa");
 		airline.setName("Lufthansa");

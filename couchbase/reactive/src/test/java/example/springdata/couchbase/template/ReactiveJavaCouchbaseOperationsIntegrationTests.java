@@ -19,6 +19,11 @@ import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.couchbase.model.Airline;
 import example.springdata.couchbase.util.CouchbaseAvailableRule;
+import org.springframework.data.couchbase.core.CouchbaseOperations;
+import org.springframework.data.couchbase.core.ReactiveCouchbaseOperations;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 import rx.Observable;
 import rx.observers.AssertableSubscriber;
 
@@ -28,81 +33,62 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.couchbase.core.RxJavaCouchbaseOperations;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.couchbase.client.java.query.N1qlQuery;
-import com.couchbase.client.java.view.ViewQuery;
 
 /**
  * Integration tests showing basic CRUD operations through
- * {@link org.springframework.data.couchbase.core.RxJavaCouchbaseOperations}.
+ * {@link org.springframework.data.couchbase.core.ReactiveCouchbaseOperations}.
  *
  * @author Mark Paluch
+ * @author Denis Rosa
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RxJavaCouchbaseOperationsIntegrationTests {
+public class ReactiveJavaCouchbaseOperationsIntegrationTests {
 
 	@ClassRule //
 	public static CouchbaseAvailableRule COUCHBASE = CouchbaseAvailableRule.onLocalhost();
 
-	@Autowired RxJavaCouchbaseOperations operations;
+	@Autowired
+	ReactiveCouchbaseOperations operations;
+
+	@Autowired
+	CouchbaseOperations couchbaseOperations;
 
 	@Before
 	public void before() {
-		operations.findById("LH", Airline.class).flatMap(operations::remove).test().awaitTerminalEvent();
+		if (couchbaseOperations.existsById().one("LH")) {
+			couchbaseOperations.removeById().one("LH");
+		}
 	}
 
 	/**
-	 * The derived query executes a N1QL query emitting a single element.
+	 * Find all {@link Airline}s applying the _class filter .
 	 */
 	@Test
-	public void shouldFindAirlineN1ql() {
-
-		String n1ql = "SELECT META(`travel-sample`).id AS _ID, META(`travel-sample`).cas AS _CAS, `travel-sample`.* " + //
-				"FROM `travel-sample` " + //
-				"WHERE (`iata` = \"TQ\") AND `_class` = \"example.springdata.couchbase.model.Airline\"";
-
-		AssertableSubscriber<Airline> subscriber = operations.findByN1QL(N1qlQuery.simple(n1ql), Airline.class) //
-				.test() //
-				.awaitTerminalEvent() //
-				.assertCompleted();
-
-		assertThat(subscriber.getOnNextEvents()).hasSize(1);
-		assertThat(subscriber.getOnNextEvents().get(0).getCallsign()).isEqualTo("TXW");
+	public void shouldFindByAll() {
+		StepVerifier.create( operations.findByQuery( Airline.class).all()).expectNextCount(374).verifyComplete();
 	}
 
 	/**
-	 * Find all {@link Airline}s applying the {@code airlines/all} view.
-	 */
-	@Test
-	public void shouldFindByView() {
-
-		Observable<Airline> airlines = operations.findByView(ViewQuery.from("airlines", "all"), Airline.class);
-
-		airlines.test().awaitTerminalEvent().assertValueCount(187);
-	}
-
-	/**
-	 * Created elements are emitted by {@link RxJavaCouchbaseOperations#save(Object)}.
+	 * Created elements are emitted by {@link ReactiveCouchbaseOperations#upsertById(Class)} )}.
 	 */
 	@Test
 	public void shouldCreateAirline() {
-
 		Airline airline = new Airline();
 
 		airline.setId("LH");
-		airline.setIataCode("LH");
+		airline.setIata("LH");
 		airline.setIcao("DLH");
 		airline.setCallsign("Lufthansa");
 		airline.setName("Lufthansa");
 		airline.setCountry("Germany");
 
-		Observable<Airline> single = operations.save(airline) //
+		Mono<Airline> airlineMono = operations.upsertById(Airline.class)
+				.one(airline) //
 				.map(Airline::getId) //
-				.flatMap(id -> operations.findById(id, Airline.class));
+				.flatMap(id -> operations.findById(Airline.class).one(id));
 
-		single.test().awaitTerminalEvent().assertResult(airline);
+		StepVerifier.create(airlineMono).expectNext(airline).verifyComplete();
 	}
 }

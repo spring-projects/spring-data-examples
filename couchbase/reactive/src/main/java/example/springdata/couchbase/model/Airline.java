@@ -17,16 +17,17 @@ package example.springdata.couchbase.model;
 
 import lombok.Data;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.couchbase.core.mapping.Field;
 
-import com.couchbase.client.java.repository.annotation.Field;
-import com.couchbase.client.java.repository.annotation.Id;
 
 /**
  * A domain object representing an Airline
  *
  * @author Chandana Kithalagama
  * @author Mark Paluch
+ * @author Denis Rosa
  */
 @Data
 @Document
@@ -38,7 +39,7 @@ public class Airline {
 
 	@Field private String name;
 
-	@Field("iata") private String iataCode;
+	@Field private String iata;
 
 	@Field private String icao;
 
