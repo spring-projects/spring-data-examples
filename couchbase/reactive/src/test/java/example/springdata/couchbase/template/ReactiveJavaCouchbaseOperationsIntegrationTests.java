@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2017-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,18 @@ import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.couchbase.model.Airline;
 import example.springdata.couchbase.util.CouchbaseAvailableRule;
-import org.springframework.data.couchbase.core.CouchbaseOperations;
-import org.springframework.data.couchbase.core.ReactiveCouchbaseOperations;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-import rx.Observable;
-import rx.observers.AssertableSubscriber;
 
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.couchbase.core.CouchbaseOperations;
+import org.springframework.data.couchbase.core.ReactiveCouchbaseOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -67,7 +65,14 @@ public class ReactiveJavaCouchbaseOperationsIntegrationTests {
 	 */
 	@Test
 	public void shouldFindByAll() {
-		StepVerifier.create( operations.findByQuery( Airline.class).all()).expectNextCount(374).verifyComplete();
+		operations.findByQuery(Airline.class).all() //
+				.count() //
+				.as(StepVerifier::create) //
+				.assertNext(count -> {
+
+					assertThat(count).isGreaterThan(100);
+				}) //
+				.verifyComplete();
 	}
 
 	/**
@@ -89,6 +94,7 @@ public class ReactiveJavaCouchbaseOperationsIntegrationTests {
 				.map(Airline::getId) //
 				.flatMap(id -> operations.findById(Airline.class).one(id));
 
-		StepVerifier.create(airlineMono).expectNext(airline).verifyComplete();
+		airlineMono.as(StepVerifier::create) //
+				.expectNext(airline).verifyComplete();
 	}
 }

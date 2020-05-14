@@ -15,16 +15,17 @@
  */
 package example.springdata.couchbase.repository;
 
-import com.couchbase.client.java.Cluster;
-import com.couchbase.client.java.manager.query.CreatePrimaryQueryIndexOptions;
 import example.springdata.couchbase.model.Airline;
 import lombok.RequiredArgsConstructor;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 
+import com.couchbase.client.java.Cluster;
+import com.couchbase.client.java.manager.query.CreatePrimaryQueryIndexOptions;
 
 /**
  * Main Class of this module
@@ -33,14 +34,11 @@ import org.springframework.data.couchbase.core.CouchbaseTemplate;
  */
 @SpringBootApplication
 @RequiredArgsConstructor
-
 public class CouchbaseMain {
 
-	@Autowired
-	private final CouchbaseTemplate couchbaseTemplate;
+	@Autowired private final CouchbaseTemplate couchbaseTemplate;
 
-	@Autowired
-	private Cluster cluster;
+	@Autowired private Cluster cluster;
 
 	/**
 	 * Add the _class field to all Airline documents
@@ -51,7 +49,6 @@ public class CouchbaseMain {
 				CreatePrimaryQueryIndexOptions.createPrimaryQueryIndexOptions().ignoreIfExists(true));
 
 		// Need to post-process travel data to add _class attribute
-		cluster.query("update `travel-sample` set _class='"+Airline.class.getName()+"' where type = 'airline'");
-
+		cluster.query("update `travel-sample` set _class='" + Airline.class.getName() + "' where type = 'airline'");
 	}
 }

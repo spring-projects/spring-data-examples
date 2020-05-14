@@ -8,7 +8,6 @@ This project contains samples of reactive data access features with Spring Data 
 Spring Data Couchbase provides reactive repository support with Project Reactor:
 
 ```java
-@Repository
 public interface ReactiveAirlineRepository extends ReactiveCrudRepository<Airline, String> {
 
     Mono<Airline> findByIata(String code);

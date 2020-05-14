@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2017-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ import lombok.Data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
-import org.springframework.data.couchbase.core.mapping.Field;
-
 
 /**
  * A domain object representing an Airline
@@ -35,15 +33,15 @@ public class Airline {
 
 	@Id private String id;
 
-	@Field private String type;
+	private String type;
 
-	@Field private String name;
+	private String name;
 
-	@Field private String iata;
+	private String iata;
 
-	@Field private String icao;
+	private String icao;
 
-	@Field private String callsign;
+	private String callsign;
 
-	@Field private String country;
+	private String country;
 }

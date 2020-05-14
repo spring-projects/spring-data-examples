@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2017-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,20 +43,16 @@ public class AirlineRepositoryIntegrationTests {
 	@ClassRule //
 	public static CouchbaseAvailableRule COUCHBASE = CouchbaseAvailableRule.onLocalhost();
 
-	@Autowired
-	AirlineRepository airlineRepository;
+	@Autowired AirlineRepository airlineRepository;
 
 	@Autowired CouchbaseOperations couchbaseOperations;
 
-
-
 	@Before
 	public void before() {
-		if( couchbaseOperations.existsById().one("LH")) {
+		if (couchbaseOperations.existsById().one("LH")) {
 			couchbaseOperations.removeById().one("LH");
 		}
 	}
-
 
 	/**
 	 * The derived query executes a N1QL query emitting a single element.
@@ -88,7 +84,7 @@ public class AirlineRepositoryIntegrationTests {
 
 		List<Airline> airlines = airlineRepository.findAllBy();
 
-		assertThat(airlines).hasSize(374);
+		assertThat(airlines).hasSizeGreaterThan(100);
 	}
 
 	/**

@@ -60,9 +60,11 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 	@Test
 	public void shouldFindAirlineN1ql() {
 
-		StepVerifier.create(airlineRepository.findByIata("TQ")).assertNext(it -> {
-			assertThat(it.getCallsign()).isEqualTo("TXW");
-		}).verifyComplete();
+		airlineRepository.findByIata("TQ") //
+				.as(StepVerifier::create) //
+				.assertNext(it -> {
+					assertThat(it.getCallsign()).isEqualTo("TXW");
+				}).verifyComplete();
 	}
 
 	/**
@@ -77,10 +79,11 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 				.map(Airline::getId) //
 				.flatMap(airlineRepository::findById);
 
-		StepVerifier.create(airline).assertNext(it -> {
+		airline.as(StepVerifier::create) //
+				.assertNext(it -> {
 
-			assertThat(it.getCallsign()).isEqualTo("TXW");
-		}).verifyComplete();
+					assertThat(it.getCallsign()).isEqualTo("TXW");
+				}).verifyComplete();
 
 	}
 
@@ -89,7 +92,12 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 	 */
 	@Test
 	public void shouldFindAll() {
-		StepVerifier.create(airlineRepository.findAllBy()).expectNextCount(374).verifyComplete();
+		airlineRepository.findAllBy().count() //
+				.as(StepVerifier::create) //
+				.assertNext(count -> {
+
+					assertThat(count).isGreaterThan(100);
+				}).verifyComplete();
 	}
 
 	/**
@@ -112,6 +120,8 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 				.map(Airline::getId) //
 				.flatMap(airlineRepository::findById);
 
-		StepVerifier.create(airlineMono).expectNext(airline).verifyComplete();
+		airlineMono.as(StepVerifier::create) //
+				.expectNext(airline) //
+				.verifyComplete();
 	}
 }

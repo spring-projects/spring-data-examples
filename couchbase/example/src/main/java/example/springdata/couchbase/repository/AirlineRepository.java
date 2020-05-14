@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2017-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package example.springdata.couchbase.repository;
 import example.springdata.couchbase.model.Airline;
 
 import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,6 @@ import org.springframework.stereotype.Repository;
  * @author Mark Paluch
  * @author Denis Rosa
  */
-@Repository
 public interface AirlineRepository extends CrudRepository<Airline, String> {
 
 	/**
