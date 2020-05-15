@@ -22,25 +22,18 @@
 	</modules>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-	</dependencies>
 
-	<profiles>
-		<profile>
-			<id>spring-data-next-releasetrain</id>
-			<properties>
-				<elasticsearch.version>6.8.2</elasticsearch.version>
-			</properties>
-		</profile>
-		<profile>
-			<id>spring-data-next-releasetrain-released</id>
-			<properties>
-				<elasticsearch.version>6.8.2</elasticsearch.version>
-			</properties>
-		</profile>
-	</profiles>
+	</dependencies>
 
 </project>
