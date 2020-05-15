@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.0.BUILD-SNAPSHOT</version>
+		<version>2.3.0.RELEASE</version>
 	</parent>
 
 	<modules>
@@ -44,15 +44,13 @@
 			<id>spring-data-next-releasetrain</id>
 			<properties>
 				<spring-data-releasetrain.version>Neumann-BUILD-SNAPSHOT</spring-data-releasetrain.version>
-				<spring-hateoas.version>1.1.0.BUILD-SNAPSHOT</spring-hateoas.version>
-				<spring-plugin.version>2.0.0.RELEASE</spring-plugin.version>
 			</properties>
 		</profile>
 
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-releasetrain.version>Moore-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+				<spring-data-releasetrain.version>Neumann-BUILD-SNAPSHOT</spring-data-releasetrain.version>
 			</properties>
 		</profile>
 
