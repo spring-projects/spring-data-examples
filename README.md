@@ -109,3 +109,8 @@ We have separate folders for the samples of individual modules:
 * `bom` - Example project how to use the Spring Data release train bom in non-Spring-Boot scenarios.
 * `map` - Example project to show how to use `Map`-backed repositories.
 * `multi-store` - Example project to use both Spring Data MongoDB and Spring Data JPA in one project.
+
+## Note
+
+* The example projects make use of the [Lombok](https://projectlombok.org/) plugin. To get proper code navigation in your IDE, you must install it separately. 
+Lombok is available in the IntelliJ plugins repository and as a [download](https://projectlombok.org/download) for Eclipse-based IDEs.
