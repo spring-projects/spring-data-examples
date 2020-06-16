@@ -26,12 +26,13 @@ import java.text.SimpleDateFormat;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -57,7 +58,7 @@ public class ReactiveElasticsearchOperationsTest {
 		CriteriaQuery query = new CriteriaQuery(
 				new Criteria("keywords").contains(expectedWord).and("date").greaterThanEqual(expectedDate));
 
-		operations.find(query, Conference.class) //
+		operations.search(query, Conference.class) //
 				.as(StepVerifier::create) //
 				.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
 				.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
@@ -65,11 +66,11 @@ public class ReactiveElasticsearchOperationsTest {
 				.verifyComplete();
 	}
 
-	void verify(Conference it, String expectedWord, String expectedDate) {
+	void verify(SearchHit<Conference> hit, String expectedWord, String expectedDate) {
 
-		assertThat(it.getKeywords()).contains(expectedWord);
+		assertThat(hit.getContent().getKeywords()).contains(expectedWord);
 		try {
-			assertThat(format.parse(it.getDate())).isAfter(format.parse(expectedDate));
+			assertThat(format.parse(hit.getContent().getDate())).isAfter(format.parse(expectedDate));
 		} catch (ParseException e) {
 			fail("o_O", e);
 		}
