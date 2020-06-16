@@ -1,19 +1,13 @@
 # Spring Data Elasticsearch - Reactive Examples
 
-The `ReactiveElasticsearchClient` is a non official driver based on `WebClient`. 
+The `ReactiveElasticsearchClient` is a client based on `WebClient`. 
 It uses the request/response objects provided by the Elasticsearch core project. 
 Calls are directly operated on the reactive stack, not wrapping async (thread pool bound) responses into reactive types.
 
-````java
-class ApplicationConfiguration extends AbstractReactiveElasticsearchConfiguration {
-
-    @Bean
-    @Override
-    public ReactiveElasticsearchClient reactiveElasticsearchClient() {
-        return ReactiveRestClients.create(ClientConfiguration.localhost());
-    }
-}
-````
+```java
+@SpringBootApplication
+class ApplicationConfiguration {}
+```
 
 The `ReactiveElasticsearchClient` can be used with the `ReactiveElasticsearchOperations` and `ReactiveElasticsearchRepository`.
 

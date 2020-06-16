@@ -12,5 +12,5 @@ Requirements:
 To use local elasticsearch cluster:
 
 * install elasticsearch 
-* uncomment both properties in file 'application.properties'
+* Adapt 'application.properties' to point to your elasticsearch cluster
  

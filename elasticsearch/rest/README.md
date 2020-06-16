@@ -1,15 +1,10 @@
 # Spring Data Elasticsearch - High Level REST Client Examples
 
-````java
-class ApplicationConfiguration extends AbstractElasticsearchConfiguration {
+```java
+@SpringBootApplication
+class ApplicationConfiguration {}
+```
 
-    @Bean
-    @Override
-    public RestHighLevelClient elasticsearchClient() {
-        return RestClients.create(ClientConfiguration.localhost()).rest();
-    }
-}
-````
 
 The `RestHighLevelClient` can be used with the `ElasticsearchOperations` and `ElasticsearchRepository`.
 

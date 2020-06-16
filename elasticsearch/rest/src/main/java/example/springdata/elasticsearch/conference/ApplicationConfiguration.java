@@ -1,11 +1,11 @@
 /*
- * Copyright 2014-2018 the original author or authors.
+ * Copyright 2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,12 +20,9 @@ import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.RestClients;
-import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
@@ -35,14 +32,8 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  * @author Oliver Gierke
  * @author Christoph Strobl
  */
-@Configuration
-@EnableElasticsearchRepositories
-class ApplicationConfiguration extends AbstractElasticsearchConfiguration {
-
-	@Override
-	public RestHighLevelClient elasticsearchClient() {
-		return RestClients.create(ClientConfiguration.localhost()).rest();
-	}
+@SpringBootApplication
+class ApplicationConfiguration {
 
 	@Autowired ElasticsearchOperations elasticsearchOperations;
 	@Autowired ConferenceRepository repository;
