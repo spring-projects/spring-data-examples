@@ -192,6 +192,25 @@
 			</build>
 		</profile>
 
+		<profile>
+			<id>java-16</id>
+
+			<activation>
+				<jdk>16</jdk>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<release>16</release>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 	</profiles>
 
 	<developers>
