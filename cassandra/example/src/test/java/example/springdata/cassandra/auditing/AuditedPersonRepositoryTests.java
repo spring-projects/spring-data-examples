@@ -32,7 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Integration test showing the basic usage of {@link AuditedPersonRepository}.
+ * Integration test showing the basic usage of Auditing through {@link AuditedPersonRepository}.
  *
  * @author Mark Paluch
  */
