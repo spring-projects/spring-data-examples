@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.1.RELEASE</version>
+		<version>2.4.0-M2</version>
 	</parent>
 
 	<modules>
@@ -26,7 +26,7 @@
 		<module>map</module>
 		<module>mongodb</module>
 		<module>multi-store</module>
-		<module>neo4j</module>
+		<!-- <module>neo4j</module> -->
 		<module>r2dbc</module>
 		<module>rest</module>
 		<module>redis</module>
@@ -37,20 +37,21 @@
 	<properties>
 		<apt.version>1.1.3</apt.version>
 		<jvm.enable-preview></jvm.enable-preview>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<profiles>
 		<profile>
 			<id>spring-data-next-releasetrain</id>
 			<properties>
-				<spring-data-releasetrain.version>Neumann-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+				<spring-data-bom.version>2020.0.0-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-releasetrain.version>Neumann-BUILD-SNAPSHOT</spring-data-releasetrain.version>
+				<spring-data-bom.version>2020.0.0-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 
@@ -265,6 +266,19 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
 			<scope>test</scope>
 		</dependency>
 
