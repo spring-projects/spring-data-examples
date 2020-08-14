@@ -18,6 +18,7 @@ package example.springdata.neo4j;
 import java.util.List;
 
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.query.Query;
 
 /**
  * {@link Neo4jRepository} for {@link Actor actors}.
@@ -28,11 +29,11 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 public interface ActorRepository extends Neo4jRepository<Actor, Long> {
 
 	/**
-	 * Nested property from select from roles -> movie -> title, where this here represents the start node in a
-	 * relationship and movie the end node.
+	 * Custom query to navigate over relationships with properties.
 	 * 
 	 * @param title
 	 * @return
 	 */
+	@Query("MATCH (a:Actor) - [r:ACTED_IN] -> (m:Movie {title: $title}) RETURN a, collect(r), collect(m)")
 	List<Actor> findAllByRolesMovieTitle(String title);
 }

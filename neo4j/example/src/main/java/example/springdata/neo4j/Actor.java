@@ -16,17 +16,13 @@
 
 package example.springdata.neo4j;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.neo4j.ogm.annotation.GeneratedValue;
-import org.neo4j.ogm.annotation.Id;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
 
 /**
  * An Actor node entity.
@@ -35,14 +31,12 @@ import org.neo4j.ogm.annotation.Relationship;
  * @author Oliver Gierke
  * @author Michael J. Simons
  */
-@NodeEntity(label = "Actor")
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
-@Getter
+@Node
 public class Actor {
 
 	private @Id @GeneratedValue Long id;
-	private String name;
-	private @Relationship(type = "ACTED_IN") Set<Role> roles = new HashSet<>();
+	private final String name;
+	private @Relationship(type = "ACTED_IN") Map<Movie, Roles> roles = new HashMap<>();
 
 	public Actor(String name) {
 		this.name = name;
@@ -50,9 +44,30 @@ public class Actor {
 
 	public void actedIn(Movie movie, String roleName) {
 
-		Role role = new Role(this, roleName, movie);
+		Roles movieRoles = this.roles.computeIfAbsent(movie, m -> new Roles());
+		movieRoles.addRole(roleName);
+		movie.getActors().put(this, movieRoles);
+	}
 
-		roles.add(role);
-		movie.getRoles().add(role);
+	public Long getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Map<Movie, Roles> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Map<Movie, Roles> roles) {
+		this.roles = roles;
+	}
+
+	@Override public String toString() {
+		return "Actor{" +
+			"name='" + name + '\'' +
+			'}';
 	}
 }
