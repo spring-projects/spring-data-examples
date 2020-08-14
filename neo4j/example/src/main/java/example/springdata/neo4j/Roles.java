@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,12 @@
  */
 package example.springdata.neo4j;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.neo4j.ogm.annotation.EndNode;
-import org.neo4j.ogm.annotation.GeneratedValue;
-import org.neo4j.ogm.annotation.Id;
-import org.neo4j.ogm.annotation.RelationshipEntity;
-import org.neo4j.ogm.annotation.StartNode;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.neo4j.core.schema.RelationshipProperties;
 
 /**
  * A Role relationship entity between an actor and movie.
@@ -31,19 +28,27 @@ import org.neo4j.ogm.annotation.StartNode;
  * @author Luanne Misquitta
  * @author Michael J. Simons
  */
-@RelationshipEntity(type = "ACTED_IN")
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
-@Getter
-public class Role {
+@RelationshipProperties
+public class Roles {
 
-	private @Id @GeneratedValue Long id;
-	private @StartNode Actor actor;
-	private String role;
-	private @EndNode Movie movie;
+	private final List<String> roles;
 
-	Role(Actor actor, String role, Movie movie) {
-		this.actor = actor;
-		this.role = role;
-		this.movie = movie;
+	public Roles() {
+		this(Collections.emptyList());
+	}
+
+	@PersistenceConstructor
+	public Roles(List<String> roles) {
+		this.roles = new ArrayList<>(roles);
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void addRole(String role) {
+		if (!this.roles.contains(role)) {
+			roles.add(role);
+		}
 	}
 }
