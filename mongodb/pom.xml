@@ -27,6 +27,7 @@
 		<module>kotlin</module>
 		<module>query-by-example</module>
 		<module>reactive</module>
+		<module>repository-metrics</module>
 		<module>security</module>
 		<module>text-search</module>
 		<module>transactions</module>
