@@ -63,6 +63,7 @@ We have separate folders for the samples of individual modules:
 * `query-by-example` - Example project showing usage of Query by Example with MongoDB.
 * `querydsl` - Example project showing imperative and reactive [Querydsl](https://github.com/querydsl/querydsl) support for MongoDB.
 * `reactive` - Example project to show reactive template and repository support.
+* `repository-metrics` - Example project to show how to collect repository method invocation metrics.
 * `security` - Example project showing usage of Spring Security with MongoDB.
 * `text-search` - Example project showing usage of MongoDB text search feature.
 * `transactions` - Example project for imperative and reactive MongoDB 4.0 transaction support.
