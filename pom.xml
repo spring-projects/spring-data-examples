@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.0-M2</version>
+		<version>2.4.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -26,7 +26,6 @@
 		<module>map</module>
 		<module>mongodb</module>
 		<module>multi-store</module>
-		<module>neo4j</module>
 		<module>r2dbc</module>
 		<module>rest</module>
 		<module>redis</module>
