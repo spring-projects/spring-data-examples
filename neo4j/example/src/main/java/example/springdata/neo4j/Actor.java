@@ -16,8 +16,8 @@
 
 package example.springdata.neo4j;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -36,17 +36,18 @@ public class Actor {
 
 	private @Id @GeneratedValue Long id;
 	private final String name;
-	private @Relationship(type = "ACTED_IN") Map<Movie, Roles> roles = new HashMap<>();
+	private @Relationship(type = "ACTED_IN") List<Roles> roles = new ArrayList<>();
 
 	public Actor(String name) {
 		this.name = name;
 	}
 
-	public void actedIn(Movie movie, String roleName) {
+	public void actedIn(Movie movie, List<String> roleNames) {
 
-		Roles movieRoles = this.roles.computeIfAbsent(movie, m -> new Roles());
-		movieRoles.addRole(roleName);
-		movie.getActors().put(this, movieRoles);
+		Roles movieRoles = new Roles(roleNames);
+		movieRoles.setMovie(movie);
+
+		this.roles.add(movieRoles);
 	}
 
 	public Long getId() {
@@ -57,11 +58,11 @@ public class Actor {
 		return name;
 	}
 
-	public Map<Movie, Roles> getRoles() {
+	public List<Roles> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Map<Movie, Roles> roles) {
+	public void setRoles(List<Roles> roles) {
 		this.roles = roles;
 	}
 

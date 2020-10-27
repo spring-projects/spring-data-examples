@@ -16,14 +16,9 @@
 
 package example.springdata.neo4j;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
-import org.springframework.data.neo4j.core.schema.Relationship.Direction;
 
 /**
  * A Movie node entity.
@@ -38,8 +33,6 @@ public class Movie {
 	private @Id @GeneratedValue Long id;
 
 	private final String title;
-	private @Relationship(type = "ACTED_IN", direction = Direction.INCOMING)
-	Map<Actor, Roles> actors = new HashMap<>();
 
 	public Movie(String title) {
 		this.title = title;
@@ -51,14 +44,6 @@ public class Movie {
 
 	public String getTitle() {
 		return title;
-	}
-
-	public Map<Actor, Roles> getActors() {
-		return actors;
-	}
-
-	public void setActors(Map<Actor, Roles> actors) {
-		this.actors = actors;
 	}
 
 	@Override public String toString() {

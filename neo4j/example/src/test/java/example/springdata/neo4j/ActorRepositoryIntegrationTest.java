@@ -15,7 +15,10 @@
  */
 package example.springdata.neo4j;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -68,14 +71,15 @@ class ActorRepositoryIntegrationTest {
 		Movie goblet = new Movie("Harry Potter and the Goblet of Fire");
 
 		Actor daniel = new Actor("Daniel Radcliffe");
-		daniel.actedIn(goblet, "Harry Potter");
+		daniel.actedIn(goblet, Collections.singletonList("Harry Potter"));
 
 		actorRepository.save(daniel); // saves the actor and the movie
 
 		assertThat(actorRepository.findById(daniel.getId())).hasValueSatisfying(actor -> {
 			assertThat(actor.getName()).isEqualTo(daniel.getName());
 			assertThat(actor.getRoles()).hasSize(1)
-				.satisfies(roles -> assertThat(roles.values()).flatExtracting(Roles::getRoles).hasSize(1).first()
+				.satisfies(roles -> assertThat(roles).flatExtracting(Roles::getRoles)
+					.hasSize(1).first()
 					.isEqualTo("Harry Potter"));
 		});
 	}
@@ -88,14 +92,12 @@ class ActorRepositoryIntegrationTest {
 
 		Actor lindsayLohan = new Actor("Lindsay Lohan");
 
-		lindsayLohan.actedIn(theParentTrap, "Hallie Parker");
-		lindsayLohan.actedIn(theParentTrap, "Annie James");
-		lindsayLohan.actedIn(iKnowWhoKilledMe, "Aubrey Fleming");
-		lindsayLohan.actedIn(iKnowWhoKilledMe, "Dakota Moss");
+		lindsayLohan.actedIn(theParentTrap, Arrays.asList("Hallie Parker","Annie James"));
+		lindsayLohan.actedIn(iKnowWhoKilledMe, Arrays.asList("Aubrey Fleming", "Dakota Moss"));
 		actorRepository.save(lindsayLohan);
 
 		Actor nealMcDonough = new Actor("Neal McDonough");
-		nealMcDonough.actedIn(iKnowWhoKilledMe, "Daniel Fleming");
+		nealMcDonough.actedIn(iKnowWhoKilledMe, Collections.singletonList("Daniel Fleming"));
 		actorRepository.save(nealMcDonough);
 
 		assertThat(actorRepository.findAllByRolesMovieTitle(iKnowWhoKilledMe.getTitle())).hasSize(2)
@@ -104,10 +106,10 @@ class ActorRepositoryIntegrationTest {
 			.allSatisfy(actor -> {
 				if (actor.getName().equals(nealMcDonough.getName())) {
 					assertThat(actor.getRoles())
-						.allSatisfy((m, r) -> assertThat(r.getRoles()).containsOnly("Daniel Fleming"));
+						.allSatisfy((r) -> assertThat(r.getRoles()).containsOnly("Daniel Fleming"));
 				} else if (actor.getName().equals(lindsayLohan.getName())) {
 					assertThat(actor.getRoles())
-						.allSatisfy((m, r) -> assertThat(r.getRoles()).containsOnly("Aubrey Fleming", "Dakota Moss"));
+						.allSatisfy((r) -> assertThat(r.getRoles()).containsOnly("Aubrey Fleming", "Dakota Moss"));
 				}
 			});
 	}

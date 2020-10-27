@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.neo4j.core.schema.RelationshipProperties;
+import org.springframework.data.neo4j.core.schema.TargetNode;
 
 /**
  * A Role relationship entity between an actor and movie.
@@ -33,6 +34,9 @@ public class Roles {
 
 	private final List<String> roles;
 
+	@TargetNode
+	private Movie movie;
+
 	public Roles() {
 		this(Collections.emptyList());
 	}
@@ -40,6 +44,14 @@ public class Roles {
 	@PersistenceConstructor
 	public Roles(List<String> roles) {
 		this.roles = new ArrayList<>(roles);
+	}
+
+	public Movie getMovie() {
+		return movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
 	}
 
 	public List<String> getRoles() {
