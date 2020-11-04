@@ -18,14 +18,12 @@ package example.springdata.geode.client.transactions.server;
 import java.util.stream.Collectors;
 
 import lombok.extern.apachecommons.CommonsLog;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
+
 import org.apache.geode.cache.CacheEvent;
+import org.apache.geode.cache.EntryEvent;
 import org.apache.geode.cache.TransactionEvent;
 import org.apache.geode.cache.util.TransactionListenerAdapter;
-import org.apache.geode.internal.cache.TXEntryState;
-
-import org.springframework.stereotype.Component;
 
 /**
  * @author Patrick Johnson
@@ -45,9 +43,9 @@ public class CustomerTransactionListener extends TransactionListenerAdapter {
 				+ event.getEvents().stream().map(this::getEventInfo).collect(Collectors.toList()) + "]");
 	}
 
-	private String getEventInfo(CacheEvent cacheEvent) {
-		if (cacheEvent instanceof TXEntryState.TxEntryEventImpl) {
-			return ((TXEntryState.TxEntryEventImpl) cacheEvent).getNewValue().toString();
+	private String getEventInfo(CacheEvent<?, ?> cacheEvent) {
+		if (cacheEvent instanceof EntryEvent) {
+			return ((EntryEvent<?, ?>) cacheEvent).getNewValue().toString();
 		} else {
 			return cacheEvent.toString();
 		}

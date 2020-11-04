@@ -16,6 +16,7 @@
 package example.springdata.geode.client.transactions.client;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import example.springdata.geode.client.transactions.Customer;
 import example.springdata.geode.client.transactions.EmailAddress;
@@ -67,11 +68,7 @@ public class TransactionalClientTests extends ForkingClientServerIntegrationTest
 		assertThat(customer.getFirstName()).isEqualTo("Humpty");
 		log.info("Customer for ID after (transaction commit success) = " + customer);
 
-		try {
-			customerService.updateCustomersFailure();
-		} catch (IllegalArgumentException exception) {
-			// do not print the exception to not spam the log
-		}
+		assertThrows(IllegalArgumentException.class, () -> customerService.updateCustomersFailure());
 
 		customer = customerService.findById(2L).get();
 		assertThat(customer.getFirstName()).isEqualTo("Humpty");

@@ -17,11 +17,10 @@ package example.springdata.geode.client.transactions.server;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.geode.cache.EntryEvent;
 import org.apache.geode.cache.TransactionEvent;
 import org.apache.geode.cache.TransactionWriter;
 import org.apache.geode.cache.TransactionWriterException;
-import org.apache.geode.internal.cache.TXEntryState;
-import org.apache.geode.internal.cache.TXEvent;
 
 import org.springframework.stereotype.Component;
 
@@ -36,9 +35,9 @@ public class CustomerTransactionWriter implements TransactionWriter {
 
 		AtomicBoolean six_found = new AtomicBoolean(false);
 
-		((TXEvent) transactionEvent).getEvents().forEach(event -> {
-			if (event instanceof TXEntryState.TxEntryEventImpl
-					&& ((TXEntryState.TxEntryEventImpl) event).getKey().equals(6L)) {
+		transactionEvent.getEvents().forEach(event -> {
+			if (event instanceof EntryEvent<?, ?>
+					&& ((EntryEvent<?, ?>) event).getKey().equals(6L)) {
 				six_found.set(true);
 			}
 		});
