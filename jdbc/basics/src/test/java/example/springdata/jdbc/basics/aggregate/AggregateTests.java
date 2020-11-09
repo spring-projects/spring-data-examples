@@ -23,7 +23,6 @@ import java.time.Period;
 import java.util.Arrays;
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,7 +77,8 @@ public class AggregateTests {
 	@Test
 	public void customQueries() {
 
-		LegoSet smallCars = createLegoSet("Small Car - 01", 5, 10);
+		String smallCarsSetName = "Small Car - 01";
+		LegoSet smallCars = createLegoSet(smallCarsSetName, 5, 10);
 		smallCars.setManual(new Manual("Just put all the pieces together in the right order", "Jens Schauder"));
 
 		smallCars.addModel("SUV", "SUV with sliding doors.");
@@ -86,7 +86,6 @@ public class AggregateTests {
 
 		LegoSet f1Racer = createLegoSet("F1 Racer", 6, 15);
 		f1Racer.setManual(new Manual("Build a helicopter or a plane", "M. Shoemaker"));
-
 		f1Racer.addModel("F1 Ferrari 2018", "A very fast red car.");
 
 		LegoSet constructionVehicles = createLegoSet("Construction Vehicles", 3, 6);
@@ -111,8 +110,7 @@ public class AggregateTests {
 		// SUV, F1 Ferrari 2018 and Muck get updated
 		assertThat(updated).isEqualTo(3);
 
-
-		final List<LegoSet> legoSetsByName = repository.findByName("Small Car 01");
+		final List<LegoSet> legoSetsByName = repository.findByName(smallCarsSetName);
 		assertThat(legoSetsByName).hasSize(1);
 	}
 

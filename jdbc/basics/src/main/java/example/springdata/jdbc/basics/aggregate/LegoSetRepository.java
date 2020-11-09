@@ -43,7 +43,7 @@ interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {
 	 */
 	@Query("select a.*, b.handbuch_id as manual_handbuch_id, b.author as manual_author, b.text as manual_text from lego_set a " +
 			"join handbuch b on a.id = b.handbuch_id " +
-			"where name = :name")
+			"where a.name = :name")
 	List<LegoSet> findByName(@Param("name") String name);
 
 	@Modifying
