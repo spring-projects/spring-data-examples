@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.0-RC1</version>
+		<version>2.4.0</version>
 	</parent>
 
 	<modules>
@@ -44,14 +44,14 @@
 		<profile>
 			<id>spring-data-next-releasetrain</id>
 			<properties>
-				<spring-data-bom.version>2020.0.0-SNAPSHOT</spring-data-bom.version>
+				<spring-data-bom.version>2021.0.0-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-bom.version>2020.0.0-SNAPSHOT</spring-data-bom.version>
+				<spring-data-bom.version>2020.0.2-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 
