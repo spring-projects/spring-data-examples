@@ -22,7 +22,8 @@ import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * A repository interface assembling CRUD functionality as well as the API to invoke the methods implemented manually.
+ * A repository interface assembling CRUD functionality as well as the API to
+ * invoke the methods implemented manually.
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
@@ -35,4 +36,11 @@ public interface OrderRepository extends CrudRepository<Order, String>, OrderRep
 
 	@Aggregation(pipeline = { "{ $match : { customerId : ?0 } }", "{ $count : total }" })
 	Long totalOrdersForCustomer(String customerId);
+
+	@Aggregation(pipeline = { "{ $match : { id : ?0 } }", "{ $unwind : { path : '$items' } }",
+			"{ $project : { id : 1 , customerId : 1 , items : 1 , lineTotal : { $multiply: [ '$items.price' , '$items.quantity' ] } } }",
+			"{ $group : { '_id' : '$_id' , 'netAmount' : { $sum : '$lineTotal' } , 'items' : { $addToSet : '$items' } } }",
+			"{ $project : { 'orderId' : '$_id' , 'items' : 1 , 'netAmount' : 1 , 'taxAmount' : { $multiply: [ '$netAmount' , 0.19 ] } , 'totalAmount' : { $multiply: [ '$netAmount' , 1.19 ] } } }" })
+	Invoice getInvoiceForOrderDeclarative(String orderId);
+
 }
