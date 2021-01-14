@@ -51,13 +51,29 @@ public class OrderRepositoryIntegrationTests {
 	}
 
 	@Test
-	public void createsInvoiceViaAggregation() {
+	public void createsInvoiceViaAggregationProgrammatic() {
 
 		Order order = new Order("c42", new Date()).//
 				addItem(product1).addItem(product2).addItem(product3);
 		order = repository.save(order);
 
 		Invoice invoice = repository.getInvoiceFor(order);
+
+		assertThat(invoice).isNotNull();
+		assertThat(invoice.getOrderId()).isEqualTo(order.getId());
+		assertThat(invoice.getNetAmount()).isCloseTo(8.3D, offset(0.00001));
+		assertThat(invoice.getTaxAmount()).isCloseTo(1.577D, offset(0.00001));
+		assertThat(invoice.getTotalAmount()).isCloseTo(9.877, offset(0.00001));
+	}
+	
+	@Test
+	public void createsInvoiceViaAggregationDeclarative() {
+
+		Order order = new Order("c42", new Date()).//
+				addItem(product1).addItem(product2).addItem(product3);
+		order = repository.save(order);
+
+		Invoice invoice = repository.getInvoiceForOrderDeclarative(order.getId());
 
 		assertThat(invoice).isNotNull();
 		assertThat(invoice.getOrderId()).isEqualTo(order.getId());
@@ -94,4 +110,5 @@ public class OrderRepositoryIntegrationTests {
 
 		assertThat(repository.totalOrdersForCustomer("c42")).isEqualTo(3);
 	}
+	
 }
