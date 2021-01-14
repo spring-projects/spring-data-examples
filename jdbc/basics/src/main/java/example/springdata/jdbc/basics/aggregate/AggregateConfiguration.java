@@ -29,7 +29,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jdbc.core.convert.JdbcCustomConversions;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;
+import org.springframework.data.relational.core.mapping.event.BeforeConvertEvent;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
@@ -51,7 +51,7 @@ public class AggregateConfiguration extends AbstractJdbcConfiguration {
 	@Bean
 	public ApplicationListener<?> idSetting() {
 
-		return (ApplicationListener<BeforeSaveEvent>) event -> {
+		return (ApplicationListener<BeforeConvertEvent>) event -> {
 
 			if (event.getEntity() instanceof LegoSet) {
 				setIds((LegoSet) event.getEntity());
