@@ -19,8 +19,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.data.Offset.offset;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
