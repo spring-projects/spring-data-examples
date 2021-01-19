@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,11 @@ import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * A repository interface assembling CRUD functionality as well as the API to
- * invoke the methods implemented manually.
+ * A repository interface assembling CRUD functionality as well as the API to invoke the methods implemented manually.
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
- * @author Christoph Strobl
+ * @author Divya Srivastava
  */
 public interface OrderRepository extends CrudRepository<Order, String>, OrderRepositoryCustom {
 
@@ -41,6 +40,6 @@ public interface OrderRepository extends CrudRepository<Order, String>, OrderRep
 			"{ $project : { id : 1 , customerId : 1 , items : 1 , lineTotal : { $multiply: [ '$items.price' , '$items.quantity' ] } } }",
 			"{ $group : { '_id' : '$_id' , 'netAmount' : { $sum : '$lineTotal' } , 'items' : { $addToSet : '$items' } } }",
 			"{ $project : { 'orderId' : '$_id' , 'items' : 1 , 'netAmount' : 1 , 'taxAmount' : { $multiply: [ '$netAmount' , 0.19 ] } , 'totalAmount' : { $multiply: [ '$netAmount' , 1.19 ] } } }" })
-	Invoice getInvoiceForOrderDeclarative(String orderId);
+	Invoice aggregateInvoiceForOrder(String orderId);
 
 }

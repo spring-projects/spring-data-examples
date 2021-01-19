@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 the original author or authors.
+ * Copyright 2014-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Thomas Darimont
  * @author Oliver Gierke
  * @author Christoph Strobl
+ * @author Divya Srivastava
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -51,7 +52,7 @@ public class OrderRepositoryIntegrationTests {
 	}
 
 	@Test
-	public void createsInvoiceViaAggregationProgrammatic() {
+	public void createsInvoiceViaProgrammaticAggregation() {
 
 		Order order = new Order("c42", new Date()).//
 				addItem(product1).addItem(product2).addItem(product3);
@@ -65,15 +66,15 @@ public class OrderRepositoryIntegrationTests {
 		assertThat(invoice.getTaxAmount()).isCloseTo(1.577D, offset(0.00001));
 		assertThat(invoice.getTotalAmount()).isCloseTo(9.877, offset(0.00001));
 	}
-	
+
 	@Test
-	public void createsInvoiceViaAggregationDeclarative() {
+	public void createsInvoiceViaDeclarativeAggregation() {
 
 		Order order = new Order("c42", new Date()).//
 				addItem(product1).addItem(product2).addItem(product3);
 		order = repository.save(order);
 
-		Invoice invoice = repository.getInvoiceForOrderDeclarative(order.getId());
+		Invoice invoice = repository.aggregateInvoiceForOrder(order.getId());
 
 		assertThat(invoice).isNotNull();
 		assertThat(invoice.getOrderId()).isEqualTo(order.getId());
@@ -110,5 +111,5 @@ public class OrderRepositoryIntegrationTests {
 
 		assertThat(repository.totalOrdersForCustomer("c42")).isEqualTo(3);
 	}
-	
+
 }
