@@ -36,7 +36,7 @@ jobs:
           token: ${{ secrets.GH_ISSUES_TOKEN_SPRING_DATA }}
   Feedback-Provided:
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'spring-projects' && github.event_name == 'issue_comment' && github.event.action == 'created' && !github.actor == 'spring-issuemaster' && github.event.pull_request == null && github.event.issue.state == 'open' && contains(join(github.event.issue.labels.*.name, ', '), 'waiting-for-feedback')
+    if: github.repository_owner == 'spring-projects' && github.event_name == 'issue_comment' && github.event.action == 'created' && github.actor != 'spring-projects-issues' && github.event.pull_request == null && github.event.issue.state == 'open' && contains(toJSON(github.event.issue.labels), 'waiting-for-feedback')
     steps:
       - name: Update Project Card
         uses: peter-evans/create-or-update-project-card@v1.1.2
