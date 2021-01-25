@@ -15,9 +15,10 @@
  */
 package example.springdata.jpa.showcase;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @SpringBootTest
 @Transactional
-public abstract class AbstractShowcaseTest extends AbstractTransactionalJUnit4SpringContextTests {
+@ExtendWith(SpringExtension.class)
+public abstract class AbstractShowcaseTest extends AbstractTransactionalShowcaseContextTests {
 
 	@SpringBootApplication
 	static class TestConfig {}

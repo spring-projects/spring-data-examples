@@ -24,9 +24,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 
 /**
@@ -48,7 +48,7 @@ public class BasicFactorySetup {
 	 *
 	 * @throws Exception
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		em = factory.createEntityManager();
@@ -69,7 +69,7 @@ public class BasicFactorySetup {
 	/**
 	 * Rollback transaction.
 	 */
-	@After
+	@AfterEach
 	public void tearDown() {
 
 		em.getTransaction().rollback();

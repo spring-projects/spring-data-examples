@@ -16,15 +16,16 @@
 package example.springdata.jpa.showcase.before;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
-
-import java.util.List;
-
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import example.springdata.jpa.showcase.AbstractShowcaseTest;
 import example.springdata.jpa.showcase.core.Customer;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Integration test for {@link CustomerService}.

@@ -25,12 +25,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 @Slf4j
@@ -109,10 +110,12 @@ public class Java8IntegrationTests {
 	 * Query methods using streaming need to be used inside a surrounding transaction to keep the connection open while
 	 * the stream is consumed. We simulate that not being the case by actively disabling the transaction here.
 	 */
-	@Test(expected = InvalidDataAccessApiUsageException.class)
+	@Test
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void rejectsStreamExecutionIfNoSurroundingTransactionActive() {
-		repository.findAllByLastnameIsNotNull();
+		Assertions.assertThrows(InvalidDataAccessApiUsageException.class, () -> {
+			repository.findAllByLastnameIsNotNull();
+		});
 	}
 
 	/**

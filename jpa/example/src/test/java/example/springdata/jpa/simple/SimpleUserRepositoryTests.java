@@ -16,24 +16,27 @@
 package example.springdata.jpa.simple;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
-import static org.springframework.data.domain.Sort.Direction.*;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.data.domain.Sort.Direction.ASC;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,7 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Thomas Darimont
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 public class SimpleUserRepositoryTests {
@@ -51,7 +54,7 @@ public class SimpleUserRepositoryTests {
 	@Autowired SimpleUserRepository repository;
 	User user;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		user = new User();

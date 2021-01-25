@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -40,7 +40,6 @@ public class AccountRepositoryIntegrationTest extends AbstractShowcaseTest {
 
 	@Test
 	public void savesAccount() {
-
 		Account account = accountRepository.save(new Account());
 
 		assertThat(account.getId()).isNotNull();

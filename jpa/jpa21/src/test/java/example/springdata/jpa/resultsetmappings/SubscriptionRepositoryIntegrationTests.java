@@ -15,21 +15,21 @@
  */
 package example.springdata.jpa.resultsetmappings;
 
-import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.*;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Thomas Darimont
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Transactional
 public class SubscriptionRepositoryIntegrationTests {
@@ -39,7 +39,7 @@ public class SubscriptionRepositoryIntegrationTests {
 
 	@Autowired SubscriptionRepository repository;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		repository.save(new Subscription(SERVICE_1, 1));

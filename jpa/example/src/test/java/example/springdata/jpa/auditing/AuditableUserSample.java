@@ -15,15 +15,16 @@
  */
 package example.springdata.jpa.auditing;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 public class AuditableUserSample {
@@ -43,7 +44,7 @@ public class AuditableUserSample {
 	@Test
 	public void auditEntityCreation() throws Exception {
 
-		assertThat(ReflectionTestUtils.getField(listener, "handler"), is(notNullValue()));
+		assertThat(ReflectionTestUtils.getField(listener, "handler"),is(notNullValue()));
 
 		AuditableUser user = new AuditableUser();
 		user.setUsername("username");
