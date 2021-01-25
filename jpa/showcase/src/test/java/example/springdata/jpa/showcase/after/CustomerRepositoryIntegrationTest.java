@@ -15,19 +15,20 @@
  */
 package example.springdata.jpa.showcase.after;
 
-import static example.springdata.jpa.showcase.snippets.CustomerSpecifications.*;
-import static org.assertj.core.api.Assertions.*;
-import example.springdata.jpa.showcase.AbstractShowcaseTest;
-import example.springdata.jpa.showcase.core.Customer;
+import static example.springdata.jpa.showcase.snippets.CustomerSpecifications.accountExpiresBefore;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import example.springdata.jpa.showcase.AbstractShowcaseTest;
+import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Integration tests for Spring Data JPA {@link CustomerRepository}.

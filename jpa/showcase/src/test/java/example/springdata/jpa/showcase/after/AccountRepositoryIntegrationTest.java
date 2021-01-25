@@ -15,18 +15,18 @@
  */
 package example.springdata.jpa.showcase.after;
 
-import static org.assertj.core.api.Assertions.*;
-
-import example.springdata.jpa.showcase.AbstractShowcaseTest;
-import example.springdata.jpa.showcase.core.Account;
-import example.springdata.jpa.showcase.core.Customer;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import example.springdata.jpa.showcase.AbstractShowcaseTest;
+import example.springdata.jpa.showcase.core.Account;
+import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Integration tests for Spring Data JPA {@link AccountRepository}.
@@ -40,7 +40,6 @@ public class AccountRepositoryIntegrationTest extends AbstractShowcaseTest {
 
 	@Test
 	public void savesAccount() {
-
 		Account account = accountRepository.save(new Account());
 
 		assertThat(account.getId()).isNotNull();

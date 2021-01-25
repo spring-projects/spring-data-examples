@@ -15,16 +15,16 @@
  */
 package example.springdata.jpa.querybyexample;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Mark Paluch
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 public class UserRepositoryInheritanceIntegrationTests {
@@ -43,7 +43,7 @@ public class UserRepositoryInheritanceIntegrationTests {
 
 	User skyler, walter, flynn;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		repository.deleteAll();

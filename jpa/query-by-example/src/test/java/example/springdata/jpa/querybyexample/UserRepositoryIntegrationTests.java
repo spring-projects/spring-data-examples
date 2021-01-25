@@ -15,20 +15,21 @@
  */
 package example.springdata.jpa.querybyexample;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.data.domain.ExampleMatcher.*;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.domain.ExampleMatcher.matching;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
 
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  * @author Jens Schauder
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 public class UserRepositoryIntegrationTests {
@@ -47,7 +48,7 @@ public class UserRepositoryIntegrationTests {
 
 	User skyler, walter, flynn, marie, hank;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		repository.deleteAll();

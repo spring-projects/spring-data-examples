@@ -15,14 +15,14 @@
  */
 package example.springdata.jpa.projections;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +32,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.projection.TargetAware;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class CustomerRepositoryIntegrationTest {
@@ -53,7 +53,7 @@ public class CustomerRepositoryIntegrationTest {
 
 	Customer dave, carter;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		this.dave = customers.save(new Customer("Dave", "Matthews"));

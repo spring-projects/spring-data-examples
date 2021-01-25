@@ -15,21 +15,24 @@
  */
 package example.springdata.jpa.security;
 
-import static java.util.Collections.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static java.util.Collections.singleton;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class SecurityIntegrationTests {
@@ -51,7 +54,7 @@ public class SecurityIntegrationTests {
 	UsernamePasswordAuthenticationToken olliAuth, tomAuth, adminAuth;
 	BusinessObject object1, object2, object3;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 
 		tom = userRepository.save(new User("thomas", "darimont", "tdarimont@example.org"));

@@ -27,9 +27,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
@@ -47,7 +47,7 @@ public class BasicSample {
 	/**
 	 * Sets up a {@link SimpleJpaRepository} instance.
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("jpa.sample.plain");
@@ -58,7 +58,7 @@ public class BasicSample {
 		em.getTransaction().begin();
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		em.getTransaction().rollback();
 	}
