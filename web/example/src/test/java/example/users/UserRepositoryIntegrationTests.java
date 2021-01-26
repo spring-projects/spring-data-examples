@@ -15,7 +15,8 @@
  */
 package example.users;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
@@ -31,8 +32,10 @@ public class UserRepositoryIntegrationTests extends AbstractIntegrationTests {
 	/**
 	 * @see #65
 	 */
-	@Test(expected = InvalidDataAccessApiUsageException.class)
+	@Test
 	public void repositoryRejectsUnencryptedPassword() {
-		users.save(new User(new Username("olivergierke"), Password.raw("foobar")));
+		Assertions.assertThrows(InvalidDataAccessApiUsageException.class, () -> {
+			users.save(new User(new Username("olivergierke"), Password.raw("foobar")));
+		});
 	}
 }
