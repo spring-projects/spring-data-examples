@@ -16,11 +16,7 @@
 package example.springdata.jpa.security;
 
 import static java.util.Collections.singleton;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
@@ -40,6 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -78,15 +76,13 @@ public class SecurityIntegrationTests {
 
 		List<BusinessObject> businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUser();
 
-		assertThat(businessObjects, hasSize(1));
-		assertThat(businessObjects, contains(object3));
+		assertThat(businessObjects).containsExactly(object3);
 
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(ollie, "x"));
 
 		businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUser();
 
-		assertThat(businessObjects, hasSize(2));
-		assertThat(businessObjects, contains(object1, object2));
+		assertThat(businessObjects).containsExactly(object1, object2);
 	}
 
 	@Test
@@ -96,8 +92,7 @@ public class SecurityIntegrationTests {
 
 		List<BusinessObject> businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUser();
 
-		assertThat(businessObjects, hasSize(3));
-		assertThat(businessObjects, contains(object1, object2, object3));
+		assertThat(businessObjects).containsExactly(object1, object2, object3);
 	}
 
 	@Test
@@ -107,15 +102,13 @@ public class SecurityIntegrationTests {
 
 		List<BusinessObject> businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUserById();
 
-		assertThat(businessObjects, hasSize(1));
-		assertThat(businessObjects, contains(object3));
+		assertThat(businessObjects).containsExactly(object3);
 
 		SecurityContextHolder.getContext().setAuthentication(olliAuth);
 
 		businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUserById();
 
-		assertThat(businessObjects, hasSize(2));
-		assertThat(businessObjects, contains(object1, object2));
+		assertThat(businessObjects).containsExactly(object1, object2);
 	}
 
 	@Test
@@ -125,8 +118,7 @@ public class SecurityIntegrationTests {
 
 		List<BusinessObject> businessObjects = secureBusinessObjectRepository.findBusinessObjectsForCurrentUserById();
 
-		assertThat(businessObjects, hasSize(3));
-		assertThat(businessObjects, contains(object1, object2, object3));
+		assertThat(businessObjects).containsExactly(object1, object2, object3);
 	}
 
 	@Test
@@ -138,8 +130,8 @@ public class SecurityIntegrationTests {
 
 		for (BusinessObject bo : businessObjectRepository.findAll()) {
 
-			assertThat(bo.getLastModifiedDate(), is(notNullValue()));
-			assertThat(bo.getLastModifiedBy().getFirstname(), is("admin"));
+			assertThat(bo.getLastModifiedDate()).isNotNull();
+			assertThat(bo.getLastModifiedBy().getFirstname()).isEqualTo("admin");
 		}
 	}
 }

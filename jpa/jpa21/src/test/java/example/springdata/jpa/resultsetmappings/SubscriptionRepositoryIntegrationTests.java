@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Thomas Darimont
+ * @author Divya Srivastava
  */
 @ExtendWith(SpringExtension.class)
 @DataJpaTest

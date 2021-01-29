@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Integration test for {@link CustomerService}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 public class CustomerServiceIntegrationTest extends AbstractShowcaseTest {
 

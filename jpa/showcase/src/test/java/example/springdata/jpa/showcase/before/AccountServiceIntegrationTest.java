@@ -15,21 +15,27 @@
  */
 package example.springdata.jpa.showcase.before;
 
-import static org.hamcrest.Matchers.*;
-
-import example.springdata.jpa.showcase.AbstractShowcaseTest;
-import example.springdata.jpa.showcase.core.Account;
-import example.springdata.jpa.showcase.core.Customer;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import example.springdata.jpa.showcase.AbstractShowcaseTest;
+import example.springdata.jpa.showcase.core.Account;
+import example.springdata.jpa.showcase.core.Customer;
+
 /**
  * Integration test for {@link AccountService}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 public class AccountServiceIntegrationTest extends AbstractShowcaseTest {
 

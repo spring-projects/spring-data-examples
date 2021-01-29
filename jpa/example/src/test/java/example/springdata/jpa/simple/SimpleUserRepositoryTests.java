@@ -16,10 +16,6 @@
 package example.springdata.jpa.simple;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.iterableWithSize;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -45,6 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  * @author Thomas Darimont
  * @author Christoph Strobl
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 @ExtendWith(SpringExtension.class)
 @Transactional
@@ -155,8 +153,7 @@ public class SimpleUserRepositoryTests {
 
 		List<User> result = repository.findFirst2ByOrderByLastnameAsc();
 
-		assertThat(result.size(), is(2));
-		assertThat(result, hasItems(user0, user1));
+		assertThat(result).containsExactly(user0, user1);
 	}
 
 	@Test
@@ -176,13 +173,11 @@ public class SimpleUserRepositoryTests {
 
 		List<User> resultAsc = repository.findTop2By(Sort.by(ASC, "lastname"));
 
-		assertThat(resultAsc.size(), is(2));
-		assertThat(resultAsc, hasItems(user0, user1));
+		assertThat(resultAsc).containsExactly(user0, user1);
 
 		List<User> resultDesc = repository.findTop2By(Sort.by(DESC, "lastname"));
 
-		assertThat(resultDesc.size(), is(2));
-		assertThat(resultDesc, hasItems(user1, user2));
+		assertThat(resultDesc).containsExactly(user2, user1);
 	}
 
 	@Test
@@ -204,7 +199,6 @@ public class SimpleUserRepositoryTests {
 
 		Iterable<User> users = repository.findByFirstnameOrLastname(reference);
 
-		assertThat(users, is(iterableWithSize(2)));
-		assertThat(users, hasItems(first, second));
+		assertThat(users).containsExactly(first, second);
 	}
 }

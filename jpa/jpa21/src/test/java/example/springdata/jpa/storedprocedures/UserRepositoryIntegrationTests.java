@@ -15,9 +15,6 @@
  */
 package example.springdata.jpa.storedprocedures;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
@@ -29,11 +26,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.*;
+
 /**
  * Integration test showing the usage of JPA 2.1 stored procedures support through Spring Data repositories.
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -47,7 +48,7 @@ public class UserRepositoryIntegrationTests {
 	 */
 	@Test
 	public void entityAnnotatedCustomNamedProcedurePlus1IO() {
-		assertThat(repository.plus1BackedByOtherNamedStoredProcedure(1), is(2));
+		assertThat(repository.plus1BackedByOtherNamedStoredProcedure(1)).isEqualTo(2);
 	}
 
 	/**
@@ -55,7 +56,7 @@ public class UserRepositoryIntegrationTests {
 	 */
 	@Test
 	public void invokeDerivedStoredProcedure() {
-		assertThat(repository.plus1inout(1), is(2));
+		assertThat(repository.plus1inout(1)).isEqualTo(2);
 	}
 
 	// This is what it would look like implemented manually.
@@ -72,7 +73,7 @@ public class UserRepositoryIntegrationTests {
 		proc.setParameter(1, 1);
 		proc.execute();
 
-		assertThat(proc.getOutputParameterValue(2), is((Object) 2));
+		assertThat(proc.getOutputParameterValue(2)).isEqualTo(2);
 	}
 
 	@Test
@@ -83,6 +84,6 @@ public class UserRepositoryIntegrationTests {
 		proc.setParameter("arg", 1);
 		proc.execute();
 
-		assertThat(proc.getOutputParameterValue("res"), is((Object) 2));
+		assertThat(proc.getOutputParameterValue("res")).isEqualTo(2);
 	}
 }

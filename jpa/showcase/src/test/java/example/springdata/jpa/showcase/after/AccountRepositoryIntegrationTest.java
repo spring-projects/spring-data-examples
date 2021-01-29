@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Integration tests for Spring Data JPA {@link AccountRepository}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 public class AccountRepositoryIntegrationTest extends AbstractShowcaseTest {
 

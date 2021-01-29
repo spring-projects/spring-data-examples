@@ -15,9 +15,6 @@
  */
 package example.springdata.jpa.querybyexample;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,12 +24,16 @@ import org.springframework.data.domain.Example;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.*;
+
 /**
  * Integration test showing the usage of JPA Query-by-Example support through Spring Data repositories and entities
  * using inheritance.
  *
  * @author Mark Paluch
  * @author Oliver Gierke
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 @ExtendWith(SpringExtension.class)
 @Transactional
@@ -58,7 +59,7 @@ public class UserRepositoryInheritanceIntegrationTests {
 	 */
 	@Test
 	public void countByExample() {
-		assertThat(repository.count(Example.of(new User(null, "White", null))), is(3L));
+		assertThat(repository.count(Example.of(new User(null, "White", null)))).isEqualTo(3L);
 	}
 
 	/**
@@ -66,6 +67,6 @@ public class UserRepositoryInheritanceIntegrationTests {
 	 */
 	@Test
 	public void countSubtypesByExample() {
-		assertThat(repository.count(Example.of(new SpecialUser(null, "White", null))), is(2L));
+		assertThat(repository.count(Example.of(new SpecialUser(null, "White", null)))).isEqualTo(2L);
 	}
 }

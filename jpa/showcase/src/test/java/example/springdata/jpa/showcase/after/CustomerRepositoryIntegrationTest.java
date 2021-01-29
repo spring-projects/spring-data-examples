@@ -34,6 +34,7 @@ import org.springframework.data.domain.PageRequest;
  * Integration tests for Spring Data JPA {@link CustomerRepository}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 public class CustomerRepositoryIntegrationTest extends AbstractShowcaseTest {
 

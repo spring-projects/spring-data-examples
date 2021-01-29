@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration test showing the usage of a composite repository via {@link UserRepository}.
  *
  * @author Mark Paluch
+ * @author Divya Srivastava
  */
 @ExtendWith(SpringExtension.class)
 @Transactional

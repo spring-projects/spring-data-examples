@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Intergration test showing the usage of a custom method implemented for all repositories
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  * @soundtrack Elen - It's you (Elen)
  */
 @ExtendWith(SpringExtension.class)

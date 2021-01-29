@@ -15,10 +15,6 @@
  */
 package example.springdata.jpa.multipleds.customer;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -31,10 +27,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.*;
+
 /**
  * Integration test for {@link CustomerRepository}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -49,7 +49,7 @@ public class CustomerRepositoryTests {
 
 		Optional<Customer> result = repository.findByLastname("Matthews");
 
-		assertThat(result, is(not(Optional.empty())));
-		assertThat(result.get().getFirstname(), is("Dave"));
+		assertThat(result).isNotEmpty();
+		assertThat(result.get().getFirstname()).isEqualTo("Dave");
 	}
 }

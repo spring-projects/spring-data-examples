@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for {@link CustomerRepository} to show projection capabilities.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

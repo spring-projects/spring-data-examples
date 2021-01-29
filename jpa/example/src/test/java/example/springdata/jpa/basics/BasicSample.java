@@ -38,6 +38,7 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Oliver Gierke
  * @author Thomas Darimont
+ * @author Divya Srivastava
  */
 public class BasicSample {
 

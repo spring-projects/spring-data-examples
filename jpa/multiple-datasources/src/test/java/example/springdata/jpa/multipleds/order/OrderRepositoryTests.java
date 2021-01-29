@@ -15,8 +15,9 @@
  */
 package example.springdata.jpa.multipleds.order;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.*;
+
+import example.springdata.jpa.multipleds.customer.CustomerRepository;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,12 +26,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import example.springdata.jpa.multipleds.customer.CustomerRepository;
-
 /**
  * Integration test for {@link CustomerRepository}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -44,7 +45,7 @@ public class OrderRepositoryTests {
 	public void persistsAndFindsCustomer() {
 
 		customers.findAll().forEach(customer -> {
-			assertThat(orders.findByCustomer(customer.getId()), hasSize(1));
+			assertThat(orders.findByCustomer(customer.getId())).hasSize(1);
 		});
 	}
 }

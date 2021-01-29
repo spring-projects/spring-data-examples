@@ -29,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * Integration test for {@link CustomerRepository}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

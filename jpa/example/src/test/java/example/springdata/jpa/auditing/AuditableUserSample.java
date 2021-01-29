@@ -15,10 +15,6 @@
  */
 package example.springdata.jpa.auditing;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +24,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.*;
+
 /**
  * @author Oliver Gierke
  * @author Thomas Darimont
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 @ExtendWith(SpringExtension.class)
 @Transactional
@@ -44,7 +44,7 @@ public class AuditableUserSample {
 	@Test
 	public void auditEntityCreation() throws Exception {
 
-		assertThat(ReflectionTestUtils.getField(listener, "handler"),is(notNullValue()));
+		assertThat(ReflectionTestUtils.getField(listener, "handler")).isNotNull();
 
 		AuditableUser user = new AuditableUser();
 		user.setUsername("username");
@@ -54,7 +54,7 @@ public class AuditableUserSample {
 		user = repository.save(user);
 		user = repository.save(user);
 
-		assertThat(user.getCreatedBy(), is(user));
-		assertThat(user.getLastModifiedBy(), is(user));
+		assertThat(user.getCreatedBy()).isEqualTo(user);
+		assertThat(user.getLastModifiedBy()).isEqualTo(user);
 	}
 }

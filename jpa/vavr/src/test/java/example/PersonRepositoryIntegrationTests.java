@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for {@link PersonRepository} showing Vavr support at repository query methods.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @ExtendWith(SpringExtension.class)
 @Transactional

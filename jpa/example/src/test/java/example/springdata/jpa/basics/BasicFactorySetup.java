@@ -33,6 +33,7 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
  * Test case showing how to use the basic {@link GenericDaoFactory}
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 public class BasicFactorySetup {
 
