@@ -15,16 +15,17 @@
  */
 package example.users;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Integration tests for {@link UserManagement}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 public class UserManagementIntegrationTests extends AbstractIntegrationTests {
 
@@ -38,6 +39,6 @@ public class UserManagementIntegrationTests extends AbstractIntegrationTests {
 
 		User user = userManagement.register(new Username("olivergierke"), Password.raw("foobar"));
 
-		assertThat(user.getPassword().isEncrypted(), is(true));
+		assertThat(user.getPassword().isEncrypted()).isTrue();
 	}
 }

@@ -34,6 +34,7 @@ import org.springframework.test.web.servlet.ResultActions;
  * Integration tests for {@link UserController}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

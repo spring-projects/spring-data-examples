@@ -23,6 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

@@ -15,9 +15,6 @@
  */
 package example.users;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-
 import example.users.UserController.UserPayload;
 
 import org.junit.jupiter.api.Test;
@@ -39,11 +36,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.assertj.core.api.Assertions.*;
+
 /**
  * Integration tests for {@link UserController} to demonstrate client-side resilience of the payload type against
  * changes in the representation.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
+ * @author Jens Schauder
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -99,7 +100,7 @@ public class UserControllerClientTests {
 
 	private static void assertDave(UserPayload payload) {
 
-		assertThat(payload.getFirstname(), is("Dave"));
-		assertThat(payload.getLastname(), is("Matthews"));
+		assertThat(payload.getFirstname()).isEqualTo("Dave");
+		assertThat(payload.getLastname()).isEqualTo("Matthews");
 	}
 }

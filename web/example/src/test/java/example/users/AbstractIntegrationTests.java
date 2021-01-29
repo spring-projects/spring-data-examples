@@ -23,6 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * Integration tests to bootstrap the application.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

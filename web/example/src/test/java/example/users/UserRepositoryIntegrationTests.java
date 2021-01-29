@@ -24,6 +24,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
  * Integration tests for {@link UserRepository}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 public class UserRepositoryIntegrationTests extends AbstractIntegrationTests {
 
