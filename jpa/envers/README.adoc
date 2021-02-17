@@ -1,0 +1,8 @@
+# Spring Data JPA - Spring Data Envers
+
+This project contains an example of how to use Spring Data JPA in combination with Spring Data Envers.
+
+Envers module is a Hibernate module that works both with Hibernate and JPA. It aims to provide an easy auditing / versioning solution for entity classes.
+
+Spring Data Envers integrates it with Spring Data JPA and makes revision information available directly from JPA based repositories.
+
