@@ -21,11 +21,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.history.RevisionMetadata;
+import org.springframework.data.history.Revision;
 import org.springframework.data.history.RevisionMetadata.RevisionType;
 import org.springframework.data.history.Revisions;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.Iterator;
 
 /**
  * Demonstrating the usage of Spring Data Envers
@@ -46,15 +48,22 @@ public class EnversIntegrationTests {
 
 		Revisions<Long, Person> revisions = repository.findRevisions(updated.id);
 
-		assertThat(revisions) //
-				.extracting( //
-						rev -> rev.getEntity().name, //
-						rev -> rev.getMetadata().getRevisionType()) //
-				.containsExactly( //
-						tuple("John", RevisionType.INSERT), //
-						tuple("Jonny", RevisionType.UPDATE), //
-						tuple(null, RevisionType.DELETE) //
-				);
+
+		Iterator<Revision<Long, Person>> revisionIterator = revisions.iterator();
+
+		checkNextRevision(revisionIterator, "John", RevisionType.INSERT);
+		checkNextRevision(revisionIterator, "Jonny", RevisionType.UPDATE);
+		checkNextRevision(revisionIterator, null, RevisionType.DELETE);
+		assertThat(revisionIterator.hasNext()).isFalse();
+
+	}
+
+	private void checkNextRevision(Iterator<Revision<Long, Person>> revisionIterator, String name, RevisionType revisionType) {
+
+		assertThat(revisionIterator.hasNext()).isTrue();
+		Revision<Long, Person> revision = revisionIterator.next();
+		assertThat(revision.getEntity().name).isEqualTo(name);
+		assertThat(revision.getMetadata().getRevisionType()).isEqualTo(revisionType);
 	}
 
 	private Person preparePersonHistory() {
