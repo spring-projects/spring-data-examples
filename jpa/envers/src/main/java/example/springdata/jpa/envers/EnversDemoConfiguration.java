@@ -22,8 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * Configuration for the Envers Demo.
  * <p>
- * Note that a special {@literal repositoryFactoryBeanClass} is configured for Spring
- * Data Envers support.
+ * Note that a special {@literal repositoryFactoryBeanClass} is configured for Spring Data Envers support.
  *
  * @author Jens Schauder
  */

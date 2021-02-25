@@ -15,12 +15,12 @@
  */
 package example.springdata.jpa.envers;
 
-import org.hibernate.envers.Audited;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
+
+import org.hibernate.envers.Audited;
 
 /**
  * An entity with a single non-technical attribute

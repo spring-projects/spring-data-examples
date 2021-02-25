@@ -23,5 +23,4 @@ import org.springframework.data.repository.history.RevisionRepository;
  *
  * @author Jens Schauder
  */
-public interface PersonRepository extends CrudRepository<Person, Long>, RevisionRepository<Person, Long, Long> {
-}
+public interface PersonRepository extends CrudRepository<Person, Long>, RevisionRepository<Person, Long, Long> {}

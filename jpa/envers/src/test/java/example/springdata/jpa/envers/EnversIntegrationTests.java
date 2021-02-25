@@ -17,24 +17,22 @@ package example.springdata.jpa.envers;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.Iterator;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.history.Revision;
 import org.springframework.data.history.RevisionMetadata.RevisionType;
 import org.springframework.data.history.Revisions;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.support.TransactionTemplate;
-
-import java.util.Iterator;
 
 /**
  * Demonstrating the usage of Spring Data Envers
- * 
+ *
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class EnversIntegrationTests {
 
@@ -48,7 +46,6 @@ public class EnversIntegrationTests {
 
 		Revisions<Long, Person> revisions = repository.findRevisions(updated.id);
 
-
 		Iterator<Revision<Long, Person>> revisionIterator = revisions.iterator();
 
 		checkNextRevision(revisionIterator, "John", RevisionType.INSERT);
@@ -58,7 +55,8 @@ public class EnversIntegrationTests {
 
 	}
 
-	private void checkNextRevision(Iterator<Revision<Long, Person>> revisionIterator, String name, RevisionType revisionType) {
+	private void checkNextRevision(Iterator<Revision<Long, Person>> revisionIterator, String name,
+			RevisionType revisionType) {
 
 		assertThat(revisionIterator.hasNext()).isTrue();
 		Revision<Long, Person> revision = revisionIterator.next();
@@ -71,7 +69,7 @@ public class EnversIntegrationTests {
 		Person john = new Person();
 		john.setName("John");
 
-		//create
+		// create
 		Person saved = tx.execute(__ -> repository.save(john));
 		assertThat(saved).isNotNull();
 
@@ -82,7 +80,7 @@ public class EnversIntegrationTests {
 		assertThat(updated).isNotNull();
 
 		// delete
-		tx.executeWithoutResult(__->repository.delete(updated));
+		tx.executeWithoutResult(__ -> repository.delete(updated));
 		return updated;
 	}
 }
