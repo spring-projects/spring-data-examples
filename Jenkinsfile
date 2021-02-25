@@ -13,9 +13,14 @@ pipeline {
         	steps {
 				withMaven (maven: 'maven-3.6.3') {
 					sh 'mvn clean install -f web/pom.xml'
-					//junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
 				}
     		}
+			
+			post {
+                always {
+                    junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
+                }
+            }
         }
 		
         // Lanzamos en paralelo la comprobacion de dependencias y los mutation test
@@ -23,7 +28,15 @@ pipeline {
 			// Lanzamos los mutation test
 			
 			steps {
-				bat(script: "mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml", returnStatus: true)
+				//bat(script: "mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml", returnStatus: true)
+				withMaven (maven: 'maven-3.6.3') {
+					sh 'mvn clean pitest -f web/pom.xml'				
+				}
+				step([$class: 'PitPublisher', 
+                     mutationStatsFile: 'build/reports/pitest/**/mutations.xml', 
+                     minimumKillRatio: 50.00, 
+                     killRatioMustImprove: false
+                ])
 			}
 			
         }
