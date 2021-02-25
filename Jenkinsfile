@@ -32,11 +32,11 @@ pipeline {
 				withMaven (maven: 'maven-3.6.3') {
 					sh 'mvn clean pitest -f web/pom.xml'				
 				}
-				/*step([$class: 'PitPublisher', 
-                     mutationStatsFile: 'build/reports/pitest/**/mutations.xml', 
-                     minimumKillRatio: 50.00, 
-                     killRatioMustImprove: false
-                ])*/
+				//step([$class: 'PitPublisher', 
+                //     mutationStatsFile: 'build/reports/pitest/**/mutations.xml', 
+                //     minimumKillRatio: 50.00, 
+                //    killRatioMustImprove: false
+                //])
 			}
 			
         }
