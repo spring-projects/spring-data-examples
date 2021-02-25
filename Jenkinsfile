@@ -28,10 +28,11 @@ pipeline {
 			// Lanzamos los mutation test
 			
 			steps {
-				//bat(script: "mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml", returnStatus: true)
-				withMaven (maven: 'maven-3.6.3') {
+				//pitmutation killRatioMustImprove: false, minimumKillRatio: 50.0, mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+				sh 'mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml'
+				/*withMaven (maven: 'maven-3.6.3') {
 					sh 'mvn clean pitest -f web/pom.xml'				
-				}
+				}*/
 				//step([$class: 'PitPublisher', 
                 //     mutationStatsFile: 'build/reports/pitest/**/mutations.xml', 
                 //     minimumKillRatio: 50.00, 
