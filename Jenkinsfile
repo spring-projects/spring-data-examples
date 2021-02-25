@@ -19,14 +19,14 @@ pipeline {
         }
 		
         // Lanzamos en paralelo la comprobacion de dependencias y los mutation test
-        /*stage('Mutation Test') {
+        stage('Mutation Test') {
 			// Lanzamos los mutation test
 			
 			steps {
 				bat(script: "mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml", returnStatus: true)
 			}
 			
-        }*/
+        }
 		
         // Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
         /*stage('SonarQube analysis') {
