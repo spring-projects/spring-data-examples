@@ -27,6 +27,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.agent</artifactId>
+            <version>0.8.1</version>
+            <classifier>runtime</classifier>
+     	</dependency>
 
 	</dependencies>
 	
@@ -45,5 +52,62 @@
      		</properties>
      	</profile>
      </profiles>
+     
+     <build>
+     
+     	<plugins>
+     		<plugin>
+			  <groupId>org.jacoco</groupId>
+			  <artifactId>jacoco-maven-plugin</artifactId>
+			  <version>0.8.1</version>
+			</plugin>
+			
+			<plugin>
+            	<groupId>org.jacoco</groupId>
+            	<artifactId>jacoco-maven-plugin</artifactId>
+            	<version>0.8.1</version>
+            	<executions>
+                	<!--Performs offline instrumentation.-->
+                	<!--<execution>
+                    	<id>default-instrument</id>
+                    	<goals>
+                        	<goal>instrument</goal>
+                    	</goals>
+                	</execution>-->
+                	
+                	<!--Restores original classes as they were before offline instrumentation.-->
+                	<!--<execution>
+                    	<id>default-restore-instrumented-classes</id>
+                    	<goals>
+                        	<goal>restore-instrumented-classes</goal>
+                   	 	</goals>
+                	</execution>-->
+                	
+	                <execution>
+	                    <id>report</id>
+	                    <phase>prepare-package</phase>
+	                    <goals>
+	                        <goal>report</goal>
+	                    </goals>
+	                    <configuration>
+	                        <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+	                    </configuration>
+	                </execution>
+            	</executions>
+        	</plugin>
+        	
+        	<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-surefire-plugin</artifactId>
+	            <version>2.12.4</version>
+	            <configuration>
+	                <systemPropertyVariables>
+	                    <jacoco-agent.destfile>${project.build.directory}/jacoco.exec</jacoco-agent.destfile>
+	                </systemPropertyVariables>
+	            </configuration>
+        	</plugin>			
+		</plugins>	      
+     
+     </build>     
 
 </project>
