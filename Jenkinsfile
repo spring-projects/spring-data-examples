@@ -27,24 +27,17 @@ pipeline {
         stage('Mutation Test') {
 			// Lanzamos los mutation test
 			
-			steps {
-				//pitmutation killRatioMustImprove: false, minimumKillRatio: 50.0, mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-				
+			steps {				
 				withMaven (maven: 'maven-3.6.3') {
 					//sh 'mvn clean pitest -f web/pom.xml'		
 					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml'					
 				}
-				//step([$class: 'PitPublisher', 
-                //     mutationStatsFile: 'build/reports/pitest/**/mutations.xml', 
-                //     minimumKillRatio: 50.00, 
-                //    killRatioMustImprove: false
-                //])
 			}
 			
         }
 		
         // Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
-        /*stage('SonarQube analysis') {
+        stage('SonarQube analysis') {
         	steps {
 		    	withSonarQubeEnv(credentialsId: 'aee1ab08-f0d6-4abe-9861-89e3c97916ce', installationName: 'local') {
 		    		sh 'mvn sonar:sonar -f web/pom.xml \
@@ -52,7 +45,7 @@ pipeline {
 		    		-Dsonar.junit.reportPaths=target/surefire-reports'
 				}
 			}
-		}*/
+		}
 		
 		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
 		/*stage("Quality Gate") {
