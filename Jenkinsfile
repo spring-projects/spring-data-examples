@@ -52,7 +52,7 @@ pipeline {
 		}
 		
 		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
-		/*stage("Quality Gate") {
+		stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
@@ -61,6 +61,6 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }*/
+        }
     }
 }
