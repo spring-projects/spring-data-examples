@@ -3,14 +3,14 @@ package example.users;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class UserTest {
+public class UserTests {
 	public User setUser() {
 		User usuario = new User();
 		return usuario;	
 	}
 	
 	@Test
-	public void getDtoTest() {
+	public void getDtoTests() {
 		User usuario = setUser();
 		Assert.assertNotNull(usuario);
 	}

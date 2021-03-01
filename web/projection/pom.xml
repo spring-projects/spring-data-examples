@@ -15,12 +15,7 @@
 	<properties>		
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-        <jacoco.version>0.8.2</jacoco.version>	
-        <!-- Configuración resultados de test -->
-	    <jacoco.execution.data.dir>${​​​​​​​project.build.directory}​​​​​​​/coverage-reports</jacoco.execution.data.dir>	  
-	    <jacoco.ut.execution.data.file>${​​​​​​​jacoco.execution.data.dir}​​​​​​​/jacoco-ut.exec</jacoco.ut.execution.data.file>  
-	    <jacoco.ut.execution.report.dir>${​​​​​​​project.build.directory}​​​​​​​/site/jacoco/jacoco-ut</jacoco.ut.execution.report.dir>	    
-		<argLine>-Xmx1G</argLine>			
+        <jacoco.version>0.8.2</jacoco.version>			
 	</properties>
 
 	<dependencies>
@@ -84,26 +79,6 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                    </execution>
-                    <execution>
-                        <id>jacoco-check</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <element>PACKAGE</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.9</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
