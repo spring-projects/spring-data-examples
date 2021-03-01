@@ -27,73 +27,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		
 	
-		<dependency>
-            <groupId>org.jacoco</groupId>
-            <artifactId>org.jacoco.agent</artifactId>
-            <version>0.8.1</version>
-            <classifier>runtime</classifier>
-        </dependency>
-
 	</dependencies>	
 	
+	
 	 <profiles>
-     	<profile>
-     		<id>sonar</id>
-     		<activation>
-     			<activeByDefault>true</activeByDefault>
-     		</activation>
-     		<properties>
-	     		<sonar.host-url>
+		<profile>
+			<id>sonar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<sonar.host-url>
 					http://192.168.1.57:9000/
-			   	</sonar.host-url>
-			   	<sonar.login>admin</sonar.login>
-			   	<sonar.password>sinensia1</sonar.password>
-     		</properties>
-     	</profile>
-     </profiles>
-     
-     <build>
-     
-     	<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-			  	<artifactId>jacoco-maven-plugin</artifactId>
-			  	<version>0.8.1</version>
-			</plugin>
-			
-			<plugin>
-		        <groupId>org.jacoco</groupId>
-		        <artifactId>jacoco-maven-plugin</artifactId>
-		        <executions>
-			        <execution>
-	                    <id>report</id>
-	                    <phase>prepare-package</phase>
-	                    <goals>
-	                        <goal>report</goal>
-	                    </goals>
-	                    <configuration>
-	                        <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-	                    </configuration>
-	                </execution>
-		        </executions>
-		     </plugin>
-		     
-		     <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <configuration>
-		                <systemPropertyVariables>
-		                    <jacoco-agent.destfile>${project.build.directory}/jacoco.exec</jacoco-agent.destfile>
-		                </systemPropertyVariables>
-		            </configuration>
-                </configuration>
-            </plugin>
-		</plugins>
-
-     
-     </build>     
+				</sonar.host-url>
+				<sonar.login>admin</sonar.login>
+				<sonar.password>sinensia1</sonar.password>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>

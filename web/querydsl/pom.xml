@@ -86,16 +86,22 @@
 			<artifactId>webjars-locator-core</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
 
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.springframework.boot</groupId> -->
+<!-- 				<artifactId>spring-boot-maven-plugin</artifactId> -->
+<!-- 			</plugin> -->
 
 			<plugin>
 				<groupId>com.mysema.maven</groupId>
