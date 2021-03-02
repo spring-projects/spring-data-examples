@@ -46,9 +46,7 @@ pipeline {
 						withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
 							sh 'mvn sonar:sonar -f web/pom.xml \
 							-Dsonar.sourceEncoding=UTF-8 \
-							-Dsonar.junit.reportPaths=target/surefire-reports\
-							-Dsonar.login=usuario \
-							-Dsonar.password=contraseña'
+							-Dsonar.junit.reportPaths=target/surefire-reports'
 						}
 					}
 				}
