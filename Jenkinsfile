@@ -55,17 +55,8 @@ pipeline {
 		
 		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
 		stage("Quality Gate") {
-            steps {
-				//withSonarQubeEnv('local') {
-					//withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
-						timeout(time: 1, unit: 'HOURS') {
-							// Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-							// true = set pipeline to UNSTABLE, false = don't
-							// Requires SonarQube Scanner for Jenkins 2.7+
-							waitForQualityGate abortPipeline: true
-						}
-					//}
-				//}
+            steps {				
+				waitForQualityGate abortPipeline: true
             }
         }
     }
