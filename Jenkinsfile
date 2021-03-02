@@ -55,8 +55,10 @@ pipeline {
 		
 		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
 		stage("Quality Gate") {
-            steps {				
-				waitForQualityGate abortPipeline: true
+            steps {	
+				withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
+					waitForQualityGate abortPipeline: true
+				}
             }
         }
     }
