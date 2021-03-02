@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="example.springdata.jdbc.mybatis.ModelMapper">
-	<insert id="insert" parameterType="org.springframework.data.jdbc.mybatis.MyBatisContext">
-		<bind name="parentId" value="_parameter.get('lego_set')" />
-		INSERT INTO Model (name, description, lego_set) VALUES (#{instance.name}, #{instance.description}, #{parentId})
-	</insert>
-</mapper>
