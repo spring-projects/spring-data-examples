@@ -43,7 +43,7 @@ pipeline {
         	steps {
 		    	withSonarQubeEnv('local') {
 					withMaven (maven: 'maven-3.6.3') {
-						withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')])
+						withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
 							sh 'mvn sonar:sonar -f web/pom.xml \
 							-Dsonar.sourceEncoding=UTF-8 \
 							-Dsonar.junit.reportPaths=target/surefire-reports\
