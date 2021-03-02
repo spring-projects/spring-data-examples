@@ -56,8 +56,10 @@ pipeline {
 		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
 		stage("Quality Gate") {
             steps {	
-				withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
-					waitForQualityGate abortPipeline: true
+				withSonarQubeEnv('local') {
+					withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
+						waitForQualityGate abortPipeline: true
+					}
 				}
             }
         }
