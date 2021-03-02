@@ -41,11 +41,15 @@ pipeline {
         // Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
         stage('SonarQube analysis') {
         	steps {
-		    	withSonarQubeEnv(credentialsId: 'credentialConnectJenkins', installationName: 'local') {
+		    	withSonarQubeEnv('local') {
 					withMaven (maven: 'maven-3.6.3') {
-						sh 'mvn sonar:sonar -f web/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports'
+						withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')])
+							sh 'mvn sonar:sonar -f web/pom.xml \
+							-Dsonar.sourceEncoding=UTF-8 \
+							-Dsonar.junit.reportPaths=target/surefire-reports\
+							-Dsonar.login=usuario \
+							-Dsonar.password=contraseña'
+						}
 					}
 				}
 			}
