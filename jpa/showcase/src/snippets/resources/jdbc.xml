@@ -1,7 +1,0 @@
-<bean id="accountDaoImpl" class="example.springdata.jpa.showcase.after.AccountDaoJdbcImpl">
-    <property name="template">
-        <bean class="org.springframework.jdbc.core.JdbcTemplate">
-            <property name="dataSource" ref="dataSource" />
-        </bean>
-    </property>
-</bean>

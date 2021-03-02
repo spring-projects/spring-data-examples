@@ -1,2 +1,0 @@
-This is my example file.
-It gets added as file to gridFs.
