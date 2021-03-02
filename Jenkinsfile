@@ -14,8 +14,8 @@ pipeline {
 				withMaven (maven: 'maven-3.6.3') {
 					//sh 'mvn clean install -f web/pom.xml'
 					sh 'mvn clean install -f web/example/pom.xml'
-					sh 'mvn clean install -f web/projection/pom.xml'
-					sh 'mvn clean install -f web/querydsl/pom.xml'
+					//sh 'mvn clean install -f web/projection/pom.xml'
+					//sh 'mvn clean install -f web/querydsl/pom.xml'
 				}
     		}
 			
