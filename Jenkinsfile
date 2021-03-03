@@ -97,7 +97,7 @@ pipeline {
 								credentialsId: NEXUS_CREDENTIAL_ID, \
 								artifacts: [
 									// Artefacto generado como archivos .jar, .ear y .war.
-									[artifactId: ''nexus-artifact-uploader'', \
+									[artifactId: 'nexus-artifact-uploader', \
 									classifier: 'debug', \
 									file: 'maven-code-coverage.jar']
 								]
