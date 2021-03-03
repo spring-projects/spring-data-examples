@@ -99,7 +99,7 @@ pipeline {
 									// Artefacto generado como archivos .jar, .ear y .war.
 									[artifactId: pom.artifactId,
 									classifier: '',
-									file: 'maven-code-coverage.jar',
+									file: artifactPath,
 									type: pom.packaging]
 								]
 							);
