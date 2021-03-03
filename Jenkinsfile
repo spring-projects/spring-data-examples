@@ -89,17 +89,17 @@ pipeline {
 
 							nexusArtifactUploader(
 								nexusVersion: NEXUS_VERSION, \
-								protocol: 'http', \
-								nexusUrl: 'localhost:9084', \
+								protocol: NEXUS_PROTOCOL, \
+								nexusUrl: NEXUS_URL, \
 								groupId: pom.groupId, \
 								version: pom.version, \
-								repository: 'springs-data-examples-web', \
+								repository: NEXUS_REPOSITORY, \
 								credentialsId: NEXUS_CREDENTIAL_ID, \
 								artifacts: [
 									// Artefacto generado como archivos .jar, .ear y .war.
 									[artifactId: pom.artifactId, \
 									classifier: '', \
-									file: 'maven-code-coverage.jar', \
+									file: 'maven-code-coverage.jar',
 									type: pom.packaging]
 								]
 							);
