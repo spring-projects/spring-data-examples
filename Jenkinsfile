@@ -1,6 +1,20 @@
 #!/usr/bin/env groovy
 pipeline {
-    agent any
+    agent any	
+	
+	environment {
+        // Puede ser nexus3 o nexus2
+        NEXUS_VERSION = "nexus3"
+        // Puede ser http o https
+        NEXUS_PROTOCOL = "http"
+        // Dónde se ejecuta tu Nexus
+        NEXUS_URL = "192.168.1.57:9084"
+        // Repositorio donde subiremos el artefacto
+        NEXUS_REPOSITORY = "spring-data-examples-web"
+        // Identificación de credencial de Jenkins para autenticarse en Nexus OSS
+        NEXUS_CREDENTIAL_ID = "nexusCredenciales"
+    }
+	
     stages {
         stage('Setup') {
             steps {
@@ -54,13 +68,50 @@ pipeline {
 		}
 		
 		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
-		stage("Quality Gate") {
+		//stage("Quality Gate") {
+        //    steps {
+        //        timeout(time: 1, unit: 'HOURS') {
+        //            // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+        //            // true = set pipeline to UNSTABLE, false = don't
+        //            // Requires SonarQube Scanner for Jenkins 2.7+
+        //            waitForQualityGate abortPipeline: true
+        //        }
+        //    }
+        //}
+		
+		stage("nexus") {
             steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    // Requires SonarQube Scanner for Jenkins 2.7+
-                    waitForQualityGate abortPipeline: true
+                script {
+					dir("web") {
+						def pom = readMavenPom file: "pom.xml';
+						
+						dir("target") {
+
+							nexusArtifactUploader(
+								nexusVersion: NEXUS_VERSION,
+								protocol: NEXUS_PROTOCOL,
+								nexusUrl: NEXUS_URL,
+								groupId: pom.groupId,
+								version: pom.version,
+								repository: NEXUS_REPOSITORY,
+								credentialsId: NEXUS_CREDENTIAL_ID,
+								artifacts: [
+									// Artefacto generado como archivos .jar, .ear y .war.
+									[artifactId: pom.artifactId,
+									classifier: '',
+									file: artifactPath,
+									type: pom.packaging],
+
+									// Carguemos el archivo pom.xml para obtener información adicional para las dependencias transitivas
+									[artifactId: pom.artifactId,
+									classifier: '',
+									file: "pom.xml",
+									type: "pom"]
+								]
+							);
+						}
+					}
+                    
                 }
             }
         }
