@@ -10,7 +10,7 @@ pipeline {
         // Dónde se ejecuta tu Nexus
         NEXUS_URL = "localhost:9084"
         // Repositorio donde subiremos el artefacto
-        NEXUS_REPOSITORY = "maven-snapshots"
+        NEXUS_REPOSITORY = "springs-data-examples-web"
         // Identificación de credencial de Jenkins para autenticarse en Nexus OSS
         NEXUS_CREDENTIAL_ID = "nexusCredenciales"
     }
@@ -107,7 +107,7 @@ pipeline {
                             artifacts: [
                                 // Artifact generated such as .jar, .ear and .war files.
                                 [artifactId: pom.artifactId,
-                                classifier: '',
+                                classifier: 'deploy',
                                 file: artifactPath,
                                 type: pom.packaging],
 
