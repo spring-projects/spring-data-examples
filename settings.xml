@@ -62,7 +62,18 @@
 					<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 				</repository>
 
-			</repositories>
+			</repositories>	
+			
 		</profile>
 	</profiles>
+	
+<!--	<servers>	
+		<server>
+		  <id>nexus</id>
+		  <url>http://192.168.1.57:9084/repository/springs-data-examples-web/</url>
+		  <username>admin</username>
+		  <password>sinensia1</password>
+		</server>
+	</servers>	-->
+			
 </settings>
