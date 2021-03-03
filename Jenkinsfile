@@ -83,7 +83,7 @@ pipeline {
             steps {
                 script {
 					dir("web") {
-						def pom = readMavenPom file: 'web/example/pom.xml';
+						def pom = readMavenPom file: 'example/pom.xml';
 						
 						dir("target") {
 
