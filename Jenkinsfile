@@ -27,7 +27,7 @@ pipeline {
         	steps {
 				withMaven (maven: 'maven-3.6.3') {
 					//sh 'mvn clean install -f web/pom.xml'
-					sh 'mvn clean install -f web/example/pom.xml -Dmaven.test.skip=true'
+					sh 'mvn clean install -f web/example/pom.xml'
 					//sh 'mvn clean install -f web/projection/pom.xml'
 					//sh 'mvn clean install -f web/querydsl/pom.xml'					
 					sh 'tree'
@@ -100,7 +100,7 @@ pipeline {
 									// Artefacto generado como archivos .jar, .ear y .war.
 									[artifactId: pom.artifactId,
 									classifier: '',
-									file: 'maven-code-coverage.jar',
+									file: 'spring-data-web-example-2.0.0.BUILD-SNAPSHOT.jar',
 									type: pom.packaging],
 
 									// Carguemos el archivo pom.xml para obtener información adicional para las dependencias transitivas
