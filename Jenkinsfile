@@ -82,19 +82,22 @@ pipeline {
 		stage("nexus") {
             steps {
                 script {
+					dir("web/example") {
+						def pom = readMavenPom file: "pom.xml";
+						
                     // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
-                    pom = readMavenPom file: "web/example/pom.xml";
+                    //pom = readMavenPom file: "web/example/pom.xml";
                     // Find built artifact under target folder
-                    filesByGlob = findFiles(glob: "web/example/target/*.${pom.packaging}");
+                    //filesByGlob = findFiles(glob: "web/example/target/*.${pom.packaging}");
                     // Print some info from the artifact found
-                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    //echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
                     // Extract the path from the File found
-                    artifactPath = filesByGlob[0].path;
+                    //artifactPath = filesByGlob[0].path;
                     // Assign to a boolean response verifying If the artifact name exists
-                    artifactExists = fileExists artifactPath;
+                    //artifactExists = fileExists artifactPath;
 
-                    if(artifactExists) {
-                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                    //if(artifactExists) {
+                        //echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
 
                         /*nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
@@ -119,6 +122,8 @@ pipeline {
                             ]
                         );*/
 						
+						dir("target") {
+						
 						freeStyleJob('NexusArtifactUploaderJob') {
 							steps {
 								nexusArtifactUploader {
@@ -132,7 +137,7 @@ pipeline {
 									artifact {
 										artifactId(pom.artifactId)
 										type('jar')
-										classifier('debug')
+										classifier('')
 										file(artifactPath)
 									}
 								}
@@ -140,9 +145,9 @@ pipeline {
 						}		
 						
 
-                    } else {
-                        error "*** File: ${artifactPath}, could not be found";
-                    }
+                    } //else {
+                        //error "*** File: ${artifactPath}, could not be found";
+					//}
                 }
             }
         }
