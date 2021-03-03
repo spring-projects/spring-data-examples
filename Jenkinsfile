@@ -89,11 +89,11 @@ pipeline {
 
 							nexusArtifactUploader(
 								nexusVersion: NEXUS_VERSION, \
-								protocol: NEXUS_PROTOCOL, \
-								nexusUrl: NEXUS_URL, \
+								protocol: 'http', \
+								nexusUrl: 'localhost:9084', \
 								groupId: pom.groupId, \
 								version: pom.version, \
-								repository: NEXUS_REPOSITORY, \
+								repository: 'springs-data-examples-web', \
 								credentialsId: NEXUS_CREDENTIAL_ID, \
 								artifacts: [
 									// Artefacto generado como archivos .jar, .ear y .war.
