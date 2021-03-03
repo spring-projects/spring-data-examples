@@ -101,7 +101,7 @@ pipeline {
 											artifactId(pom.artifactId)
 											type('jar')
 											classifier('')
-											file(artifactPath)
+											file('maven-code-coverage.jar')
 										}
 									}
 								}
