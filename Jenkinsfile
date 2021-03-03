@@ -100,13 +100,7 @@ pipeline {
 									[artifactId: pom.artifactId,
 									classifier: '',
 									file: 'maven-code-coverage.jar',
-									type: pom.packaging],
-
-									// Carguemos el archivo pom.xml para obtener información adicional para las dependencias transitivas
-									[artifactId: pom.artifactId,
-									classifier: '',
-									file: "pom.xml",
-									type: "pom"]
+									type: pom.packaging]
 								]
 							);
 						}
