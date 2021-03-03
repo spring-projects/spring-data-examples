@@ -82,8 +82,8 @@ pipeline {
 		stage("nexus") {
             steps {
                 script {
-					dir("web") {
-						def pom = readMavenPom file: 'example/pom.xml';
+					dir("web/example") {
+						def pom = readMavenPom file: 'pom.xml';
 						
 						dir("target") {
 
@@ -99,7 +99,7 @@ pipeline {
 									// Artefacto generado como archivos .jar, .ear y .war.
 									[artifactId: pom.artifactId,
 									classifier: '',
-									file: 'example/maven-code-coverage.jar',
+									file: 'maven-code-coverage.jar',
 									type: pom.packaging],
 
 									// Carguemos el archivo pom.xml para obtener información adicional para las dependencias transitivas
