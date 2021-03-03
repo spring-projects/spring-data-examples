@@ -83,7 +83,7 @@ pipeline {
             steps {
                 script {
 					dir("web") {
-						def pom = readMavenPom file: 'example/pom.xml';
+						def pom = readMavenPom file: 'web/example/pom.xml';
 						
 						dir("target") {
 
@@ -99,7 +99,7 @@ pipeline {
 									// Artefacto generado como archivos .jar, .ear y .war.
 									[artifactId: pom.artifactId,
 									classifier: '',
-									file: 'maven-code-coverage.jar',
+									file: 'example/maven-code-coverage.jar',
 									type: pom.packaging],
 
 									// Carguemos el archivo pom.xml para obtener información adicional para las dependencias transitivas
