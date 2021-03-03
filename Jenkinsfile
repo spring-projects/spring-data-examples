@@ -27,9 +27,10 @@ pipeline {
         	steps {
 				withMaven (maven: 'maven-3.6.3') {
 					//sh 'mvn clean install -f web/pom.xml'
-					sh 'mvn clean install -f web/example/pom.xml'
+					sh 'mvn clean install -f web/example/pom.xml -Dmaven.test.skip=true'
 					//sh 'mvn clean install -f web/projection/pom.xml'
-					//sh 'mvn clean install -f web/querydsl/pom.xml'
+					//sh 'mvn clean install -f web/querydsl/pom.xml'					
+					sh 'tree'
 				}
     		}
 			
@@ -61,7 +62,6 @@ pipeline {
 							sh 'mvn sonar:sonar -f web/pom.xml \
 							-Dsonar.sourceEncoding=UTF-8 \
 							-Dsonar.junit.reportPaths=target/surefire-reports'
-							sh 'tree'
 						}
 					}
 				}
