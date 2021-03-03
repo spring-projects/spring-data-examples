@@ -8,9 +8,9 @@ pipeline {
         // Puede ser http o https
         NEXUS_PROTOCOL = "http"
         // Dónde se ejecuta tu Nexus
-        NEXUS_URL = "192.168.1.57:9084"
+        NEXUS_URL = "192.168.1.57:9084/repository/"
         // Repositorio donde subiremos el artefacto
-        NEXUS_REPOSITORY = "springs-data-examples-web"
+        NEXUS_REPOSITORY = "springs-data-examples-web/"
         // Identificación de credencial de Jenkins para autenticarse en Nexus OSS
         NEXUS_CREDENTIAL_ID = "nexusCredenciales"
     }
