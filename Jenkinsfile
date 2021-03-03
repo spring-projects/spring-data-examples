@@ -99,7 +99,7 @@ pipeline {
 									// Artefacto generado como archivos .jar, .ear y .war.
 									[artifactId: pom.artifactId,
 									classifier: '',
-									file: 'spring-data-web-example-2.0.0.BUILD-SNAPSHOT.jar',
+									file: 'maven-code-coverage.jar',
 									type: pom.packaging],
 
 									// Carguemos el archivo pom.xml para obtener información adicional para las dependencias transitivas
