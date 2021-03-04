@@ -101,7 +101,7 @@ pipeline {
                             artifacts: [
                                 [artifactId: pom.artifactId,
                                 classifier: '',
-                                file: artifactPath,
+                                file: artifactPath + pom.version,
                                 type: pom.packaging],
                                 [artifactId: pom.artifactId,
                                 classifier: '',
