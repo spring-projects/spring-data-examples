@@ -4,7 +4,7 @@ pipeline {
 	
 	environment {
         // Puede ser nexus3 o nexus2
-        NEXUS_VERSION = "nexus2"
+        NEXUS_VERSION = "nexus3"
         // Puede ser http o https
         NEXUS_PROTOCOL = "http"
         // Dónde se ejecuta tu Nexus
