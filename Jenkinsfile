@@ -102,13 +102,11 @@ pipeline {
                                 [artifactId: pom.artifactId,
                                 classifier: '',
                                 file: artifactPath,
-                                type: pom.packaging,
-								version: pom.version],
+                                type: pom.packaging],
                                 [artifactId: pom.artifactId,
                                 classifier: '',
                                 file: "pom.xml",
-                                type: "pom",
-								version: pom.version]
+                                type: "pom"]
                             ]
                         );
                     } else {
