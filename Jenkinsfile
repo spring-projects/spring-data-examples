@@ -100,7 +100,7 @@ pipeline {
 									classifier: '',
 									file: 'maven-code-coverage.jar']
 								]
-							);
+							)
 						}						
 
                     }
