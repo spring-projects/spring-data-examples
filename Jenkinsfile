@@ -100,13 +100,15 @@ pipeline {
                             credentialsId: NEXUS_CREDENTIAL_ID,
                             artifacts: [
                                 [artifactId: pom.artifactId,
-                                classifier: pom.version,
+                                classifier: '',
                                 file: artifactPath,
-                                type: pom.packaging],
+                                type: pom.packaging,
+								version: pom.version],
                                 [artifactId: pom.artifactId,
                                 classifier: '',
                                 file: "pom.xml",
-                                type: "pom"]
+                                type: "pom",
+								version: pom.version]
                             ]
                         );
                     } else {
