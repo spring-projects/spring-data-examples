@@ -88,7 +88,7 @@ pipeline {
 						dir("target") {
 						
 							freeStyleJob('NexusArtifactUploaderJob') {
-								steps {
+								step ([
 									nexusArtifactUploader {
 										nexusVersion(NEXUS_VERSION)
 										protocol(NEXUS_PROTOCOL)
@@ -104,7 +104,7 @@ pipeline {
 											file('maven-code-coverage.jar')
 										}
 									}
-								}
+								])
 							}
 						}							
 						
