@@ -4,6 +4,14 @@
 
 	<artifactId>spring-data-web-examples</artifactId>
 	<packaging>pom</packaging>
+	
+<!-- 	<distributionManagement> -->
+<!-- 	   <repository> -->
+<!-- 	      <id>releases</id> -->
+<!-- 	      <name>Repositorio releases</name> -->
+<!-- 	      <url>http://192.168.1.57:9084/repository/springs-data-examples-web/</url> -->
+<!-- 	   </repository> -->
+<!-- 	</distributionManagement> -->
 
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
@@ -46,22 +54,5 @@
 			</properties>
 		</profile>
 	</profiles>
-		
-<!-- 	<build>	 -->
-<!-- 		<plugins> -->
-<!-- 			<plugin> -->
-<!-- 		      <groupId>com.sonatype.clm</groupId> -->
-<!--         	  <artifactId>clm-maven-plugin</artifactId> -->
-<!--         	  <version>2.7.0-01</version> -->
-<!-- 		      <extensions>true</extensions> -->
-<!-- 		      <configuration> -->
-<!-- 		        <serverId>nexus</serverId> -->
-<!-- 		        <serverUrl>http://192.168.1.57:9084/repository/springs-data-examples-web/</serverUrl> -->
-<!-- 	          	<applicationId>test</applicationId> -->
-<!-- 	          	<stage>develop</stage> -->
-<!-- 		      </configuration> -->
-<!-- 		    </plugin>		 -->
-<!-- 		</plugins>   -->
-<!-- 	</build> -->
 
 </project>
