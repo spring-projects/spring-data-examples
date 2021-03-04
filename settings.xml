@@ -61,17 +61,6 @@
 					</snapshots>
 					<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 				</repository>
-				
-<!--				<repository>
-				  <id>central</id>
-				  <url>http://192.168.1.57:9084/repository/springs-data-examples-web/</url>
-				  <releases>
-					 <enabled>true</enabled>
-				  </releases>
-				  <snapshots>
-					 <enabled>true</enabled>
-				  </snapshots>
-			   </repository> -->
 
 			</repositories>	
 			
