@@ -83,27 +83,29 @@ pipeline {
             steps {
                 script {
 					dir("web/example") {
-						def pom = readMavenPom file: "pom.xml";
+						def pom = readMavenPom file: 'pom.xml';
 						
 						dir("target") {
-							nexusArtifactUploader (
+
+							nexusArtifactUploader(
 								nexusVersion: NEXUS_VERSION,
-								protoco: NEXUS_PROTOCOL,
+								protocol: NEXUS_PROTOCOL,
 								nexusUrl: NEXUS_URL,
 								groupId: pom.groupId,
 								version: pom.version,
-								repository: NEXUS_REPOSITORY,
+								//repository: NEXUS_REPOSITORY,
 								credentialsId: NEXUS_CREDENTIAL_ID,
-								artifact: [
+								artifacts: [
+									// Artefacto generado como archivos .jar, .ear y .war.
 									[artifactId: pom.artifactId,
-									type: 'jar',
 									classifier: '',
-									file: 'maven-code-coverage.jar']
+									file: 'maven-code-coverage.jar',
+									type: pom.packaging]
 								]
-							)
-						}						
-
-                    }
+							);
+						}
+					}
+                    
                 }
             }
         }
