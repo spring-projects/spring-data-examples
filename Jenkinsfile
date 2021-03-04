@@ -29,6 +29,7 @@ pipeline {
 				withMaven (maven: 'maven-3.6.3') {
 					//sh 'mvn clean install -f web/pom.xml'
 					sh 'mvn clean install -f web/example/pom.xml'
+					sh 'mvn package -DskipTests=true -f web/example/pom.xml'
 					//sh 'mvn clean install -f web/projection/pom.xml'
 					//sh 'mvn clean install -f web/querydsl/pom.xml'
 				}
@@ -85,7 +86,7 @@ pipeline {
                 script {
 					dir("web/example") {
 						def pom = readMavenPom file: 'pom.xml';
-						
+												
 						dir("target") {
 
 							nexusArtifactUploader(
