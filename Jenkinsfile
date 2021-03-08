@@ -83,7 +83,10 @@ pipeline {
                 script {
                     pom = readMavenPom file: "web/example/pom.xml";
 					echo '----------------------------------------------------------------------'
-					echo '${pom}'
+					echo ${pom}
+					echo '----------------------------------------------------------------------'
+					echo ${pom.parent.groupId}
+					echo ${pom.parent.version}
 					echo '----------------------------------------------------------------------'
                     filesByGlob = findFiles(glob: "web/example/target/*.${pom.packaging}");
                     echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
