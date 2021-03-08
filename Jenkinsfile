@@ -61,6 +61,8 @@ pipeline {
 					withMaven (maven: 'maven-3.6.3') {
 						withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
 							sh 'mvn sonar:sonar -f web/pom.xml \
+							-Dsonar.login=usuario \
+							-Dsonar.password=contraseña \
 							-Dsonar.sourceEncoding=UTF-8 \
 							-Dsonar.junit.reportPaths=target/surefire-reports'
 						}
