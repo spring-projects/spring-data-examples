@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>spring-data-web-examples</artifactId>
-	<packaging>pom</packaging>
+	<packaging>pom</packaging> 
 	
 <!-- 	<distributionManagement> -->
 <!-- 	   <repository> -->
