@@ -55,8 +55,6 @@
 	</dependencies>
 	
 	<build>
-            
-        <!-- <finalName>maven-code-coverage</finalName> -->
         <plugins>
         
         	<plugin>

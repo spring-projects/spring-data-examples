@@ -36,22 +36,6 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 	
-	</dependencies>	
-		
-	 <profiles>
-		<profile>
-			<id>sonar</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<sonar.host-url>
-					http://192.168.1.57:9000/
-				</sonar.host-url>
-<!-- 				<sonar.login>admin</sonar.login> -->
-<!-- 				<sonar.password>sinensia1</sonar.password> -->
-			</properties>
-		</profile>
-	</profiles>
+	</dependencies>
 
 </project>
