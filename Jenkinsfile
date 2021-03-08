@@ -67,21 +67,24 @@ pipeline {
 		}
 		
 		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
-		stage("Quality Gate") {
-            steps {
-                timeout(time: 5, unit: 'MINUTES') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    // Requires SonarQube Scanner for Jenkins 2.7+
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }		
+		//stage("Quality Gate") {
+        //    steps {
+        //        timeout(time: 5, unit: 'MINUTES') {
+        //            // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+        //          // true = set pipeline to UNSTABLE, false = don't
+        //            // Requires SonarQube Scanner for Jenkins 2.7+
+        //            waitForQualityGate abortPipeline: true
+        //        }
+        //    }
+        //}		
 		
 		stage("nexus") {
             steps {
                 script {
                     pom = readMavenPom file: "web/example/pom.xml";
+					echo '----------------------------------------------------------------------'
+					echo '${pom}'
+					echo '----------------------------------------------------------------------'
                     filesByGlob = findFiles(glob: "web/example/target/*.${pom.packaging}");
                     echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
                     artifactPath = filesByGlob[0].path;
