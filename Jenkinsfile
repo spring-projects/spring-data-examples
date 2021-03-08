@@ -56,8 +56,8 @@ pipeline {
         // Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
         stage('SonarQube analysis') {
         	steps {
-		    	//withSonarQubeEnv('local') {				
-				withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
+		    	withSonarQubeEnv('local') {				
+				//withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
 					withMaven (maven: 'maven-3.6.3') {
 						//withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
 							sh 'mvn sonar:sonar -f web/pom.xml \
