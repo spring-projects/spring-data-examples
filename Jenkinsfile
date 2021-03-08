@@ -59,6 +59,7 @@ pipeline {
 		    	//withSonarQubeEnv('local') {				
 				withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
 					withMaven (maven: 'maven-3.6.3') {
+					
 						//withCredentials([usernamePassword(credentialsId: 'credencialConnectJenkins', passwordVariable: 'contraseña', usernameVariable: 'usuario')]) {
 							sh 'mvn sonar:sonar -f web/pom.xml \
 							-Dsonar.sourceEncoding=UTF-8 \
