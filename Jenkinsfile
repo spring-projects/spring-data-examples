@@ -76,8 +76,7 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }
-		
+        }		
 		
 		stage("nexus") {
             steps {
