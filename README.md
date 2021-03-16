@@ -59,6 +59,7 @@ We have separate folders for the samples of individual modules:
 * `geo-json` - Example project showing usage of [GeoJSON](http://geojson.org) with MongoDB.
 * `gridfs` - Example project showing usage of gridFS with MongoDB.
 * `java8` - Example of how to use Spring Data MongoDB with Java 8 date time types as well as the usage of `Optional` as return type for repository methods. Note, this project requires to be build with JDK 8.
+* `jmolecules` - Example of Spring Data MongoDB working with a jMolecules based domain model.
 * `kotlin` - Example for using [Kotlin](https://kotlinlang.org/) with MongoDB.
 * `query-by-example` - Example project showing usage of Query by Example with MongoDB.
 * `querydsl` - Example project showing imperative and reactive [Querydsl](https://github.com/querydsl/querydsl) support for MongoDB.
@@ -113,5 +114,5 @@ We have separate folders for the samples of individual modules:
 
 ## Note
 
-* The example projects make use of the [Lombok](https://projectlombok.org/) plugin. To get proper code navigation in your IDE, you must install it separately. 
+* The example projects make use of the [Lombok](https://projectlombok.org/) plugin. To get proper code navigation in your IDE, you must install it separately.
 Lombok is available in the IntelliJ plugins repository and as a [download](https://projectlombok.org/download) for Eclipse-based IDEs.
