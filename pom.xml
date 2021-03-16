@@ -51,7 +51,7 @@
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-bom.version>2020.0.2-SNAPSHOT</spring-data-bom.version>
+				<spring-data-bom.version>2020.0.5-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 
