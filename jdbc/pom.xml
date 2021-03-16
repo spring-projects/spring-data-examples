@@ -19,6 +19,7 @@
 	<modules>
 		<module>basics</module>
 		<module>mybatis</module>
+		<module>jmolecules</module>
 		<module>jooq</module>
 	</modules>
 
