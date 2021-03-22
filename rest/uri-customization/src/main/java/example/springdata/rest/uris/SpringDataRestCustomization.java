@@ -18,23 +18,21 @@ package example.springdata.rest.uris;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 /**
  * Spring Data {@link RepositoryRestConfiguration} to customize the identifier mapping for {@link User}s.
  *
  * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @Component
 public class SpringDataRestCustomization implements RepositoryRestConfigurer {
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer#configureRepositoryRestConfiguration(org.springframework.data.rest.core.config.RepositoryRestConfiguration)
-	 */
 	@Override
-	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-
+	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 		config.withEntityLookup() //
 				.forRepository(UserRepository.class, User::getUsername, UserRepository::findByUsername);
 	}
+
 }
