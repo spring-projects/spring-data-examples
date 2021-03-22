@@ -37,10 +37,6 @@
 		<module>util</module>
 	</modules>
 
-	<properties>
-		<embedded-mongo.version>2.1.1</embedded-mongo.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>

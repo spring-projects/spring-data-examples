@@ -16,19 +16,18 @@
 package example.springdata.mongodb.util;
 
 import de.flapdoodle.embed.mongo.Command;
-import de.flapdoodle.embed.mongo.config.IMongoCmdOptions;
-import de.flapdoodle.embed.mongo.config.IMongodConfig;
-import de.flapdoodle.embed.mongo.config.IMongosConfig;
-import de.flapdoodle.embed.mongo.config.MongoCmdOptionsBuilder;
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
-import de.flapdoodle.embed.mongo.config.MongosConfigBuilder;
+import de.flapdoodle.embed.mongo.config.ImmutableMongodConfig;
+import de.flapdoodle.embed.mongo.config.ImmutableMongosConfig;
+import de.flapdoodle.embed.mongo.config.MongoCmdOptions;
+import de.flapdoodle.embed.mongo.config.MongodConfig;
+import de.flapdoodle.embed.mongo.config.MongosConfig;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.config.Storage;
 import de.flapdoodle.embed.mongo.distribution.Feature;
 import de.flapdoodle.embed.mongo.distribution.IFeatureAwareVersion;
 import de.flapdoodle.embed.mongo.distribution.Versions;
 import de.flapdoodle.embed.process.config.io.ProcessOutput;
-import de.flapdoodle.embed.process.distribution.GenericVersion;
+import de.flapdoodle.embed.process.distribution.Version;
 import de.flapdoodle.embed.process.io.Processors;
 import de.flapdoodle.embed.process.runtime.Network;
 
@@ -68,7 +67,7 @@ public class EmbeddedMongo extends ExternalResource {
 
 	private static final String STORAGE_ENGINE = "wiredTiger";
 
-	private static final IFeatureAwareVersion VERSION = Versions.withFeatures(new GenericVersion("3.7.9"),
+	private static final IFeatureAwareVersion VERSION = Versions.withFeatures(Version.of("3.7.9"),
 			Feature.ONLY_WITH_SSL, Feature.ONLY_64BIT, Feature.NO_HTTP_INTERFACE_ARG, Feature.STORAGE_ENGINE,
 			Feature.MONGOS_CONFIGDB_SET_STYLE, Feature.NO_CHUNKSIZE_ARG);
 
@@ -302,12 +301,12 @@ public class EmbeddedMongo extends ExternalResource {
 
 		private void doStart() {
 
-			Map<String, List<IMongodConfig>> replicaSets = new LinkedHashMap<>();
+			Map<String, List<MongodConfig>> replicaSets = new LinkedHashMap<>();
 			replicaSets.put(configServerReplicaSetName, initConfigServers());
 			replicaSets.put(replicaSetName, initReplicaSet());
 
 			// create mongos
-			IMongosConfig mongosConfig = defaultMongosConfig(serverVersion, mongosPort, defaultCommandOptions(),
+			MongosConfig mongosConfig = defaultMongosConfig(serverVersion, mongosPort, defaultCommandOptions(),
 					configServerReplicaSetName, configServerPorts[0]);
 
 			mongosTestFactory = new MongosSystemForTestFactory(mongosConfig, replicaSets, Collections.emptyList(),
@@ -328,9 +327,9 @@ public class EmbeddedMongo extends ExternalResource {
 			}
 		}
 
-		private List<IMongodConfig> initReplicaSet() {
+		private List<MongodConfig> initReplicaSet() {
 
-			List<IMongodConfig> rs = new ArrayList<>();
+			List<MongodConfig> rs = new ArrayList<>();
 
 			for (int port : serverPorts) {
 				rs.add(defaultMongodConfig(serverVersion, port, defaultCommandOptions(), false, true, replicaSetName));
@@ -338,9 +337,9 @@ public class EmbeddedMongo extends ExternalResource {
 			return rs;
 		}
 
-		private List<IMongodConfig> initConfigServers() {
+		private List<MongodConfig> initConfigServers() {
 
-			List<IMongodConfig> configServers = new ArrayList<>(configServerPorts.length);
+			List<MongodConfig> configServers = new ArrayList<>(configServerPorts.length);
 
 			for (Integer port : configServerPorts) {
 				configServers.add(
@@ -370,14 +369,14 @@ public class EmbeddedMongo extends ExternalResource {
 	/**
 	 * @return Default {@link IMongoCmdOptions command options}.
 	 */
-	private static IMongoCmdOptions defaultCommandOptions() {
+	private static MongoCmdOptions defaultCommandOptions() {
 
-		return new MongoCmdOptionsBuilder() //
+		return MongoCmdOptions.builder() //
 				.useNoPrealloc(false) //
 				.useSmallFiles(false) //
 				.useNoJournal(false) //
-				.useStorageEngine(STORAGE_ENGINE) //
-				.verbose(false) //
+				.storageEngine(STORAGE_ENGINE) //
+				.isVerbose(false) //
 				.build();
 	}
 
@@ -392,16 +391,16 @@ public class EmbeddedMongo extends ExternalResource {
 	 * @param replicaSet
 	 * @return
 	 */
-	private static IMongodConfig defaultMongodConfig(IFeatureAwareVersion version, int port, IMongoCmdOptions cmdOptions,
+	private static MongodConfig defaultMongodConfig(IFeatureAwareVersion version, int port, MongoCmdOptions cmdOptions,
 			boolean configServer, boolean shardServer, String replicaSet) {
 
 		try {
 
-			MongodConfigBuilder builder = new MongodConfigBuilder() //
+			ImmutableMongodConfig.Builder builder = MongodConfig.builder() //
 					.version(version) //
-					.withLaunchArgument("--quiet") //
+					.putArgs("--quiet", null) //
 					.net(new Net(LOCALHOST, port, Network.localhostIsIPv6())) //
-					.configServer(configServer).cmdOptions(cmdOptions); //
+					.isConfigServer(configServer).cmdOptions(cmdOptions); //
 
 			if (StringUtils.hasText(replicaSet)) {
 
@@ -409,9 +408,9 @@ public class EmbeddedMongo extends ExternalResource {
 						.replication(new Storage(null, replicaSet, 0));
 
 				if (!configServer) {
-					builder = builder.shardServer(shardServer);
+					builder = builder.isShardServer(shardServer);
 				} else {
-					builder = builder.shardServer(false);
+					builder = builder.isShardServer(false);
 				}
 			}
 
@@ -431,14 +430,14 @@ public class EmbeddedMongo extends ExternalResource {
 	 * @param configServerPort
 	 * @return
 	 */
-	private static IMongosConfig defaultMongosConfig(IFeatureAwareVersion version, int port, IMongoCmdOptions cmdOptions,
+	private static MongosConfig defaultMongosConfig(IFeatureAwareVersion version, int port, MongoCmdOptions cmdOptions,
 			String configServerReplicaSet, int configServerPort) {
 
 		try {
 
-			MongosConfigBuilder builder = new MongosConfigBuilder() //
+			ImmutableMongosConfig.Builder builder = MongosConfig.builder() //
 					.version(version) //
-					.withLaunchArgument("--quiet", null) //
+					.putArgs("--quiet", null) //
 					.net(new Net(LOCALHOST, port, Network.localhostIsIPv6())) //
 					.cmdOptions(cmdOptions);
 
