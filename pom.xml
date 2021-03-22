@@ -30,7 +30,6 @@
 		<module>neo4j</module>
 		<module>rest</module>
 		<module>redis</module>
-		<module>solr</module>
 		<module>web</module>
 	</modules>
 
