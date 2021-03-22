@@ -38,6 +38,6 @@ public abstract class AbstractShowcaseTest extends AbstractTransactionalShowcase
 	public void setupData() throws Exception {
 
 		deleteFromTables("account", "customer");
-		executeSqlScript("classpath:data.sql", false);
+		executeSqlScript("classpath:import.sql", false);
 	}
 }
