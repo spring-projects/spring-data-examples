@@ -19,40 +19,28 @@ import com.datastax.oss.driver.api.core.CqlIdentifier
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder
 import example.springdata.cassandra.util.CassandraKeyspace
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.ClassRule
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.cassandra.core.*
 import org.springframework.data.cassandra.core.query.Query.query
 import org.springframework.data.cassandra.core.query.isEqualTo
 import org.springframework.data.cassandra.core.query.where
-import org.springframework.data.util.Version
-import org.springframework.test.context.junit4.SpringRunner
 
 /**
  * Tests showing Kotlin usage of [MongoTemplate] and its Kotlin extensions.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner::class)
+@CassandraKeyspace
 @SpringBootTest
 class TemplateTests {
-
-	companion object {
-
-		@JvmField
-		@ClassRule
-		val CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost()
-				.atLeast(Version.parse("3.0"))
-	}
 
 	@Autowired
 	lateinit var operations: CassandraOperations
 
-	@Before
+	@BeforeEach
 	fun before() {
 		operations.truncate<Person>()
 	}

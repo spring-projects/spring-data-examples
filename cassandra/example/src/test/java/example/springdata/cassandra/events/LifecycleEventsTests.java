@@ -20,14 +20,12 @@ import example.springdata.cassandra.util.CassandraKeyspace;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.query.Query;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Test showing differences between fetching results as {@link List} and {@link Stream streaming} results using
@@ -35,11 +33,9 @@ import org.springframework.test.context.junit4.SpringRunner;
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = BasicConfiguration.class)
+@CassandraKeyspace
 public class LifecycleEventsTests {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired CassandraOperations operations;
 

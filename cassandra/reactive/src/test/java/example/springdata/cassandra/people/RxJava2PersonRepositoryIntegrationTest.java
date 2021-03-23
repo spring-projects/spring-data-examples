@@ -20,14 +20,12 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link RxJava2PersonRepository} using RxJava1 types. Note that
@@ -36,16 +34,15 @@ import org.springframework.test.context.junit4.SpringRunner;
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
+@CassandraKeyspace
 @SpringBootTest
 public class RxJava2PersonRepositoryIntegrationTest {
 
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired RxJava2PersonRepository repository;
 	@Autowired ReactiveCassandraOperations operations;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 
 		Completable deleteAll = repository.deleteAll();

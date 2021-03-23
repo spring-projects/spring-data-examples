@@ -22,36 +22,30 @@ import example.springdata.cassandra.util.CassandraKeyspace;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.util.Version;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test to show the usage of JSR-310 date/time types with Spring Data Cassandra.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
+@CassandraKeyspace
 @SpringBootTest(classes = CassandraConfiguration.class)
-public class Jsr310IntegrationTests {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost()
-			.atLeast(Version.parse("3.0"));
+class Jsr310IntegrationTests {
 
 	@Autowired OrderRepository repository;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	void setUp() throws Exception {
 		repository.deleteAll();
 	}
 
 	@Test
-	public void findOneByJsr310Types() {
+	void findOneByJsr310Types() {
 
 		Order order = new Order("42", LocalDate.now(), ZoneId.systemDefault());
 

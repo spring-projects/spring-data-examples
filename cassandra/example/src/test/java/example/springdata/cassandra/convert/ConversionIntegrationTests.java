@@ -17,9 +17,6 @@ package example.springdata.cassandra.convert;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.datastax.oss.driver.api.core.cql.Row;
-import com.datastax.oss.driver.api.core.data.TupleValue;
-import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 import example.springdata.cassandra.util.CassandraKeyspace;
 
 import java.util.Arrays;
@@ -27,29 +24,29 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.CassandraOperations;
-import org.springframework.test.context.junit4.SpringRunner;
+
+import com.datastax.oss.driver.api.core.cql.Row;
+import com.datastax.oss.driver.api.core.data.TupleValue;
+import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 
 
 /**
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
+@CassandraKeyspace
 @SpringBootTest(classes = ConverterConfiguration.class)
-public class ConversionIntegrationTests {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
+class ConversionIntegrationTests {
 
 	@Autowired CassandraOperations operations;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		operations.truncate(Addressbook.class);
 	}
 
@@ -58,7 +55,7 @@ public class ConversionIntegrationTests {
 	 * custom {@link example.springdata.cassandra.convert.ConverterConfiguration.PersonWriteConverter}.
 	 */
 	@Test
-	public void shouldCreateAddressbook() {
+	void shouldCreateAddressbook() {
 
 		Addressbook addressbook = new Addressbook();
 		addressbook.setId("private");
@@ -82,7 +79,7 @@ public class ConversionIntegrationTests {
 	 * custom {@link example.springdata.cassandra.convert.ConverterConfiguration.PersonReadConverter}.
 	 */
 	@Test
-	public void shouldReadAddressbook() {
+	void shouldReadAddressbook() {
 
 		Addressbook addressbook = new Addressbook();
 		addressbook.setId("private");
@@ -104,7 +101,7 @@ public class ConversionIntegrationTests {
 	 * {@link example.springdata.cassandra.convert.ConverterConfiguration.CustomAddressbookReadConverter}.
 	 */
 	@Test
-	public void shouldReadCustomAddressbook() {
+	void shouldReadCustomAddressbook() {
 
 		Addressbook addressbook = new Addressbook();
 		addressbook.setId("private");
@@ -124,7 +121,7 @@ public class ConversionIntegrationTests {
 	 * Creates and stores a new {@link Addressbook} inside of Cassandra writing map and tuple columns.
 	 */
 	@Test
-	public void shouldWriteConvertedMapsAndTuples() {
+	void shouldWriteConvertedMapsAndTuples() {
 
 		Addressbook addressbook = new Addressbook();
 		addressbook.setId("private");

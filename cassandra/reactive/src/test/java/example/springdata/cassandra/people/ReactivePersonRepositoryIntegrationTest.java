@@ -20,32 +20,28 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link ReactivePersonRepository} using Project Reactor types and operators.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class ReactivePersonRepositoryIntegrationTest {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
+@CassandraKeyspace
+class ReactivePersonRepositoryIntegrationTest {
 
 	@Autowired ReactivePersonRepository repository;
 
 	/**
 	 * Clear table and insert some rows.
 	 */
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		Flux<Person> deleteAndInsert = repository.deleteAll() //
 				.thenMany(repository.saveAll(Flux.just(new Person("Walter", "White", 50), //
@@ -60,7 +56,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * This sample performs a count, inserts data and performs a count again using reactive operator chaining.
 	 */
 	@Test
-	public void shouldInsertAndCountData() {
+	void shouldInsertAndCountData() {
 
 		Mono<Long> saveAndCount = repository.count() //
 				.doOnNext(System.out::println) //
@@ -78,7 +74,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * prefetch define the amount of fetched records.
 	 */
 	@Test
-	public void shouldPerformConversionBeforeResultProcessing() {
+	void shouldPerformConversionBeforeResultProcessing() {
 
 		StepVerifier.create(repository.findAll().doOnNext(System.out::println)) //
 				.expectNextCount(4) //
@@ -89,7 +85,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * Fetch data using query derivation.
 	 */
 	@Test
-	public void shouldQueryDataWithQueryDerivation() {
+	void shouldQueryDataWithQueryDerivation() {
 		StepVerifier.create(repository.findByLastname("White")).expectNextCount(2).verifyComplete();
 	}
 
@@ -97,7 +93,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * Fetch data using a string query.
 	 */
 	@Test
-	public void shouldQueryDataWithStringQuery() {
+	void shouldQueryDataWithStringQuery() {
 		StepVerifier.create(repository.findByFirstnameInAndLastname("Walter", "White")).expectNextCount(1).verifyComplete();
 	}
 
@@ -105,7 +101,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * Fetch data using query derivation.
 	 */
 	@Test
-	public void shouldQueryDataWithDeferredQueryDerivation() {
+	void shouldQueryDataWithDeferredQueryDerivation() {
 		StepVerifier.create(repository.findByLastname(Mono.just("White"))).expectNextCount(2).verifyComplete();
 	}
 
@@ -113,7 +109,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * Fetch data using query derivation and deferred parameter resolution.
 	 */
 	@Test
-	public void shouldQueryDataWithMixedDeferredQueryDerivation() {
+	void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
 		StepVerifier.create(repository.findByFirstnameAndLastname(Mono.just("Walter"), "White")) //
 				.expectNextCount(1) //

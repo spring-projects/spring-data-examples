@@ -23,33 +23,29 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import rx.RxReactiveStreams;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.ReactiveCassandraTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link ReactiveCassandraTemplate}.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
+@CassandraKeyspace
 @SpringBootTest
-public class ReactiveCassandraTemplateIntegrationTest {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
+class ReactiveCassandraTemplateIntegrationTest {
 
 	@Autowired ReactiveCassandraTemplate template;
 
 	/**
 	 * Truncate table and insert some rows.
 	 */
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		Flux<Person> truncateAndInsert = template.truncate(Person.class) //
 				.thenMany(Flux.just(new Person("Walter", "White", 50), //
@@ -66,7 +62,7 @@ public class ReactiveCassandraTemplateIntegrationTest {
 	 * the two counts ({@code 4} and {@code 6}) to the console.
 	 */
 	@Test
-	public void shouldInsertAndCountData() {
+	void shouldInsertAndCountData() {
 
 		Mono<Long> saveAndCount = template.count(Person.class) //
 				.doOnNext(System.out::println) //
@@ -84,7 +80,7 @@ public class ReactiveCassandraTemplateIntegrationTest {
 	 * Note that the all object conversions are performed before the results are printed to the console.
 	 */
 	@Test
-	public void convertReactorTypesToRxJava1() throws Exception {
+	void convertReactorTypesToRxJava1() throws Exception {
 
 		Flux<Person> flux = template.select("SELECT * FROM person WHERE lastname = 'White'", Person.class);
 

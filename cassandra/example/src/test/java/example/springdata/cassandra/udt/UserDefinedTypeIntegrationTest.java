@@ -21,10 +21,8 @@ import example.springdata.cassandra.util.CassandraKeyspace;
 
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +31,6 @@ import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.config.SchemaAction;
 import org.springframework.data.cassandra.core.CassandraAdminOperations;
 import org.springframework.data.cassandra.core.CassandraOperations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.datastax.oss.driver.api.core.data.UdtValue;
 import com.datastax.oss.driver.api.core.metadata.schema.KeyspaceMetadata;
@@ -45,11 +42,9 @@ import com.datastax.oss.driver.api.core.type.UserDefinedType;
  * @author Mark Paluch
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserDefinedTypeIntegrationTest {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
+@CassandraKeyspace
+class UserDefinedTypeIntegrationTest {
 
 	@Configuration
 	static class Config extends AbstractCassandraConfiguration {
@@ -78,8 +73,8 @@ public class UserDefinedTypeIntegrationTest {
 	@Autowired CassandraOperations operations;
 	@Autowired CassandraAdminOperations adminOperations;
 
-	@Before
-	public void before() throws Exception {
+	@BeforeEach
+	void before() throws Exception {
 		operations.getCqlOperations().execute("TRUNCATE person");
 	}
 
@@ -87,7 +82,7 @@ public class UserDefinedTypeIntegrationTest {
 	 * Insert a row with a mapped User-defined type.
 	 */
 	@Test
-	public void insertMappedUdt() {
+	void insertMappedUdt() {
 
 		Person person = new Person();
 		person.setId(42);
@@ -109,7 +104,7 @@ public class UserDefinedTypeIntegrationTest {
 	 * Insert a row with a raw User-defined type.
 	 */
 	@Test
-	public void insertRawUdt() {
+	void insertRawUdt() {
 
 		KeyspaceMetadata keyspaceMetadata = adminOperations.getKeyspaceMetadata();
 		UserDefinedType address = keyspaceMetadata.getUserDefinedType("address").get();

@@ -18,37 +18,25 @@ package example.springdata.cassandra.kotlin
 import example.springdata.cassandra.util.CassandraKeyspace
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.junit.Before
-import org.junit.ClassRule
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.data.util.Version
-import org.springframework.test.context.junit4.SpringRunner
 
 /**
  * Tests showing Kotlin usage of Spring Data Repositories.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner::class)
+@CassandraKeyspace
 @SpringBootTest
 class RepositoryTests {
-
-	companion object {
-
-		@JvmField
-		@ClassRule
-		val CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost()
-				.atLeast(Version.parse("3.0"))
-	}
 
 	@Autowired
 	lateinit var repository: PersonRepository
 
-	@Before
+	@BeforeEach
 	fun before() {
 		repository.deleteAll()
 	}

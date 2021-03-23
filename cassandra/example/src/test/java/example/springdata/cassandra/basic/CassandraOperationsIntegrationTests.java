@@ -24,17 +24,14 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.AsyncCassandraTemplate;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.CassandraTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import com.datastax.oss.driver.api.core.CqlSession;
@@ -47,16 +44,15 @@ import com.datastax.oss.driver.api.querybuilder.insert.Insert;
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = BasicConfiguration.class)
+@CassandraKeyspace
 public class CassandraOperationsIntegrationTests {
 
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired CqlSession session;
 	@Autowired CassandraOperations template;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		template.getCqlOperations().execute("TRUNCATE users");
 	}

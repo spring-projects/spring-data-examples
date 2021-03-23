@@ -22,30 +22,25 @@ import example.springdata.cassandra.util.CassandraKeyspace;
 import java.time.Duration;
 import java.time.Instant;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test showing the basic usage of Auditing through {@link AuditedPersonRepository}.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = BasicConfiguration.class)
-public class AuditedPersonRepositoryTests {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
+@CassandraKeyspace
+class AuditedPersonRepositoryTests {
 
 	@Autowired AuditedPersonRepository repository;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		repository.deleteAll();
 	}
 
@@ -53,7 +48,7 @@ public class AuditedPersonRepositoryTests {
 	 * Saving an object using the Cassandra Repository will create a persistent representation of the object in Cassandra.
 	 */
 	@Test
-	public void insertShouldSetCreatedDate() {
+	void insertShouldSetCreatedDate() {
 
 		AuditedPerson person = new AuditedPerson();
 		person.setId(42L);
@@ -73,7 +68,7 @@ public class AuditedPersonRepositoryTests {
 	 * Modifying an existing object will update the last modified fields.
 	 */
 	@Test
-	public void updateShouldSetLastModifiedDate() {
+	void updateShouldSetLastModifiedDate() {
 
 		AuditedPerson person = new AuditedPerson();
 		person.setId(42L);

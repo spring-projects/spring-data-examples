@@ -17,12 +17,8 @@ package example.springdata.cassandra.optimisticlocking;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.cassandra.util.CassandraKeyspace;
-
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,23 +27,19 @@ import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.EntityWriteResult;
 import org.springframework.data.cassandra.core.UpdateOptions;
 import org.springframework.data.cassandra.core.query.Criteria;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test showing the basic usage of Optimistic Locking through {@link OptimisticPersonRepository}.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = BasicConfiguration.class)
 public class OptimisticPersonRepositoryTests {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired OptimisticPersonRepository repository;
 	@Autowired CassandraOperations operations;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		repository.deleteAll();
 	}

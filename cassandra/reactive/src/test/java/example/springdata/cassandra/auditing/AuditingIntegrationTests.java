@@ -22,24 +22,19 @@ import reactor.test.StepVerifier;
 
 import java.time.Instant;
 
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.cassandra.DataCassandraTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests showing Reactive Auditing with Cassandra in action.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
+@CassandraKeyspace
 @DataCassandraTest
 public class AuditingIntegrationTests {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
 
 	@Autowired OrderRepository orderRepository;
 

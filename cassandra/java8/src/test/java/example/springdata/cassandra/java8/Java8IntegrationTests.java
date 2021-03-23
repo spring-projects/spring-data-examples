@@ -23,36 +23,30 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.util.Version;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test to show the usage of Java 8 features with Spring Data Cassandra.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
+@CassandraKeyspace
 @SpringBootTest(classes = CassandraConfiguration.class)
-public class Java8IntegrationTests {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost()
-			.atLeast(Version.parse("3.0"));
+class Java8IntegrationTests {
 
 	@Autowired PersonRepository repository;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	void setUp() throws Exception {
 		repository.deleteAll();
 	}
 
 	@Test
-	public void providesFindOneWithOptional() {
+	void providesFindOneWithOptional() {
 
 		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
 
@@ -61,7 +55,7 @@ public class Java8IntegrationTests {
 	}
 
 	@Test
-	public void invokesDefaultMethod() {
+	void invokesDefaultMethod() {
 
 		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
 		Optional<Person> result = repository.findByPerson(homer);
@@ -75,7 +69,7 @@ public class Java8IntegrationTests {
 	 * resulting {@link Stream} contains state it needs to be closed explicitly after use!
 	 */
 	@Test
-	public void useJava8StreamsWithCustomQuery() {
+	void useJava8StreamsWithCustomQuery() {
 
 		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
 		Person bart = repository.save(new Person("2", "Bart", "Simpson"));

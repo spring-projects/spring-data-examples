@@ -24,30 +24,25 @@ import reactor.util.context.Context;
 
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.cassandra.DataCassandraTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests showing the SpEL context extension in action.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
+@CassandraKeyspace
 @DataCassandraTest
-public class ExpressionIntegrationTests {
-
-	@ClassRule public final static CassandraKeyspace CASSANDRA_KEYSPACE = CassandraKeyspace.onLocalhost();
+class ExpressionIntegrationTests {
 
 	@Autowired EmployeeRepository employeeRepository;
 
-	@Before
-	public void before() {
+	@BeforeEach
+	void before() {
 
 		employeeRepository.deleteAll().as(StepVerifier::create).verifyComplete();
 
@@ -60,7 +55,7 @@ public class ExpressionIntegrationTests {
 	}
 
 	@Test
-	public void shouldFindByTenantIdAndName() {
+	void shouldFindByTenantIdAndName() {
 
 		employeeRepository.findAllByName("Walter") //
 				.contextWrite(Context.of(Tenant.class, new Tenant("breaking-bad"))).as(StepVerifier::create) //
