@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,38 +15,36 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import static org.assertj.core.api.Assertions.*;
-
-import example.springdata.elasticsearch.util.ElasticsearchAvailable;
+import example.springdata.elasticsearch.util.AssumeConnection;
 import reactor.test.StepVerifier;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Test case to show reactive Spring Data Elasticsearch repository functionality.
  *
  * @author Christoph Strobl
+ * @author Prakhar Gupta
  */
-@RunWith(SpringRunner.class)
+@AssumeConnection
 @SpringBootTest(classes = ApplicationConfiguration.class)
 public class ReactiveElasticsearchRepositoryTest {
 
-	public static @ClassRule ElasticsearchAvailable elasticsearchAvailable = ElasticsearchAvailable.onLocalhost();
-
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-	@Autowired ConferenceRepository repository;
+	@Autowired
+	ConferenceRepository repository;
 
 	@Test
+	@AssumeConnection
 	public void textSearch() {
 
 		String expectedDate = "2014-10-29";
@@ -60,7 +58,7 @@ public class ReactiveElasticsearchRepositoryTest {
 				.verifyComplete();
 	}
 
-	void verify(Conference it, String expectedWord, String expectedDate) {
+	private void verify(Conference it, String expectedWord, String expectedDate) {
 
 		assertThat(it.getKeywords()).contains(expectedWord);
 		try {

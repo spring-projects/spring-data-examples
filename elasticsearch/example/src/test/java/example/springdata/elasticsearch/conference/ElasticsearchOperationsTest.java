@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2021-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,12 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -32,7 +30,6 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Test case to show Spring Data Elasticsearch functionality.
@@ -40,14 +37,15 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Artur Konczak
  * @author Oliver Gierke
  * @author Christoph Strobl
+ * @author Prakhar Gupta
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationConfiguration.class)
 public class ElasticsearchOperationsTest {
 
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-	@Autowired ElasticsearchOperations operations;
+	@Autowired
+	ElasticsearchOperations operations;
 
 	@Test
 	public void textSearch() throws ParseException {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,56 +15,55 @@
  */
 package example.springdata.elasticsearch.util;
 
+import static org.junit.platform.commons.support.AnnotationSupport.findAnnotation;
+
 import java.io.IOException;
+import java.util.Optional;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.assertj.core.api.Assumptions;
-import org.junit.AssumptionViolatedException;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
+import org.junit.jupiter.api.extension.ConditionEvaluationResult;
+import org.junit.jupiter.api.extension.ExecutionCondition;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * @author Christoph Strobl
+ * @author Prakhar Gupta
  */
-public class ElasticsearchAvailable implements TestRule {
+public class ElasticsearchAvailable implements ExecutionCondition {
 
-	private final String url;
-
-	private ElasticsearchAvailable(String url) {
-		this.url = url;
-	}
-
-	public static ElasticsearchAvailable onLocalhost() {
-		return new ElasticsearchAvailable("http://localhost:9200");
-	}
-
-	@Override
-	public Statement apply(Statement base, Description description) {
-
-		return new Statement() {
-
-			@Override
-			public void evaluate() throws Throwable {
-
-				checkServerRunning();
-				base.evaluate();
-			}
-		};
-	}
-
-	private void checkServerRunning() {
+	private boolean checkServerRunning(String url) {
+		boolean isConnectionAvailable = false;
 
 		try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
 			CloseableHttpResponse response = client.execute(new HttpHead(url));
+
 			if (response != null && response.getStatusLine() != null) {
-				Assumptions.assumeThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
+				isConnectionAvailable = true;
 			}
 		} catch (IOException e) {
-			throw new AssumptionViolatedException(String.format("Elasticsearch Server seems to be down. %s", e.getMessage()));
+			return isConnectionAvailable;
 		}
+
+		return isConnectionAvailable;
+	}
+
+	@Override
+	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext extensionContext) {
+		Optional<AssumeConnection> annotation = findAnnotation(extensionContext.getElement(), AssumeConnection.class);
+
+		if (annotation.isPresent()) {
+			String url = annotation.get().url();
+
+			if (checkServerRunning(url)) {
+				return ConditionEvaluationResult.enabled("Successfully connected to Elasticsearch server. Continuing test!");
+			} else {
+				return ConditionEvaluationResult.disabled("Elasticsearch Server seems to be down. Skipping test!");
+			}
+		}
+
+		return ConditionEvaluationResult.disabled("No connection specified. Skipping test!");
 	}
 }
