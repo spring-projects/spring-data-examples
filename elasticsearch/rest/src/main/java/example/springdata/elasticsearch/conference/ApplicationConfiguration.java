@@ -22,10 +22,8 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 /**
  * @author Artur Konczak

@@ -15,14 +15,15 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import example.springdata.elasticsearch.util.AssumeConnection;
+import static org.assertj.core.api.Assertions.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import example.springdata.elasticsearch.util.EnabledOnElasticsearch;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -38,9 +39,9 @@ import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
  * @author Christoph Strobl
  * @author Prakhar Gupta
  */
-@AssumeConnection
+@EnabledOnElasticsearch
 @SpringBootTest(classes = ApplicationConfiguration.class)
-public class ElasticsearchOperationsTest {
+class ElasticsearchOperationsTest {
 
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -48,8 +49,7 @@ public class ElasticsearchOperationsTest {
 	ElasticsearchOperations operations;
 
 	@Test
-	@AssumeConnection
-	public void textSearch() throws ParseException {
+	void textSearch() throws ParseException {
 		String expectedDate = "2014-10-29";
 		String expectedWord = "java";
 		CriteriaQuery query = new CriteriaQuery(

@@ -16,10 +16,21 @@
 	<url>https://github.com/spring-projects/spring-data-elasticsearch</url>
 
 	<modules>
+		<module>util</module>
 		<module>example</module>
 		<module>rest</module>
 		<module>reactive</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.data.examples</groupId>
+				<artifactId>spring-data-elasticsearch-example-utils</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2021 the original author or authors.
+ * Copyright 2020-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,15 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+
+import example.springdata.elasticsearch.util.EnabledOnElasticsearch;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -40,7 +43,8 @@ import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
  * @author Prakhar Gupta
  */
 @SpringBootTest(classes = ApplicationConfiguration.class)
-public class ElasticsearchOperationsTest {
+@EnabledOnElasticsearch
+class ElasticsearchOperationsTest {
 
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -48,7 +52,7 @@ public class ElasticsearchOperationsTest {
 	ElasticsearchOperations operations;
 
 	@Test
-	public void textSearch() throws ParseException {
+	void textSearch() throws ParseException {
 
 		String expectedDate = "2014-10-29";
 		String expectedWord = "java";
@@ -66,7 +70,7 @@ public class ElasticsearchOperationsTest {
 	}
 
 	@Test
-	public void geoSpatialSearch() {
+	void geoSpatialSearch() {
 
 		GeoPoint startLocation = new GeoPoint(50.0646501D, 19.9449799D);
 		String range = "330mi"; // or 530km
