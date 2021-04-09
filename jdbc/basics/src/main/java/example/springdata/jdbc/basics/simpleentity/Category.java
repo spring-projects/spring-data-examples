@@ -21,7 +21,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Setter;
-import lombok.experimental.Wither;
+import lombok.With;
 
 import java.time.LocalDateTime;
 
@@ -37,7 +37,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE, onConstructor = @__(@PersistenceConstructor))
 public class Category {
 
-	private final @Id @Wither Long id;
+	private final @Id @With Long id;
 	private String name, description;
 	private LocalDateTime created;
 	private @Setter long inserted;

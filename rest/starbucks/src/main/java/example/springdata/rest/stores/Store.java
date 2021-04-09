@@ -18,7 +18,7 @@ package example.springdata.rest.stores;
 import static org.springframework.data.mongodb.core.index.GeoSpatialIndexType.*;
 
 import lombok.Value;
-import lombok.experimental.Wither;
+import lombok.With;
 
 import java.util.UUID;
 
@@ -34,7 +34,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Mark Paluch
  */
 @Value
-@Wither
+@With
 @Document
 public class Store {
 
