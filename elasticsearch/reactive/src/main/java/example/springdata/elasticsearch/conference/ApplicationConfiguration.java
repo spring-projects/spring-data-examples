@@ -21,9 +21,11 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.client.RequestOptions;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,16 @@ class ApplicationConfiguration {
 
 	@Autowired ReactiveElasticsearchOperations operations;
 	@Autowired ConferenceRepository repository;
+
+	@PreDestroy
+	public void deleteIndex() {
+		try {
+			RestClients.create(ClientConfiguration.localhost()).rest().indices()
+					.delete(new DeleteIndexRequest("conference-index"), RequestOptions.DEFAULT);
+		} catch (IOException | ElasticsearchStatusException e) {
+			// just ignore it
+		}
+	}
 
 	@PostConstruct
 	public void insertDataSample() {
