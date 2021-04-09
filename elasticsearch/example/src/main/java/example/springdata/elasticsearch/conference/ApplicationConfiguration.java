@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2020-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,48 +16,26 @@
 package example.springdata.elasticsearch.conference;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.elasticsearch.client.Client;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.elasticsearch.client.NodeClientFactoryBean;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
 /**
  * @author Artur Konczak
  * @author Oliver Gierke
  * @author Christoph Strobl
+ * @author Prakhar Gupta
  */
 @SpringBootApplication
 class ApplicationConfiguration {
 
 	@Autowired ElasticsearchOperations operations;
 	@Autowired ConferenceRepository repository;
-
-	@Bean
-	public NodeClientFactoryBean client() {
-
-		NodeClientFactoryBean bean = new NodeClientFactoryBean(true);
-		bean.setClusterName(UUID.randomUUID().toString());
-		bean.setEnableHttp(false);
-		bean.setPathData("target/elasticsearchTestData");
-		bean.setPathHome("src/test/resources/test-home-dir");
-
-		return bean;
-	}
-
-	@Bean
-	public ElasticsearchTemplate elasticsearchTemplate(Client client) {
-		return new ElasticsearchTemplate(client);
-	}
 
 	@PreDestroy
 	public void deleteIndex() {

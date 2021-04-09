@@ -18,7 +18,6 @@
 	<modules>
 		<module>util</module>
 		<module>example</module>
-		<module>rest</module>
 		<module>reactive</module>
 	</modules>
 
