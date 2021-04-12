@@ -18,6 +18,7 @@
 
 	<modules>
 		<module>example</module>
+		<module>query-by-example</module>
 	</modules>
 
 	<dependencies>
