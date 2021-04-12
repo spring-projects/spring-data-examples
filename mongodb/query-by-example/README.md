@@ -4,12 +4,16 @@ This project contains samples of Query-by-Example of Spring Data MongoDB.
 
 ## Support for Query-by-Example
 
-Query by Example (QBE) is a user-friendly querying technique with a simple interface. It allows dynamic query creation and does not require to write queries containing field names. In fact, Query by Example does not require to write queries using JPA-QL at all.
+Query by Example (QBE) is a user-friendly querying technique with a simple interface. It
+allows dynamic query creation and does not require to write queries containing field
+names. In fact, Query by Example does not require to write queries using BSON at all.
 
-An `Example` takes a data object (usually the entity object or a subtype of it) and a specification how to match properties. You can use Query by Example with `MongoOperations` and Repositories.
+An `Example` takes a data object (usually the entity object or a subtype of it) and a
+specification how to match properties. You can use Query by Example with `MongoOperations`
+and Repositories.
 
 ```java
-public interface PersonRepository extends CrudRepository<Person, String>, QueryByExampleExecutor {
+interface PersonRepository extends CrudRepository<Person, String>, QueryByExampleExecutor<Person> {
 }
 ```
 
