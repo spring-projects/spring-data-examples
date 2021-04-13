@@ -6,4 +6,5 @@ This project contains examples for:
 * `EntityCallback` API usage for before convert/save interaction.
 * Result projections for DTOs and interface types.  
 * Query metadata. 
+* Unwrapping entities into the parent document.
 
