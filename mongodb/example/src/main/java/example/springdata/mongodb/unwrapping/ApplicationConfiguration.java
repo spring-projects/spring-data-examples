@@ -18,9 +18,9 @@ package example.springdata.mongodb.unwrapping;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
+ * Simple Spring Boot application.
+ *
  * @author Christoph Strobl
  */
 @SpringBootApplication
-public class ApplicationConfiguration {
-
-}
+public class ApplicationConfiguration {}

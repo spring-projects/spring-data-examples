@@ -23,14 +23,12 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserRepository extends CrudRepository<User, String> {
 
 	/**
-	 * Use the value type directly.
-	 * This will unwrap the values into the target query object.
+	 * Use the value type directly. This will unwrap the values into the target query object.
 	 */
 	User findByUserName(UserName userName);
 
 	/**
-	 * Use one of the unwrapped properties.
-	 * This will drill into the unwrapped using the value for the target query.
+	 * Use one of the unwrapped properties. This will drill into the unwrapped using the value for the target query.
 	 */
 	User findByEmailEmail(String email);
 }

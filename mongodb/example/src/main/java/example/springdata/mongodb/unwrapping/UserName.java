@@ -18,6 +18,8 @@ package example.springdata.mongodb.unwrapping;
 import java.util.Objects;
 
 /**
+ * Value object capturing the {@code username}.
+ *
  * @author Christoph Strobl
  */
 public class UserName { // might as well be a record type in more recent java versions

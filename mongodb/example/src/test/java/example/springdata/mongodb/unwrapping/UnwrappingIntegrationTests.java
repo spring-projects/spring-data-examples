@@ -19,21 +19,22 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
 
-import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.mongodb.client.model.Filters;
 
 /**
+ * Integration tests showing unwrapped/embedded document usage.
+ *
  * @author Christoph Strobl
  */
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
+@DataMongoTest
 class UnwrappingIntegrationTests {
 
 	@Autowired UserRepository repository;
