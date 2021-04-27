@@ -24,20 +24,20 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.groups.Tuple;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.AutoConfigureDataJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 
 /**
  * Demonstrates various possibilities to customize the behavior of a repository.
  *
  * @author Jens Schauder
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = AggregateConfiguration.class)
 @AutoConfigureDataJdbc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)

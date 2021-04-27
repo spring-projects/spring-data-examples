@@ -15,18 +15,18 @@
  */
 package example.springdata.jdbc.jooq;
 
-import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.*;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 /**
  * Demonstrates simple CRUD operations with a simple entity without any references.
@@ -34,7 +34,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Jens Schauder
  * @author Florian Lüdiger
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = CategoryConfiguration.class)
 @AutoConfigureJdbc
 @ComponentScan
