@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	/**
 	 * Here we use the {@link EntityGraph} annotation to specify that we want to use the {@link NamedEntityGraph}
 	 * <code>product-with-tags</code> specified on the {@link Product} entity.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -39,7 +39,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	/**
 	 * Here we use the {@link EntityGraph} annotation to specify that we want the {@link Product#tags} association which
 	 * is marked as {@link FetchType#LAZY} to be fetched eagerly.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
