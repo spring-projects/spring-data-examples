@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2017-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,28 +25,27 @@ import java.util.List;
 
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.AutoConfigureDataJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 
 /**
  * Demonstrates various possibilities to customize the behavior of a repository.
  *
  * @author Jens Schauder
+ * @author Divya Srivastava
  */
 @SpringBootTest(classes = AggregateConfiguration.class)
 @AutoConfigureDataJdbc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class AggregateTests {
+class AggregateTests {
 
 	@Autowired LegoSetRepository repository;
 
 	@Test
-	public void exerciseSomewhatComplexEntity() {
+	void exerciseSomewhatComplexEntity() {
 
 		LegoSet smallCar = createLegoSet("Small Car 01", 5, 12);
 		smallCar.setManual(new Manual("Just put all the pieces together in the right order", "Jens Schauder"));
@@ -75,7 +74,7 @@ public class AggregateTests {
 	}
 
 	@Test
-	public void customQueries() {
+	void customQueries() {
 
 		String smallCarsSetName = "Small Car - 01";
 		LegoSet smallCars = createLegoSet(smallCarsSetName, 5, 10);

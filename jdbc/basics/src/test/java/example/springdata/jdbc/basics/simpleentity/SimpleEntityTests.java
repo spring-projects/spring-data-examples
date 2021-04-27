@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 the original author or authors.
+ * Copyright 2017-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,31 @@
  */
 package example.springdata.jdbc.basics.simpleentity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.jdbc.basics.Output;
 import example.springdata.jdbc.basics.aggregate.AgeGroup;
+
+import org.junit.jupiter.api.Test;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * Demonstrates simple CRUD operations with a simple entity without any references.
  *
  * @author Jens Schauder
+ * @author Divya Srivastava
  */
 @SpringBootTest(classes = CategoryConfiguration.class)
 @AutoConfigureJdbc
-public class SimpleEntityTests {
+class SimpleEntityTests {
 
 	@Autowired CategoryRepository repository;
 
 	@Test
-	public void exerciseRepositoryForSimpleEntity() {
+	void exerciseRepositoryForSimpleEntity() {
 
 		// create some categories
 		Category cars = repository.save(new Category("Cars", "Anything that has approximately 4 wheels.", AgeGroup._3to8));
@@ -60,7 +62,7 @@ public class SimpleEntityTests {
 	}
 
 	@Test
-	public void directInsert(){
+	void directInsert() {
 
 		Category cars = new Category("Cars", "Anything that has approximately 4 wheels.", AgeGroup._3to8).withId(23L);
 		repository.insert(cars);

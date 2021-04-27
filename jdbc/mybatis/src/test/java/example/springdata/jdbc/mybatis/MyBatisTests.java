@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2020-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,28 +18,27 @@ package example.springdata.jdbc.mybatis;
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * Demonstrates queries can be mapped using MyBatis.
  *
  * @author Jens Schauder
+ * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MyBatisConfiguration.class)
 @AutoConfigureJdbc
 @MybatisTest
-public class MyBatisTests {
+class MyBatisTests {
 
 	@Autowired LegoSetRepository repository;
 
 	@Test
-	public void exerciseSomewhatComplexEntity() {
+	void exerciseSomewhatComplexEntity() {
 
 		LegoSet smallCar = createLegoSet();
 
