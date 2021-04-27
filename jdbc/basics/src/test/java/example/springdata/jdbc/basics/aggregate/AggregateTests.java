@@ -38,7 +38,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  *
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AggregateConfiguration.class)
 @AutoConfigureDataJdbc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
