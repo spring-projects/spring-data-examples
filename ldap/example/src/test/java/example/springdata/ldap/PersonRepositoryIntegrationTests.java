@@ -15,7 +15,7 @@
  */
 package example.springdata.ldap;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,18 +23,15 @@ import java.util.Optional;
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Integration tests for {@link PersonRepository}.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class PersonRepositoryIntegrationTests {
 
