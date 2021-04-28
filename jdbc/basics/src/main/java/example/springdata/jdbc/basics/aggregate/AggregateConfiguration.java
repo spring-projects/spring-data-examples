@@ -65,7 +65,7 @@ public class AggregateConfiguration extends AbstractJdbcConfiguration {
 			legoSet.setId(id.incrementAndGet());
 		}
 
-		Manual manual = legoSet.getManual();
+		var manual = legoSet.getManual();
 
 		if (manual != null) {
 			manual.setId((long) legoSet.getId());
@@ -102,11 +102,11 @@ public class AggregateConfiguration extends AbstractJdbcConfiguration {
 	@Bean
 	DataSourceInitializer initializer(DataSource dataSource) {
 
-		DataSourceInitializer initializer = new DataSourceInitializer();
+		var initializer = new DataSourceInitializer();
 		initializer.setDataSource(dataSource);
 
-		ClassPathResource script = new ClassPathResource("schema.sql");
-		ResourceDatabasePopulator populator = new ResourceDatabasePopulator(script);
+		var script = new ClassPathResource("schema.sql");
+		var populator = new ResourceDatabasePopulator(script);
 		initializer.setDatabasePopulator(populator);
 
 		return initializer;

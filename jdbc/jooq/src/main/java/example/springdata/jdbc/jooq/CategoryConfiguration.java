@@ -53,7 +53,7 @@ public class CategoryConfiguration extends AbstractJdbcConfiguration {
 	}
 
 	public DefaultConfiguration configuration() {
-		DefaultConfiguration jooqConfiguration = new DefaultConfiguration();
+		var jooqConfiguration = new DefaultConfiguration();
 		jooqConfiguration.set(connectionProvider());
 		return jooqConfiguration;
 	}

@@ -43,9 +43,9 @@ class ApplicationIntegrationTests {
 	@Test
 	void exposesAssociationInMetamodel() {
 
-		JdbcMappingContext mapping = context.getBean(JdbcMappingContext.class);
-		RelationalPersistentEntity<?> entity = mapping.getRequiredPersistentEntity(Order.class);
-		RelationalPersistentProperty customer = entity.getRequiredPersistentProperty("customer");
+		var mapping = context.getBean(JdbcMappingContext.class);
+		var entity = mapping.getRequiredPersistentEntity(Order.class);
+		var customer = entity.getRequiredPersistentProperty("customer");
 
 		assertThat(customer.isAssociation()).isTrue();
 	}
@@ -53,21 +53,21 @@ class ApplicationIntegrationTests {
 	@Test
 	void persistsDomainModel() {
 
-		Address address = new Address("41 Greystreet", "Dreaming Tree", "2731");
+		var address = new Address("41 Greystreet", "Dreaming Tree", "2731");
 
-		Customers customers = context.getBean(Customers.class);
-		Customer customer = customers.save(new Customer("Dave", "Matthews", address));
+		var customers = context.getBean(Customers.class);
+		var customer = customers.save(new Customer("Dave", "Matthews", address));
 
 		customer.setFirstname("Carter");
 		customer = customers.save(customer);
 
-		Orders orders = context.getBean(Orders.class);
+		var orders = context.getBean(Orders.class);
 
-		Order order = new Order(customer)
+		var order = new Order(customer)
 				.addLineItem("Foo")
 				.addLineItem("Bar");
 
-		Order result = orders.save(order);
+		var result = orders.save(order);
 
 		assertThat(customers.resolveRequired(result.getCustomer()));
 	}

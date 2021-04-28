@@ -40,7 +40,7 @@ class MyBatisTests {
 	@Test
 	void exerciseSomewhatComplexEntity() {
 
-		LegoSet smallCar = createLegoSet();
+		var smallCar = createLegoSet();
 
 		smallCar.setManual(new Manual("Just put all the pieces together in the right order", "Jens Schauder"));
 		smallCar.addModel("suv", "SUV with sliding doors.");
@@ -69,7 +69,7 @@ class MyBatisTests {
 
 	private static LegoSet createLegoSet() {
 
-		LegoSet smallCar = new LegoSet();
+		var smallCar = new LegoSet();
 		smallCar.setName("Small Car 01");
 		return smallCar;
 	}

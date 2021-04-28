@@ -54,7 +54,7 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 
 	public Order addLineItem(String description) {
 
-		LineItem item = new LineItem(description);
+		var item = new LineItem(description);
 
 		this.lineItems.add(item);
 

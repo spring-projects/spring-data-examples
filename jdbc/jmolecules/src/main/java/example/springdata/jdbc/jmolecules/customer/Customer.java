@@ -42,7 +42,7 @@ public class Customer implements AggregateRoot<Customer, CustomerId> {
 
 	private final CustomerId id;
 	private @Setter String firstname, lastname;
-	private List<Address> addresses;
+	private final List<Address> addresses;
 
 	public Customer(String firstname, String lastname, Address address) {
 

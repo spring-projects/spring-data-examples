@@ -32,7 +32,7 @@ public class Output {
 
 	public static void list(Iterable<?> categories, String title) {
 
-		StringBuilder message = new StringBuilder(String.format("==== %s ====\n", title));
+		var message = new StringBuilder(String.format("==== %s ====\n", title));
 
 		categories.forEach(category -> {
 			message.append(category.toString().replace(", ", ",\n\t"));

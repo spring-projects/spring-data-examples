@@ -92,7 +92,7 @@ public class LegoSet {
 
 	public void addModel(String name, String description) {
 
-		Model model = new Model(name, description);
+		var model = new Model(name, description);
 		models.put(name, model);
 	}
 }
