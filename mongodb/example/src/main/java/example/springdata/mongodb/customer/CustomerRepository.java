@@ -16,11 +16,13 @@
 package example.springdata.mongodb.customer;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -47,4 +49,7 @@ public interface CustomerRepository extends CrudRepository<Customer, String> {
 	 * @return
 	 */
 	GeoResults<Customer> findByAddressLocationNear(Point point, Distance distance);
+
+	@Query("{}")
+	Stream<Customer> findAllByCustomQueryWithStream();
 }

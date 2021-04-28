@@ -23,7 +23,6 @@
 		<module>fluent-api</module>
 		<module>geo-json</module>
 		<module>gridfs</module>
-		<module>java8</module>
 		<module>jmolecules</module>
 		<module>kotlin</module>
 		<module>query-by-example</module>

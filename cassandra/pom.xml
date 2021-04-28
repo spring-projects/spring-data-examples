@@ -19,7 +19,6 @@
 	<modules>
 		<module>util</module>
 		<module>example</module>
-		<module>java8</module>
 		<module>kotlin</module>
 		<module>reactive</module>
 	</modules>

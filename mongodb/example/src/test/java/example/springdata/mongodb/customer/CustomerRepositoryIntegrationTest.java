@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -80,6 +81,17 @@ public class CustomerRepositoryIntegrationTest {
 		assertThat(result, hasSize(2));
 		assertThat(result.get(0), is(dave));
 		assertThat(result.get(1), is(oliver));
+	}
+
+	/**
+	 * Test case to show the usage of Java {@link Stream}.
+	 */
+	@Test
+	public void findCustomersAsStream() {
+
+		try (Stream<Customer> result = repository.findAllByCustomQueryWithStream()) {
+			result.forEach(System.out::println);
+		}
 	}
 
 	/**
