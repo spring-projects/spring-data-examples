@@ -39,7 +39,7 @@ class ApplicationConfiguration {
 
 		return (customer, sqlIdentifier) -> {
 
-			if (customer.getId() == null) {
+			if (customer.id() == null) {
 
 				return databaseClient.sql("SELECT primary_key.nextval") //
 						.map(row -> row.get(0, Long.class)) //
@@ -54,7 +54,7 @@ class ApplicationConfiguration {
 	@Bean
 	ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory) {
 
-		ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
+		var initializer = new ConnectionFactoryInitializer();
 		initializer.setConnectionFactory(connectionFactory);
 		initializer.setDatabasePopulator(new ResourceDatabasePopulator(new ByteArrayResource(("CREATE SEQUENCE primary_key;"
 				+ "DROP TABLE IF EXISTS customer;"

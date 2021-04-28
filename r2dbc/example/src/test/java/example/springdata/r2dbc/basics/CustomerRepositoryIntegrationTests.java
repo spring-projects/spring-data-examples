@@ -20,32 +20,29 @@ import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.r2dbc.core.DatabaseClient;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = InfrastructureConfiguration.class)
-public class CustomerRepositoryIntegrationTests {
+class CustomerRepositoryIntegrationTests {
 
 	@Autowired CustomerRepository customers;
 	@Autowired DatabaseClient database;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		Hooks.onOperatorDebug();
 
-		List<String> statements = Arrays.asList(//
+		var statements = Arrays.asList(//
 				"DROP TABLE IF EXISTS customer;",
 				"CREATE TABLE customer ( id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL);");
 
@@ -58,31 +55,31 @@ public class CustomerRepositoryIntegrationTests {
 	}
 
 	@Test
-	public void executesFindAll() throws IOException {
+	void executesFindAll() throws IOException {
 
-		Customer dave = new Customer(null, "Dave", "Matthews");
-		Customer carter = new Customer(null, "Carter", "Beauford");
+		var dave = new Customer(null, "Dave", "Matthews");
+		var carter = new Customer(null, "Carter", "Beauford");
 
 		insertCustomers(dave, carter);
 
 		customers.findAll() //
 				.as(StepVerifier::create) //
-				.assertNext(dave::equals) //
-				.assertNext(carter::equals) //
+				.expectNext(dave) //
+				.expectNext(carter) //
 				.verifyComplete();
 	}
 
 	@Test
-	public void executesAnnotatedQuery() throws IOException {
+	void executesAnnotatedQuery() throws IOException {
 
-		Customer dave = new Customer(null, "Dave", "Matthews");
-		Customer carter = new Customer(null, "Carter", "Beauford");
+		var dave = new Customer(null, "Dave", "Matthews");
+		var carter = new Customer(null, "Carter", "Beauford");
 
 		insertCustomers(dave, carter);
 
 		customers.findByLastname("Matthews") //
 				.as(StepVerifier::create) //
-				.assertNext(dave::equals) //
+				.expectNext(dave) //
 				.verifyComplete();
 	}
 

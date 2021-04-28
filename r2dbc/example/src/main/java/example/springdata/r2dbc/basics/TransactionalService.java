@@ -42,7 +42,7 @@ class TransactionalService {
 
 		return repository.save(customer).map(it -> {
 
-			if (it.firstname.equals("Dave")) {
+			if (it.firstname().equals("Dave")) {
 				throw new IllegalStateException();
 			} else {
 				return it;

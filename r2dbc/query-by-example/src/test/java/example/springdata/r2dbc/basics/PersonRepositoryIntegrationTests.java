@@ -52,7 +52,7 @@ class PersonRepositoryIntegrationTests {
 
 		Hooks.onOperatorDebug();
 
-		List<String> statements = Arrays.asList(//
+		var statements = Arrays.asList(//
 				"DROP TABLE IF EXISTS person;",
 				"CREATE TABLE person (id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL, age INTEGER NOT NULL);");
 
@@ -75,7 +75,7 @@ class PersonRepositoryIntegrationTests {
 	@Test
 	void countBySimpleExample() {
 
-		Example<Person> example = Example.of(new Person(null, null, "White", null));
+		var example = Example.of(new Person(null, null, "White", null));
 
 		people.count(example).as(StepVerifier::create) //
 				.expectNext(3L) //
@@ -85,7 +85,7 @@ class PersonRepositoryIntegrationTests {
 	@Test
 	void ignorePropertiesAndMatchByAge() {
 
-		Example<Person> example = Example.of(flynn, matching(). //
+		var example = Example.of(flynn, matching(). //
 				withIgnorePaths("firstname", "lastname"));
 
 		people.findOne(example) //
@@ -97,7 +97,7 @@ class PersonRepositoryIntegrationTests {
 	@Test
 	void substringMatching() {
 
-		Example<Person> example = Example.of(new Person(null, "er", null, null), matching(). //
+		var example = Example.of(new Person(null, "er", null, null), matching(). //
 				withStringMatcher(StringMatcher.ENDING));
 
 		people.findAll(example).collectList() //
@@ -111,7 +111,7 @@ class PersonRepositoryIntegrationTests {
 	@Test
 	void matchStartingStringsIgnoreCase() {
 
-		Example<Person> example = Example.of(new Person(null, "Walter", "WHITE", null), matching(). //
+		var example = Example.of(new Person(null, "Walter", "WHITE", null), matching(). //
 				withIgnorePaths("age"). //
 				withMatcher("firstname", startsWith()). //
 				withMatcher("lastname", ignoreCase()));
@@ -127,7 +127,7 @@ class PersonRepositoryIntegrationTests {
 	@Test
 	void configuringMatchersUsingLambdas() {
 
-		Example<Person> example = Example.of(new Person(null, "Walter", "WHITE", null), matching(). //
+		var example = Example.of(new Person(null, "Walter", "WHITE", null), matching(). //
 				withIgnorePaths("age"). //
 				withMatcher("firstname", GenericPropertyMatcher::startsWith). //
 				withMatcher("lastname", GenericPropertyMatcher::ignoreCase));
@@ -143,7 +143,7 @@ class PersonRepositoryIntegrationTests {
 	@Test
 	void valueTransformer() {
 
-		Example<Person> example = Example.of(new Person(null, null, "White", 99), matching(). //
+		var example = Example.of(new Person(null, null, "White", 99), matching(). //
 				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
 
 		people.findAll(example).collectList() //

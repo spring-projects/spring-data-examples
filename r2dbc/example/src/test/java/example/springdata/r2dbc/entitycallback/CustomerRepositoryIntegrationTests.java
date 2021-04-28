@@ -21,13 +21,11 @@ import reactor.test.StepVerifier;
 
 import java.io.IOException;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.r2dbc.core.DatabaseClient;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test using {@link org.springframework.data.r2dbc.mapping.event.BeforeConvertCallback} to auto-generate an
@@ -36,24 +34,23 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Mark Paluch
  * @see ApplicationConfiguration#idGeneratingCallback(DatabaseClient)
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class CustomerRepositoryIntegrationTests {
+class CustomerRepositoryIntegrationTests {
 
 	@Autowired CustomerRepository customers;
 	@Autowired DatabaseClient database;
 
 	@Test
-	public void generatesIdOnInsert() throws IOException {
+	void generatesIdOnInsert() throws IOException {
 
-		Customer dave = new Customer(null, "Dave", "Matthews");
+		var dave = new Customer(null, "Dave", "Matthews");
 
 		this.customers.save(dave) //
 				.as(StepVerifier::create) //
 				.assertNext(actual -> {
 
-					assertThat(dave.getId()).isNull(); // immutable before save
-					assertThat(actual.getId()).isNotNull(); // after save
+					assertThat(dave.id()).isNull(); // immutable before save
+					assertThat(actual.id()).isNotNull(); // after save
 				}).verifyComplete();
 	}
 }

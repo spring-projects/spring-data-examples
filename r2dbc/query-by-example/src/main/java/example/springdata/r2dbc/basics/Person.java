@@ -15,8 +15,7 @@
  */
 package example.springdata.r2dbc.basics;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 
@@ -25,15 +24,26 @@ import org.springframework.data.annotation.Id;
  *
  * @author Mark Paluch
  */
-@Data
-@AllArgsConstructor
-class Person {
-
-	@Id Integer id;
-	String firstname, lastname;
-	Integer age;
+record Person(@Id Integer id, String firstname, String lastname, Integer age) {
 
 	boolean hasId() {
 		return id != null;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Person person)) {
+			return false;
+		}
+		return Objects.equals(firstname, person.firstname) && Objects.equals(lastname, person.lastname)
+				&& Objects.equals(age, person.age);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(firstname, lastname, age);
 	}
 }

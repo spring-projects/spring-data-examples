@@ -15,20 +15,14 @@
  */
 package example.springdata.r2dbc.entitycallback;
 
-import lombok.AllArgsConstructor;
-import lombok.Value;
-import lombok.With;
-
 import org.springframework.data.annotation.Id;
 
 /**
  * @author Mark Paluch
  */
-@Value
-@AllArgsConstructor
-@With
-class Customer {
+record Customer(@Id Long id, String firstname, String lastname) {
 
-	@Id Long id;
-	String firstname, lastname;
+	public Customer withId(long id) {
+		return new Customer(id, firstname, lastname);
+	}
 }

@@ -21,13 +21,12 @@ import reactor.test.StepVerifier;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.r2dbc.core.DatabaseClient;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests for {@link TransactionalService}.
@@ -35,20 +34,19 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Oliver Drotbohm
  * @soundtrack Shame - Tedeschi Trucks Band (Signs)
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = InfrastructureConfiguration.class)
-public class TransactionalServiceIntegrationTests {
+class TransactionalServiceIntegrationTests {
 
 	@Autowired TransactionalService service;
 	@Autowired CustomerRepository repository;
 	@Autowired DatabaseClient database;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		Hooks.onOperatorDebug();
 
-		List<String> statements = Arrays.asList(//
+		var statements = Arrays.asList(//
 				"DROP TABLE IF EXISTS customer;",
 				"CREATE TABLE customer ( id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL);");
 
@@ -61,7 +59,7 @@ public class TransactionalServiceIntegrationTests {
 	}
 
 	@Test // #500
-	public void exceptionTriggersRollback() {
+	void exceptionTriggersRollback() {
 
 		service.save(new Customer(null, "Dave", "Matthews")) //
 				.as(StepVerifier::create) //
@@ -75,7 +73,7 @@ public class TransactionalServiceIntegrationTests {
 	}
 
 	@Test // #500
-	public void insertsDataTransactionally() {
+	void insertsDataTransactionally() {
 
 		service.save(new Customer(null, "Carter", "Beauford")) //
 				.as(StepVerifier::create) //
