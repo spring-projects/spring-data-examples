@@ -103,13 +103,13 @@ class AggregateTests {
 		Output.list(report, "Model Report");
 
 		assertThat(report).hasSize(7)
-				.allMatch(m -> m.getDescription() != null && m.getModelName() != null && m.getSetName() != null);
+				.allMatch(m -> m.description() != null && m.modelName() != null && m.setName() != null);
 
 		var updated = repository.lowerCaseMapKeys();
 		// SUV, F1 Ferrari 2018 and Muck get updated
 		assertThat(updated).isEqualTo(3);
 
-		final var legoSetsByName = repository.findByName(smallCarsSetName);
+		var legoSetsByName = repository.findByName(smallCarsSetName);
 		assertThat(legoSetsByName).hasSize(1);
 	}
 

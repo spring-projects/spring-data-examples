@@ -22,8 +22,5 @@ import lombok.With;
 /**
  * @author Jens Schauder
  */
-@Value
-@With(AccessLevel.PACKAGE)
-public class ModelReport {
-	String modelName, description, setName;
+public record ModelReport(String modelName, String description, String setName) {
 }

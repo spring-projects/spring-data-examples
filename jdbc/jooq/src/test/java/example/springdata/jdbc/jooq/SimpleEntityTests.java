@@ -53,7 +53,7 @@ class SimpleEntityTests {
 		var saved = repository.saveAll(asList(cars, buildings));
 		Output.list(repository.findAll(), "`Cars` and `Buildings` got saved");
 
-		assertThat(saved).extracting(c -> c.getId()).isNotNull();
+		assertThat(saved).extracting(Category::getId).isNotNull();
 
 		// update one
 		buildings.setDescription("Famous and impressive buildings incl. the 'bike shed'.");

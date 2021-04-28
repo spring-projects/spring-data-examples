@@ -48,7 +48,7 @@ public class Customer implements AggregateRoot<Customer, CustomerId> {
 
 		Assert.notNull(address, "Address must not be null!");
 
-		this.id = CustomerId.of(UUID.randomUUID().toString());
+		this.id = new CustomerId(UUID.randomUUID().toString());
 
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -57,8 +57,6 @@ public class Customer implements AggregateRoot<Customer, CustomerId> {
 		this.addresses.add(address);
 	}
 
-	@Value(staticConstructor = "of")
-	public static class CustomerId implements Identifier {
-		private final String id;
+	public record CustomerId(String id) implements Identifier {
 	}
 }

@@ -15,12 +15,8 @@
  */
 package example.springdata.jdbc.jmolecules.customer;
 
-import lombok.Value;
-
 import org.jmolecules.ddd.annotation.ValueObject;
 
-@Value
 @ValueObject
-public class Address {
-	private final String street, city, zipCode;
+public record Address(String street, String city, String zipCode) {
 }

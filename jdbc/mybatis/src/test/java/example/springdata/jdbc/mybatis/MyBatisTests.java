@@ -28,7 +28,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * Demonstrates queries can be mapped using MyBatis.
  *
  * @author Jens Schauder
- * @author Divya Srivastava
+ * @author Divya Srivastava
  */
 @SpringBootTest(classes = MyBatisConfiguration.class)
 @AutoConfigureJdbc

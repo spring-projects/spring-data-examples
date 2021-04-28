@@ -24,8 +24,5 @@ import lombok.With;
  *
  * @author Jens Schauder
  */
-@Value
-@With(AccessLevel.PACKAGE)
-public class Model {
-	String name, description;
+public record Model(String name, String description) {
 }

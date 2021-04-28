@@ -15,12 +15,12 @@
  */
 package example.springdata.jdbc.basics.aggregate;
 
+import java.util.List;
+
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 /**
  * A repository for {@link LegoSet}.
@@ -29,11 +29,13 @@ import java.util.List;
  */
 interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {
 
-	@Query("SELECT m.name model_name, m.description, l.name set_name" +
-			"  FROM model m" +
-			"  JOIN lego_set l" +
-			"  ON m.lego_set = l.id" +
-			"  WHERE :age BETWEEN l.min_age and l.max_age")
+	@Query("""
+			SELECT m.name model_name, m.description, l.name set_name
+			  FROM model m
+			  JOIN lego_set l
+			  ON m.lego_set = l.id
+			  WHERE :age BETWEEN l.min_age and l.max_age
+			""")
 	List<ModelReport> reportModelForAge(@Param("age") int age);
 
 	/**
@@ -41,9 +43,11 @@ interface LegoSetRepository extends CrudRepository<LegoSet, Integer> {
 	 * @param name
 	 * @return
 	 */
-	@Query("select a.*, b.handbuch_id as manual_handbuch_id, b.author as manual_author, b.text as manual_text from lego_set a " +
-			"join handbuch b on a.id = b.handbuch_id " +
-			"where a.name = :name")
+	@Query("""
+			select a.*, b.handbuch_id as manual_handbuch_id, b.author as manual_author, b.text as manual_text from lego_set a
+			join handbuch b on a.id = b.handbuch_id
+			where a.name = :name
+			""")
 	List<LegoSet> findByName(@Param("name") String name);
 
 	@Modifying

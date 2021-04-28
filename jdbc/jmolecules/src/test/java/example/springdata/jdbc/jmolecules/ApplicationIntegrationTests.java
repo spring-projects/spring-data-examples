@@ -28,17 +28,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jdbc.core.mapping.JdbcMappingContext;
-import org.springframework.data.relational.core.mapping.RelationalPersistentEntity;
-import org.springframework.data.relational.core.mapping.RelationalPersistentProperty;
 
 /**
  * @author Oliver Drotbohm
  */
 @SpringBootTest
-@RequiredArgsConstructor
-class ApplicationIntegrationTests {
-
-	private final ConfigurableApplicationContext context;
+record ApplicationIntegrationTests(ConfigurableApplicationContext context) {
 
 	@Test
 	void exposesAssociationInMetamodel() {
