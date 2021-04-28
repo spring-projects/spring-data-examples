@@ -93,12 +93,7 @@ class ConverterConfiguration {
 
 		public CustomAddressbook convert(Row source) {
 
-			CustomAddressbook result = new CustomAddressbook();
-
-			result.setTheId(source.getString("id"));
-			result.setMyDetailsAsJson(source.getString("me"));
-
-			return result;
+			return new CustomAddressbook(source.getString("id"), source.getString("me"));
 		}
 	}
 

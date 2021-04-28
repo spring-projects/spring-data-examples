@@ -57,7 +57,7 @@ class BasicConfiguration {
 	public MappingCassandraConverter cassandraConverter(CassandraMappingContext mapping,
 			CassandraCustomConversions conversions, CqlSession session) {
 
-		MappingCassandraConverter converter = new MappingCassandraConverter(mapping);
+		var converter = new MappingCassandraConverter(mapping);
 
 		converter.setCodecRegistry(session.getContext().getCodecRegistry());
 		converter.setCustomConversions(conversions);

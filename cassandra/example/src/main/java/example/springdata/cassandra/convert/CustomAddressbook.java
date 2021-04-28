@@ -15,14 +15,9 @@
  */
 package example.springdata.cassandra.convert;
 
-import lombok.Data;
-
 /**
  * @author Mark Paluch
  */
-@Data
-public class CustomAddressbook {
+public record CustomAddressbook(String theId, String myDetailsAsJson) {
 
-	String theId;
-	String myDetailsAsJson;
 }

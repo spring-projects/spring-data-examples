@@ -15,8 +15,6 @@
  */
 package example.springdata.cassandra.spel;
 
-import lombok.Value;
-
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
@@ -24,10 +22,8 @@ import org.springframework.data.cassandra.core.mapping.Table;
 /**
  * @author Mark Paluch
  */
-@Value
 @Table
-public class Employee {
+public record Employee(@PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED) String tenantId,
+		@PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED) String name) {
 
-	@PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED) String tenantId;
-	@PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED) String name;
 }

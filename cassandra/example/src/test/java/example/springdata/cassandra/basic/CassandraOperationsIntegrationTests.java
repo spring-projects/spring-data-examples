@@ -46,14 +46,14 @@ import com.datastax.oss.driver.api.querybuilder.insert.Insert;
  */
 @SpringBootTest(classes = BasicConfiguration.class)
 @CassandraKeyspace
-public class CassandraOperationsIntegrationTests {
+class CassandraOperationsIntegrationTests {
 
 
 	@Autowired CqlSession session;
 	@Autowired CassandraOperations template;
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		template.getCqlOperations().execute("TRUNCATE users");
 	}
 
@@ -62,9 +62,9 @@ public class CassandraOperationsIntegrationTests {
 	 * mapping layer.
 	 */
 	@Test
-	public void insertAndSelect() {
+	void insertAndSelect() {
 
-		Insert insert = QueryBuilder.insertInto("users").value("user_id", QueryBuilder.literal(42L)) //
+		var insert = QueryBuilder.insertInto("users").value("user_id", QueryBuilder.literal(42L)) //
 				.value("uname", QueryBuilder.literal("heisenberg")) //
 				.value("fname", QueryBuilder.literal("Walter")) //
 				.value("lname", QueryBuilder.literal("White")) //
@@ -72,10 +72,10 @@ public class CassandraOperationsIntegrationTests {
 
 		template.getCqlOperations().execute(insert.asCql());
 
-		User user = template.selectOneById(42L, User.class);
+		var user = template.selectOneById(42L, User.class);
 		assertThat(user.getUsername()).isEqualTo("heisenberg");
 
-		List<User> users = template.select(QueryBuilder.selectFrom("users").all().asCql(), User.class);
+		var users = template.select(QueryBuilder.selectFrom("users").all().asCql(), User.class);
 		assertThat(users).hasSize(1);
 		assertThat(users.get(0)).isEqualTo(user);
 	}
@@ -85,9 +85,9 @@ public class CassandraOperationsIntegrationTests {
 	 * {@code select}.
 	 */
 	@Test
-	public void insertAndUpdate() {
+	void insertAndUpdate() {
 
-		User user = new User();
+		var user = new User();
 		user.setId(42L);
 		user.setUsername("heisenberg");
 		user.setFirstname("Walter");
@@ -98,7 +98,7 @@ public class CassandraOperationsIntegrationTests {
 		user.setFirstname(null);
 		template.update(user);
 
-		User loaded = template.selectOneById(42L, User.class);
+		var loaded = template.selectOneById(42L, User.class);
 		assertThat(loaded.getUsername()).isEqualTo("heisenberg");
 		assertThat(loaded.getFirstname()).isNull();
 	}
@@ -107,25 +107,25 @@ public class CassandraOperationsIntegrationTests {
 	 * Asynchronous query execution using callbacks.
 	 */
 	@Test
-	public void insertAsynchronously() throws InterruptedException {
+	void insertAsynchronously() throws InterruptedException {
 
-		User user = new User();
+		var user = new User();
 		user.setId(42L);
 		user.setUsername("heisenberg");
 		user.setFirstname("Walter");
 		user.setLastname("White");
 
-		final CountDownLatch countDownLatch = new CountDownLatch(1);
+		final var countDownLatch = new CountDownLatch(1);
 
-		AsyncCassandraTemplate asyncTemplate = new AsyncCassandraTemplate(session);
+		var asyncTemplate = new AsyncCassandraTemplate(session);
 
-		ListenableFuture<User> future = asyncTemplate.insert(user);
+		var future = asyncTemplate.insert(user);
 
 		future.addCallback(it -> countDownLatch.countDown(), throwable -> countDownLatch.countDown());
 
 		countDownLatch.await(5, TimeUnit.SECONDS);
 
-		User loaded = template.selectOneById(user.getId(), User.class);
+		var loaded = template.selectOneById(user.getId(), User.class);
 		assertThat(loaded).isEqualTo(user);
 	}
 
@@ -135,9 +135,9 @@ public class CassandraOperationsIntegrationTests {
 	 */
 	@Test
 	@SuppressWarnings("unchecked")
-	public void selectProjections() {
+	void selectProjections() {
 
-		User user = new User();
+		var user = new User();
 		user.setId(42L);
 		user.setUsername("heisenberg");
 		user.setFirstname("Walter");
@@ -145,10 +145,10 @@ public class CassandraOperationsIntegrationTests {
 
 		template.insert(user);
 
-		Long id = template.selectOne(QueryBuilder.selectFrom("users").column("user_id").asCql(), Long.class);
+		var id = template.selectOne(QueryBuilder.selectFrom("users").column("user_id").asCql(), Long.class);
 		assertThat(id).isEqualTo(user.getId());
 
-		Row row = template.selectOne(QueryBuilder.selectFrom("users").column("user_id").asCql(), Row.class);
+		var row = template.selectOne(QueryBuilder.selectFrom("users").column("user_id").asCql(), Row.class);
 		assertThat(row.getLong(0)).isEqualTo(user.getId());
 
 		Map<String, Object> map = template.selectOne(QueryBuilder.selectFrom("users").all().asCql(), Map.class);

@@ -43,7 +43,7 @@ class ReactivePersonRepositoryIntegrationTest {
 	@BeforeEach
 	void setUp() {
 
-		Flux<Person> deleteAndInsert = repository.deleteAll() //
+		var deleteAndInsert = repository.deleteAll() //
 				.thenMany(repository.saveAll(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
@@ -58,7 +58,7 @@ class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	void shouldInsertAndCountData() {
 
-		Mono<Long> saveAndCount = repository.count() //
+		var saveAndCount = repository.count() //
 				.doOnNext(System.out::println) //
 				.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //

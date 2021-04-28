@@ -48,7 +48,7 @@ class Java8IntegrationTests {
 	@Test
 	void providesFindOneWithOptional() {
 
-		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
+		var homer = repository.save(new Person("1", "Homer", "Simpson"));
 
 		assertThat(repository.findById(homer.id).isPresent()).isTrue();
 		assertThat(repository.findById(homer.id + 1)).isEqualTo(Optional.<Person> empty());
@@ -57,8 +57,8 @@ class Java8IntegrationTests {
 	@Test
 	void invokesDefaultMethod() {
 
-		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
-		Optional<Person> result = repository.findByPerson(homer);
+		var homer = repository.save(new Person("1", "Homer", "Simpson"));
+		var result = repository.findByPerson(homer);
 
 		assertThat(result.isPresent()).isTrue();
 		assertThat(result.get()).isEqualTo(homer);
@@ -71,10 +71,10 @@ class Java8IntegrationTests {
 	@Test
 	void useJava8StreamsWithCustomQuery() {
 
-		Person homer = repository.save(new Person("1", "Homer", "Simpson"));
-		Person bart = repository.save(new Person("2", "Bart", "Simpson"));
+		var homer = repository.save(new Person("1", "Homer", "Simpson"));
+		var bart = repository.save(new Person("2", "Bart", "Simpson"));
 
-		try (Stream<Person> stream = repository.findAll()) {
+		try (var stream = repository.findAll()) {
 			assertThat(stream.collect(Collectors.toList())).contains(homer, bart);
 		}
 	}

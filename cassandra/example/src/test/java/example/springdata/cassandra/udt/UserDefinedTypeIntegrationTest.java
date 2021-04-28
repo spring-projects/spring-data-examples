@@ -50,6 +50,16 @@ class UserDefinedTypeIntegrationTest {
 	static class Config extends AbstractCassandraConfiguration {
 
 		@Override
+		protected int getPort() {
+			return Integer.getInteger("spring.data.cassandra.port");
+		}
+
+		@Override
+		protected String getContactPoints() {
+			return System.getProperty("spring.data.cassandra.contact-points");
+		}
+
+		@Override
 		public String getKeyspaceName() {
 			return "example";
 		}
@@ -84,7 +94,7 @@ class UserDefinedTypeIntegrationTest {
 	@Test
 	void insertMappedUdt() {
 
-		Person person = new Person();
+		var person = new Person();
 		person.setId(42);
 		person.setFirstname("Walter");
 		person.setLastname("White");
@@ -94,7 +104,7 @@ class UserDefinedTypeIntegrationTest {
 
 		operations.insert(person);
 
-		Person loaded = operations.selectOne("SELECT * FROM person WHERE id = 42", Person.class);
+		var loaded = operations.selectOne("SELECT * FROM person WHERE id = 42", Person.class);
 
 		assertThat(loaded.getCurrent()).isEqualTo(person.getCurrent());
 		assertThat(loaded.getPrevious()).containsAll(person.getPrevious());
@@ -106,15 +116,15 @@ class UserDefinedTypeIntegrationTest {
 	@Test
 	void insertRawUdt() {
 
-		KeyspaceMetadata keyspaceMetadata = adminOperations.getKeyspaceMetadata();
-		UserDefinedType address = keyspaceMetadata.getUserDefinedType("address").get();
+		var keyspaceMetadata = adminOperations.getKeyspaceMetadata();
+		var address = keyspaceMetadata.getUserDefinedType("address").get();
 
-		UdtValue udtValue = address.newValue();
+		var udtValue = address.newValue();
 		udtValue.setString("street", "308 Negra Arroyo Lane");
 		udtValue.setString("zip", "87104");
 		udtValue.setString("city", "Albuquerque");
 
-		Person person = new Person();
+		var person = new Person();
 		person.setId(42);
 		person.setFirstname("Walter");
 		person.setLastname("White");
@@ -123,7 +133,7 @@ class UserDefinedTypeIntegrationTest {
 
 		operations.insert(person);
 
-		Person loaded = operations.selectOne("SELECT * FROM person WHERE id = 42", Person.class);
+		var loaded = operations.selectOne("SELECT * FROM person WHERE id = 42", Person.class);
 
 		assertThat(loaded.getAlternative().getString("zip")).isEqualTo("87104");
 	}

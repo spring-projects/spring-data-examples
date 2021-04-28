@@ -35,33 +35,33 @@ import org.springframework.data.cassandra.core.query.Query;
  */
 @SpringBootTest(classes = BasicConfiguration.class)
 @CassandraKeyspace
-public class LifecycleEventsTests {
+class LifecycleEventsTests {
 
 	@Autowired CassandraOperations operations;
 
 	@Test
-	public void shouldStreamEntities() {
+	void shouldStreamEntities() {
 
 		insertEntities();
 
-		Stream<User> userStream = operations.stream(Query.empty(), User.class);
+		var userStream = operations.stream(Query.empty(), User.class);
 		userStream.forEach(System.out::println);
 	}
 
 	@Test
-	public void shouldReturnEntitiesAsList() {
+	void shouldReturnEntitiesAsList() {
 
 		insertEntities();
 
-		List<User> userStream = operations.select(Query.empty(), User.class);
+		var userStream = operations.select(Query.empty(), User.class);
 		userStream.forEach(System.out::println);
 	}
 
 	private void insertEntities() {
 
-		User walter = new User(1, "Walter", "White");
-		User skyler = new User(2, "Skyler", "White");
-		User jesse = new User(3, "Jesse Pinkman", "Jesse Pinkman");
+		var walter = new User(1, "Walter", "White");
+		var skyler = new User(2, "Skyler", "White");
+		var jesse = new User(3, "Jesse Pinkman", "Jesse Pinkman");
 
 		operations.truncate(User.class);
 

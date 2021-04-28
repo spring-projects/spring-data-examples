@@ -50,11 +50,11 @@ class AuditedPersonRepositoryTests {
 	@Test
 	void insertShouldSetCreatedDate() {
 
-		AuditedPerson person = new AuditedPerson();
+		var person = new AuditedPerson();
 		person.setId(42L);
 		person.setNew(true); // Cassandra does not support auto-generation hence we need
 		// to supply whether our object is a new one.
-		AuditedPerson saved = repository.save(person);
+		var saved = repository.save(person);
 
 		assertThat(saved.getCreatedBy()).isEqualTo("Some user");
 		assertThat(saved.getLastModifiedBy()).isEqualTo("Some user");
@@ -70,7 +70,7 @@ class AuditedPersonRepositoryTests {
 	@Test
 	void updateShouldSetLastModifiedDate() {
 
-		AuditedPerson person = new AuditedPerson();
+		var person = new AuditedPerson();
 		person.setId(42L);
 		person.setNew(true); // Cassandra does not support auto-generation hence we need
 		// to supply whether our object is a new one.
@@ -78,7 +78,7 @@ class AuditedPersonRepositoryTests {
 
 		person.setNew(false);
 
-		AuditedPerson modified = repository.save(person);
+		var modified = repository.save(person);
 
 		assertThat(modified.getCreatedBy()).isEqualTo("Some user");
 		assertThat(modified.getLastModifiedBy()).isEqualTo("Some user");

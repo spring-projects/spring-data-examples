@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.cassandra.core.CassandraOperations;
-import org.springframework.data.cassandra.core.EntityWriteResult;
 import org.springframework.data.cassandra.core.UpdateOptions;
 import org.springframework.data.cassandra.core.query.Criteria;
 
@@ -51,13 +50,11 @@ public class OptimisticPersonRepositoryTests {
 	@Test
 	public void insertShouldIncrementVersion() {
 
-		OptimisticPerson person = new OptimisticPerson();
-		person.setId(42L);
-		person.setName("Walter White");
+		var person = new OptimisticPerson(42L, 0, "Walter White");
 
-		OptimisticPerson saved = repository.save(person);
+		var saved = repository.save(person);
 
-		assertThat(saved.getVersion()).isGreaterThan(0);
+		assertThat(saved.version()).isGreaterThan(0);
 	}
 
 	/**
@@ -66,23 +63,21 @@ public class OptimisticPersonRepositoryTests {
 	@Test
 	public void updateShouldDetectChangedEntity() {
 
-		OptimisticPerson person = new OptimisticPerson();
-		person.setId(42L);
-		person.setName("Walter White");
+		var person = new OptimisticPerson(42L, 0, "Walter White");
 
 		// Load the person because we intend to change it.
-		OptimisticPerson saved = repository.save(person);
+		var saved = repository.save(person);
 
 		// Another process has changed the person object in the meantime.
-		OptimisticPerson anotherProcess = repository.findById(person.getId()).get();
-		anotherProcess.setName("Heisenberg");
+		var anotherProcess = repository.findById(person.id()).get();
+		anotherProcess = anotherProcess.withName("Heisenberg");
 		repository.save(anotherProcess);
 
 		// Now it's our turn to modify the object...
-		saved.setName("Walter");
+		var ourSaved = saved.withName("Walter");
 
 		// ...which fails with a OptimisticLockingFailureException, using LWT under the hood.
-		assertThatExceptionOfType(OptimisticLockingFailureException.class).isThrownBy(() -> repository.save(saved));
+		assertThatExceptionOfType(OptimisticLockingFailureException.class).isThrownBy(() -> repository.save(ourSaved));
 	}
 
 	/**
@@ -92,18 +87,18 @@ public class OptimisticPersonRepositoryTests {
 	@Test
 	public void updateUsingLightWeightTransactions() {
 
-		SimplePerson person = new SimplePerson();
+		var person = new SimplePerson();
 		person.setId(42L);
 		person.setName("Walter White");
 
 		operations.insert(person);
 
-		EntityWriteResult<SimplePerson> success = operations.update(person,
+		var success = operations.update(person,
 				UpdateOptions.builder().ifCondition(Criteria.where("name").is("Walter White")).build());
 
 		assertThat(success.wasApplied()).isTrue();
 
-		EntityWriteResult<SimplePerson> failed = operations.update(person,
+		var failed = operations.update(person,
 				UpdateOptions.builder().ifCondition(Criteria.where("name").is("Heisenberg")).build());
 
 		assertThat(failed.wasApplied()).isFalse();

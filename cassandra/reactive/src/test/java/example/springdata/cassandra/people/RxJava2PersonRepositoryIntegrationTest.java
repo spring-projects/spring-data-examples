@@ -45,9 +45,9 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 
-		Completable deleteAll = repository.deleteAll();
+		var deleteAll = repository.deleteAll();
 
-		Flowable<Person> save = repository.saveAll(Flowable.just(new Person("Walter", "White", 50), //
+		var save = repository.saveAll(Flowable.just(new Person("Walter", "White", 50), //
 				new Person("Skyler", "White", 45), //
 				new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)));

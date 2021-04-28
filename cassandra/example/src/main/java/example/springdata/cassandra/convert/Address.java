@@ -15,10 +15,6 @@
  */
 package example.springdata.cassandra.convert;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import org.springframework.data.cassandra.core.mapping.Element;
 import org.springframework.data.cassandra.core.mapping.Tuple;
 
@@ -27,13 +23,7 @@ import org.springframework.data.cassandra.core.mapping.Tuple;
  *
  * @author Mark Paluch
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Tuple
-public class Address {
+public record Address(@Element(0) String address, @Element(1) String city, @Element(2) String zip) {
 
-	@Element(0) String address;
-	@Element(1) String city;
-	@Element(2) String zip;
 }

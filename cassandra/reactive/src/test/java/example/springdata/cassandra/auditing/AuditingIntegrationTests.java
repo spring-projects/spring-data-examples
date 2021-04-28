@@ -41,7 +41,7 @@ public class AuditingIntegrationTests {
 	@Test
 	public void shouldUpdateAuditor() throws InterruptedException {
 
-		Order order = new Order("4711");
+		var order = new Order("4711");
 		order.setNew(true);
 
 		orderRepository.save(order).as(StepVerifier::create).assertNext(actual -> {

@@ -23,10 +23,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 /**
  * @author Mark Paluch
  */
-@Value
 @Table
-class Customer {
+record Customer(@Id String id, String firstname, String lastname) {
 
-	@Id String id;
-	String firstname, lastname;
 }

@@ -15,18 +15,12 @@
  */
 package example.springdata.cassandra.udt;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 /**
  * @author Mark Paluch
  */
-@Data
 @UserDefinedType
-@AllArgsConstructor
-public class Address {
+public record Address(String street, String zip, String city) {
 
-	String street, zip, city;
 }

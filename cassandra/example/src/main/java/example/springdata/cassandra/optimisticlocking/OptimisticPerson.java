@@ -15,8 +15,6 @@
  */
 package example.springdata.cassandra.optimisticlocking;
 
-import lombok.Data;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.cassandra.core.mapping.Table;
@@ -27,14 +25,10 @@ import org.springframework.data.cassandra.core.mapping.Table;
  *
  * @author Mark Paluch
  */
-@Data
 @Table
-public class OptimisticPerson {
+public record OptimisticPerson(@Id Long id, @Version long version, String name) {
 
-	@Id Long id;
-
-	@Version long version;
-
-	String name;
-
+	public OptimisticPerson withName(String name) {
+		return new OptimisticPerson(id, version, name);
+	}
 }

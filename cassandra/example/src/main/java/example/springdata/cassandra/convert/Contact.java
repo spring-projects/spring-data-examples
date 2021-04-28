@@ -15,20 +15,11 @@
  */
 package example.springdata.cassandra.convert;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * Sample Contact class.
  *
  * @author Mark Paluch
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Contact {
+public record Contact(String firstname, String lastname) {
 
-	String firstname;
-	String lastname;
 }

@@ -53,7 +53,7 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void projectsEntityIntoInterface() {
 
-		Collection<CustomerProjection> result = customers.findAllProjectedBy();
+		var result = customers.findAllProjectedBy();
 
 		assertThat(result).hasSize(2);
 		assertThat(result.iterator().next().getFirstname()).isEqualTo("Carter");
@@ -62,7 +62,7 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void projectsDynamically() {
 
-		Collection<CustomerProjection> result = customers.findById("d", CustomerProjection.class);
+		var result = customers.findById("d", CustomerProjection.class);
 
 		assertThat(result).hasSize(1);
 		assertThat(result.iterator().next().getFirstname()).isEqualTo("Dave");
@@ -71,7 +71,7 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void projectsIndividualDynamically() {
 
-		CustomerSummary result = customers.findProjectedById(dave.getId(), CustomerSummary.class);
+		var result = customers.findProjectedById(dave.id(), CustomerSummary.class);
 
 		assertThat(result).isNotNull();
 		assertThat(result.getFullName()).isEqualTo("Dave Matthews");
@@ -83,7 +83,7 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void projectIndividualInstance() {
 
-		CustomerProjection result = customers.findProjectedById(dave.getId());
+		var result = customers.findProjectedById(dave.id());
 
 		assertThat(result).isNotNull();
 		assertThat(result.getFirstname()).isEqualTo("Dave");

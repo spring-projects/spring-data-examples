@@ -15,10 +15,6 @@
  */
 package example.springdata.cassandra.events;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -27,14 +23,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
  *
  * @author Mark Paluch
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(value = "users")
-public class User {
+public record User(@PrimaryKey long id, String firstname, String lastname) {
 
-	private @PrimaryKey long id;
-
-	private String firstname;
-	private String lastname;
 }

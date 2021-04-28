@@ -47,7 +47,7 @@ class ReactiveCassandraTemplateIntegrationTest {
 	@BeforeEach
 	void setUp() {
 
-		Flux<Person> truncateAndInsert = template.truncate(Person.class) //
+		var truncateAndInsert = template.truncate(Person.class) //
 				.thenMany(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
@@ -64,7 +64,7 @@ class ReactiveCassandraTemplateIntegrationTest {
 	@Test
 	void shouldInsertAndCountData() {
 
-		Mono<Long> saveAndCount = template.count(Person.class) //
+		var saveAndCount = template.count(Person.class) //
 				.doOnNext(System.out::println) //
 				.thenMany(Flux.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))
@@ -82,7 +82,7 @@ class ReactiveCassandraTemplateIntegrationTest {
 	@Test
 	void convertReactorTypesToRxJava1() throws Exception {
 
-		Flux<Person> flux = template.select("SELECT * FROM person WHERE lastname = 'White'", Person.class);
+		var flux = template.select("SELECT * FROM person WHERE lastname = 'White'", Person.class);
 
 		long count = RxReactiveStreams.toObservable(flux) //
 				.count() //

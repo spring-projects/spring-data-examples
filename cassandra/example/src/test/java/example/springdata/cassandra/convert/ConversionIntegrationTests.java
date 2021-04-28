@@ -35,7 +35,6 @@ import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.core.data.TupleValue;
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 
-
 /**
  * @author Mark Paluch
  */
@@ -57,7 +56,7 @@ class ConversionIntegrationTests {
 	@Test
 	void shouldCreateAddressbook() {
 
-		Addressbook addressbook = new Addressbook();
+		var addressbook = new Addressbook();
 		addressbook.setId("private");
 
 		addressbook.setMe(new Contact("Walter", "White"));
@@ -65,7 +64,7 @@ class ConversionIntegrationTests {
 
 		operations.insert(addressbook);
 
-		Row row = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Row.class);
+		var row = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Row.class);
 
 		assertThat(row).isNotNull();
 
@@ -81,7 +80,7 @@ class ConversionIntegrationTests {
 	@Test
 	void shouldReadAddressbook() {
 
-		Addressbook addressbook = new Addressbook();
+		var addressbook = new Addressbook();
 		addressbook.setId("private");
 
 		addressbook.setMe(new Contact("Walter", "White"));
@@ -89,7 +88,7 @@ class ConversionIntegrationTests {
 
 		operations.insert(addressbook);
 
-		Addressbook loaded = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Addressbook.class);
+		var loaded = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Addressbook.class);
 
 		assertThat(loaded.getMe()).isEqualTo(addressbook.getMe());
 		assertThat(loaded.getFriends()).isEqualTo(addressbook.getFriends());
@@ -103,18 +102,18 @@ class ConversionIntegrationTests {
 	@Test
 	void shouldReadCustomAddressbook() {
 
-		Addressbook addressbook = new Addressbook();
+		var addressbook = new Addressbook();
 		addressbook.setId("private");
 
 		addressbook.setMe(new Contact("Walter", "White"));
 
 		operations.insert(addressbook);
 
-		CustomAddressbook loaded = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(),
+		var loaded = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(),
 				CustomAddressbook.class);
 
-		assertThat(loaded.getTheId()).isEqualTo(addressbook.getId());
-		assertThat(loaded.getMyDetailsAsJson()).contains("\"firstname\":\"Walter\"");
+		assertThat(loaded.theId()).isEqualTo(addressbook.getId());
+		assertThat(loaded.myDetailsAsJson()).contains("\"firstname\":\"Walter\"");
 	}
 
 	/**
@@ -123,33 +122,30 @@ class ConversionIntegrationTests {
 	@Test
 	void shouldWriteConvertedMapsAndTuples() {
 
-		Addressbook addressbook = new Addressbook();
+		var addressbook = new Addressbook();
 		addressbook.setId("private");
 
 		Map<Integer, Currency> preferredCurrencies = new HashMap<>();
 		preferredCurrencies.put(1, Currency.getInstance("USD"));
 		preferredCurrencies.put(2, Currency.getInstance("EUR"));
 
-		Address address = new Address();
-		address.setAddress("3828 Piermont Dr");
-		address.setCity("Albuquerque");
-		address.setZip("87111");
+		var address = new Address("3828 Piermont Dr", "Albuquerque", "87111");
 
 		addressbook.setPreferredCurrencies(preferredCurrencies);
 		addressbook.setAddress(address);
 
 		operations.insert(addressbook);
 
-		Row row = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Row.class);
+		var row = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(), Row.class);
 
 		assertThat(row).isNotNull();
 
-		TupleValue tupleValue = row.getTupleValue("address");
-		assertThat(tupleValue.getString(0)).isEqualTo(address.getAddress());
-		assertThat(tupleValue.getString(1)).isEqualTo(address.getCity());
-		assertThat(tupleValue.getString(2)).isEqualTo(address.getZip());
+		var tupleValue = row.getTupleValue("address");
+		assertThat(tupleValue.getString(0)).isEqualTo(address.address());
+		assertThat(tupleValue.getString(1)).isEqualTo(address.city());
+		assertThat(tupleValue.getString(2)).isEqualTo(address.zip());
 
-		Map<Integer, String> rawPreferredCurrencies = row.getMap("preferredCurrencies", Integer.class, String.class);
+		var rawPreferredCurrencies = row.getMap("preferredCurrencies", Integer.class, String.class);
 
 		assertThat(rawPreferredCurrencies).containsEntry(1, "USD").containsEntry(2, "EUR");
 	}

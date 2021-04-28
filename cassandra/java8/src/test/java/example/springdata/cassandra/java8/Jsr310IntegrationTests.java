@@ -47,7 +47,7 @@ class Jsr310IntegrationTests {
 	@Test
 	void findOneByJsr310Types() {
 
-		Order order = new Order("42", LocalDate.now(), ZoneId.systemDefault());
+		var order = new Order("42", LocalDate.now(), ZoneId.systemDefault());
 
 		repository.save(order);
 
