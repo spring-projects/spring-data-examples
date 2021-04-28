@@ -17,9 +17,8 @@ package example.springdata.map;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,7 +42,7 @@ class PersonRepositoryIntegrationTest {
 	@Test
 	void storesPerson() {
 
-		Person person = repository.save(new Person("Dave", "Matthews", 47));
+		var person = repository.save(new Person("Dave", "Matthews", 47));
 
 		assertThat(repository.findById(person.getId())).hasValue(person);
 	}
@@ -51,12 +50,11 @@ class PersonRepositoryIntegrationTest {
 	@Test
 	void findsPersonByAge() {
 
-		Person dave = repository.save(new Person("Dave", "Matthews", 47));
-		Person oliver = repository.save(new Person("Oliver August", "Matthews", 7));
+		var dave = repository.save(new Person("Dave", "Matthews", 47));
+		var oliver = repository.save(new Person("Oliver August", "Matthews", 7));
 
-		List<Person> result = repository.findByAgeGreaterThan(18);
+		var result = repository.findByAgeGreaterThan(18);
 
-		assertThat(result).contains(dave);
-		assertThat(result).doesNotContain(oliver);
+		assertThat(result).contains(dave).doesNotContain(oliver);
 	}
 }

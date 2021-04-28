@@ -17,9 +17,6 @@ package example.springdata.ldap;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 
@@ -47,7 +44,7 @@ public class PersonRepositoryIntegrationTests {
 	@Test
 	void findOneByName() throws InvalidNameException {
 
-		Optional<Person> person = personRepository.findById(new LdapName("uid=bob,ou=people,dc=springframework,dc=org"));
+		var person = personRepository.findById(new LdapName("uid=bob,ou=people,dc=springframework,dc=org"));
 
 		assertThat(person).hasValueSatisfying(it -> {
 			assertThat(it.getFullName()).isEqualTo("Bob Hamilton");
@@ -62,7 +59,7 @@ public class PersonRepositoryIntegrationTests {
 	@Test
 	void findAll() {
 
-		Iterable<Person> people = personRepository.findAll();
+		var people = personRepository.findAll();
 
 		assertThat(people).hasSize(3).extracting("uid").contains("bob", "joe", "ben");
 	}
@@ -73,7 +70,7 @@ public class PersonRepositoryIntegrationTests {
 	@Test
 	void findByLastname() {
 
-		List<Person> people = personRepository.findByLastnameStartsWith("Ham");
+		var people = personRepository.findByLastnameStartsWith("Ham");
 
 		assertThat(people).hasSize(1).extracting("uid").contains("bob");
 	}
@@ -86,14 +83,14 @@ public class PersonRepositoryIntegrationTests {
 	@Test
 	void addUser() throws InvalidNameException {
 
-		Person walter = new Person();
+		var walter = new Person();
 		walter.setFullName("Walter White");
 		walter.setUid("heisenberg");
 		walter.setLastname("White");
 
 		personRepository.save(walter);
 
-		List<Person> people = personRepository.findByUid("heisenberg");
+		var people = personRepository.findByUid("heisenberg");
 
 		assertThat(people).hasSize(1).extracting("fullName").contains("Walter White");
 
