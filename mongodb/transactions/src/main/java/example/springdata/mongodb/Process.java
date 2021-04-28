@@ -15,9 +15,6 @@
  */
 package example.springdata.mongodb;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -25,13 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Christoph Strobl
  * @currentRead The Core - Peter V. Brett
  */
-@Data
-@AllArgsConstructor
 @Document("processes")
-public class Process {
-
-	@Id Integer id;
-	State state;
-	int transitionCount;
+public record Process(@Id Integer id, State state, int transitionCount) {
 
 }

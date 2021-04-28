@@ -33,7 +33,7 @@ public class ConsoleResultPrinter {
 		System.out.println(String.format("XXXXXXXXXXXX -- Found %s blogPosts matching '%s' --XXXXXXXXXXXX",
 				blogPosts.size(), criteria != null ? criteria.getCriteriaObject() : ""));
 
-		for (BlogPost blogPost : blogPosts) {
+		for (var blogPost : blogPosts) {
 			System.out.println(blogPost);
 		}
 

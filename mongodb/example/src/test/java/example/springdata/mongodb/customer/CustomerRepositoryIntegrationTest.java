@@ -65,7 +65,7 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void setsIdOnSave() {
 
-		Customer dave = repository.save(new Customer("Dave", "Matthews"));
+		var dave = repository.save(new Customer("Dave", "Matthews"));
 		assertThat(dave.getId(), is(notNullValue()));
 	}
 
@@ -75,8 +75,8 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void findCustomersUsingQuerydslSort() {
 
-		QCustomer customer = QCustomer.customer;
-		List<Customer> result = repository.findByLastname("Matthews", new QSort(customer.firstname.asc()));
+		var customer = QCustomer.customer;
+		var result = repository.findByLastname("Matthews", new QSort(customer.firstname.asc()));
 
 		assertThat(result, hasSize(2));
 		assertThat(result.get(0), is(dave));
@@ -89,7 +89,7 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void findCustomersAsStream() {
 
-		try (Stream<Customer> result = repository.findAllByCustomQueryWithStream()) {
+		try (var result = repository.findAllByCustomQueryWithStream()) {
 			result.forEach(System.out::println);
 		}
 	}
@@ -100,24 +100,24 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void exposesGeoSpatialFunctionality() {
 
-		GeospatialIndex indexDefinition = new GeospatialIndex("address.location");
+		var indexDefinition = new GeospatialIndex("address.location");
 		indexDefinition.getIndexOptions().put("min", -180);
 		indexDefinition.getIndexOptions().put("max", 180);
 
 		operations.indexOps(Customer.class).ensureIndex(indexDefinition);
 
-		Customer ollie = new Customer("Oliver", "Gierke");
+		var ollie = new Customer("Oliver", "Gierke");
 		ollie.setAddress(new Address(new Point(52.52548, 13.41477)));
 		ollie = repository.save(ollie);
 
-		Point referenceLocation = new Point(52.51790, 13.41239);
-		Distance oneKilometer = new Distance(1, Metrics.KILOMETERS);
+		var referenceLocation = new Point(52.51790, 13.41239);
+		var oneKilometer = new Distance(1, Metrics.KILOMETERS);
 
-		GeoResults<Customer> result = repository.findByAddressLocationNear(referenceLocation, oneKilometer);
+		var result = repository.findByAddressLocationNear(referenceLocation, oneKilometer);
 
 		assertThat(result.getContent(), hasSize(1));
 
-		Distance distanceToFirstStore = result.getContent().get(0).getDistance();
+		var distanceToFirstStore = result.getContent().get(0).getDistance();
 		assertThat(distanceToFirstStore.getMetric(), is(Metrics.KILOMETERS));
 		assertThat(distanceToFirstStore.getValue(), closeTo(0.862, 0.001));
 	}

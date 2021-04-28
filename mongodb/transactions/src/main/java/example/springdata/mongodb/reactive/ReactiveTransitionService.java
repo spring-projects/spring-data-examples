@@ -56,19 +56,19 @@ public class ReactiveTransitionService {
 					.flatMap(it -> verify(it)) //
 					.flatMap(process -> finish(action, process));
 
-		}).next().map(Process::getId);
+		}).next().map(Process::id);
 	}
 
 	private Mono<Process> finish(ReactiveMongoOperations operations, Process process) {
 
-		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.getId())))
+		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
 				.apply(Update.update("state", State.DONE).inc("transitionCount", 1)).first() //
 				.then(Mono.just(process));
 	}
 
 	Mono<Process> start(ReactiveMongoOperations operations, Process process) {
 
-		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.getId())))
+		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
 				.apply(Update.update("state", State.ACTIVE).inc("transitionCount", 1)).first() //
 				.then(Mono.just(process));
 	}
@@ -79,7 +79,7 @@ public class ReactiveTransitionService {
 
 	Mono<Process> verify(Process process) {
 
-		Assert.state(process.getId() % 3 != 0, "We're sorry but we needed to drop that one");
+		Assert.state(process.id() % 3 != 0, "We're sorry but we needed to drop that one");
 		return Mono.just(process);
 	}
 }

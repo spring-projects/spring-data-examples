@@ -37,9 +37,7 @@ public class RepositoryMetricsConfiguration {
 		@Override
 		public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
-			if (bean instanceof RepositoryFactoryBeanSupport) {
-
-				RepositoryFactoryBeanSupport<?, ?, ?> repositoryFactoryBean = (RepositoryFactoryBeanSupport<?, ?, ?>) bean;
+			if (bean instanceof RepositoryFactoryBeanSupport<?, ?, ?> repositoryFactoryBean) {
 
 				repositoryFactoryBean.addRepositoryFactoryCustomizer(repositoryFactory -> {
 					repositoryFactory.addInvocationListener(System.out::println);

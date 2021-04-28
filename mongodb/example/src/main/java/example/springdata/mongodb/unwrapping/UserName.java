@@ -38,7 +38,7 @@ public class UserName { // might as well be a record type in more recent java ve
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		UserName userName = (UserName) o;
+		var userName = (UserName) o;
 		return Objects.equals(username, userName.username);
 	}
 

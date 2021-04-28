@@ -15,9 +15,6 @@
  */
 package example.springdata.mongodb.aggregation;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.annotation.PersistenceConstructor;
 
 /**
@@ -26,18 +23,15 @@ import org.springframework.data.annotation.PersistenceConstructor;
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
-@Data
-@RequiredArgsConstructor(onConstructor = @__(@PersistenceConstructor))
-public class LineItem {
 
-	private final String caption;
-	private final double price;
+public record LineItem(String caption, double price, int quantity) {
 
-	int quantity = 1;
-
-	public LineItem(String caption, double price, int quantity) {
-
-		this(caption, price);
-		this.quantity = quantity;
+	@PersistenceConstructor
+	public LineItem {
 	}
+
+	public LineItem(String caption, double price) {
+		this(caption, price, 1);
+	}
+
 }

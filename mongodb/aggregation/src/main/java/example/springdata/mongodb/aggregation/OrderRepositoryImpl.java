@@ -48,7 +48,7 @@ class OrderRepositoryImpl implements OrderRepositoryCustom {
 	@Override
 	public Invoice getInvoiceFor(Order order) {
 
-		AggregationResults<Invoice> results = operations.aggregate(newAggregation(Order.class, //
+		var results = operations.aggregate(newAggregation(Order.class, //
 				match(where("id").is(order.getId())), //
 				unwind("items"), //
 				project("id", "customerId", "items") //

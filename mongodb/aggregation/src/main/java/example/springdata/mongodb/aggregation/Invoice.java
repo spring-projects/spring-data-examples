@@ -17,20 +17,12 @@ package example.springdata.mongodb.aggregation;
 
 import java.util.List;
 
-import lombok.Value;
-
 /**
  * A DTO to represent invoices.
  *
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
-@Value
-public class Invoice {
+public record Invoice(String orderId, double taxAmount, double netAmount, double totalAmount, List<LineItem> items) {
 
-	private final String orderId;
-	private final double taxAmount;
-	private final double netAmount;
-	private final double totalAmount;
-	private final List<LineItem> items;
 }

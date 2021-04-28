@@ -80,7 +80,7 @@ public class Customer {
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		Customer customer = (Customer) o;
+		var customer = (Customer) o;
 
 		if (id != null ? !id.equals(customer.id) : customer.id != null)
 			return false;
@@ -91,7 +91,7 @@ public class Customer {
 
 	@Override
 	public int hashCode() {
-		int result = id != null ? id.hashCode() : 0;
+		var result = id != null ? id.hashCode() : 0;
 		result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
 		result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
 		return result;

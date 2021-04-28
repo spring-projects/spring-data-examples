@@ -59,8 +59,8 @@ public class TextSearchTemplateTests {
 	@Test
 	public void findAllBlogPostsWithRelease() {
 
-		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny("release");
-		List<BlogPost> blogPosts = operations.find(query(criteria), BlogPost.class);
+		var criteria = TextCriteria.forDefaultLanguage().matchingAny("release");
+		var blogPosts = operations.find(query(criteria), BlogPost.class);
 
 		printResult(blogPosts, criteria);
 	}
@@ -71,13 +71,13 @@ public class TextSearchTemplateTests {
 	@Test
 	public void findAllBlogPostsByPhraseSortByScore() {
 
-		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release");
+		var criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release");
 
-		TextQuery query = new TextQuery(criteria);
+		var query = new TextQuery(criteria);
 		query.setScoreFieldName("score");
 		query.sortByScore();
 
-		List<BlogPost> blogPosts = operations.find(query, BlogPost.class);
+		var blogPosts = operations.find(query, BlogPost.class);
 
 		printResult(blogPosts, criteria);
 	}

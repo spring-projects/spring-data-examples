@@ -53,13 +53,13 @@ class UnwrappingIntegrationTests {
 	@Test
 	void documentStructure() {
 
-		org.bson.Document stored = operations.execute(User.class, collection -> {
+		var stored = operations.execute(User.class, collection -> {
 			return collection.find(Filters.eq("_id", rogelio.getId())).first();
 		});
 
 		assertThat(stored).containsAllEntriesOf(new Document("_id", rogelio.getId())
 				.append("username", rogelio.getUserName().getUsername())
-				.append("primary_email", rogelio.getEmail().getEmail())
+				.append("primary_email", rogelio.getEmail().email())
 		);
 	}
 
@@ -77,6 +77,6 @@ class UnwrappingIntegrationTests {
 	 */
 	@Test
 	void queryViaPropertyOfValueType() {
-		assertThat(repository.findByEmailEmail(jane.getEmail().getEmail())).isEqualTo(jane);
+		assertThat(repository.findByEmailEmail(jane.getEmail().email())).isEqualTo(jane);
 	}
 }

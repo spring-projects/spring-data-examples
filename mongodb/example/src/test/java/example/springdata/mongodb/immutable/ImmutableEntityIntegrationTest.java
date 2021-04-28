@@ -17,6 +17,7 @@ package example.springdata.mongodb.immutable;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,12 +50,29 @@ public class ImmutableEntityIntegrationTest {
 	@Test
 	public void setsRandomNumberOnSave() {
 
-		ImmutablePerson unsaved = new ImmutablePerson();
+		var unsaved = new ImmutablePerson();
 		assertThat(unsaved.getRandomNumber()).isZero();
 
-		ImmutablePerson saved = operations.save(unsaved);
+		var saved = operations.save(unsaved);
 
 		assertThat(saved.getId()).isNotNull();
 		assertThat(saved.getRandomNumber()).isNotZero();
 	}
+
+	/**
+	 * Test case to show that automatically generated ids are assigned to the immutable domain object and how the
+	 * {@link ImmutableRecord#getRandomNumber()} gets set via {@link ApplicationConfiguration#beforeConvertCallback()}.
+	 */
+	@Test
+	public void setsRandomNumberOnSaveRecord() {
+
+		var unsaved = new ImmutableRecord(null, 0);
+		assertThat(unsaved.randomNumber()).isZero();
+
+		var saved = operations.save(unsaved);
+
+		assertThat(saved.id()).isNotNull();
+		assertThat(saved.randomNumber()).isNotZero();
+	}
+
 }

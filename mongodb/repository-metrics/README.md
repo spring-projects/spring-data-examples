@@ -3,6 +3,7 @@
 Configure a `RepositoryMethodInvocationListener` to capture invocation metrics on `Repository` interfaces.
 
 ```java
+
 @Configuration(proxyBeanMethods = false)
 class RepositoryMetricsConfiguration {
 
@@ -16,13 +17,13 @@ class RepositoryMetricsConfiguration {
 		@Override
 		public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
-			if (bean instanceof RepositoryFactoryBeanSupport) {
+			if (bean instanceof RepositoryFactoryBeanSupport<?, ?, ?> repositoryFactoryBean) {
 
-				RepositoryFactoryBeanSupport<?, ?, ?> repositoryFactoryBean = (RepositoryFactoryBeanSupport<?, ?, ?>) bean;
-
-				repositoryFactoryBean.addRepositoryFactoryCustomizer(repositoryFactory -> {
-					repositoryFactory.addInvocationListener(System.out::println);  // register the invocation listener
-				});
+				repositoryFactoryBean
+						.addRepositoryFactoryCustomizer(repositoryFactory -> {
+							repositoryFactory
+									.addInvocationListener(System.out::println);  // register the invocation listener
+						});
 			}
 
 			return bean;

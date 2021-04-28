@@ -111,7 +111,7 @@ public class FluentMongoApiTests {
 	@Test
 	public void fetchInterfaceProjection() {
 
-		Sith anakin = mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
+		var anakin = mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
 				.as(Sith.class) // use an interface as return type to create a projection
 				.matching(query(where("firstname").is("anakin"))) // so properties are taken as is
 				.oneValue();
@@ -179,7 +179,7 @@ public class FluentMongoApiTests {
 	@Test
 	public void geoNearQuery() {
 
-		GeoResults<Jedi> results = mongoOps.query(SWCharacter.class) // SWCharacter defines collection, id and name
+		var results = mongoOps.query(SWCharacter.class) // SWCharacter defines collection, id and name
 				.as(Jedi.class) // but we want to map the results to Jedi
 				.near(alderaanWithin3Parsecs) // and find those with home planet near alderaan
 				.all();
@@ -204,7 +204,7 @@ public class FluentMongoApiTests {
 	@Test
 	public void querySpecificCollection() {
 
-		List<Human> skywalkers = mongoOps.query(Human.class) // Human does not define a collection via @Document
+		var skywalkers = mongoOps.query(Human.class) // Human does not define a collection via @Document
 				.inCollection("star-wars") // so we set an explicit collection name
 				.matching(query(where("lastname").is("skywalker"))) // to find all documents with a matching "lastname"
 				.all();
@@ -218,7 +218,7 @@ public class FluentMongoApiTests {
 	@Test
 	public void justInsertOne() {
 
-		SWCharacter chewbacca = new SWCharacter("Chewbacca");
+		var chewbacca = new SWCharacter("Chewbacca");
 
 		mongoOps.insert(SWCharacter.class).one(chewbacca);
 
@@ -241,7 +241,7 @@ public class FluentMongoApiTests {
 	@Test
 	public void updateAndUpsert() {
 
-		UpdateResult result = mongoOps.update(Jedi.class) // Jedi defines the collection and field mapping
+		var result = mongoOps.update(Jedi.class) // Jedi defines the collection and field mapping
 				.matching(query(where("lastname").is("windu"))) // so "last" maps to "lastname".
 				.apply(update("name", "mence")) // We'll update the "firstname" to "mence"
 				.upsert(); // and add a new document if it does not exist already.

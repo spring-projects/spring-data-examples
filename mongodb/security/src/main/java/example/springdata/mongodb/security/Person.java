@@ -15,21 +15,21 @@
  */
 package example.springdata.mongodb.security;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 /**
  * An entity to represent a {@link Person}.
  *
  * @author Thomas Darimont
  */
-@Data
-@RequiredArgsConstructor
-public class Person {
+public record Person(@Id String id, String firstname, String lastname) {
 
-	private @Id String id;
-	private final String firstname;
-	private final String lastname;
+	@PersistenceConstructor
+	public Person {
+	}
+
+	public Person(String firstname, String lastname) {
+		this(null, firstname, lastname);
+	}
 }

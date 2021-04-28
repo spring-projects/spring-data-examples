@@ -15,9 +15,8 @@
  */
 package example.springdata.mongodb;
 
-import lombok.Data;
-
 import org.bson.types.ObjectId;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -29,21 +28,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
  *
  * @author Christoph Strobl
  */
-@Data
-class Person {
-
-	@Id ObjectId id;
-
-	@Field("first_name") private String firstname;
-
-	@Field("last_name") private String lastname;
-
-	private int age;
-
-	Person(String firstname, String lastname, int age) {
-
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.age = age;
+record Person(@Id ObjectId id, @Field("first_name") String firstname, @Field("last_name") String lastname, int age) {
+	public Person(String firstname, String lastname, int age) {
+		this(null, firstname, lastname, age);
 	}
 }

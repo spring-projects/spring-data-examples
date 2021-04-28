@@ -15,17 +15,11 @@
  */
 package example.springdata.mongodb.aggregation;
 
-import lombok.Value;
-
 import org.springframework.data.annotation.Id;
 
 /**
  * @author Christoph Strobl
  */
-@Value
-public class OrdersPerCustomer {
+public record OrdersPerCustomer(@Id String customerId, Long total) {
 
-	@Id //
-	private String customerId;
-	private Long total;
 }

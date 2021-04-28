@@ -65,7 +65,7 @@ public class GridFsTests {
 		}
 
 		// get file or resource by filename
-		GridFSFile file = gridFsOperations.findOne(query(whereFilename().is("example-file.txt")));
+		var file = gridFsOperations.findOne(query(whereFilename().is("example-file.txt")));
 
 		assertThat(file.getFilename()).isEqualTo("example-file.txt");
 	}
@@ -76,12 +76,12 @@ public class GridFsTests {
 		try (InputStream is = new BufferedInputStream(new ClassPathResource("./example-file.txt").getInputStream())) {
 
 			// store file with metaData
-			Customer customerMetaData = new Customer("Hardy", "Lang");
+			var customerMetaData = new Customer("Hardy", "Lang");
 			gridFsOperations.store(is, "example-file.txt", customerMetaData);
 		}
 
 		// search by metaData
-		GridFSFile file = gridFsOperations.findOne(query(whereMetaData("firstName").is("Hardy")));
+		var file = gridFsOperations.findOne(query(whereMetaData("firstName").is("Hardy")));
 		assertThat(file.getFilename()).isEqualTo("example-file.txt");
 	}
 
@@ -96,10 +96,10 @@ public class GridFsTests {
 		// store file
 		gridFsOperations.store(new ByteArrayInputStream(bytes), "example-file.txt");
 
-		GridFsResource resource = gridFsOperations.getResource("example-file.txt");
+		var resource = gridFsOperations.getResource("example-file.txt");
 
 		byte[] loaded;
-		try (InputStream is = resource.getInputStream()) {
+		try (var is = resource.getInputStream()) {
 			loaded = StreamUtils.copyToByteArray(is);
 		}
 

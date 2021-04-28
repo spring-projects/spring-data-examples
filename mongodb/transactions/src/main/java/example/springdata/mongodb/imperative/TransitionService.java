@@ -49,9 +49,9 @@ class TransitionService {
 	@Transactional
 	public void run(Integer id) {
 
-		Process process = lookup(id);
+		var process = lookup(id);
 
-		if (!State.CREATED.equals(process.getState())) {
+		if (!State.CREATED.equals(process.state())) {
 			return;
 		}
 
@@ -62,13 +62,13 @@ class TransitionService {
 
 	private void finish(Process process) {
 
-		template.update(Process.class).matching(Query.query(Criteria.where("id").is(process.getId())))
+		template.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
 				.apply(Update.update("state", State.DONE).inc("transitionCount", 1)).first();
 	}
 
 	void start(Process process) {
 
-		template.update(Process.class).matching(Query.query(Criteria.where("id").is(process.getId())))
+		template.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
 				.apply(Update.update("state", State.ACTIVE).inc("transitionCount", 1)).first();
 	}
 
@@ -77,6 +77,6 @@ class TransitionService {
 	}
 
 	void verify(Process process) {
-		Assert.state(process.getId() % 3 != 0, "We're sorry but we needed to drop that one");
+		Assert.state(process.id() % 3 != 0, "We're sorry but we needed to drop that one");
 	}
 }

@@ -114,11 +114,11 @@ public class StoreRepositoryTests {
 	@Test
 	public void findStoresThatIntersectGivenPolygon() {
 
-		Document geoJsonDbo = new Document();
+		var geoJsonDbo = new Document();
 
 		operations.getConverter().write(GEO_JSON_POLYGON, geoJsonDbo);
 
-		BasicQuery bq = new BasicQuery(
+		var bq = new BasicQuery(
 				new Document("location", new Document("$geoIntersects", new Document("$geometry", geoJsonDbo))));
 
 		operations.find(bq, Store.class).forEach(System.out::println);

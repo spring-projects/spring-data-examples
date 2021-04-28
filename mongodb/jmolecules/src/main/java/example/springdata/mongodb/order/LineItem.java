@@ -15,12 +15,8 @@
  */
 package example.springdata.mongodb.order;
 
-import lombok.Value;
-
 import org.jmolecules.ddd.annotation.ValueObject;
 
-@Value
 @ValueObject
-public class LineItem {
-	String description;
+public record LineItem(String description) {
 }

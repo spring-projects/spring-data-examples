@@ -15,7 +15,6 @@
  */
 package example.springdata.mongodb;
 
-import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
@@ -39,19 +38,15 @@ class DemoApplicationTests {
 	@Test
 	void repositoryMetrics() throws InterruptedException {
 
-		Person fiona = new Person();
-		fiona.id = "p-1";
-		fiona.name = "fiona";
+		var fiona = new Person("p-1", "fiona");
 
-		Person frank = new Person();
-		frank.id = "p-2";
-		frank.name = "frank";
+		var frank = new Person("p-2", "frank");
 
 		System.out.println("- Execute - Save Fiona -");
 		repo.save(fiona).then().as(StepVerifier::create).verifyComplete();
 
 		System.out.println("- Prepare - Find All -"); // Nothing captured - Invocation will happen in line 53 when subscribing
-		Flux<Person> all = repo.findAll();
+		var all = repo.findAll();
 
 		System.out.println("- Execute - Save Frank -");
 		repo.save(frank).as(StepVerifier::create).expectNextCount(1).verifyComplete();

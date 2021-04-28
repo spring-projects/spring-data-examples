@@ -17,7 +17,7 @@ package example.springdata.mongodb.immutable;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Wither;
+import lombok.With;
 
 import org.bson.types.ObjectId;
 
@@ -26,7 +26,7 @@ import org.bson.types.ObjectId;
  *
  * @author Mark Paluch
  */
-@Wither
+@With
 @Getter
 @RequiredArgsConstructor
 public class ImmutablePerson {

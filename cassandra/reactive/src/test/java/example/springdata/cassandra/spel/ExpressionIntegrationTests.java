@@ -60,7 +60,7 @@ class ExpressionIntegrationTests {
 		employeeRepository.findAllByName("Walter") //
 				.contextWrite(Context.of(Tenant.class, new Tenant("breaking-bad"))).as(StepVerifier::create) //
 				.assertNext(actual -> {
-					assertThat(actual.getTenantId()).isEqualTo("breaking-bad");
+					assertThat(actual.tenantId()).isEqualTo("breaking-bad");
 				}).verifyComplete();
 
 	}

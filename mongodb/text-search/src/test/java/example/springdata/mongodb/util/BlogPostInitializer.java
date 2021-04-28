@@ -50,12 +50,12 @@ public enum BlogPostInitializer {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void loadFromClasspathSource(MongoOperations operations) throws Exception {
 
-		Jackson2ResourceReader reader = new Jackson2ResourceReader();
+		var reader = new Jackson2ResourceReader();
 
-		Object source = reader.readFrom(new ClassPathResource("spring-blog.atom.json"), this.getClass().getClassLoader());
+		var source = reader.readFrom(new ClassPathResource("spring-blog.atom.json"), this.getClass().getClassLoader());
 
 		if (source instanceof Iterable) {
-			((Iterable) source).forEach(element -> operations.save(element));
+			((Iterable) source).forEach(operations::save);
 		} else {
 			operations.save(source);
 		}

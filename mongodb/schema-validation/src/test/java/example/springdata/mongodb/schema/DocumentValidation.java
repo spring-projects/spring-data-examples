@@ -74,7 +74,7 @@ public class DocumentValidation {
 	@Test
 	public void criteriaValidator() {
 
-		Validator validator = Validator.criteria( //
+		var validator = Validator.criteria( //
 				where("name").exists(true).ne(null).type(2) // non null String
 						.and("age").exists(true).ne(null).type(16).gte(0).lte(125)) // non null int between 0 and 125
 		;
@@ -116,7 +116,7 @@ public class DocumentValidation {
 	@Test
 	public void schemaValidator() {
 
-		Validator validator = Validator.schema(MongoJsonSchema.builder() //
+		var validator = Validator.schema(MongoJsonSchema.builder() //
 				.required("name", "age") //
 				.properties( //
 						string("name").minLength(1), //

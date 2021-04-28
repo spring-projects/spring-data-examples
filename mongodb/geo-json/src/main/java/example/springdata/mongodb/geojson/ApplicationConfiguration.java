@@ -45,11 +45,11 @@ public class ApplicationConfiguration {
 	 */
 	public @Bean AbstractRepositoryPopulatorFactoryBean repositoryPopulator() {
 
-		ObjectMapper mapper = new ObjectMapper();
+		var mapper = new ObjectMapper();
 		mapper.addMixIn(GeoJsonPoint.class, GeoJsonPointMixin.class);
 		mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		Jackson2RepositoryPopulatorFactoryBean factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
+		var factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
 		factoryBean.setResources(new Resource[] { new ClassPathResource("starbucks-in-nyc.json") });
 		factoryBean.setMapper(mapper);
 

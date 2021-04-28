@@ -51,7 +51,7 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 
 	public Order addLineItem(String description) {
 
-		LineItem item = new LineItem(description);
+		var item = new LineItem(description);
 
 		this.lineItems.add(item);
 
@@ -61,7 +61,7 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 	@Value(staticConstructor = "of")
 	public static class OrderId implements Identifier {
 
-		private final UUID orderId;
+		UUID orderId;
 
 		public static OrderId create() {
 			return OrderId.of(UUID.randomUUID());

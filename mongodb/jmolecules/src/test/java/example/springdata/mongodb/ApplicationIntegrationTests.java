@@ -25,11 +25,10 @@ import example.springdata.mongodb.order.Orders;
 import lombok.RequiredArgsConstructor;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
-import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
-import org.springframework.data.mongodb.core.mapping.MongoPersistentProperty;
 
 /**
  * @author Oliver Drotbohm
@@ -43,9 +42,9 @@ class ApplicationIntegrationTests {
 	@Test
 	void exposesAssociationInMetamodel() {
 
-		MongoMappingContext mapping = context.getBean(MongoMappingContext.class);
-		MongoPersistentEntity<?> entity = mapping.getRequiredPersistentEntity(Order.class);
-		MongoPersistentProperty customer = entity.getRequiredPersistentProperty("customer");
+		var mapping = context.getBean(MongoMappingContext.class);
+		var entity = mapping.getRequiredPersistentEntity(Order.class);
+		var customer = entity.getRequiredPersistentProperty("customer");
 
 		assertThat(customer.isAssociation()).isTrue();
 	}
@@ -53,19 +52,19 @@ class ApplicationIntegrationTests {
 	@Test
 	void persistsDomainModel() {
 
-		Address address = new Address("41 Greystreet", "Dreaming Tree", "2731");
+		var address = new Address("41 Greystreet", "Dreaming Tree", "2731");
 
-		Customers customers = context.getBean(Customers.class);
-		Customer customer = customers.save(new Customer("Dave", "Matthews", address));
+		var customers = context.getBean(Customers.class);
+		var customer = customers.save(new Customer("Dave", "Matthews", address));
 
-		Orders orders = context.getBean(Orders.class);
+		var orders = context.getBean(Orders.class);
 
-		Order order = new Order(customer)
+		var order = new Order(customer)
 				.addLineItem("Foo")
 				.addLineItem("Bar");
 
-		Order result = orders.save(order);
+		var result = orders.save(order);
 
-		assertThat(customers.resolveRequired(result.getCustomer()));
+		assertThat(customers.resolveRequired(result.getCustomer())).isNotNull();
 	}
 }

@@ -75,13 +75,13 @@ public class SchemaQuery {
 	@Test
 	public void criteriaValidator() {
 
-		Jedi luke = new Jedi("luke", "luke", "skywalker", 25);
-		Jedi yoda = new Jedi("yoda", "yoda", null, 900);
+		var luke = new Jedi("luke", "luke", "skywalker", 25);
+		var yoda = new Jedi("yoda", "yoda", null, 900);
 
 		mongoOps.save(luke);
 		mongoOps.save(yoda);
 
-		MongoJsonSchema schema = MongoJsonSchema.builder() //
+		var schema = MongoJsonSchema.builder() //
 				.required("name", "age") //
 				.properties( //
 						string("name").minLength(1), //

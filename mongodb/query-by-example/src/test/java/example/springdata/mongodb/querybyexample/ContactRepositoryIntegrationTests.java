@@ -68,7 +68,7 @@ public class ContactRepositoryIntegrationTests {
 	@Test
 	public void countByConcreteSubtypeExample() {
 
-		Example<Person> example = Example.of(new Person(null, null, null));
+		var example = Example.of(new Person(null, null, null));
 
 		assertThat(userRepository.count(example), is(3L));
 	}
@@ -79,7 +79,7 @@ public class ContactRepositoryIntegrationTests {
 	@Test
 	public void findAllPersonsBySimpleExample() {
 
-		Example<Person> example = Example.of(new Person(".*", null, null), //
+		var example = Example.of(new Person(".*", null, null), //
 				matching().withStringMatcher(StringMatcher.REGEX));
 
 		assertThat(userRepository.findAll(example), containsInAnyOrder(skyler, walter, flynn));
@@ -92,7 +92,7 @@ public class ContactRepositoryIntegrationTests {
 	@Test
 	public void findAllRelativesBySimpleExample() {
 
-		Example<Relative> example = Example.of(new Relative(".*", null, null), //
+		var example = Example.of(new Relative(".*", null, null), //
 				matching().withStringMatcher(StringMatcher.REGEX));
 
 		assertThat(contactRepository.findAll(example), containsInAnyOrder(hank, marie));

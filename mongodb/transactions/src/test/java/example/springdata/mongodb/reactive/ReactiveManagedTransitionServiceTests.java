@@ -86,9 +86,9 @@ public class ReactiveManagedTransitionServiceTests {
 	@Test
 	public void reactiveTxCommitRollback() {
 
-		for (int i = 0; i < 10; i++) {
+		for (var i = 0; i < 10; i++) {
 			managedTransitionService.newProcess() //
-					.map(Process::getId) //
+					.map(Process::id) //
 					.flatMap(managedTransitionService::run) //
 					.onErrorReturn(-1).as(StepVerifier::create) //
 					.consumeNextWith(val -> {}) //
@@ -100,7 +100,7 @@ public class ReactiveManagedTransitionServiceTests {
 				.as(StepVerifier::create) //
 				.consumeNextWith(list -> {
 
-					for (Document document : list) {
+					for (var document : list) {
 
 						System.out.println("document: " + document);
 

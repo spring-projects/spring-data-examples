@@ -15,15 +15,11 @@
  */
 package example.springdata.mongodb.projections;
 
-import lombok.Value;
-
 /**
  * A sample DTO only containing the firstname.
  *
  * @author Oliver Gierke
  */
-@Value
-class CustomerDto {
+record CustomerDto(String firstname) {
 
-	String firstname;
 }

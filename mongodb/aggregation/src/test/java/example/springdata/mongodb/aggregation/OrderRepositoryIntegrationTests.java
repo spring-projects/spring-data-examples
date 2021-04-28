@@ -54,33 +54,33 @@ public class OrderRepositoryIntegrationTests {
 	@Test
 	public void createsInvoiceViaProgrammaticAggregation() {
 
-		Order order = new Order("c42", new Date()).//
+		var order = new Order("c42", new Date()).//
 				addItem(product1).addItem(product2).addItem(product3);
 		order = repository.save(order);
 
-		Invoice invoice = repository.getInvoiceFor(order);
+		var invoice = repository.getInvoiceFor(order);
 
 		assertThat(invoice).isNotNull();
-		assertThat(invoice.getOrderId()).isEqualTo(order.getId());
-		assertThat(invoice.getNetAmount()).isCloseTo(8.3D, offset(0.00001));
-		assertThat(invoice.getTaxAmount()).isCloseTo(1.577D, offset(0.00001));
-		assertThat(invoice.getTotalAmount()).isCloseTo(9.877, offset(0.00001));
+		assertThat(invoice.orderId()).isEqualTo(order.getId());
+		assertThat(invoice.netAmount()).isCloseTo(8.3D, offset(0.00001));
+		assertThat(invoice.taxAmount()).isCloseTo(1.577D, offset(0.00001));
+		assertThat(invoice.totalAmount()).isCloseTo(9.877, offset(0.00001));
 	}
 
 	@Test
 	public void createsInvoiceViaDeclarativeAggregation() {
 
-		Order order = new Order("c42", new Date()).//
+		var order = new Order("c42", new Date()).//
 				addItem(product1).addItem(product2).addItem(product3);
 		order = repository.save(order);
 
-		Invoice invoice = repository.aggregateInvoiceForOrder(order.getId());
+		var invoice = repository.aggregateInvoiceForOrder(order.getId());
 
 		assertThat(invoice).isNotNull();
-		assertThat(invoice.getOrderId()).isEqualTo(order.getId());
-		assertThat(invoice.getNetAmount()).isCloseTo(8.3D, offset(0.00001));
-		assertThat(invoice.getTaxAmount()).isCloseTo(1.577D, offset(0.00001));
-		assertThat(invoice.getTotalAmount()).isCloseTo(9.877, offset(0.00001));
+		assertThat(invoice.orderId()).isEqualTo(order.getId());
+		assertThat(invoice.netAmount()).isCloseTo(8.3D, offset(0.00001));
+		assertThat(invoice.taxAmount()).isCloseTo(1.577D, offset(0.00001));
+		assertThat(invoice.totalAmount()).isCloseTo(9.877, offset(0.00001));
 	}
 
 	@Test

@@ -63,7 +63,7 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void projectsEntityIntoInterface() {
 
-		Collection<CustomerProjection> result = customers.findAllProjectedBy();
+		var result = customers.findAllProjectedBy();
 
 		assertThat(result, hasSize(2));
 		assertThat(result.iterator().next().getFirstname(), is("Dave"));
@@ -72,16 +72,16 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void projectsToDto() {
 
-		Collection<CustomerDto> result = customers.findAllDtoedBy();
+		var result = customers.findAllDtoedBy();
 
 		assertThat(result, hasSize(2));
-		assertThat(result.iterator().next().getFirstname(), is("Dave"));
+		assertThat(result.iterator().next().firstname(), is("Dave"));
 	}
 
 	@Test
 	public void projectsDynamically() {
 
-		Collection<CustomerProjection> result = customers.findByFirstname("Dave", CustomerProjection.class);
+		var result = customers.findByFirstname("Dave", CustomerProjection.class);
 
 		assertThat(result, hasSize(1));
 		assertThat(result.iterator().next().getFirstname(), is("Dave"));
@@ -90,7 +90,7 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void projectsIndividualDynamically() {
 
-		CustomerSummary result = customers.findProjectedById(dave.getId(), CustomerSummary.class);
+		var result = customers.findProjectedById(dave.getId(), CustomerSummary.class);
 
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getFullName(), is("Dave Matthews"));
@@ -102,7 +102,7 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void projectIndividualInstance() {
 
-		CustomerProjection result = customers.findProjectedById(dave.getId());
+		var result = customers.findProjectedById(dave.getId());
 
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getFirstname(), is("Dave"));
@@ -112,7 +112,7 @@ public class CustomerRepositoryIntegrationTest {
 	@Test
 	public void supportsProjectionInCombinationWithPagination() {
 
-		Page<CustomerProjection> page = customers
+		var page = customers
 				.findPagedProjectedBy(PageRequest.of(0, 1, Sort.by(Direction.ASC, "lastname")));
 
 		assertThat(page.getContent().get(0).getFirstname(), is("Carter"));

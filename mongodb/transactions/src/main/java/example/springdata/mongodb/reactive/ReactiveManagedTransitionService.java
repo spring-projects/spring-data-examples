@@ -52,21 +52,21 @@ public class ReactiveManagedTransitionService {
 
 		return lookup(id) //
 				.flatMap(process -> start(template, process)) //
-				.flatMap(it -> verify(it)) //
+				.flatMap(this::verify) //
 				.flatMap(process -> finish(template, process)) //
-				.map(Process::getId);
+				.map(Process::id);
 	}
 
 	private Mono<Process> finish(ReactiveMongoOperations operations, Process process) {
 
-		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.getId())))
+		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
 				.apply(Update.update("state", State.DONE).inc("transitionCount", 1)).first() //
 				.then(Mono.just(process));
 	}
 
 	Mono<Process> start(ReactiveMongoOperations operations, Process process) {
 
-		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.getId())))
+		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
 				.apply(Update.update("state", State.ACTIVE).inc("transitionCount", 1)).first() //
 				.then(Mono.just(process));
 	}
@@ -77,7 +77,7 @@ public class ReactiveManagedTransitionService {
 
 	Mono<Process> verify(Process process) {
 
-		Assert.state(process.getId() % 3 != 0, "We're sorry but we needed to drop that one");
+		Assert.state(process.id() % 3 != 0, "We're sorry but we needed to drop that one");
 		return Mono.just(process);
 	}
 

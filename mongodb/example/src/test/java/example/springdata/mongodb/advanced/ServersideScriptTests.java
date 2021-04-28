@@ -76,7 +76,7 @@ public class ServersideScriptTests {
 	@Ignore
 	public void complexScriptExecutionSimulatingPutIfAbsent() {
 
-		Customer ned = new Customer("Ned", "Stark");
+		var ned = new Customer("Ned", "Stark");
 		ned.setId("ned-stark");
 
 		// #1: on first insert null has to be returned
@@ -94,14 +94,14 @@ public class ServersideScriptTests {
 
 	private ExecutableMongoScript createExecutablePutIfAbsentScript(Customer customer) {
 
-		String collectionName = operations.getCollectionName(Customer.class);
-		Object id = operations.getConverter().getMappingContext().getRequiredPersistentEntity(Customer.class)
+		var collectionName = operations.getCollectionName(Customer.class);
+		var id = operations.getConverter().getMappingContext().getRequiredPersistentEntity(Customer.class)
 				.getIdentifierAccessor(customer).getIdentifier();
 
-		Document document = new Document();
+		var document = new Document();
 		operations.getConverter().write(customer, document);
 
-		String scriptString = String.format(
+		var scriptString = String.format(
 				"object  =  db.%1$s.findOne({\"_id\": \"%2$s\"}); if (object == null) { db.%1s.insert(%3$s); return null; } else { return object; }",
 				collectionName, id, document);
 

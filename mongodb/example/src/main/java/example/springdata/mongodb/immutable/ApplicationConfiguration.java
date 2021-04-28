@@ -21,7 +21,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertCallback;
 
-
 /**
  * Test configuration to connect to a MongoDB named "test" using a {@code MongoClient}. <br />
  * Also enables Spring Data repositories for MongoDB.
@@ -44,10 +43,28 @@ class ApplicationConfiguration {
 
 		return (immutablePerson, collection) -> {
 
-			int randomNumber = ThreadLocalRandom.current().nextInt(1, 100);
+			var randomNumber = ThreadLocalRandom.current().nextInt(1, 100);
 
 			// withRandomNumber is a so called wither method returning a new instance of the entity with a new value assigned
 			return immutablePerson.withRandomNumber(randomNumber);
+		};
+	}
+
+	/**
+	 * Register the {@link BeforeConvertCallback} used to update an {@link ImmutableRecord} before handing over the newly
+	 * created instance to the actual mapping layer performing the conversion into the store native
+	 * {@link org.bson.Document} representation.
+	 *
+	 * @return a {@link BeforeConvertCallback} for {@link ImmutablePerson}.
+	 */
+	@Bean
+	BeforeConvertCallback<ImmutableRecord> beforeRecordConvertCallback() {
+
+		return (rec, collection) -> {
+
+			var randomNumber = ThreadLocalRandom.current().nextInt(1, 100);
+
+			return new ImmutableRecord(rec.id(), randomNumber);
 		};
 	}
 

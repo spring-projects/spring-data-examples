@@ -71,12 +71,12 @@ public class AdvancedIntegrationTests {
 		// execute another finder without meta attributes that should not be picked up
 		repository.findByLastname(dave.getLastname(), Sort.by("firstname"));
 
-		FindIterable<Document> cursor = operations.getCollection(ApplicationConfiguration.SYSTEM_PROFILE_DB)
+		var cursor = operations.getCollection(ApplicationConfiguration.SYSTEM_PROFILE_DB)
 				.find(new BasicDBObject("query.$comment", AdvancedRepository.META_COMMENT));
 
-		for (Document document : cursor) {
+		for (var document : cursor) {
 
-			Document query = (Document) document.get("query");
+			var query = (Document) document.get("query");
 			assertThat(query).containsKey("foo");
 		}
 	}

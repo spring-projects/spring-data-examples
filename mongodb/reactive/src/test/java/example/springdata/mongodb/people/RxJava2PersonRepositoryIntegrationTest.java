@@ -57,7 +57,7 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@Before
 	public void setUp() {
 
-		Mono<MongoCollection<Document>> recreateCollection = operations.collectionExists(Person.class) //
+		var recreateCollection = operations.collectionExists(Person.class) //
 				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
 				.then(operations.createCollection(Person.class, CollectionOptions.empty() //
 						.size(1024 * 1024) //
@@ -83,7 +83,7 @@ public class RxJava2PersonRepositoryIntegrationTest {
 	@Test
 	public void shouldInsertAndCountData() {
 
-		Flowable<Person> people = Flowable.just(new Person("Hank", "Schrader", 43), //
+		var people = Flowable.just(new Person("Hank", "Schrader", 43), //
 				new Person("Mike", "Ehrmantraut", 62));
 
 		repository.count() //
@@ -124,7 +124,7 @@ public class RxJava2PersonRepositoryIntegrationTest {
 
 		Queue<Person> people = new ConcurrentLinkedQueue<>();
 
-		Disposable subscription = repository.findWithTailableCursorBy() //
+		var subscription = repository.findWithTailableCursorBy() //
 				.doOnNext(System.out::println) //
 				.doOnNext(people::add) //
 				.doOnComplete(() -> System.out.println("Complete")) //

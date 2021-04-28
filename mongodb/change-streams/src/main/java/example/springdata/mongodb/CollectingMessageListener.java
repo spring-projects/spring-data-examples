@@ -55,7 +55,7 @@ class CollectingMessageListener<S, T> implements MessageListener<S, T> {
 
 	void awaitNextMessages(int count) throws InterruptedException {
 
-		for (int i = 0; i < count; i++) {
+		for (var i = 0; i < count; i++) {
 			messages.take();
 		}
 	}

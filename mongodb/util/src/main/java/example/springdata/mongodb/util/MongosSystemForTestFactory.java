@@ -90,10 +90,10 @@ class MongosSystemForTestFactory {
 	public void start() throws Throwable {
 		this.mongodProcessList = new ArrayList<>();
 		this.mongodConfigProcessList = new ArrayList<>();
-		for (Entry<String, List<MongodConfig>> entry : replicaSets.entrySet()) {
+		for (var entry : replicaSets.entrySet()) {
 			initializeReplicaSet(entry);
 		}
-		for (MongodConfig config : configServers) {
+		for (var config : configServers) {
 			initializeConfigServer(config);
 		}
 		initializeMongos();
@@ -102,15 +102,15 @@ class MongosSystemForTestFactory {
 
 	private void initializeReplicaSet(Entry<String, List<MongodConfig>> entry)
 			throws Exception {
-		String replicaName = entry.getKey();
-		List<MongodConfig> mongoConfigList = entry.getValue();
+		var replicaName = entry.getKey();
+		var mongoConfigList = entry.getValue();
 
 		if (mongoConfigList.size() < 3) {
 			throw new Exception(
 					"A replica set must contain at least 3 members.");
 		}
 		// Create 3 mongod processes
-		for (MongodConfig mongoConfig : mongoConfigList) {
+		for (var mongoConfig : mongoConfigList) {
 			if (!mongoConfig.replication().getReplSetName().equals(replicaName)) {
 				throw new Exception(
 						"Replica set name must match in mongo configuration");
@@ -119,28 +119,28 @@ class MongosSystemForTestFactory {
 					// .defaultsWithLogger(Command.MongoD,logger)
 				.processOutput(outputFunction.apply(Command.MongoD))
 				.build();
-			MongodStarter starter = MongodStarter.getInstance(runtimeConfig);
-			MongodExecutable mongodExe = starter.prepare(mongoConfig);
-			MongodProcess process = mongodExe.start();
+			var starter = MongodStarter.getInstance(runtimeConfig);
+			var mongodExe = starter.prepare(mongoConfig);
+			var process = mongodExe.start();
 			mongodProcessList.add(process);
 		}
 		Thread.sleep(1000);
-		MongoClientSettings mo = MongoClientSettings.builder()
+		var mo = MongoClientSettings.builder()
 				.applyToSocketSettings(builder -> builder.connectTimeout(10, TimeUnit.SECONDS)).applyToClusterSettings(
 						builder -> builder.hosts(Collections.singletonList(toAddress(mongoConfigList.get(0).net()))))
 				.build();
-		MongoClient mongo = MongoClients.create(mo);
-		MongoDatabase mongoAdminDB = mongo.getDatabase(ADMIN_DATABASE_NAME);
+		var mongo = MongoClients.create(mo);
+		var mongoAdminDB = mongo.getDatabase(ADMIN_DATABASE_NAME);
 
-		Document cr = mongoAdminDB.runCommand(new Document("isMaster", 1));
+		var cr = mongoAdminDB.runCommand(new Document("isMaster", 1));
 		logger.info("isMaster: {}", cr);
 
 		// Build BSON object replica set settings
 		DBObject replicaSetSetting = new BasicDBObject();
 		replicaSetSetting.put("_id", replicaName);
-		BasicDBList members = new BasicDBList();
-		int i = 0;
-		for (MongodConfig mongoConfig : mongoConfigList) {
+		var members = new BasicDBList();
+		var i = 0;
+		for (var mongoConfig : mongoConfigList) {
 			DBObject host = new BasicDBObject();
 			host.put("_id", i++);
 			host.put("host", mongoConfig.net().getServerAddress().getHostName()
@@ -176,11 +176,11 @@ class MongosSystemForTestFactory {
 			return false;
 		}
 
-		List members = (List) setting.get("members");
-		for (Object m : members) {
-			Document member = (Document) m;
+		var members = (List) setting.get("members");
+		for (var m : members) {
+			var member = (Document) m;
 			logger.info(member.toString());
-			int state = member.getInteger("state", 0);
+			var state = member.getInteger("state", 0);
 			logger.info("state: {}", state);
 			// 1 - PRIMARY, 2 - SECONDARY, 7 - ARBITER
 			if (state != 1 && state != 2 && state != 7) {
@@ -195,14 +195,14 @@ class MongosSystemForTestFactory {
 			throw new Exception(
 					"Mongo configuration is not a defined for a config server.");
 		}
-		MongodStarter starter = MongodStarter.getDefaultInstance();
-		MongodExecutable mongodExe = starter.prepare(config);
-		MongodProcess process = mongodExe.start();
+		var starter = MongodStarter.getDefaultInstance();
+		var mongodExe = starter.prepare(config);
+		var process = mongodExe.start();
 		mongodProcessList.add(process);
 	}
 
 	private void initializeMongos() throws Exception {
-		MongosStarter runtime = MongosStarter.getInstance(RuntimeConfig.builder()
+		var runtime = MongosStarter.getInstance(RuntimeConfig.builder()
 				// .defaultsWithLogger(Command.MongoS,logger)
 			.processOutput(outputFunction.apply(Command.MongoS))
 			.build());
@@ -213,19 +213,19 @@ class MongosSystemForTestFactory {
 
 	private void configureMongos() throws Exception {
 		Document cr;
-		MongoClientSettings options = MongoClientSettings.builder()
+		var options = MongoClientSettings.builder()
 				.applyToSocketSettings(builder -> builder.connectTimeout(10, TimeUnit.SECONDS))
 				.applyToClusterSettings(builder -> builder.hosts(Collections.singletonList(toAddress(this.config.net()))))
 				.build();
-		try (MongoClient mongo = MongoClients.create(options)) {
-			MongoDatabase mongoAdminDB = mongo.getDatabase(ADMIN_DATABASE_NAME);
+		try (var mongo = MongoClients.create(options)) {
+			var mongoAdminDB = mongo.getDatabase(ADMIN_DATABASE_NAME);
 
 			// Add shard from the replica set list
-			for (Entry<String, List<MongodConfig>> entry : this.replicaSets
+			for (var entry : this.replicaSets
 					.entrySet()) {
-				String replicaName = entry.getKey();
-				String command = "";
-				for (MongodConfig mongodConfig : entry.getValue()) {
+				var replicaName = entry.getKey();
+				var command = "";
+				for (var mongodConfig : entry.getValue()) {
 					if (command.isEmpty()) {
 						command = replicaName + "/";
 					} else {
@@ -251,22 +251,20 @@ class MongosSystemForTestFactory {
 
 			// Create index in sharded collection
 			logger.info("Create index in sharded collection");
-			MongoDatabase db = mongo.getDatabase(this.shardDatabase);
+			var db = mongo.getDatabase(this.shardDatabase);
 			db.getCollection(this.shardCollection).createIndex(new Document(this.shardKey, 1));
 
 			// Shard the collection
 			logger.info("Shard the collection: {}.{}", this.shardDatabase, this.shardCollection);
-			Document cmd = new Document();
+			var cmd = new Document();
 			cmd.put("shardCollection", this.shardDatabase + "." + this.shardCollection);
 			cmd.put("key", new BasicDBObject(this.shardKey, 1));
 			cr = mongoAdminDB.runCommand(cmd);
 			logger.info(cr.toString());
 
 			logger.info("Get info from config/shards");
-			FindIterable<Document> cursor = mongo.getDatabase("config").getCollection("shards").find();
-			MongoCursor<Document> iterator = cursor.iterator();
-			while (iterator.hasNext()) {
-				Document item = iterator.next();
+			var cursor = mongo.getDatabase("config").getCollection("shards").find();
+			for (Document item : cursor) {
 				logger.info(item.toString());
 			}
 		}
@@ -279,10 +277,10 @@ class MongosSystemForTestFactory {
 	}
 
 	public void stop() {
-		for (MongodProcess process : this.mongodProcessList) {
+		for (var process : this.mongodProcessList) {
 			process.stop();
 		}
-		for (MongodProcess process : this.mongodConfigProcessList) {
+		for (var process : this.mongodConfigProcessList) {
 			process.stop();
 		}
 		this.mongosProcess.stop();

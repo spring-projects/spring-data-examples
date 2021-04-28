@@ -52,7 +52,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	@Before
 	public void setUp() {
 
-		Mono<MongoCollection<Document>> recreateCollection = operations.collectionExists(Person.class) //
+		var recreateCollection = operations.collectionExists(Person.class) //
 				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
 				.then(operations.createCollection(Person.class, CollectionOptions.empty() //
 						.size(1024 * 1024) //
@@ -61,7 +61,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 
 		StepVerifier.create(recreateCollection).expectNextCount(1).verifyComplete();
 
-		Flux<Person> insertAll = operations.insertAll(Flux.just(new Person("Walter", "White", 50), //
+		var insertAll = operations.insertAll(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)).collectList());
@@ -76,7 +76,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	public void shouldInsertAndCountData() {
 
-		Mono<Long> saveAndCount = repository.count() //
+		var saveAndCount = repository.count() //
 				.doOnNext(System.out::println) //
 				.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
@@ -106,7 +106,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 
 		Queue<Person> people = new ConcurrentLinkedQueue<>();
 
-		Disposable disposable = repository.findWithTailableCursorBy() //
+		var disposable = repository.findWithTailableCursorBy() //
 				.doOnNext(System.out::println) //
 				.doOnNext(people::add) //
 				.doOnComplete(() -> System.out.println("Complete")) //

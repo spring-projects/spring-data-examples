@@ -61,7 +61,7 @@ public class PersonRepositoryIntegrationTest {
 
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(dave, "x"));
 
-		List<Person> persons = repository.findAllForCurrentUserById();
+		var persons = repository.findAllForCurrentUserById();
 
 		assertThat(persons, hasSize(1));
 		assertThat(persons, contains(dave));
@@ -70,11 +70,11 @@ public class PersonRepositoryIntegrationTest {
 	@Test
 	public void adminCallingShouldReturnAllUsers() throws Exception {
 
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(admin, "x",
+		var auth = new UsernamePasswordAuthenticationToken(admin, "x",
 				Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
-		List<Person> persons = repository.findAllForCurrentUserById();
+		var persons = repository.findAllForCurrentUserById();
 
 		assertThat(persons, hasSize(4));
 		assertThat(persons, containsInAnyOrder(admin, dave, carter, oliver));

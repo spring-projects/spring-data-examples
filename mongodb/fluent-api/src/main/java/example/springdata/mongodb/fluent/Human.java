@@ -15,14 +15,8 @@
  */
 package example.springdata.mongodb.fluent;
 
-import lombok.Data;
-
 /**
  * @author Christoph Strobl
  */
-@Data
-class Human {
-
-	final String firstname;
-	final String lastname;
+record Human(String firstname, String lastname) {
 }

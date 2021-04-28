@@ -50,7 +50,7 @@ public class ReactiveMongoTemplateIntegrationTest {
 
 		StepVerifier.create(template.dropCollection(Person.class)).verifyComplete();
 
-		Flux<Person> insertAll = template
+		var insertAll = template
 				.insertAll(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
@@ -66,7 +66,7 @@ public class ReactiveMongoTemplateIntegrationTest {
 	@Test
 	public void shouldInsertAndCountData() {
 
-		Mono<Long> count = template.count(new Query(), Person.class) //
+		var count = template.count(new Query(), Person.class) //
 				.doOnNext(System.out::println) //
 				.thenMany(template.insertAll(Arrays.asList(new Person("Hank", "Schrader", 43), //
 						new Person("Mike", "Ehrmantraut", 62)))) //
@@ -83,7 +83,7 @@ public class ReactiveMongoTemplateIntegrationTest {
 	@Test
 	public void convertReactorTypesToRxJava2() {
 
-		Flux<Person> flux = template.find(Query.query(Criteria.where("lastname").is("White")), Person.class);
+		var flux = template.find(Query.query(Criteria.where("lastname").is("White")), Person.class);
 
 		long count = RxReactiveStreams.toObservable(flux).count().toSingle().toBlocking().value();
 

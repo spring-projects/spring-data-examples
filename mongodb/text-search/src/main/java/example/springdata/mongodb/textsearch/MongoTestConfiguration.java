@@ -41,7 +41,7 @@ public class MongoTestConfiguration {
 
 	public @Bean Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
 
-		Jackson2RepositoryPopulatorFactoryBean factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
+		var factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
 		factoryBean.setResources(new Resource[] { new ClassPathResource("spring-blog.atom.json") });
 		return factoryBean;
 	}
@@ -49,7 +49,7 @@ public class MongoTestConfiguration {
 	@PostConstruct
 	private void postConstruct() {
 
-		IndexResolver resolver = IndexResolver.create(operations.getConverter().getMappingContext());
+		var resolver = IndexResolver.create(operations.getConverter().getMappingContext());
 
 		resolver.resolveIndexFor(BlogPost.class).forEach(operations.indexOps(BlogPost.class)::ensureIndex);
 	}

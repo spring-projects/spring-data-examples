@@ -15,25 +15,9 @@
  */
 package example.springdata.mongodb.gridfs;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import org.springframework.data.annotation.Id;
-
 /**
  * @author Hartmut Lang
  */
-@Data
-@NoArgsConstructor
-public class Customer {
+public record Customer(String firstName, String lastName) {
 
-	@Id private String id;
-
-	private String firstName;
-	private String lastName;
-
-	public Customer(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
 }

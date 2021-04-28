@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import lombok.Value;
 import org.jmolecules.ddd.types.AggregateRoot;
 import org.jmolecules.ddd.types.Association;
 import org.jmolecules.ddd.types.Identifier;
@@ -46,7 +47,7 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 
 	public Order(Customer customer) {
 
-		this.id = new OrderId(UUID.randomUUID());
+		this.id = OrderId.of(UUID.randomUUID());
 		this.customer = Association.forAggregate(customer);
 		this.lineItems = new ArrayList<>();
 	}
@@ -60,10 +61,13 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 		return this;
 	}
 
-	public record OrderId(UUID orderId) implements Identifier {
+	@Value(staticConstructor = "of")
+	public static class OrderId implements Identifier {
+
+		UUID orderId;
 
 		public static OrderId create() {
-			return new OrderId(UUID.randomUUID());
+			return OrderId.of(UUID.randomUUID());
 		}
 	}
 }

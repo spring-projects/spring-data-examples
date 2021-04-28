@@ -15,8 +15,6 @@
  */
 package example.springdata.mongodb.fluent;
 
-import lombok.Data;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
@@ -24,9 +22,6 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 /**
  * @author Christoph Strobl
  */
-@Data
-public class Planet {
+public record Planet(@Id String name, @GeoSpatialIndexed Point coordinates) {
 
-	final @Id String name;
-	final @GeoSpatialIndexed Point coordinates;
 }

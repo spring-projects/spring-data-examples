@@ -47,8 +47,8 @@ public class TextSearchRepositoryTests {
 	@Test
 	public void findAllBlogPostsWithRelease() {
 
-		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny("release");
-		List<BlogPost> blogPosts = repo.findAllBy(criteria);
+		var criteria = TextCriteria.forDefaultLanguage().matchingAny("release");
+		var blogPosts = repo.findAllBy(criteria);
 
 		printResult(blogPosts, criteria);
 	}
@@ -59,8 +59,8 @@ public class TextSearchRepositoryTests {
 	@Test
 	public void findAllBlogPostsWithReleaseButHeyIDoWantTheEngineeringStuff() {
 
-		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny("release").notMatching("engineering");
-		List<BlogPost> blogPosts = repo.findAllBy(criteria);
+		var criteria = TextCriteria.forDefaultLanguage().matchingAny("release").notMatching("engineering");
+		var blogPosts = repo.findAllBy(criteria);
 
 		printResult(blogPosts, criteria);
 	}
@@ -71,8 +71,8 @@ public class TextSearchRepositoryTests {
 	@Test
 	public void findAllBlogPostsByPhrase() {
 
-		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release candidate");
-		List<BlogPost> blogPosts = repo.findAllBy(criteria);
+		var criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release candidate");
+		var blogPosts = repo.findAllBy(criteria);
 
 		printResult(blogPosts, criteria);
 	}
@@ -83,8 +83,8 @@ public class TextSearchRepositoryTests {
 	@Test
 	public void findAllBlogPostsByPhraseSortByScore() {
 
-		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release candidate");
-		List<BlogPost> blogPosts = repo.findAllByOrderByScoreDesc(criteria);
+		var criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release candidate");
+		var blogPosts = repo.findAllByOrderByScoreDesc(criteria);
 
 		printResult(blogPosts, criteria);
 	}

@@ -17,8 +17,6 @@ package example.springdata.mongodb.textsearch;
 
 import java.util.List;
 
-import lombok.Data;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -31,17 +29,7 @@ import org.springframework.data.mongodb.core.mapping.TextScore;
  * @author Oliver Gierke
  */
 @Document
-@Data
-public class BlogPost {
+public record BlogPost(@Id String id, @TextIndexed(weight = 3) String title, @TextIndexed(weight = 2) String content,
+		@TextIndexed List<String> categories, @TextScore Float score) {
 
-	private @Id String id;
-	private @TextIndexed(weight = 3) String title;
-	private @TextIndexed(weight = 2) String content;
-	private @TextIndexed List<String> categories;
-	private @TextScore Float score;
-
-	@Override
-	public String toString() {
-		return "BlogPost [id=" + id + ", score=" + score + ", title=" + title + ", categories=" + categories + "]";
-	}
 }

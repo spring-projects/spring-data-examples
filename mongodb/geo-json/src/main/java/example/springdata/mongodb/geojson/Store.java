@@ -15,7 +15,7 @@
  */
 package example.springdata.mongodb.geojson;
 
-import lombok.Data;
+import lombok.Value;
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,26 +23,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * @author Christoph Strobl
  */
-@Data
 @Document(collection = "starbucks")
-public class Store {
+public record Store(String id, String name, String street, String city, GeoJsonPoint location) {
 
-	String id;
-	String name;
-	String street;
-	String city;
-
-	/**
-	 * {@code location} is stored in GeoJSON format.
-	 *
-	 * <pre>
-	 * <code>
-	 * {
-	 *   "type" : "Point",
-	 *   "coordinates" : [ x, y ]
-	 * }
-	 * </code>
-	 * </pre>
-	 */
-	GeoJsonPoint location;
 }

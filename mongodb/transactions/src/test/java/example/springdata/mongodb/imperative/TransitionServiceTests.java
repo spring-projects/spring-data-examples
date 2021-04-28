@@ -88,13 +88,13 @@ public class TransitionServiceTests {
 	@Test
 	public void txCommitRollback() {
 
-		for (int i = 0; i < 10; i++) {
+		for (var i = 0; i < 10; i++) {
 
-			Process process = transitionService.newProcess();
+			var process = transitionService.newProcess();
 
 			try {
 
-				transitionService.run(process.getId());
+				transitionService.run(process.id());
 				Assertions.assertThat(stateInDb(process)).isEqualTo(State.DONE);
 			} catch (IllegalStateException e) {
 				Assertions.assertThat(stateInDb(process)).isEqualTo(State.CREATED);
@@ -107,7 +107,7 @@ public class TransitionServiceTests {
 
 	State stateInDb(Process process) {
 
-		return State.valueOf(client.getDatabase(DB_NAME).getCollection("processes").find(Filters.eq("_id", process.getId()))
+		return State.valueOf(client.getDatabase(DB_NAME).getCollection("processes").find(Filters.eq("_id", process.id()))
 				.projection(Projections.include("state")).first().get("state", String.class));
 	}
 

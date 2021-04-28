@@ -15,10 +15,8 @@
  */
 package example.springdata.mongodb.people;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -26,13 +24,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author Mark Paluch
  */
-@Data
-@RequiredArgsConstructor
 @Document
-public class Person {
+public record Person(@Id String id, String firstname, String lastname, int age) {
 
-	private @Id String id;
-	private final String firstname;
-	private final String lastname;
-	private final int age;
+	@PersistenceConstructor
+	public Person {
+	}
+
+	public Person(String firstname, String lastname, int age) {
+		this(null, firstname, lastname, age);
+	}
 }
