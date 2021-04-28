@@ -19,7 +19,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
-import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 import org.junit.jupiter.api.Assumptions;
 
 import org.springframework.util.Assert;
@@ -30,18 +29,8 @@ import org.springframework.util.Assert;
  *
  * @author Mark Paluch
  */
-class CassandraServer {
-
-	private final String host;
-	private final int port;
-	private final RuntimeMode runtimeMode;
-
-	private CassandraServer(String host, int port, RuntimeMode runtimeMode) {
-
-		this.host = host;
-		this.port = port;
-		this.runtimeMode = runtimeMode;
-	}
+record CassandraServer(String host, int port,
+		example.springdata.cassandra.util.CassandraServer.RuntimeMode runtimeMode) {
 
 	/**
 	 * Require a running instance on {@code host:port}. Fails with {@link AssumptionViolatedException} if Cassandra is not
@@ -75,7 +64,7 @@ class CassandraServer {
 
 		Assert.hasText(host, "Host must not be null or empty!");
 
-		try (Socket socket = new Socket()) {
+		try (var socket = new Socket()) {
 
 			socket.setSoLinger(true, 0);
 			socket.connect(new InetSocketAddress(host, port), (int) TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS));
@@ -95,7 +84,7 @@ class CassandraServer {
 		return port;
 	}
 
-	protected void before() throws Exception {
+	protected void before() {
 
 		if (runtimeMode == RuntimeMode.REQUIRE_RUNNING_INSTANCE) {
 			Assumptions.assumeTrue(isConnectable(getHost(), getPort()),
@@ -107,12 +96,9 @@ class CassandraServer {
 				return;
 			}
 		}
-
-		EmbeddedCassandraServerHelper.startEmbeddedCassandra("embedded-cassandra.yaml", "target/embeddedCassandra",
-				TimeUnit.SECONDS.toMillis(60));
 	}
 
-	private enum RuntimeMode {
+	enum RuntimeMode {
 		REQUIRE_RUNNING_INSTANCE, EMBEDDED_IF_NOT_RUNNING;
 	}
 }

@@ -42,8 +42,8 @@ public class CassandraVersion {
 
 		Assert.notNull(session, "Session must not be null");
 
-		ResultSet resultSet = session.execute("SELECT release_version FROM system.local;");
-		Row row = resultSet.one();
+		var resultSet = session.execute("SELECT release_version FROM system.local;");
+		var row = resultSet.one();
 
 		return Version.parse(row.getString(0));
 	}

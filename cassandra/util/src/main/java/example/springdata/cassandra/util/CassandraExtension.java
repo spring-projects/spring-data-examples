@@ -22,6 +22,10 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.util.AnnotationUtils;
 
+import org.springframework.util.StringUtils;
+
+import org.testcontainers.containers.CassandraContainer;
+
 import com.datastax.oss.driver.api.core.CqlSession;
 
 /**
@@ -36,20 +40,26 @@ class CassandraExtension implements BeforeAllCallback {
 			.create(CassandraExtension.class);
 
 	@Override
-	public void beforeAll(ExtensionContext context) throws Exception {
+	public void beforeAll(ExtensionContext context) {
 
-		ExtensionContext.Store store = context.getStore(NAMESPACE);
-		CassandraKeyspace cassandra = findAnnotation(context);
+		var store = context.getStore(NAMESPACE);
+		var cassandra = findAnnotation(context);
 
-		CassandraServer keyspace = store.getOrComputeIfAbsent(CassandraServer.class, it -> {
-			return CassandraServer.embeddedIfNotRunning("localhost", 9042);
+		var keyspace = store.getOrComputeIfAbsent(CassandraServer.class, it -> {
+
+			CassandraContainer container = runTestcontainer();
+			System.setProperty("spring.data.cassandra.port", "" + container.getMappedPort(9042));
+			System.setProperty("spring.data.cassandra.contact-points", "" + container.getHost());
+
+			return new CassandraServer(container.getHost(), container.getMappedPort(9042),
+					CassandraServer.RuntimeMode.EMBEDDED_IF_NOT_RUNNING);
 		}, CassandraServer.class);
 
 		keyspace.before();
 
-		CqlSession session = store.getOrComputeIfAbsent(CqlSession.class, it -> {
+		var session = store.getOrComputeIfAbsent(CqlSession.class, it -> {
 
-			return CqlSession.builder().addContactPoint(new InetSocketAddress("localhost", 9042))
+			return CqlSession.builder().addContactPoint(new InetSocketAddress(keyspace.host(), keyspace.port()))
 					.withLocalDatacenter("datacenter1").build();
 		}, CqlSession.class);
 
@@ -59,10 +69,26 @@ class CassandraExtension implements BeforeAllCallback {
 
 	private static CassandraKeyspace findAnnotation(ExtensionContext context) {
 
-		Class<?> testClass = context.getRequiredTestClass();
+		var testClass = context.getRequiredTestClass();
 
-		Optional<CassandraKeyspace> annotation = AnnotationUtils.findAnnotation(testClass, CassandraKeyspace.class);
+		var annotation = AnnotationUtils.findAnnotation(testClass, CassandraKeyspace.class);
 
 		return annotation.orElseThrow(() -> new IllegalStateException("Test class not annotated with @Cassandra"));
+	}
+
+	private CassandraContainer<?> runTestcontainer() {
+
+		var container = new CassandraContainer<>(getCassandraDockerImageName());
+		container.withReuse(true);
+
+		container.start();
+
+		return container;
+	}
+
+	private String getCassandraDockerImageName() {
+
+		return String.format("cassandra:%s",
+				Optional.ofNullable(System.getenv("CASSANDRA_VERSION")).filter(StringUtils::hasText).orElse("3.11.10"));
 	}
 }
