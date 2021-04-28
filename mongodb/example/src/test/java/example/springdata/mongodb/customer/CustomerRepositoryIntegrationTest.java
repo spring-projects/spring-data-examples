@@ -15,42 +15,38 @@
  */
 package example.springdata.mongodb.customer;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.data.Offset.offset;
 
-import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.querydsl.QSort;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link CustomerRepository}.
  *
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class CustomerRepositoryIntegrationTest {
+@DataMongoTest
+class CustomerRepositoryIntegrationTest {
 
 	@Autowired CustomerRepository repository;
 	@Autowired MongoOperations operations;
 
-	Customer dave, oliver, carter;
+	private Customer dave, oliver, carter;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		repository.deleteAll();
 
@@ -63,31 +59,31 @@ public class CustomerRepositoryIntegrationTest {
 	 * Test case to show that automatically generated ids are assigned to the domain objects.
 	 */
 	@Test
-	public void setsIdOnSave() {
+	void setsIdOnSave() {
 
 		var dave = repository.save(new Customer("Dave", "Matthews"));
-		assertThat(dave.getId(), is(notNullValue()));
+		assertThat(dave.getId()).isNotNull();
 	}
 
 	/**
 	 * Test case to show the usage of the Querydsl-specific {@link QSort} to define the sort order in a type-safe way.
 	 */
 	@Test
-	public void findCustomersUsingQuerydslSort() {
+	void findCustomersUsingQuerydslSort() {
 
 		var customer = QCustomer.customer;
 		var result = repository.findByLastname("Matthews", new QSort(customer.firstname.asc()));
 
-		assertThat(result, hasSize(2));
-		assertThat(result.get(0), is(dave));
-		assertThat(result.get(1), is(oliver));
+		assertThat(result).hasSize(2);
+		assertThat(result.get(0)).isEqualTo(dave);
+		assertThat(result.get(1)).isEqualTo(oliver);
 	}
 
 	/**
 	 * Test case to show the usage of Java {@link Stream}.
 	 */
 	@Test
-	public void findCustomersAsStream() {
+	void findCustomersAsStream() {
 
 		try (var result = repository.findAllByCustomQueryWithStream()) {
 			result.forEach(System.out::println);
@@ -98,7 +94,7 @@ public class CustomerRepositoryIntegrationTest {
 	 * Test case to show the usage of the geo-spatial APIs to lookup people within a given distance of a reference point.
 	 */
 	@Test
-	public void exposesGeoSpatialFunctionality() {
+	void exposesGeoSpatialFunctionality() {
 
 		var indexDefinition = new GeospatialIndex("address.location");
 		indexDefinition.getIndexOptions().put("min", -180);
@@ -115,10 +111,10 @@ public class CustomerRepositoryIntegrationTest {
 
 		var result = repository.findByAddressLocationNear(referenceLocation, oneKilometer);
 
-		assertThat(result.getContent(), hasSize(1));
+		assertThat(result.getContent()).hasSize(1);
 
 		var distanceToFirstStore = result.getContent().get(0).getDistance();
-		assertThat(distanceToFirstStore.getMetric(), is(Metrics.KILOMETERS));
-		assertThat(distanceToFirstStore.getValue(), closeTo(0.862, 0.001));
+		assertThat(distanceToFirstStore.getMetric()).isEqualTo(Metrics.KILOMETERS);
+		assertThat(distanceToFirstStore.getValue()).isCloseTo(0.862, offset(0.001));
 	}
 }

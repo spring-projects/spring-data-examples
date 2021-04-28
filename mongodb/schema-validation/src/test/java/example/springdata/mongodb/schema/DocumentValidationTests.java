@@ -19,31 +19,29 @@ import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.mongodb.core.query.Criteria.*;
 import static org.springframework.data.mongodb.core.schema.JsonSchemaProperty.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.mongodb.core.CollectionOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.schema.MongoJsonSchema;
 import org.springframework.data.mongodb.core.validation.Validator;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class DocumentValidation {
+@DataMongoTest
+class DocumentValidationTests {
 
-	static final String COLLECTION = "star-wars";
+	private static final String COLLECTION = "star-wars";
 
 	@Autowired MongoOperations mongoOps;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		mongoOps.dropCollection(COLLECTION);
 	}
 
@@ -72,7 +70,7 @@ public class DocumentValidation {
 	 * </pre>
 	 */
 	@Test
-	public void criteriaValidator() {
+	void criteriaValidator() {
 
 		var validator = Validator.criteria( //
 				where("name").exists(true).ne(null).type(2) // non null String
@@ -114,7 +112,7 @@ public class DocumentValidation {
 	 * </pre>
 	 */
 	@Test
-	public void schemaValidator() {
+	void schemaValidator() {
 
 		var validator = Validator.schema(MongoJsonSchema.builder() //
 				.required("name", "age") //

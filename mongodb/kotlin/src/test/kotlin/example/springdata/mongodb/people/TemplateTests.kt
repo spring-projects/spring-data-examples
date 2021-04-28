@@ -17,30 +17,27 @@ package example.springdata.mongodb.people
 
 import org.assertj.core.api.Assertions.assertThat
 import org.bson.Document
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.data.mongodb.core.*
 import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.isEqualTo
-import org.springframework.test.context.junit4.SpringRunner
 
 /**
  * Tests showing Kotlin usage of [MongoTemplate] and its Kotlin extensions.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner::class)
-@SpringBootTest
+@DataMongoTest
 class TemplateTests {
 
 	@Autowired
 	lateinit var operations: MongoOperations
 
-	@Before
+	@BeforeEach
 	fun before() {
 		operations.dropCollection<Person>()
 	}

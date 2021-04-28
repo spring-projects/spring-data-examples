@@ -20,28 +20,26 @@ import static org.springframework.data.mongodb.core.query.Criteria.*;
 import static org.springframework.data.mongodb.core.query.Query.*;
 import static org.springframework.data.mongodb.core.schema.JsonSchemaProperty.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.schema.MongoJsonSchema;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class SchemaQuery {
+@DataMongoTest
+class SchemaQueryTests {
 
-	static final String COLLECTION = "star-wars";
+	private static final String COLLECTION = "star-wars";
 
 	@Autowired MongoOperations mongoOps;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		mongoOps.dropCollection(COLLECTION);
 	}
@@ -73,7 +71,7 @@ public class SchemaQuery {
 	 * </pre>
 	 */
 	@Test
-	public void criteriaValidator() {
+	void criteriaValidator() {
 
 		var luke = new Jedi("luke", "luke", "skywalker", 25);
 		var yoda = new Jedi("yoda", "yoda", null, 900);

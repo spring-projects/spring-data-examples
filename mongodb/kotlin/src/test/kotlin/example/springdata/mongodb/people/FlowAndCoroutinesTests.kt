@@ -17,20 +17,18 @@ package example.springdata.mongodb.people
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.data.mongodb.core.*
 import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.isEqualTo
-import org.springframework.test.context.junit4.SpringRunner
 import reactor.test.StepVerifier
 
 /**
@@ -38,27 +36,29 @@ import reactor.test.StepVerifier
  *
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner::class)
-@SpringBootTest
+@DataMongoTest
 class FlowAndCoroutinesTests {
 
 	@Autowired
 	lateinit var operations: ReactiveMongoOperations
 
-	@Before
+	@BeforeEach
 	fun before() {
-		StepVerifier.create(operations.dropCollection<Person>()).verifyComplete()
+		operations.dropCollection<Person>().`as`(StepVerifier::create).verifyComplete()
 	}
 
 	@Test
 	fun `find - the coroutine way`() {
 
-		StepVerifier.create(operations.insert<Person>().one(Person("Tyrion", "Lannister"))).expectNextCount(1).verifyComplete()
+		StepVerifier.create(
+			operations.insert<Person>().one(Person("Tyrion", "Lannister"))
+		).expectNextCount(1).verifyComplete()
 
 		assertThat(
-				runBlocking {
-					operations.find<Person>(Query(where("firstname").isEqualTo("Tyrion"))).awaitSingle()
-				}
+			runBlocking {
+				operations.find<Person>(Query(where("firstname").isEqualTo("Tyrion")))
+					.awaitSingle()
+			}
 		).extracting("firstname").isEqualTo("Tyrion")
 	}
 

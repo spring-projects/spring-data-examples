@@ -21,14 +21,13 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.data.domain.ExampleMatcher.*;
 
 /**
  * Integration test showing the usage of MongoDB Query-by-Example support through Spring Data repositories.
@@ -38,16 +37,15 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Jens Schauder
  */
 @SuppressWarnings("unused")
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class UserRepositoryIntegrationTests {
+@DataMongoTest
+class UserRepositoryIntegrationTests {
 
 	@Autowired UserRepository repository;
 
-	Person skyler, walter, flynn, marie, hank;
+	private Person skyler, walter, flynn, marie, hank;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		repository.deleteAll();
 
@@ -62,7 +60,7 @@ public class UserRepositoryIntegrationTests {
 	 * @see #153
 	 */
 	@Test
-	public void countBySimpleExample() {
+	void countBySimpleExample() {
 
 		var example = Example.of(new Person(null, "White", null));
 
@@ -73,7 +71,7 @@ public class UserRepositoryIntegrationTests {
 	 * @see #153
 	 */
 	@Test
-	public void ignorePropertiesAndMatchByAge() {
+	void ignorePropertiesAndMatchByAge() {
 
 		var example = Example.of(flynn, matching(). //
 				withIgnorePaths("firstname", "lastname"));
@@ -85,7 +83,7 @@ public class UserRepositoryIntegrationTests {
 	 * @see #153
 	 */
 	@Test
-	public void substringMatching() {
+	void substringMatching() {
 
 		var example = Example.of(new Person("er", null, null), matching(). //
 				withStringMatcher(StringMatcher.ENDING));
@@ -97,7 +95,7 @@ public class UserRepositoryIntegrationTests {
 	 * @see #153
 	 */
 	@Test
-	public void regexMatching() {
+	void regexMatching() {
 
 		var example = Example.of(new Person("(Skyl|Walt)er", null, null), matching(). //
 				withMatcher("firstname", GenericPropertyMatcher::regex));
@@ -109,7 +107,7 @@ public class UserRepositoryIntegrationTests {
 	 * @see #153
 	 */
 	@Test
-	public void matchStartingStringsIgnoreCase() {
+	void matchStartingStringsIgnoreCase() {
 
 		var example = Example.of(new Person("Walter", "WHITE", null), matching(). //
 				withIgnorePaths("age"). //
@@ -123,7 +121,7 @@ public class UserRepositoryIntegrationTests {
 	 * @see #153
 	 */
 	@Test
-	public void configuringMatchersUsingLambdas() {
+	void configuringMatchersUsingLambdas() {
 
 		var example = Example.of(new Person("Walter", "WHITE", null), matching(). //
 				withIgnorePaths("age"). //
@@ -137,7 +135,7 @@ public class UserRepositoryIntegrationTests {
 	 * @see #153
 	 */
 	@Test
-	public void valueTransformer() {
+	void valueTransformer() {
 
 		var example = Example.of(new Person(null, "White", 99), matching(). //
 				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));

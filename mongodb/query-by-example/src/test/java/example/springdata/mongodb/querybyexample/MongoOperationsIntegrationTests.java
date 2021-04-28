@@ -16,8 +16,7 @@
 
 package example.springdata.mongodb.querybyexample;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.data.domain.ExampleMatcher.*;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
@@ -26,16 +25,15 @@ import static org.springframework.data.mongodb.core.query.Query.*;
 
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test showing the usage of MongoDB Query-by-Example support through Spring Data repositories.
@@ -44,16 +42,15 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Oliver Gierke
  */
 @SuppressWarnings("unused")
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class MongoOperationsIntegrationTests {
+@DataMongoTest
+class MongoOperationsIntegrationTests {
 
 	@Autowired MongoOperations operations;
 
-	Person skyler, walter, flynn, marie, hank;
+	private Person skyler, walter, flynn, marie, hank;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		operations.remove(new Query(), Person.class);
 
@@ -74,74 +71,74 @@ public class MongoOperationsIntegrationTests {
 	 * @see #153
 	 */
 	@Test
-	public void ignoreNullProperties() {
+	void ignoreNullProperties() {
 
 		var query = query(byExample(new Person(null, null, 17)));
 
-		assertThat(operations.find(query, Person.class), hasItems(flynn));
+		assertThat(operations.find(query, Person.class)).contains(flynn);
 	}
 
 	/**
 	 * @see #153
 	 */
 	@Test
-	public void substringMatching() {
+	void substringMatching() {
 
 		var example = Example.of(new Person("er", null, null), matching().//
 				withStringMatcher(StringMatcher.ENDING));
 
-		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(skyler, walter));
+		assertThat(operations.find(query(byExample(example)), Person.class)).contains(skyler, walter);
 	}
 
 	/**
 	 * @see #154
 	 */
 	@Test
-	public void regexMatching() {
+	void regexMatching() {
 
 		var example = Example.of(new Person("(Skyl|Walt)er", null, null), matching().//
 				withMatcher("firstname", GenericPropertyMatcher::regex));
 
-		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(skyler, walter));
+		assertThat(operations.find(query(byExample(example)), Person.class)).contains(skyler, walter);
 	}
 
 	/**
 	 * @see #153
 	 */
 	@Test
-	public void matchStartingStringsIgnoreCase() {
+	void matchStartingStringsIgnoreCase() {
 
 		var example = Example.of(new Person("Walter", "WHITE", null), matching(). //
 				withIgnorePaths("age").//
 				withMatcher("firstname", startsWith()).//
 				withMatcher("lastname", ignoreCase()));
 
-		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(flynn, walter));
+		assertThat(operations.find(query(byExample(example)), Person.class)).contains(flynn, walter);
 	}
 
 	/**
 	 * @see #153
 	 */
 	@Test
-	public void configuringMatchersUsingLambdas() {
+	void configuringMatchersUsingLambdas() {
 
 		var example = Example.of(new Person("Walter", "WHITE", null), matching().//
 				withIgnorePaths("age"). //
 				withMatcher("firstname", GenericPropertyMatcher::startsWith). //
 				withMatcher("lastname", GenericPropertyMatcher::ignoreCase));
 
-		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(flynn, walter));
+		assertThat(operations.find(query(byExample(example)), Person.class)).contains(flynn, walter);
 	}
 
 	/**
 	 * @see #153
 	 */
 	@Test
-	public void valueTransformer() {
+	void valueTransformer() {
 
 		var example = Example.of(new Person(null, "White", 99), matching(). //
 				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
 
-		assertThat(operations.find(query(byExample(example)), Person.class), hasItems(walter));
+		assertThat(operations.find(query(byExample(example)), Person.class)).contains(walter);
 	}
 }

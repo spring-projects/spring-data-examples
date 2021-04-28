@@ -17,7 +17,6 @@ package example.springdata.mongodb.people;
 
 import static org.assertj.core.api.Assertions.*;
 
-import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -25,32 +24,27 @@ import reactor.test.StepVerifier;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.bson.Document;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.CollectionOptions;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.reactivestreams.client.MongoCollection;
 
 /**
  * Integration test for {@link ReactivePersonRepository} using Project Reactor types and operators.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ReactivePersonRepositoryIntegrationTest {
+@DataMongoTest
+class ReactivePersonRepositoryIntegrationTest {
 
 	@Autowired ReactivePersonRepository repository;
 	@Autowired ReactiveMongoOperations operations;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		var recreateCollection = operations.collectionExists(Person.class) //
 				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
@@ -59,14 +53,14 @@ public class ReactivePersonRepositoryIntegrationTest {
 						.maxDocuments(100) //
 						.capped()));
 
-		StepVerifier.create(recreateCollection).expectNextCount(1).verifyComplete();
+		recreateCollection.as(StepVerifier::create).expectNextCount(1).verifyComplete();
 
 		var insertAll = operations.insertAll(Flux.just(new Person("Walter", "White", 50), //
 						new Person("Skyler", "White", 45), //
 						new Person("Saul", "Goodman", 42), //
 				new Person("Jesse", "Pinkman", 27)).collectList());
 
-		StepVerifier.create(insertAll).expectNextCount(4).verifyComplete();
+		insertAll.as(StepVerifier::create).expectNextCount(4).verifyComplete();
 	}
 
 	/**
@@ -74,7 +68,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * the two counts ({@code 4} and {@code 6}) to the console.
 	 */
 	@Test
-	public void shouldInsertAndCountData() {
+	void shouldInsertAndCountData() {
 
 		var saveAndCount = repository.count() //
 				.doOnNext(System.out::println) //
@@ -84,16 +78,17 @@ public class ReactivePersonRepositoryIntegrationTest {
 				.flatMap(v -> repository.count()) //
 				.doOnNext(System.out::println);
 
-		StepVerifier.create(saveAndCount).expectNext(6L).verifyComplete();
+		saveAndCount.as(StepVerifier::create).expectNext(6L).verifyComplete();
 	}
 
 	/**
 	 * Note that the all object conversions are performed before the results are printed to the console.
 	 */
 	@Test
-	public void shouldPerformConversionBeforeResultProcessing() {
+	void shouldPerformConversionBeforeResultProcessing() {
 
-		StepVerifier.create(repository.findAll().doOnNext(System.out::println)) //
+		repository.findAll().doOnNext(System.out::println) //
+				.as(StepVerifier::create) //
 				.expectNextCount(4) //
 				.verifyComplete();
 	}
@@ -102,7 +97,7 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * A tailable cursor streams data using {@link Flux} as it arrives inside the capped collection.
 	 */
 	@Test
-	public void shouldStreamDataWithTailableCursor() throws Exception {
+	void shouldStreamDataWithTailableCursor() throws Exception {
 
 		Queue<Person> people = new ConcurrentLinkedQueue<>();
 
@@ -115,19 +110,22 @@ public class ReactivePersonRepositoryIntegrationTest {
 
 		Thread.sleep(100);
 
-		StepVerifier.create(repository.save(new Person("Tuco", "Salamanca", 33))) //
+		repository.save(new Person("Tuco", "Salamanca", 33)) //
+				.as(StepVerifier::create) //
 				.expectNextCount(1) //
 				.verifyComplete();
 		Thread.sleep(100);
 
-		StepVerifier.create(repository.save(new Person("Mike", "Ehrmantraut", 62))) //
+		repository.save(new Person("Mike", "Ehrmantraut", 62)) //
+				.as(StepVerifier::create) //
 				.expectNextCount(1) //
 				.verifyComplete();
 		Thread.sleep(100);
 
 		disposable.dispose();
 
-		StepVerifier.create(repository.save(new Person("Gus", "Fring", 53))) //
+		repository.save(new Person("Gus", "Fring", 53)) //
+				.as(StepVerifier::create) //
 				.expectNextCount(1) //
 				.verifyComplete();
 		Thread.sleep(100);
@@ -139,33 +137,34 @@ public class ReactivePersonRepositoryIntegrationTest {
 	 * Fetch data using query derivation.
 	 */
 	@Test
-	public void shouldQueryDataWithQueryDerivation() {
-		StepVerifier.create(repository.findByLastname("White")).expectNextCount(2).verifyComplete();
+	void shouldQueryDataWithQueryDerivation() {
+		repository.findByLastname("White").as(StepVerifier::create).expectNextCount(2).verifyComplete();
 	}
 
 	/**
 	 * Fetch data using a string query.
 	 */
 	@Test
-	public void shouldQueryDataWithStringQuery() {
-		StepVerifier.create(repository.findByFirstnameAndLastname("Walter", "White")).expectNextCount(1).verifyComplete();
+	void shouldQueryDataWithStringQuery() {
+		repository.findByFirstnameAndLastname("Walter", "White").as(StepVerifier::create).expectNextCount(1)
+				.verifyComplete();
 	}
 
 	/**
 	 * Fetch data using query derivation.
 	 */
 	@Test
-	public void shouldQueryDataWithDeferredQueryDerivation() {
-		StepVerifier.create(repository.findByLastname(Mono.just("White"))).expectNextCount(2).verifyComplete();
+	void shouldQueryDataWithDeferredQueryDerivation() {
+		repository.findByLastname(Mono.just("White")).as(StepVerifier::create).expectNextCount(2).verifyComplete();
 	}
 
 	/**
 	 * Fetch data using query derivation and deferred parameter resolution.
 	 */
 	@Test
-	public void shouldQueryDataWithMixedDeferredQueryDerivation() {
+	void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
-		StepVerifier.create(repository.findByFirstnameAndLastname(Mono.just("Walter"), "White")) //
+		repository.findByFirstnameAndLastname(Mono.just("Walter"), "White").as(StepVerifier::create) //
 				.expectNextCount(1) //
 				.verifyComplete();
 	}

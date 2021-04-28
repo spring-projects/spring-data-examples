@@ -22,30 +22,29 @@ import example.springdata.mongodb.customer.Customer;
 import java.util.Map;
 
 import org.bson.Document;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.script.ExecutableMongoScript;
 import org.springframework.data.mongodb.core.script.NamedMongoScript;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ServersideScriptTests {
+@DataMongoTest
+class ServersideScriptTests {
 
 	@Autowired AdvancedRepository repository;
 	@Autowired MongoOperations operations;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		if (!operations.collectionExists(Customer.class)) {
 			operations.createCollection(Customer.class);
@@ -60,7 +59,7 @@ public class ServersideScriptTests {
 	 * Store and call an arbitrary JavaScript function (in this case a simple echo script) via its name.
 	 */
 	@Test
-	public void saveAndCallScriptViaName() {
+	void saveAndCallScriptViaName() {
 
 		operations.scriptOps()
 				.register(new NamedMongoScript("echoScript", new ExecutableMongoScript("function(x) { return x; }")));
@@ -73,8 +72,8 @@ public class ServersideScriptTests {
 	 * {@link Map#putIfAbsent(Object, Object)}
 	 */
 	@Test
-	@Ignore
-	public void complexScriptExecutionSimulatingPutIfAbsent() {
+	@Disabled
+	void complexScriptExecutionSimulatingPutIfAbsent() {
 
 		var ned = new Customer("Ned", "Stark");
 		ned.setId("ned-stark");

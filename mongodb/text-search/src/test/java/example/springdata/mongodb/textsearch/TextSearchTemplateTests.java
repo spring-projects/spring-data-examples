@@ -18,46 +18,29 @@ package example.springdata.mongodb.textsearch;
 import static example.springdata.mongodb.util.ConsoleResultPrinter.*;
 import static org.springframework.data.mongodb.core.query.Query.*;
 
-import java.util.List;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.core.query.TextQuery;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  * @author Thomas Darimont
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class TextSearchTemplateTests {
+@DataMongoTest
+class TextSearchTemplateTests {
 
 	@Autowired MongoOperations operations;
-
-	// @Before
-	// public void setUp() throws Exception {
-	//
-	// MongoProperties properties = new MongoProperties();
-	//
-	// operations = new MongoTemplate(properties.createMongoClient(null), properties.getMongoClientDatabase());
-	// operations.dropCollection(BlogPost.class);
-	//
-	// createIndex();
-	//
-	// BlogPostInitializer.INSTANCE.initialize(this.operations);
-	// }
 
 	/**
 	 * Show how to do simple matching. Note that text search is case insensitive and will also find entries like
 	 * {@literal releases}.
 	 */
 	@Test
-	public void findAllBlogPostsWithRelease() {
+	void findAllBlogPostsWithRelease() {
 
 		var criteria = TextCriteria.forDefaultLanguage().matchingAny("release");
 		var blogPosts = operations.find(query(criteria), BlogPost.class);
@@ -69,7 +52,7 @@ public class TextSearchTemplateTests {
 	 * Sort by relevance relying on the value marked with {@link org.springframework.data.mongodb.core.mapping.TextScore}.
 	 */
 	@Test
-	public void findAllBlogPostsByPhraseSortByScore() {
+	void findAllBlogPostsByPhraseSortByScore() {
 
 		var criteria = TextCriteria.forDefaultLanguage().matchingPhrase("release");
 

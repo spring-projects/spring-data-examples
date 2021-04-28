@@ -23,9 +23,8 @@ import java.util.List;
 
 import org.assertj.core.util.Files;
 import org.bson.Document;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +37,6 @@ import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.data.mongodb.core.aggregation.BucketAutoOperation.Granularities;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Examples for Spring Books using the MongoDB Aggregation Framework. Data originates from Google's Book search.
@@ -49,15 +47,14 @@ import org.springframework.test.context.junit4.SpringRunner;
  *      "https://www.googleapis.com/books/v1/volumes?q=intitle:spring+framework">https://www.googleapis.com/books/v1/volumes?q=intitle:spring+framework</a>
  * @see <a href="/books.json>books.json</a>
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class SpringBooksIntegrationTests {
+class SpringBooksIntegrationTests {
 
 	@Autowired MongoOperations operations;
 
 	@SuppressWarnings("unchecked")
-	@Before
-	public void before() throws Exception {
+	@BeforeEach
+	void before() throws Exception {
 
 		if (operations.count(new Query(), "books") == 0) {
 
@@ -74,7 +71,7 @@ public class SpringBooksIntegrationTests {
 	 * Project Book titles.
 	 */
 	@Test
-	public void shouldRetrieveOrderedBookTitles() {
+	void shouldRetrieveOrderedBookTitles() {
 
 		record BookTitle(String title) {
 		}
@@ -94,7 +91,7 @@ public class SpringBooksIntegrationTests {
 	 * Get number of books that were published by the particular publisher.
 	 */
 	@Test
-	public void shouldRetrieveBooksPerPublisher() {
+	void shouldRetrieveBooksPerPublisher() {
 
 		var aggregation = newAggregation( //
 				group("volumeInfo.publisher") //
@@ -113,7 +110,7 @@ public class SpringBooksIntegrationTests {
 	 * Get number of books that were published by the particular publisher with their titles.
 	 */
 	@Test
-	public void shouldRetrieveBooksPerPublisherWithTitles() {
+	void shouldRetrieveBooksPerPublisherWithTitles() {
 
 		var aggregation = newAggregation( //
 				group("volumeInfo.publisher") //
@@ -135,7 +132,7 @@ public class SpringBooksIntegrationTests {
 	 * Filter for Data-related books in their title and output the title and authors.
 	 */
 	@Test
-	public void shouldRetrieveDataRelatedBooks() {
+	void shouldRetrieveDataRelatedBooks() {
 
 		var aggregation = newAggregation( //
 				match(Criteria.where("volumeInfo.title").regex("data", "i")), //
@@ -156,7 +153,7 @@ public class SpringBooksIntegrationTests {
 	 * Retrieve the number of pages per author (and divide the number of pages by the number of authors).
 	 */
 	@Test
-	public void shouldRetrievePagesPerAuthor() {
+	void shouldRetrievePagesPerAuthor() {
 
 		record PagesPerAuthor(@Id String author, int totalPageCount, int approxWritten) {
 		}
@@ -187,7 +184,7 @@ public class SpringBooksIntegrationTests {
 	 * Categorize books by their page count into buckets.
 	 */
 	@Test
-	public void shouldCategorizeBooksInBuckets() {
+	void shouldCategorizeBooksInBuckets() {
 
 		var aggregation = newAggregation( //
 				replaceRoot("volumeInfo"), //
@@ -219,7 +216,7 @@ public class SpringBooksIntegrationTests {
 	 */
 	@Test
 	@SuppressWarnings("unchecked")
-	public void shouldCategorizeInMultipleFacetsByPriceAndAuthor() {
+	void shouldCategorizeInMultipleFacetsByPriceAndAuthor() {
 
 		var aggregation = newAggregation( //
 				match(Criteria.where("volumeInfo.authors").exists(true).and("volumeInfo.publisher").exists(true)),
@@ -248,15 +245,15 @@ public class SpringBooksIntegrationTests {
 		assertThat((List<Object>) uniqueMappedResult.get("authors")).hasSize(8);
 	}
 
-	record BooksPerPublisher(String publisher, int count, List<String> titles) {
+	private record BooksPerPublisher(String publisher, int count, List<String> titles) {
 	}
 
-	record BookAndAuthors(String title, List<String> authors) {
+	private record BookAndAuthors(String title, List<String> authors) {
 	}
 
-	record BookFacetPerPage(BookFacetPerPageId id, int count, List<String> titles) {
+	private record BookFacetPerPage(BookFacetPerPageId id, int count, List<String> titles) {
 	}
 
-	record BookFacetPerPageId(int min, int max) {
+	private record BookFacetPerPageId(int min, int max) {
 	}
 }

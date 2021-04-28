@@ -15,21 +15,18 @@
  */
 package example.springdata.mongodb.security;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.Collections;
-import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link PersonRepository}.
@@ -37,16 +34,15 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class PersonRepositoryIntegrationTest {
+class PersonRepositoryIntegrationTest {
 
 	@Autowired PersonRepository repository;
 
-	Person dave, oliver, carter, admin;
+	private Person dave, oliver, carter, admin;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		repository.deleteAll();
 
@@ -57,18 +53,17 @@ public class PersonRepositoryIntegrationTest {
 	}
 
 	@Test
-	public void nonAdminCallingShouldReturnOnlyItSelfAsPerson() throws Exception {
+	void nonAdminCallingShouldReturnOnlyItSelfAsPerson() throws Exception {
 
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(dave, "x"));
 
 		var persons = repository.findAllForCurrentUserById();
 
-		assertThat(persons, hasSize(1));
-		assertThat(persons, contains(dave));
+		assertThat(persons).hasSize(1).containsExactly(dave);
 	}
 
 	@Test
-	public void adminCallingShouldReturnAllUsers() throws Exception {
+	void adminCallingShouldReturnAllUsers() throws Exception {
 
 		var auth = new UsernamePasswordAuthenticationToken(admin, "x",
 				Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
@@ -76,7 +71,6 @@ public class PersonRepositoryIntegrationTest {
 
 		var persons = repository.findAllForCurrentUserById();
 
-		assertThat(persons, hasSize(4));
-		assertThat(persons, containsInAnyOrder(admin, dave, carter, oliver));
+		assertThat(persons).hasSize(4).contains(admin, dave, carter, oliver);
 	}
 }

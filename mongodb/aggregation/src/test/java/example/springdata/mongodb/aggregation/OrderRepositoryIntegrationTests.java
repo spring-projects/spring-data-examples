@@ -20,13 +20,12 @@ import static org.assertj.core.data.Offset.offset;
 
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests for {@link OrderRepository}.
@@ -36,9 +35,8 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Christoph Strobl
  * @author Divya Srivastava
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class OrderRepositoryIntegrationTests {
+class OrderRepositoryIntegrationTests {
 
 	@Autowired OrderRepository repository;
 
@@ -46,13 +44,13 @@ public class OrderRepositoryIntegrationTests {
 	private final static LineItem product2 = new LineItem("p2", 0.87, 2);
 	private final static LineItem product3 = new LineItem("p3", 5.33);
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		repository.deleteAll();
 	}
 
 	@Test
-	public void createsInvoiceViaProgrammaticAggregation() {
+	void createsInvoiceViaProgrammaticAggregation() {
 
 		var order = new Order("c42", new Date()).//
 				addItem(product1).addItem(product2).addItem(product3);
@@ -68,7 +66,7 @@ public class OrderRepositoryIntegrationTests {
 	}
 
 	@Test
-	public void createsInvoiceViaDeclarativeAggregation() {
+	void createsInvoiceViaDeclarativeAggregation() {
 
 		var order = new Order("c42", new Date()).//
 				addItem(product1).addItem(product2).addItem(product3);
@@ -84,7 +82,7 @@ public class OrderRepositoryIntegrationTests {
 	}
 
 	@Test
-	public void declarativeAggregationWithSort() {
+	void declarativeAggregationWithSort() {
 
 		repository.save(new Order("c42", new Date()).addItem(product1));
 		repository.save(new Order("c42", new Date()).addItem(product2));
@@ -100,7 +98,7 @@ public class OrderRepositoryIntegrationTests {
 	}
 
 	@Test
-	public void multiStageDeclarativeAggregation() {
+	void multiStageDeclarativeAggregation() {
 
 		repository.save(new Order("c42", new Date()).addItem(product1));
 		repository.save(new Order("c42", new Date()).addItem(product2));

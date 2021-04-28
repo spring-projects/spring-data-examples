@@ -20,34 +20,32 @@ import static org.assertj.core.api.Assertions.*;
 import example.springdata.mongodb.customer.Customer;
 
 import org.bson.Document;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Meta;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class AdvancedIntegrationTests {
+@DataMongoTest
+class AdvancedIntegrationTests {
 
 	@Autowired AdvancedRepository repository;
 	@Autowired MongoOperations operations;
 
-	Customer dave, oliver, carter;
+	private Customer dave, oliver, carter;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		repository.deleteAll();
 
@@ -63,7 +61,7 @@ public class AdvancedIntegrationTests {
 	 * <strong>NOTE</strong>: Requires MongoDB v. 2.6.4+
 	 */
 	@Test
-	public void findByFirstnameUsingMetaAttributes() {
+	void findByFirstnameUsingMetaAttributes() {
 
 		// execute derived finder method just to get the comment in the profile log
 		repository.findByFirstname(dave.getFirstname());

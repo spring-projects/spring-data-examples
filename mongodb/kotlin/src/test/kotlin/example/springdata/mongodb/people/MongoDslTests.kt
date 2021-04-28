@@ -16,10 +16,11 @@
 package example.springdata.mongodb.people;
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.dropCollection
@@ -36,14 +37,13 @@ import org.springframework.test.context.junit4.SpringRunner
  *
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner::class)
-@SpringBootTest
+@DataMongoTest
 class MongoDslTests {
 
 	@Autowired
 	lateinit var operations: MongoOperations
 
-	@Before
+	@BeforeEach
 	fun before() {
 		operations.dropCollection<Person>()
 	}

@@ -23,11 +23,11 @@ import static org.springframework.data.mongodb.core.query.Update.*;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -35,9 +35,6 @@ import org.springframework.data.mongodb.core.ExecutableFindOperation.Terminating
 import org.springframework.data.mongodb.core.FluentMongoOperations;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.NearQuery;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.client.result.UpdateResult;
 
 /**
  * Some tests showing usage and capabilities of {@link FluentMongoOperations}. <br />
@@ -53,22 +50,21 @@ import com.mongodb.client.result.UpdateResult;
  *
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class FluentMongoApiTests {
+@DataMongoTest
+class FluentMongoApiTests {
 
 	@Autowired FluentMongoOperations mongoOps;
 
 	/**
 	 * A predefined, reusable lookup method.
 	 */
-	TerminatingFind<Jedi> findLuke;
+	private TerminatingFind<Jedi> findLuke;
 
-	final NearQuery alderaanWithin3Parsecs = NearQuery.near(-73.9667, 40.78).maxDistance(new Distance(3, MILES))
+	private final NearQuery alderaanWithin3Parsecs = NearQuery.near(-73.9667, 40.78).maxDistance(new Distance(3, MILES))
 			.spherical(true);
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		findLuke = mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
 				.as(Jedi.class) // so we use Jedi as the desired return type to also map "lastname"
@@ -91,7 +87,7 @@ public class FluentMongoApiTests {
 	 * </pre>
 	 */
 	@Test
-	public void usePredefinedFinder() {
+	void usePredefinedFinder() {
 		assertThat(findLuke.one()).contains(new Jedi("luke", "skywalker"));
 	}
 
@@ -109,7 +105,7 @@ public class FluentMongoApiTests {
 	 * </pre>
 	 */
 	@Test
-	public void fetchInterfaceProjection() {
+	void fetchInterfaceProjection() {
 
 		var anakin = mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
 				.as(Sith.class) // use an interface as return type to create a projection
@@ -146,7 +142,7 @@ public class FluentMongoApiTests {
 	 * </pre>
 	 */
 	@Test
-	public void queryFirstVsOne() {
+	void queryFirstVsOne() {
 
 		mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
 				.matching(query(where("lastname").is("skywalker"))) // so properties are taken as is
@@ -177,7 +173,7 @@ public class FluentMongoApiTests {
 	 * </pre>
 	 */
 	@Test
-	public void geoNearQuery() {
+	void geoNearQuery() {
 
 		var results = mongoOps.query(SWCharacter.class) // SWCharacter defines collection, id and name
 				.as(Jedi.class) // but we want to map the results to Jedi
@@ -202,7 +198,7 @@ public class FluentMongoApiTests {
 	 * </pre>
 	 */
 	@Test
-	public void querySpecificCollection() {
+	void querySpecificCollection() {
 
 		var skywalkers = mongoOps.query(Human.class) // Human does not define a collection via @Document
 				.inCollection("star-wars") // so we set an explicit collection name
@@ -216,7 +212,7 @@ public class FluentMongoApiTests {
 	 * Simple insert operation adding a new {@link Jedi} to the {@literal star-wars} collection.
 	 */
 	@Test
-	public void justInsertOne() {
+	void justInsertOne() {
 
 		var chewbacca = new SWCharacter("Chewbacca");
 
@@ -239,7 +235,7 @@ public class FluentMongoApiTests {
 	 * </pre>
 	 */
 	@Test
-	public void updateAndUpsert() {
+	void updateAndUpsert() {
 
 		var result = mongoOps.update(Jedi.class) // Jedi defines the collection and field mapping
 				.matching(query(where("lastname").is("windu"))) // so "last" maps to "lastname".
