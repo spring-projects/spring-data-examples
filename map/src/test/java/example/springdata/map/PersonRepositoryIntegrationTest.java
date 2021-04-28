@@ -25,15 +25,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.map.repository.config.EnableMapRepositories;
 
-
 /**
  * Integration tests for {@link PersonRepository}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
-
 @SpringBootTest
-public class PersonRepositoryIntegrationTest {
+class PersonRepositoryIntegrationTest {
 
 	@SpringBootApplication
 	@EnableMapRepositories
@@ -42,7 +41,7 @@ public class PersonRepositoryIntegrationTest {
 	@Autowired PersonRepository repository;
 
 	@Test
-	public void storesPerson() {
+	void storesPerson() {
 
 		Person person = repository.save(new Person("Dave", "Matthews", 47));
 
@@ -50,7 +49,7 @@ public class PersonRepositoryIntegrationTest {
 	}
 
 	@Test
-	public void findsPersonByAge() {
+	void findsPersonByAge() {
 
 		Person dave = repository.save(new Person("Dave", "Matthews", 47));
 		Person oliver = repository.save(new Person("Oliver August", "Matthews", 7));
