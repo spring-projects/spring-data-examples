@@ -50,7 +50,7 @@ class ApplicationConfiguration {
 
 		// Save data sample
 
-		List<Conference> documents = Arrays.asList(
+		var documents = Arrays.asList(
 				Conference.builder().date("2014-11-06").name("Spring eXchange 2014 - London")
 						.keywords(Arrays.asList("java", "spring")).location(new GeoPoint(51.500152D, -0.126236D)).build(), //
 				Conference.builder().date("2014-12-07").name("Scala eXchange 2014 - London")

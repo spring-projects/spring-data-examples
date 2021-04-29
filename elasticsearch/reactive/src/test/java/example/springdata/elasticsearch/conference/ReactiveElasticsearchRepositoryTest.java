@@ -46,8 +46,8 @@ class ReactiveElasticsearchRepositoryTest {
 	@Test
 	void textSearch() {
 
-		String expectedDate = "2014-10-29";
-		String expectedWord = "java";
+		var expectedDate = "2014-10-29";
+		var expectedWord = "java";
 
 		repository.findAllByKeywordsContainsAndDateAfter(expectedWord, expectedDate) //
 				.as(StepVerifier::create) //

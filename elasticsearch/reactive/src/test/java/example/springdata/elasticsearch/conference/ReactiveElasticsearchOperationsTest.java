@@ -50,9 +50,9 @@ class ReactiveElasticsearchOperationsTest {
 	@Test
 	void textSearch() {
 
-		String expectedDate = "2014-10-29";
-		String expectedWord = "java";
-		CriteriaQuery query = new CriteriaQuery(
+		var expectedDate = "2014-10-29";
+		var expectedWord = "java";
+		var query = new CriteriaQuery(
 				new Criteria("keywords").contains(expectedWord).and("date").greaterThanEqual(expectedDate));
 
 		operations.search(query, Conference.class) //

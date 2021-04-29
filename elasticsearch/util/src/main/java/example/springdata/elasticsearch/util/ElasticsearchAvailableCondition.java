@@ -15,15 +15,12 @@
  */
 package example.springdata.elasticsearch.util;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -37,7 +34,7 @@ class ElasticsearchAvailableCondition implements ExecutionCondition {
 	@Override
 	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext extensionContext) {
 
-		Optional<EnabledOnElasticsearch> annotation = AnnotationSupport.findAnnotation(extensionContext.getElement(),
+		var annotation = AnnotationSupport.findAnnotation(extensionContext.getElement(),
 				EnabledOnElasticsearch.class);
 
 		return annotation.map(EnabledOnElasticsearch::url) //
@@ -47,10 +44,10 @@ class ElasticsearchAvailableCondition implements ExecutionCondition {
 
 	private static ConditionEvaluationResult checkServerRunning(String url) {
 
-		RestTemplate template = new RestTemplate();
+		var template = new RestTemplate();
 
 		try {
-			ResponseEntity<byte[]> entity = template.exchange(url, HttpMethod.HEAD, null, byte[].class);
+			var entity = template.exchange(url, HttpMethod.HEAD, null, byte[].class);
 			return ConditionEvaluationResult
 					.enabled("Successfully connected to Elasticsearch server: " + entity.getStatusCode());
 		} catch (RuntimeException e) {
