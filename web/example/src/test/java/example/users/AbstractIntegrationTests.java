@@ -15,9 +15,7 @@
  */
 package example.users;
 
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * Integration tests to bootstrap the application.
@@ -25,6 +23,5 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
-public abstract class AbstractIntegrationTests {}
+abstract class AbstractIntegrationTests {}

@@ -46,9 +46,8 @@ import static org.assertj.core.api.Assertions.*;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class UserControllerClientTests {
+class UserControllerClientTests {
 
 	@Autowired TestRestTemplate template;
 
@@ -71,28 +70,28 @@ public class UserControllerClientTests {
 	}
 
 	@Test
-	public void accessJsonFieldsOnSimplePayload() {
+	void accessJsonFieldsOnSimplePayload() {
 		assertDave(issueGet("/", MediaType.APPLICATION_JSON));
 	}
 
 	@Test
-	public void accessJsonFieldsOnNestedPayload() {
+	void accessJsonFieldsOnNestedPayload() {
 		assertDave(issueGet("/changed", MediaType.APPLICATION_JSON));
 	}
 
 	@Test
-	public void accessXmlElementsOnSimplePayload() {
+	void accessXmlElementsOnSimplePayload() {
 		assertDave(issueGet("/", MediaType.APPLICATION_XML));
 	}
 
 	@Test
-	public void accessXmlElementsOnNestedPayload() {
+	void accessXmlElementsOnNestedPayload() {
 		assertDave(issueGet("/changed", MediaType.APPLICATION_XML));
 	}
 
 	private UserPayload issueGet(String path, MediaType mediaType) {
 
-		HttpHeaders headers = new HttpHeaders();
+		var headers = new HttpHeaders();
 		headers.add(HttpHeaders.ACCEPT, mediaType.toString());
 
 		return template.exchange(path, HttpMethod.GET, new HttpEntity<Void>(headers), UserPayload.class).getBody();

@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.*;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-public class UserManagementIntegrationTests extends AbstractIntegrationTests {
+class UserManagementIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired UserManagement userManagement;
 
@@ -35,9 +35,9 @@ public class UserManagementIntegrationTests extends AbstractIntegrationTests {
 	 * @see #65
 	 */
 	@Test
-	public void encryptsPasswordWhenCreatingAUser() {
+	void encryptsPasswordWhenCreatingAUser() {
 
-		User user = userManagement.register(new Username("olivergierke"), Password.raw("foobar"));
+		var user = userManagement.register(new Username("olivergierke"), Password.raw("foobar"));
 
 		assertThat(user.getPassword().isEncrypted()).isTrue();
 	}

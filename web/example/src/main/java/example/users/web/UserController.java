@@ -21,7 +21,6 @@ import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -91,7 +90,7 @@ class UserController {
 
 		userManagement.register(new Username(userForm.getUsername()), Password.raw(userForm.getPassword()));
 
-		RedirectView redirectView = new RedirectView("redirect:/users");
+		var redirectView = new RedirectView("redirect:/users");
 		redirectView.setPropagateQueryParams(true);
 
 		return redirectView;

@@ -21,7 +21,6 @@ import javax.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -57,7 +56,7 @@ public class UserManagement {
 			throw new IllegalArgumentException("User with that name already exists!");
 		});
 
-		Password encryptedPassword = Password.encrypted(encoder.encode(password));
+		var encryptedPassword = Password.encrypted(encoder.encode(password));
 
 		return repository.save(new User(username, encryptedPassword));
 	}

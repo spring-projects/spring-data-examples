@@ -26,7 +26,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
-public class UserRepositoryIntegrationTests extends AbstractIntegrationTests {
+class UserRepositoryIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired UserRepository users;
 
@@ -34,7 +34,7 @@ public class UserRepositoryIntegrationTests extends AbstractIntegrationTests {
 	 * @see #65
 	 */
 	@Test
-	public void repositoryRejectsUnencryptedPassword() {
+	void repositoryRejectsUnencryptedPassword() {
 		Assertions.assertThrows(InvalidDataAccessApiUsageException.class, () -> {
 			users.save(new User(new Username("olivergierke"), Password.raw("foobar")));
 		});

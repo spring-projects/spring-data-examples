@@ -20,15 +20,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 /**
  * Integration tests for {@link UserController}.
@@ -36,33 +34,32 @@ import org.springframework.test.web.servlet.ResultActions;
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
-public class UserControllerIntegrationTests {
+class UserControllerIntegrationTests {
 
 	@Autowired MockMvc mvc;
 
 	@Test
-	public void handlesJsonPayloadWithExactProperties() throws Exception {
+	void handlesJsonPayloadWithExactProperties() throws Exception {
 		postAndExpect("{ \"firstname\" : \"Dave\", \"lastname\" : \"Matthews\" }", MediaType.APPLICATION_JSON);
 	}
 
 	@Test
-	public void handlesJsonPayloadWithNestedProperties() throws Exception {
+	void handlesJsonPayloadWithNestedProperties() throws Exception {
 		postAndExpect("{ \"user\" : { \"firstname\" : \"Dave\", \"lastname\" : \"Matthews\" } }",
 				MediaType.APPLICATION_JSON);
 	}
 
 	@Test
-	public void handlesXmlPayLoadWithExactProperties() throws Exception {
+	void handlesXmlPayLoadWithExactProperties() throws Exception {
 
 		postAndExpect("<user><firstname>Dave</firstname><lastname>Matthews</lastname></user>", MediaType.APPLICATION_XML);
 	}
 
 	private void postAndExpect(String payload, MediaType mediaType) throws Exception {
 
-		ResultActions actions = mvc.perform(post("/")//
+		var actions = mvc.perform(post("/")//
 				.content(payload)//
 				.contentType(mediaType))//
 				.andExpect(status().isOk());
