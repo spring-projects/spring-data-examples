@@ -44,7 +44,7 @@ public class Actor {
 
 	public void actedIn(Movie movie, List<String> roleNames) {
 
-		Roles movieRoles = new Roles(roleNames);
+		var movieRoles = new Roles(roleNames);
 		movieRoles.setMovie(movie);
 
 		this.roles.add(movieRoles);

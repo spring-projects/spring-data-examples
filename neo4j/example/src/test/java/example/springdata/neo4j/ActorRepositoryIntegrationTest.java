@@ -20,15 +20,16 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.neo4j.harness.ServerControls;
-import org.neo4j.harness.TestServerBuilders;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
+import org.testcontainers.containers.Neo4jContainer;
 
 /**
  * Simple integration test demonstrating the use of the ActorRepository
@@ -36,27 +37,26 @@ import org.springframework.test.context.DynamicPropertySource;
  * @author Luanne Misquitta
  * @author Oliver Gierke
  * @author Michael J. Simons
+ * @author Mark Paluch
  */
 @SpringBootTest
 class ActorRepositoryIntegrationTest {
 
-	private static final ServerControls neo4j = TestServerBuilders
-		.newInProcessBuilder().newServer();
+	private static Neo4jContainer container;
 
-	@AfterAll
+	@BeforeAll
 	static void stopNeo4j() {
 
-		if (neo4j != null) {
-			neo4j.close();
-		}
+		container = new Neo4jContainer("neo4j:4.2.5");
+		container.start();
 	}
 
 	@DynamicPropertySource
 	static void neo4jProperties(DynamicPropertyRegistry registry) {
 
-		registry.add("spring.neo4j.uri", neo4j::boltURI);
+		registry.add("spring.neo4j.uri", container::getBoltUrl);
 		registry.add("spring.neo4j.authentication.username", () -> "neo4j");
-		registry.add("spring.neo4j.authentication.password", () -> "password");
+		registry.add("spring.neo4j.authentication.password", container::getAdminPassword);
 	}
 
 	@SpringBootApplication
@@ -68,9 +68,9 @@ class ActorRepositoryIntegrationTest {
 	@Test // #131
 	void shouldBeAbleToSaveAndLoadActor() {
 
-		Movie goblet = new Movie("Harry Potter and the Goblet of Fire");
+		var goblet = new Movie("Harry Potter and the Goblet of Fire");
 
-		Actor daniel = new Actor("Daniel Radcliffe");
+		var daniel = new Actor("Daniel Radcliffe");
 		daniel.actedIn(goblet, Collections.singletonList("Harry Potter"));
 
 		actorRepository.save(daniel); // saves the actor and the movie
@@ -87,16 +87,16 @@ class ActorRepositoryIntegrationTest {
 	@Test // #386
 	void shouldBeAbleToHandleNestedProperties() {
 
-		Movie theParentTrap = new Movie("The Parent Trap");
-		Movie iKnowWhoKilledMe = new Movie("I Know Who Killed Me");
+		var theParentTrap = new Movie("The Parent Trap");
+		var iKnowWhoKilledMe = new Movie("I Know Who Killed Me");
 
-		Actor lindsayLohan = new Actor("Lindsay Lohan");
+		var lindsayLohan = new Actor("Lindsay Lohan");
 
 		lindsayLohan.actedIn(theParentTrap, Arrays.asList("Hallie Parker","Annie James"));
 		lindsayLohan.actedIn(iKnowWhoKilledMe, Arrays.asList("Aubrey Fleming", "Dakota Moss"));
 		actorRepository.save(lindsayLohan);
 
-		Actor nealMcDonough = new Actor("Neal McDonough");
+		var nealMcDonough = new Actor("Neal McDonough");
 		nealMcDonough.actedIn(iKnowWhoKilledMe, Collections.singletonList("Daniel Fleming"));
 		actorRepository.save(nealMcDonough);
 
