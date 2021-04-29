@@ -43,7 +43,7 @@ public class ApplicationIntegrationTests {
 		personRepository.save(new Person("Frodo", "Baggins"));
 		personRepository.save(new Person("Bilbo", "Baggins"));
 
-		for (Person person : personRepository.findAll()) {
+		for (var person : personRepository.findAll()) {
 			log.info("Hello " + person.toString());
 		}
 
@@ -51,7 +51,7 @@ public class ApplicationIntegrationTests {
 		treasureRepository.save(new Treasure("Sting", "Made by the Elves"));
 		treasureRepository.save(new Treasure("Sauron's ring", "One ring to rule them all"));
 
-		for (Treasure treasure : treasureRepository.findAll()) {
+		for (var treasure : treasureRepository.findAll()) {
 			log.info("Found treasure " + treasure.toString());
 		}
 	}

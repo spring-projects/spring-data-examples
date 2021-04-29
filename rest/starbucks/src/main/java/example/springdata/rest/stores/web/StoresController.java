@@ -57,12 +57,8 @@ class StoresController {
 
 	static {
 
-		Map<String, Point> locations = new HashMap<>();
-
-		locations.put("Pivotal SF", new Point(-122.4041764, 37.7819286));
-		locations.put("Timesquare NY", new Point(-73.995146, 40.740337));
-
-		KNOWN_LOCATIONS = Collections.unmodifiableMap(locations);
+		KNOWN_LOCATIONS = Map.of("Pivotal SF", new Point(-122.4041764, 37.7819286), "Timesquare NY",
+				new Point(-73.995146, 40.740337));
 	}
 
 	private final StoreRepository repository;
@@ -81,9 +77,9 @@ class StoresController {
 	String index(Model model, @RequestParam Optional<Point> location, @RequestParam Optional<Distance> distance,
 			Pageable pageable) {
 
-		Point point = location.orElse(KNOWN_LOCATIONS.get("Timesquare NY"));
+		var point = location.orElse(KNOWN_LOCATIONS.get("Timesquare NY"));
 
-		Page<Store> stores = repository.findByAddressLocationNear(point, distance.orElse(DEFAULT_DISTANCE), pageable);
+		var stores = repository.findByAddressLocationNear(point, distance.orElse(DEFAULT_DISTANCE), pageable);
 
 		model.addAttribute("stores", stores);
 		model.addAttribute("distances", DISTANCES);

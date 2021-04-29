@@ -31,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
@@ -88,10 +89,10 @@ public class Application {
 		@Bean
 		InMemoryUserDetailsManager userDetailsManager() {
 
-			UserBuilder builder = User.withDefaultPasswordEncoder();
+			var builder = User.builder().passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode);
 
-			UserDetails greg = builder.username("greg").password("turnquist").roles("USER").build();
-			UserDetails ollie = builder.username("ollie").password("gierke").roles("USER", "ADMIN").build();
+			var greg = builder.username("greg").password("turnquist").roles("USER").build();
+			var ollie = builder.username("ollie").password("gierke").roles("USER", "ADMIN").build();
 
 			return new InMemoryUserDetailsManager(greg, ollie);
 		}

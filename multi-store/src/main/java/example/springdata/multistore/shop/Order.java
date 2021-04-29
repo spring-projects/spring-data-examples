@@ -49,7 +49,7 @@ public class Order {
 	 * @param orderDate
 	 */
 	public Order(String customerId, Date orderDate) {
-		this(null, customerId, orderDate, new ArrayList<LineItem>());
+		this(null, customerId, orderDate, new ArrayList<>());
 	}
 
 	/**

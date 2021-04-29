@@ -53,13 +53,13 @@ public class StoreInitializer {
 			return;
 		}
 
-		Iterable<? extends IndexDefinition> indexDefinitions = IndexResolver
+		var indexDefinitions = IndexResolver
 				.create(operations.getConverter().getMappingContext())
 				.resolveIndexFor(Store.class);
 
 		indexDefinitions.forEach(operations.indexOps(Store.class)::ensureIndex);
 
-		List<Store> stores = readStores();
+		var stores = readStores();
 		log.info("Importing {} stores into MongoDB…", stores.size());
 		repository.saveAll(stores);
 		log.info("Successfully imported {} stores.", repository.count());
@@ -72,26 +72,26 @@ public class StoreInitializer {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Store> readStores() throws Exception {
+	private static List<Store> readStores() throws Exception {
 
-		ClassPathResource resource = new ClassPathResource("starbucks.csv");
-		Scanner scanner = new Scanner(resource.getInputStream());
-		String line = scanner.nextLine();
+		var resource = new ClassPathResource("starbucks.csv");
+		var scanner = new Scanner(resource.getInputStream());
+		var line = scanner.nextLine();
 		scanner.close();
 
-		FlatFileItemReader<Store> itemReader = new FlatFileItemReader<Store>();
+		var itemReader = new FlatFileItemReader<Store>();
 		itemReader.setResource(resource);
 
 		// DelimitedLineTokenizer defaults to comma as its delimiter
-		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+		var tokenizer = new DelimitedLineTokenizer();
 		tokenizer.setNames(line.split(","));
 		tokenizer.setStrict(false);
 
-		DefaultLineMapper<Store> lineMapper = new DefaultLineMapper<Store>();
+		var lineMapper = new DefaultLineMapper<Store>();
 		lineMapper.setFieldSetMapper(fields -> {
 
-			Point location = new Point(fields.readDouble("Longitude"), fields.readDouble("Latitude"));
-			Address address = new Address(fields.readString("Street Address"), fields.readString("City"),
+			var location = new Point(fields.readDouble("Longitude"), fields.readDouble("Latitude"));
+			var address = new Address(fields.readString("Street Address"), fields.readString("City"),
 					fields.readString("Zip"), location);
 
 			return new Store(UUID.randomUUID(), fields.readString("Name"), address);

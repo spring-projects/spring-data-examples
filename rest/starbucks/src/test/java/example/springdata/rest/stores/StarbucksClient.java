@@ -31,15 +31,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.Links;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.PagedModel;
-import org.springframework.hateoas.PagedModel.PageMetadata;
 import org.springframework.hateoas.client.Traverson;
-import org.springframework.hateoas.client.Traverson.TraversalBuilder;
 import org.springframework.hateoas.server.core.TypeReferences.CollectionModelType;
 import org.springframework.hateoas.server.core.TypeReferences.EntityModelType;
 import org.springframework.hateoas.server.core.TypeReferences.PagedModelType;
@@ -68,15 +62,17 @@ class StarbucksClient {
 
 	@LocalServerPort int port;
 
+	@Autowired RestOperations restOperations;
+
 	private static final String SERVICE_URI = "http://localhost:%s/api";
 
 	@Test
 	void discoverStoreSearch() {
 
-		Traverson traverson = new Traverson(URI.create(String.format(SERVICE_URI, port)), MediaTypes.HAL_JSON);
+		var traverson = new Traverson(URI.create(String.format(SERVICE_URI, port)), MediaTypes.HAL_JSON);
 
 		// Set up path traversal
-		TraversalBuilder builder = traverson. //
+		var builder = traverson. //
 				follow("stores", "search", "by-location");
 
 		// Log discovered
@@ -88,11 +84,11 @@ class StarbucksClient {
 		parameters.put("location", "40.740337,-73.995146");
 		parameters.put("distance", "0.5miles");
 
-		PagedModel<EntityModel<Store>> resources = builder.//
+		var resources = builder.//
 				withTemplateParameters(parameters).//
 				toObject(new PagedModelType<EntityModel<Store>>() {});
 
-		PageMetadata metadata = resources.getMetadata();
+		var metadata = resources.getMetadata();
 
 		log.info("Got {} of {} stores: ", resources.getContent().size(), metadata.getTotalElements());
 
@@ -101,45 +97,37 @@ class StarbucksClient {
 				forEach(store -> log.info("{} - {}", store.name, store.address));
 	}
 
-	@Autowired RestOperations restOperations;
 
 	@Test
 	void accessServiceUsingRestTemplate() {
 
 		// Access root resource
 
-		URI uri = URI.create(String.format(SERVICE_URI, port));
-		RequestEntity<Void> request = RequestEntity.get(uri).accept(HAL_JSON).build();
-		EntityModel<Object> rootLinks = restOperations.exchange(request, new EntityModelType<Object>() {}).getBody();
-		Links links = rootLinks.getLinks();
+		var uri = URI.create(String.format(SERVICE_URI, port));
+		var request = RequestEntity.get(uri).accept(HAL_JSON).build();
+		var rootLinks = restOperations.exchange(request, new EntityModelType<>() {}).getBody();
+		var links = rootLinks.getLinks();
 
 		// Follow stores link
 
-		Link storesLink = links.getRequiredLink("stores").expand();
+		var storesLink = links.getRequiredLink("stores").expand();
 
 		request = RequestEntity.get(URI.create(storesLink.getHref())).accept(HAL_JSON).build();
-		CollectionModel<Store> stores = restOperations.exchange(request, new CollectionModelType<Store>() {}).getBody();
+		var stores = restOperations.exchange(request, new CollectionModelType<Store>() {}).getBody();
 
 		stores.getContent().forEach(store -> log.info("{} - {}", store.name, store.address));
 	}
 
-	static class Store {
+	record Store(String name, StarbucksClient.Store.Address address) {
 
-		public String name;
-		Address address;
-
-		static class Address {
-
-			String city, zip, street;
-			Location location;
+		record Address(String city, String zip, String street, Store.Address.Location location) {
 
 			@Override
 			public String toString() {
 				return String.format("%s, %s %s - lat: %s, long: %s", street, zip, city, location.y, location.x);
 			}
 
-			static class Location {
-				double x, y;
+			record Location(double x, double y) {
 			}
 		}
 	}

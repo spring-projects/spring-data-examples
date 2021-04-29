@@ -26,6 +26,9 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
 /**
  * Collection of test cases used to verify method-level security.
  *
@@ -96,7 +99,7 @@ class MethodLevelSecurityTests {
 
 		itemRepository.findAll();
 
-		Item item = itemRepository.save(new Item("MacBook Pro"));
+		var item = itemRepository.save(new Item("MacBook Pro"));
 
 		itemRepository.deleteById(item.getId());
 	}

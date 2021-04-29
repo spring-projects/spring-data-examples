@@ -46,7 +46,7 @@ public class Customer {
 		this.gender = null;
 	}
 
-	static enum Gender {
-		MALE, FEMALE;
+	enum Gender {
+		MALE, FEMALE
 	}
 }

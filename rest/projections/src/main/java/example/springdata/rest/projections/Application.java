@@ -40,10 +40,10 @@ public class Application {
 
 	public @PostConstruct void init() {
 
-		Customer dave = customers.save(new Customer("Dave", "Matthews", Gender.MALE, //
+		var dave = customers.save(new Customer("Dave", "Matthews", Gender.MALE, //
 				new Address("4711 Some Place", "54321", "Charlottesville", "VA")));
 
-		Order order = new Order();
+		var order = new Order();
 
 		order.setCustomer(dave);
 		order.add(new LineItem("Lakewood guitar", new BigDecimal(1299.0)));
