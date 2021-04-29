@@ -15,17 +15,16 @@
  */
 package example.springdata.rest.stores;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 import example.springdata.rest.stores.Store.Address;
 
 import java.util.UUID;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -33,7 +32,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests for {@link StoreRepository}.
@@ -41,14 +39,13 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Oliver Gierke
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class StoreRepositoryIntegrationTests {
 
 	@Autowired StoreRepository repository;
 
-	@Before
-	@After
+	@BeforeEach
+	@AfterEach
 	public void clearDb() {
 		repository.deleteAll();
 	}

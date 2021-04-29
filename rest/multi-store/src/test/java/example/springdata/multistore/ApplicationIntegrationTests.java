@@ -21,11 +21,9 @@ import example.springdata.multistore.treasure.Treasure;
 import example.springdata.multistore.treasure.TreasureRepository;
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test to show the usage of repositories backed by different stores.
@@ -33,7 +31,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Oliver Gierke
  */
 @Slf4j
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationIntegrationTests {
 
