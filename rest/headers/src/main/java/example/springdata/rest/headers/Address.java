@@ -15,12 +15,12 @@
  */
 package example.springdata.rest.headers;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 /**
  * @author Oliver Gierke
@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Address {
 
-	@GeneratedValue @Id//
+	@GeneratedValue @Id //
 	private Long id;
 	private final String street, zipCode, city, state;
 

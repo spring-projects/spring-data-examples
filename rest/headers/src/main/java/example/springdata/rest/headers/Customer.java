@@ -15,6 +15,9 @@
  */
 package example.springdata.rest.headers;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
@@ -24,9 +27,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -52,7 +52,7 @@ public class Customer {
 	private final String firstname, lastname;
 	private final Gender gender;
 
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)//
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true) //
 	private final Address address;
 
 	Customer() {

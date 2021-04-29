@@ -15,6 +15,8 @@
  */
 package example.springdata.rest.projections;
 
+import static org.assertj.core.api.Assertions.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,8 +25,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test cases showing the programatic use of a {@link ProjectionFactory}.

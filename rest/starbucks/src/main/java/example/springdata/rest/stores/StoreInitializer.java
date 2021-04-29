@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.index.IndexResolver;
 import org.springframework.stereotype.Component;
 
@@ -53,8 +52,7 @@ public class StoreInitializer {
 			return;
 		}
 
-		var indexDefinitions = IndexResolver
-				.create(operations.getConverter().getMappingContext())
+		var indexDefinitions = IndexResolver.create(operations.getConverter().getMappingContext())
 				.resolveIndexFor(Store.class);
 
 		indexDefinitions.forEach(operations.indexOps(Store.class)::ensureIndex);

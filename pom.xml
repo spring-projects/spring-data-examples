@@ -18,10 +18,10 @@
 
 	<modules>
 		<module>bom</module>
-		<!-- <module>couchbase</module> -->
+		<!-- <module>couchbase</module> Bug in Couchbase SDK -->
 		<module>cassandra</module>
 		<module>elasticsearch</module>
-		<!-- <module>geode</module> -->
+		<!-- <module>geode</module> Geode isn't Java 16-ready -->
 		<module>jdbc</module>
 		<module>jpa</module>
 		<module>ldap</module>

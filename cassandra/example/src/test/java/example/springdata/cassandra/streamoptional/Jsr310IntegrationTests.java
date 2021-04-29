@@ -15,6 +15,8 @@
  */
 package example.springdata.cassandra.streamoptional;
 
+import static org.assertj.core.api.Assertions.*;
+
 import example.springdata.cassandra.util.CassandraKeyspace;
 
 import java.time.LocalDate;

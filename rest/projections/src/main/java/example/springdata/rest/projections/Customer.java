@@ -15,14 +15,14 @@
  */
 package example.springdata.rest.projections;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 /**
  * @author Oliver Gierke
@@ -36,7 +36,7 @@ public class Customer {
 	private final String firstname, lastname;
 	private final Gender gender;
 
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)//
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true) //
 	private final Address address;
 
 	Customer() {

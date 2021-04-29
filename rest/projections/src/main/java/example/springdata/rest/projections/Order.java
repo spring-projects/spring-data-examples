@@ -15,6 +15,8 @@
  */
 package example.springdata.rest.projections;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +27,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import lombok.Data;
-
 /**
  * @author Oliver Gierke
  */
@@ -34,13 +34,13 @@ import lombok.Data;
 @Data
 public class Order {
 
-	@Id @GeneratedValue//
+	@Id @GeneratedValue //
 	private Long id;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)//
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //
 	private List<LineItem> items = new ArrayList<>();
 
-	@ManyToOne//
+	@ManyToOne //
 	private Customer customer;
 
 	public Order add(LineItem item) {

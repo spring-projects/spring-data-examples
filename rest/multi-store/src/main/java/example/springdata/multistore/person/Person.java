@@ -15,12 +15,12 @@
  */
 package example.springdata.multistore.person;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 /**
  * A person.

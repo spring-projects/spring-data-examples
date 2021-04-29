@@ -15,6 +15,8 @@
  */
 package example.springdata.rest.stores;
 
+import static org.assertj.core.api.Assertions.*;
+
 import example.springdata.rest.stores.Store.Address;
 
 import java.util.UUID;
@@ -22,15 +24,13 @@ import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link StoreRepository}.

@@ -15,12 +15,12 @@
  */
 package example.springdata.rest.security;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -97,7 +97,6 @@ class StarbucksClient {
 				forEach(store -> log.info("{} - {}", store.name, store.address));
 	}
 
-
 	@Test
 	void accessServiceUsingRestTemplate() {
 
