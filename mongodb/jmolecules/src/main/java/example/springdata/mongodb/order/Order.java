@@ -20,7 +20,6 @@ import example.springdata.mongodb.customer.Customer.CustomerId;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import lombok.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 
 	public Order(Customer customer) {
 
-		this.id = OrderId.of(UUID.randomUUID());
+		this.id = new OrderId(UUID.randomUUID());
 		this.customer = Association.forAggregate(customer);
 		this.lineItems = new ArrayList<>();
 	}
@@ -58,13 +57,5 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 		return this;
 	}
 
-	@Value(staticConstructor = "of")
-	public static class OrderId implements Identifier {
-
-		UUID orderId;
-
-		public static OrderId create() {
-			return OrderId.of(UUID.randomUUID());
-		}
-	}
+	public static record OrderId(UUID id) implements Identifier {}
 }
