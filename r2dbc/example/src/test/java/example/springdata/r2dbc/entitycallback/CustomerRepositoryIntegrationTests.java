@@ -21,13 +21,10 @@ import reactor.test.StepVerifier;
 
 import java.io.IOException;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.r2dbc.core.DatabaseClient;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test using {@link org.springframework.data.r2dbc.mapping.event.BeforeConvertCallback} to auto-generate an
@@ -36,7 +33,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Mark Paluch
  * @see ApplicationConfiguration#idGeneratingCallback(DatabaseClient)
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class CustomerRepositoryIntegrationTests {
 
