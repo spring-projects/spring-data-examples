@@ -48,7 +48,7 @@ public abstract class CachingSecurityRepository implements SecurityRepository {
 
 	@Override
 	public User save(User user) {
-		User putUser = users.put(user.getName(), user);
+		var putUser = users.put(user.getName(), user);
 		return putUser != null ? putUser : user;
 	}
 }

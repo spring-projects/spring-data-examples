@@ -10,7 +10,8 @@
         <version>2.0.0.BUILD-SNAPSHOT</version>
     </parent>
 
-    <artifactId>security</artifactId>
+    <artifactId>spring-data-geode-security-example</artifactId>
+    <name>Spring Data Geode - Security</name>
 
     <dependencies>
         <dependency>

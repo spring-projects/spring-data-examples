@@ -92,15 +92,15 @@ public class QueryTests extends ForkingClientServerIntegrationTestsSupport {
 	public void oqlQueriesConfiguredCorrectly() {
 
 		log.info("Inserting 3 entries for keys: 1, 2, 3");
-		Customer john = new Customer(1L, new EmailAddress("2@2.com"), "John", "Smith");
-		Customer frank = new Customer(2L, new EmailAddress("3@3.com"), "Frank", "Lamport");
-		Customer jude = new Customer(3L, new EmailAddress("5@5.com"), "Jude", "Simmons");
+		var john = new Customer(1L, new EmailAddress("2@2.com"), "John", "Smith");
+		var frank = new Customer(2L, new EmailAddress("3@3.com"), "Frank", "Lamport");
+		var jude = new Customer(3L, new EmailAddress("5@5.com"), "Jude", "Simmons");
 		customerRepository.save(john);
 		customerRepository.save(frank);
 		customerRepository.save(jude);
 		assertThat(customers.keySetOnServer().size()).isEqualTo(3);
 
-		Customer customer = customerRepository.findById(2L).get();
+		var customer = customerRepository.findById(2L).get();
 		assertThat(customer).isEqualTo(frank);
 		log.info("Find customer with key=2 using GemFireRepository: " + customer);
 		List customerList = customerTemplate.find("select * from /Customers where id=$1", 2L).asList();

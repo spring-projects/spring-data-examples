@@ -29,7 +29,7 @@ public class CustomerCacheWriter extends CacheWriterAdapter<Long, Customer> {
 
 	@Override
 	public void beforeCreate(EntryEvent<Long, Customer> event) throws CacheWriterException {
-		EntryEventImpl e = (EntryEventImpl) event;
+		var e = (EntryEventImpl) event;
 		super.beforeCreate(e);
 	}
 }

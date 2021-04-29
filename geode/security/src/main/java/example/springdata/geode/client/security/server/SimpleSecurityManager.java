@@ -53,12 +53,12 @@ public class SimpleSecurityManager extends SecurityManagerSupport {
 	 */
 	@Override
 	public Object authenticate(Properties securityProperties) {
-		String username = getUsername(securityProperties);
-		String password = getPassword(securityProperties);
+		var username = getUsername(securityProperties);
+		var password = getPassword(securityProperties);
 
 		logDebug("User with name [{}] is attempting to login with password [{}]", username, password);
 
-		User user = securityRepository.findBy(username);
+		var user = securityRepository.findBy(username);
 
 		if (isNotAuthentic(user, password)) {
 			throw new AuthenticationFailedException(String.format("Failed to authenticate user [%s]", username));
@@ -90,7 +90,7 @@ public class SimpleSecurityManager extends SecurityManagerSupport {
 
 	/* (non-Javadoc) */
 	protected boolean isAuthorized(Object principal, ResourcePermission permission) {
-		User user = resolveUser(principal);
+		var user = resolveUser(principal);
 
 		return user != null && isAuthorized(user, permission);
 	}

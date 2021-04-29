@@ -84,7 +84,7 @@ public class User implements Comparable<User>, Cloneable, Principal, Serializabl
 	 * @see ResourcePermission
 	 */
 	public boolean hasPermission(ResourcePermission permission) {
-		for (Role role : roles) {
+		for (var role : roles) {
 			if (role.hasPermission(permission)) {
 				return true;
 			}

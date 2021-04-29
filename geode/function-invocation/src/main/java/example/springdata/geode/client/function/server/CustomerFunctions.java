@@ -36,8 +36,8 @@ public class CustomerFunctions {
 			hasResult = true)
 	public List<Customer> listAllCustomersForEmailAddress(@RegionData Map<Long, Customer> customerData,
 			String... emailAddresses) {
-		List<String> emailAddressesAsList = Arrays.asList(emailAddresses);
-		List<Customer> collect = customerData.values().parallelStream()
+		var emailAddressesAsList = Arrays.asList(emailAddresses);
+		var collect = customerData.values().parallelStream()
 				.filter((customer) -> emailAddressesAsList.contains(customer.getEmailAddress().getValue()))
 				.collect(Collectors.toList());
 		return collect;

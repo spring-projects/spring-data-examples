@@ -10,6 +10,7 @@
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>function-invocation</artifactId>
+	<artifactId>spring-data-geode-function-invocation-example</artifactId>
+	<name>Spring Data Geode - Functions</name>
 
 </project>

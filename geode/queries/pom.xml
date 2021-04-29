@@ -10,7 +10,8 @@
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>queries</artifactId>
+	<artifactId>spring-data-geode-queries-example</artifactId>
+	<name>Spring Data Geode - Queries</name>
 
 	<dependencies>
 		<dependency>

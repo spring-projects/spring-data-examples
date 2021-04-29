@@ -33,7 +33,7 @@ public class CustomerTransactionWriter implements TransactionWriter {
 	@Override
 	public void beforeCommit(TransactionEvent transactionEvent) throws TransactionWriterException {
 
-		AtomicBoolean six_found = new AtomicBoolean(false);
+		var six_found = new AtomicBoolean(false);
 
 		transactionEvent.getEvents().forEach(event -> {
 			if (event instanceof EntryEvent<?, ?>

@@ -64,9 +64,9 @@ public interface SecurityRepository {
 
 	/* (non-Javadoc) */
 	default int count() {
-		int count = 0;
-		Iterable<User> users = findAll();
-		for (User user : users) {
+		var count = 0;
+		var users = findAll();
+		for (var user : users) {
 			count++;
 		}
 		return count;
@@ -79,7 +79,7 @@ public interface SecurityRepository {
 
 	/* (non-Javadoc) */
 	default boolean delete(String username) {
-		User user = findBy(username);
+		var user = findBy(username);
 		if (user != null) {
 			return delete(user);
 		}
@@ -98,7 +98,7 @@ public interface SecurityRepository {
 
 	/* (non-Javadoc) */
 	default boolean deleteAll(Iterable<User> users) {
-		for (User user : users) {
+		for (var user : users) {
 			if (!delete(user)) {
 				return false;
 			}
@@ -134,7 +134,7 @@ public interface SecurityRepository {
 
 	/* (non-Javadoc) */
 	default User findBy(String username) {
-		for (User user : findAll()) {
+		for (var user : findAll()) {
 			if (user.getName().equals(username)) {
 				return user;
 			}

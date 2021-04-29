@@ -46,7 +46,7 @@ public class EventServerTests {
 	@Test
 	public void productCacheLoaderWorks() {
 
-		long size = productRepository.count();
+		var size = productRepository.count();
 
 		assertThat(this.productRepository.findById(777L)).isNotNull();
 		assertThat(productRepository.count()).isEqualTo(size + 1);

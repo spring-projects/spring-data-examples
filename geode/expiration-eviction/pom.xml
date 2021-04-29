@@ -10,7 +10,8 @@
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>expiration-eviction</artifactId>
+	<artifactId>spring-data-geode-expiration-eviction-example</artifactId>
+	<name>Spring Data Geode - Expiration</name>
 
 	<dependencies>
 		<dependency>

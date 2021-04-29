@@ -39,10 +39,10 @@ public class OrderAsyncQueueListener implements AsyncEventListener {
 	public boolean processEvents(List<AsyncEvent> list) {
 		Map<Long, OrderProductSummary> summaryMap = new HashMap<>();
 		list.forEach(asyncEvent -> {
-			Order order = (Order) asyncEvent.getDeserializedValue();
+			var order = (Order) asyncEvent.getDeserializedValue();
 			if (order != null) {
 				order.getLineItems().forEach(lineItem -> {
-					OrderProductSummary orderProductSummary = summaryMap.get(lineItem.getProductId());
+					var orderProductSummary = summaryMap.get(lineItem.getProductId());
 					if (orderProductSummary == null) {
 						orderProductSummary = new OrderProductSummary(lineItem.getProductId(), new BigDecimal("0.00"));
 					}

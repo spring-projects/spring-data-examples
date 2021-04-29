@@ -123,7 +123,7 @@ public class ExpirationEvictionServerTests {
 	@Test
 	public void evictionIsConfiguredCorrectly() {
 
-		final int evictionThreshold = 10;
+		final var evictionThreshold = 10;
 		for (long i = 0; i < evictionThreshold + 1; i++) {
 			orderRepository.save(new Order(i, i,
 					new Address(faker.address().streetName(), faker.address().city(), faker.address().country())));

@@ -10,6 +10,7 @@
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>transactions</artifactId>
+	<artifactId>spring-data-geode-transactions-example</artifactId>
+	<name>Spring Data Geode - Transactions</name>
 
 </project>

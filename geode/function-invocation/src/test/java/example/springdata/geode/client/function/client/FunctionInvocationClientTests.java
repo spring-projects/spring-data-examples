@@ -80,12 +80,12 @@ public class FunctionInvocationClientTests extends ForkingClientServerIntegratio
 	public void functionsExecuteCorrectly() {
 		createCustomerData();
 
-		List<Customer> cust = customerFunctionExecutions.listAllCustomersForEmailAddress("2@2.com", "3@3.com").get(0);
+		var cust = customerFunctionExecutions.listAllCustomersForEmailAddress("2@2.com", "3@3.com").get(0);
 		assertThat(cust.size()).isEqualTo(2);
 		log.info("All customers for emailAddresses:3@3.com,2@2.com using function invocation: \n\t " + cust);
 
 		createProducts();
-		BigDecimal sum = productFunctionExecutions.sumPricesForAllProducts().get(0);
+		var sum = productFunctionExecutions.sumPricesForAllProducts().get(0);
 		assertThat(sum).isEqualTo(BigDecimal.valueOf(1499.97));
 		log.info("Running function to sum up all product prices: \n\t" + sum);
 
@@ -94,7 +94,7 @@ public class FunctionInvocationClientTests extends ForkingClientServerIntegratio
 		sum = orderFunctionExecutions.sumPricesForAllProductsForOrder(1L).get(0);
 		assertThat(sum).isGreaterThanOrEqualTo(BigDecimal.valueOf(99.99));
 		log.info("Running function to sum up all order lineItems prices for order 1: \n\t" + sum);
-		Order order = orderRepository.findById(1L).get();
+		var order = orderRepository.findById(1L).get();
 		log.info("For order: \n\t " + order);
 	}
 
@@ -113,7 +113,7 @@ public class FunctionInvocationClientTests extends ForkingClientServerIntegratio
 
 		productRepository.save(new Product(1L, "Apple iPod", new BigDecimal("99.99"), "An Apple portable music player"));
 		productRepository.save(new Product(2L, "Apple iPad", new BigDecimal("499.99"), "An Apple tablet device"));
-		Product macbook = new Product(3L, "Apple macBook", new BigDecimal("899.99"), "An Apple notebook computer");
+		var macbook = new Product(3L, "Apple macBook", new BigDecimal("899.99"), "An Apple notebook computer");
 		macbook.addAttribute("warranty", "included");
 
 		productRepository.save(macbook);
@@ -123,13 +123,13 @@ public class FunctionInvocationClientTests extends ForkingClientServerIntegratio
 
 	public void createOrders() {
 
-		Random random = new Random();
-		Address address = new Address("it", "doesn't", "matter");
+		var random = new Random();
+		var address = new Address("it", "doesn't", "matter");
 
 		LongStream.rangeClosed(1, 100).forEach((orderId) -> LongStream.rangeClosed(1, 3).forEach((customerId) -> {
-			Order order = new Order(orderId, customerId, address);
+			var order = new Order(orderId, customerId, address);
 			IntStream.rangeClosed(0, random.nextInt(3) + 1).forEach((lineItemCount) -> {
-				int quantity = random.nextInt(3) + 1;
+				var quantity = random.nextInt(3) + 1;
 				long productId = random.nextInt(3) + 1;
 				order.add(new LineItem(productRepository.findById(productId).get(), quantity));
 			});

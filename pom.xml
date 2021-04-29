@@ -21,6 +21,7 @@
 		<!-- <module>couchbase</module> -->
 		<module>cassandra</module>
 		<module>elasticsearch</module>
+		<!-- <module>geode</module> -->
 		<module>jdbc</module>
 		<module>jpa</module>
 		<module>ldap</module>

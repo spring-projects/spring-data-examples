@@ -47,7 +47,7 @@ public class EventServerConfig {
 
 	@Bean
 	AsyncEventQueueFactoryBean orderAsyncEventQueue(GemFireCache gemFireCache, AsyncEventListener orderAsyncEventListener) {
-		AsyncEventQueueFactoryBean asyncEventQueueFactoryBean = new AsyncEventQueueFactoryBean((Cache) gemFireCache);
+		var asyncEventQueueFactoryBean = new AsyncEventQueueFactoryBean((Cache) gemFireCache);
 		asyncEventQueueFactoryBean.setBatchTimeInterval(1000);
 		asyncEventQueueFactoryBean.setBatchSize(5);
 		asyncEventQueueFactoryBean.setAsyncEventListener(orderAsyncEventListener);

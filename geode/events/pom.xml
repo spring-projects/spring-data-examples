@@ -10,6 +10,7 @@
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>events</artifactId>
+	<artifactId>spring-data-geode-events-example</artifactId>
+	<name>Spring Data Geode - Events</name>
 
 </project>

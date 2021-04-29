@@ -61,9 +61,9 @@ public class SecurityEnabledClientShiroTests extends ForkingClientServerIntegrat
 
 		log.info("Inserting 3 entries for keys: 1, 2, 3");
 
-		Customer john = new Customer(1L, new EmailAddress("2@2.com"), "John", "Smith");
-		Customer frank = new Customer(2L, new EmailAddress("3@3.com"), "Frank", "Lamport");
-		Customer jude = new Customer(3L, new EmailAddress("5@5.com"), "Jude", "Simmons");
+		var john = new Customer(1L, new EmailAddress("2@2.com"), "John", "Smith");
+		var frank = new Customer(2L, new EmailAddress("3@3.com"), "Frank", "Lamport");
+		var jude = new Customer(3L, new EmailAddress("5@5.com"), "Jude", "Simmons");
 
 		customerRepository.save(john);
 		customerRepository.save(frank);
@@ -72,7 +72,7 @@ public class SecurityEnabledClientShiroTests extends ForkingClientServerIntegrat
 		assertThat(customers.keySetOnServer().size()).isEqualTo(3);
 		log.info("Customers saved on server:");
 
-		List<Customer> customerList = customerRepository.findAll();
+		var customerList = customerRepository.findAll();
 
 		assertThat(customerList.size()).isEqualTo(3);
 		assertThat(customerList.contains(john)).isTrue();

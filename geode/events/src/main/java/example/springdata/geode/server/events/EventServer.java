@@ -23,8 +23,6 @@ import java.util.stream.LongStream;
 
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.geode.cache.Region;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationRunner;
@@ -57,18 +55,18 @@ public class EventServer {
 
 			log.info("Completed creating orders ");
 
-			List<OrderProductSummary> allForProductID = orderProductSummaryRepository.findAllForProductID(3L);
+			var allForProductID = orderProductSummaryRepository.findAllForProductID(3L);
 			allForProductID.forEach(orderProductSummary -> log.info("orderProductSummary = " + orderProductSummary));
 		};
 	}
 
 	private void createOrders(ProductRepository productRepository, OrderRepository orderRepository) {
-		Random random = new Random(System.nanoTime());
-		Address address = new Address("it", "doesn't", "matter");
+		var random = new Random(System.nanoTime());
+		var address = new Address("it", "doesn't", "matter");
 		LongStream.rangeClosed(1, 10).forEach((orderId) -> LongStream.rangeClosed(1, 300).forEach((customerId) -> {
-			Order order = new Order(orderId, customerId, address);
+			var order = new Order(orderId, customerId, address);
 			IntStream.rangeClosed(0, random.nextInt(3) + 1).forEach((lineItemCount) -> {
-				int quantity = random.nextInt(3) + 1;
+				var quantity = random.nextInt(3) + 1;
 				long productId = random.nextInt(3) + 1;
 				order.add(new LineItem(productRepository.findById(productId).get(), quantity));
 			});
@@ -79,7 +77,7 @@ public class EventServer {
 	private void createProducts(ProductRepository productRepository) {
 		productRepository.save(new Product(1L, "Apple iPod", new BigDecimal("99.99"), "An Apple portable music player"));
 		productRepository.save(new Product(2L, "Apple iPad", new BigDecimal("499.99"), "An Apple tablet device"));
-		Product macbook = new Product(3L, "Apple macBook", new BigDecimal("899.99"), "An Apple notebook computer");
+		var macbook = new Product(3L, "Apple macBook", new BigDecimal("899.99"), "An Apple notebook computer");
 		macbook.addAttribute("warranty", "included");
 		productRepository.save(macbook);
 	}

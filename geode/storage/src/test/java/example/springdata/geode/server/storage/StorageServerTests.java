@@ -56,7 +56,7 @@ public class StorageServerTests {
 
 		assertThat(customers.getAttributes().getCompressor()).isInstanceOf(SnappyCompressor.class);
 
-		GemFireCacheImpl impl = (GemFireCacheImpl) cache;
+		var impl = (GemFireCacheImpl) cache;
 
 		assertThat(impl.getCachePerfStats().getTotalPostCompressedBytes())
 				.isLessThan(impl.getCachePerfStats().getTotalPreCompressedBytes());

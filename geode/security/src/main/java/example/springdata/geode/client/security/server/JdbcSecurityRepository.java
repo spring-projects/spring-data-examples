@@ -54,8 +54,8 @@ public class JdbcSecurityRepository extends CachingSecurityRepository implements
 
 	public void afterPropertiesSet() {
 
-		List<Role> roles = this.jdbcTemplate.query(ROLES_QUERY, (resultSet, i) -> Role.newRole(resultSet.getString(1)));
-		HashMap<String, Role> roleMapping = new HashMap<>(roles.size());
+		var roles = this.jdbcTemplate.query(ROLES_QUERY, (resultSet, i) -> Role.newRole(resultSet.getString(1)));
+		var roleMapping = new HashMap<String, Role>(roles.size());
 
 		roles.forEach((role) -> {
 			this.jdbcTemplate.query(ROLE_PERMISSIONS_QUERY, Collections.singleton(role.getName()).toArray(),
@@ -65,7 +65,7 @@ public class JdbcSecurityRepository extends CachingSecurityRepository implements
 			roleMapping.put(role.getName(), role);
 		});
 
-		List<User> users = this.jdbcTemplate.query(USERS_QUERY,
+		var users = this.jdbcTemplate.query(USERS_QUERY,
 				(resultSet, i) -> createUser(resultSet.getString(1)).withCredentials(resultSet.getString(2)));
 
 		users.forEach((role) -> {

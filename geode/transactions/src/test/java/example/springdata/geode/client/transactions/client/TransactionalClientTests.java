@@ -64,7 +64,7 @@ public class TransactionalClientTests extends ForkingClientServerIntegrationTest
 		log.info("Customer for ID before (transaction commit success) = " + customerService.findById(2L).get());
 		customerService.updateCustomersSuccess();
 		assertThat(customerService.numberEntriesStoredOnServer()).isEqualTo(5);
-		Customer customer = customerService.findById(2L).get();
+		var customer = customerService.findById(2L).get();
 		assertThat(customer.getFirstName()).isEqualTo("Humpty");
 		log.info("Customer for ID after (transaction commit success) = " + customer);
 
@@ -74,8 +74,8 @@ public class TransactionalClientTests extends ForkingClientServerIntegrationTest
 		assertThat(customer.getFirstName()).isEqualTo("Humpty");
 		log.info("Customer for ID after (transaction commit failure) = " + customerService.findById(2L).get());
 
-		Customer numpty = new Customer(2L, new EmailAddress("2@2.com"), "Numpty", "Hamilton");
-		Customer frumpy = new Customer(2L, new EmailAddress("2@2.com"), "Frumpy", "Hamilton");
+		var numpty = new Customer(2L, new EmailAddress("2@2.com"), "Numpty", "Hamilton");
+		var frumpy = new Customer(2L, new EmailAddress("2@2.com"), "Frumpy", "Hamilton");
 		customerService.updateCustomersWithDelay(1000, numpty);
 		customerService.updateCustomersWithDelay(10, frumpy);
 		customer = customerService.findById(2L).get();
