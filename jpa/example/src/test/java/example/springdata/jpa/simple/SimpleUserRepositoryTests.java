@@ -15,24 +15,32 @@
  */
 package example.springdata.jpa.simple;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.data.domain.Sort.Direction.ASC;
-import static org.springframework.data.domain.Sort.Direction.DESC;
+import static org.assertj.core.api.Assertions.*;
+import static org.springframework.data.domain.Sort.Direction.*;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -47,6 +55,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
+@Slf4j
 public class SimpleUserRepositoryTests {
 
 	@Autowired SimpleUserRepository repository;
@@ -99,11 +108,11 @@ public class SimpleUserRepositoryTests {
 	public void removeByLastname() {
 
 		// create a 2nd user with the same lastname as user
-		User user2 = new User();
+		var user2 = new User();
 		user2.setLastname(user.getLastname());
 
 		// create a 3rd user as control group
-		User user3 = new User();
+		var user3 = new User();
 		user3.setLastname("no-positive-match");
 
 		repository.saveAll(Arrays.asList(user, user2, user3));
@@ -118,12 +127,12 @@ public class SimpleUserRepositoryTests {
 		repository.deleteAll();
 
 		// int repository with some values that can be ordered
-		int totalNumberUsers = 11;
+		var totalNumberUsers = 11;
 		List<User> source = new ArrayList<User>(totalNumberUsers);
 
-		for (int i = 1; i <= totalNumberUsers; i++) {
+		for (var i = 1; i <= totalNumberUsers; i++) {
 
-			User user = new User();
+			var user = new User();
 			user.setLastname(this.user.getLastname());
 			user.setUsername(user.getLastname() + "-" + String.format("%03d", i));
 			source.add(user);
@@ -131,7 +140,7 @@ public class SimpleUserRepositoryTests {
 
 		repository.saveAll(source);
 
-		Slice<User> users = repository.findByLastnameOrderByUsernameAsc(this.user.getLastname(), PageRequest.of(1, 5));
+		var users = repository.findByLastnameOrderByUsernameAsc(this.user.getLastname(), PageRequest.of(1, 5));
 
 		assertThat(users).containsAll(source.subList(5, 10));
 	}
@@ -139,19 +148,19 @@ public class SimpleUserRepositoryTests {
 	@Test
 	public void findFirst2ByOrderByLastnameAsc() {
 
-		User user0 = new User();
+		var user0 = new User();
 		user0.setLastname("lastname-0");
 
-		User user1 = new User();
+		var user1 = new User();
 		user1.setLastname("lastname-1");
 
-		User user2 = new User();
+		var user2 = new User();
 		user2.setLastname("lastname-2");
 
 		// we deliberatly save the items in reverse
 		repository.saveAll(Arrays.asList(user2, user1, user0));
 
-		List<User> result = repository.findFirst2ByOrderByLastnameAsc();
+		var result = repository.findFirst2ByOrderByLastnameAsc();
 
 		assertThat(result).containsExactly(user0, user1);
 	}
@@ -159,23 +168,23 @@ public class SimpleUserRepositoryTests {
 	@Test
 	public void findTop2ByWithSort() {
 
-		User user0 = new User();
+		var user0 = new User();
 		user0.setLastname("lastname-0");
 
-		User user1 = new User();
+		var user1 = new User();
 		user1.setLastname("lastname-1");
 
-		User user2 = new User();
+		var user2 = new User();
 		user2.setLastname("lastname-2");
 
 		// we deliberately save the items in reverse
 		repository.saveAll(Arrays.asList(user2, user1, user0));
 
-		List<User> resultAsc = repository.findTop2By(Sort.by(ASC, "lastname"));
+		var resultAsc = repository.findTop2By(Sort.by(ASC, "lastname"));
 
 		assertThat(resultAsc).containsExactly(user0, user1);
 
-		List<User> resultDesc = repository.findTop2By(Sort.by(DESC, "lastname"));
+		var resultDesc = repository.findTop2By(Sort.by(DESC, "lastname"));
 
 		assertThat(resultDesc).containsExactly(user2, user1);
 	}
@@ -183,22 +192,95 @@ public class SimpleUserRepositoryTests {
 	@Test
 	public void findByFirstnameOrLastnameUsingSpEL() {
 
-		User first = new User();
+		var first = new User();
 		first.setLastname("lastname");
 
-		User second = new User();
+		var second = new User();
 		second.setFirstname("firstname");
 
-		User third = new User();
+		var third = new User();
 
 		repository.saveAll(Arrays.asList(first, second, third));
 
-		User reference = new User();
+		var reference = new User();
 		reference.setFirstname("firstname");
 		reference.setLastname("lastname");
 
-		Iterable<User> users = repository.findByFirstnameOrLastname(reference);
+		var users = repository.findByFirstnameOrLastname(reference);
 
 		assertThat(users).containsExactly(first, second);
+	}
+
+	/**
+	 * Streaming data from the store by using a repository method that returns a {@link Stream}. Note, that since the
+	 * resulting {@link Stream} contains state it needs to be closed explicitly after use!
+	 */
+	@Test
+	public void useJava8StreamsWithCustomQuery() {
+
+		var user1 = repository.save(new User("Customer1", "Foo"));
+		var user2 = repository.save(new User("Customer2", "Bar"));
+
+		try (var stream = repository.streamAllCustomers()) {
+			assertThat(stream.collect(Collectors.toList())).contains(user1, user2);
+		}
+	}
+
+	/**
+	 * Streaming data from the store by using a repository method that returns a {@link Stream} with a derived query.
+	 * Note, that since the resulting {@link Stream} contains state it needs to be closed explicitly after use!
+	 */
+	@Test
+	public void useJava8StreamsWithDerivedQuery() {
+
+		var user1 = repository.save(new User("Customer1", "Foo"));
+		var user2 = repository.save(new User("Customer2", "Bar"));
+
+		try (var stream = repository.findAllByLastnameIsNotNull()) {
+			assertThat(stream.collect(Collectors.toList())).contains(user1, user2);
+		}
+	}
+
+	/**
+	 * Query methods using streaming need to be used inside a surrounding transaction to keep the connection open while
+	 * the stream is consumed. We simulate that not being the case by actively disabling the transaction here.
+	 */
+	@Test
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public void rejectsStreamExecutionIfNoSurroundingTransactionActive() {
+		Assertions.assertThrows(InvalidDataAccessApiUsageException.class, () -> {
+			repository.findAllByLastnameIsNotNull();
+		});
+	}
+
+	/**
+	 * Here we demonstrate the usage of {@link CompletableFuture} as a result wrapper for asynchronous repository query
+	 * methods. Note, that we need to disable the surrounding transaction to be able to asynchronously read the written
+	 * data from from another thread within the same test method.
+	 */
+	@Test
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public void supportsCompletableFuturesAsReturnTypeWrapper() throws Exception {
+
+		repository.save(new User("Customer1", "Foo"));
+		repository.save(new User("Customer2", "Bar"));
+
+		var future = repository.readAllBy().thenAccept(users -> {
+
+			assertThat(users).hasSize(2);
+			users.forEach(customer -> log.info(customer.toString()));
+			log.info("Completed!");
+		});
+
+		while (!future.isDone()) {
+			log.info("Waiting for the CompletableFuture to finish...");
+			TimeUnit.MILLISECONDS.sleep(500);
+		}
+
+		future.get();
+
+		log.info("Done!");
+
+		repository.deleteAll();
 	}
 }

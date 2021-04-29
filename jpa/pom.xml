@@ -20,7 +20,6 @@
 		<module>example</module>
 		<module>showcase</module>
 		<module>interceptors</module>
-		<module>java8</module>
 		<module>jpa21</module>
 		<module>security</module>
 		<module>multiple-datasources</module>

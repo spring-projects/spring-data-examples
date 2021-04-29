@@ -49,6 +49,11 @@ public class User extends AbstractPersistable<Long> {
 		this.setId(id);
 	}
 
+	public User(String firstname, String lastname) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+
 	/**
 	 * Returns the username.
 	 *

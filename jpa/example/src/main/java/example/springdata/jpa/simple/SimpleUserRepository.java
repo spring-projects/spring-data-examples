@@ -15,14 +15,19 @@
  */
 package example.springdata.jpa.simple;
 
+import example.springdata.jpa.projections.Customer;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * Simple repository interface for {@link User} instances. The interface is used to declare so called query methods,
@@ -130,4 +135,34 @@ public interface SimpleUserRepository extends CrudRepository<User, Long> {
 	 */
 	@Query("select u from User u where u.firstname = :#{#user.firstname} or u.lastname = :#{#user.lastname}")
 	Iterable<User> findByFirstnameOrLastname(User user);
+
+	/**
+	 * Sample default method.
+	 *
+	 * @param user
+	 * @return
+	 */
+	default List<User> findByLastname(User user) {
+		return findByLastname(user == null ? null : user.getLastname());
+	}
+
+	/**
+	 * Sample method to demonstrate support for {@link Stream} as a return type with a custom query. The query is executed
+	 * in a streaming fashion which means that the method returns as soon as the first results are ready.
+	 *
+	 * @return
+	 */
+	@Query("select u from User u")
+	Stream<User> streamAllCustomers();
+
+	/**
+	 * Sample method to demonstrate support for {@link Stream} as a return type with a derived query. The query is
+	 * executed in a streaming fashion which means that the method returns as soon as the first results are ready.
+	 *
+	 * @return
+	 */
+	Stream<User> findAllByLastnameIsNotNull();
+
+	@Async
+	CompletableFuture<List<User>> readAllBy();
 }
