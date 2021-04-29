@@ -75,7 +75,7 @@ class UserRepositoryImplJdbc extends JdbcDaoSupport implements UserRepositoryCus
 		 */
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-			User user = new User(rs.getLong("id"));
+			var user = new User(rs.getLong("id"));
 			user.setUsername(rs.getString("username"));
 			user.setLastname(rs.getString("lastname"));
 			user.setFirstname(rs.getString("firstname"));

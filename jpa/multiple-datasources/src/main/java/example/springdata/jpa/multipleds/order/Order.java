@@ -15,6 +15,12 @@
  */
 package example.springdata.jpa.multipleds.order;
 
+import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +31,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-
 import org.springframework.util.Assert;
-
-import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
 
 /**
  * Simple domain class representing an {@link Order}
@@ -50,8 +49,8 @@ public class Order {
 
 	private @Id @GeneratedValue Long id;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)//
-	private final List<LineItem> lineItems = new ArrayList<LineItem>();
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //
+	private final List<LineItem> lineItems = new ArrayList<>();
 	private final CustomerId customer;
 
 	Order() {

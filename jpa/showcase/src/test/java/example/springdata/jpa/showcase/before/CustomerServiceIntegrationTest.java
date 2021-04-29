@@ -15,16 +15,12 @@
  */
 package example.springdata.jpa.showcase.before;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.jpa.showcase.AbstractShowcaseTest;
-import example.springdata.jpa.showcase.core.Customer;
-
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -33,33 +29,33 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
-public class CustomerServiceIntegrationTest extends AbstractShowcaseTest {
+class CustomerServiceIntegrationTest extends AbstractShowcaseTest {
 
 	@Autowired CustomerService repository;
 
 	@Test
-	public void findsAllCustomers() throws Exception {
+	void findsAllCustomers() throws Exception {
 
-		List<Customer> result = repository.findAll();
+		var result = repository.findAll();
 
-		assertThat(result, is(notNullValue()));
-		assertFalse(result.isEmpty());
+		assertThat(result).isNotNull();
+		assertThat(result).isNotEmpty();
 	}
 
 	@Test
-	public void findsPageOfMatthews() throws Exception {
+	void findsPageOfMatthews() throws Exception {
 
-		List<Customer> customers = repository.findByLastname("Matthews", 0, 2);
+		var customers = repository.findByLastname("Matthews", 0, 2);
 
-		assertThat(customers.size(), is(2));
+		assertThat(customers).hasSize(2);
 	}
 
 	@Test
-	public void findsCustomerById() throws Exception {
+	void findsCustomerById() throws Exception {
 
-		Customer customer = repository.findById(2L);
+		var customer = repository.findById(2L);
 
-		assertThat(customer.getFirstname(), is("Carter"));
-		assertThat(customer.getLastname(), is("Beauford"));
+		assertThat(customer.getFirstname()).isEqualTo("Carter");
+		assertThat(customer.getLastname()).isEqualTo("Beauford");
 	}
 }

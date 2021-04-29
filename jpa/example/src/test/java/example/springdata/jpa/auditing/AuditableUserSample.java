@@ -15,16 +15,15 @@
  */
 package example.springdata.jpa.auditing;
 
+import static org.assertj.core.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.assertj.core.api.Assertions.*;
 
 /**
  * @author Oliver Gierke
@@ -32,7 +31,6 @@ import static org.assertj.core.api.Assertions.*;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 public class AuditableUserSample {
@@ -42,11 +40,11 @@ public class AuditableUserSample {
 	@Autowired AuditingEntityListener listener;
 
 	@Test
-	public void auditEntityCreation() throws Exception {
+	void auditEntityCreation() {
 
 		assertThat(ReflectionTestUtils.getField(listener, "handler")).isNotNull();
 
-		AuditableUser user = new AuditableUser();
+		var user = new AuditableUser();
 		user.setUsername("username");
 
 		auditorAware.setAuditor(user);

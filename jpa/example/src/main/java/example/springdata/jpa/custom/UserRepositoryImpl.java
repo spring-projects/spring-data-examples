@@ -19,7 +19,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaQuery;
 
 /**
  * Implementation fo the custom repository functionality declared in {@link UserRepositoryCustom} based on JPA. To use
@@ -66,7 +65,7 @@ class UserRepositoryImpl implements UserRepositoryCustom {
 	 */
 	public List<User> myCustomBatchOperation() {
 
-		CriteriaQuery<User> criteriaQuery = em.getCriteriaBuilder().createQuery(User.class);
+		var criteriaQuery = em.getCriteriaBuilder().createQuery(User.class);
 		criteriaQuery.select(criteriaQuery.from(User.class));
 		return em.createQuery(criteriaQuery).getResultList();
 	}

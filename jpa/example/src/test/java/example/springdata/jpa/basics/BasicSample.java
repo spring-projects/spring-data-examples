@@ -24,12 +24,12 @@ import static org.assertj.core.api.Assertions.*;
 import example.springdata.jpa.simple.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
@@ -40,27 +40,27 @@ import org.springframework.data.repository.CrudRepository;
  * @author Thomas Darimont
  * @author Divya Srivastava
  */
-public class BasicSample {
+class BasicSample {
 
-	CrudRepository<User, Long> userRepository;
-	EntityManager em;
+	private CrudRepository<User, Long> userRepository;
+	private EntityManager em;
 
 	/**
 	 * Sets up a {@link SimpleJpaRepository} instance.
 	 */
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("jpa.sample.plain");
+		var factory = Persistence.createEntityManagerFactory("jpa.sample.plain");
 		em = factory.createEntityManager();
 
-		userRepository = new SimpleJpaRepository<User, Long>(User.class, em);
+		userRepository = new SimpleJpaRepository<>(User.class, em);
 
 		em.getTransaction().begin();
 	}
 
 	@AfterEach
-	public void tearDown() {
+	void tearDown() {
 		em.getTransaction().rollback();
 	}
 
@@ -69,9 +69,9 @@ public class BasicSample {
 	 * exception. Simplification serves descriptiveness.
 	 */
 	@Test
-	public void savingUsers() {
+	void savingUsers() {
 
-		User user = new User();
+		var user = new User();
 		user.setUsername("username");
 
 		user = userRepository.save(user);

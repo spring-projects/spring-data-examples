@@ -15,16 +15,15 @@
  */
 package example.springdata.jpa.showcase.before;
 
+import example.springdata.jpa.showcase.core.Customer;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Plain JPA implementation of {@link CustomerService}.
@@ -62,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Customer> findAll(int page, int pageSize) {
 
-		TypedQuery<Customer> query = em.createQuery("select c from Customer c", Customer.class);
+		var query = em.createQuery("select c from Customer c", Customer.class);
 
 		query.setFirstResult(page * pageSize);
 		query.setMaxResults(pageSize);
@@ -94,7 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Customer> findByLastname(String lastname, int page, int pageSize) {
 
-		TypedQuery<Customer> query = em.createQuery("select c from Customer c where c.lastname = ?1", Customer.class);
+		var query = em.createQuery("select c from Customer c where c.lastname = ?1", Customer.class);
 
 		query.setParameter(1, lastname);
 		query.setFirstResult(page * pageSize);

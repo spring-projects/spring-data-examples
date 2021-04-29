@@ -45,7 +45,7 @@ public class User extends AbstractPersistable<Long> {
 	/**
 	 * Creates a new user instance.
 	 */
-	public User(Long id) {
+	private User(Long id) {
 		this.setId(id);
 	}
 

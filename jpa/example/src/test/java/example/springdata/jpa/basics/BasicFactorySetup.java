@@ -35,7 +35,7 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
-public class BasicFactorySetup {
+class BasicFactorySetup {
 
 	private static final EntityManagerFactory factory = Persistence.createEntityManagerFactory("jpa.sample.plain");
 
@@ -50,7 +50,7 @@ public class BasicFactorySetup {
 	 * @throws Exception
 	 */
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 
 		em = factory.createEntityManager();
 
@@ -71,7 +71,7 @@ public class BasicFactorySetup {
 	 * Rollback transaction.
 	 */
 	@AfterEach
-	public void tearDown() {
+	void tearDown() {
 
 		em.getTransaction().rollback();
 	}
@@ -80,7 +80,7 @@ public class BasicFactorySetup {
 	 * Showing invocation of finder method.
 	 */
 	@Test
-	public void executingFinders() {
+	void executingFinders() {
 
 		assertThat(userRepository.findByTheUsersName("username")).isEqualTo(user);
 		assertThat(userRepository.findByLastname("lastname")).first().isEqualTo(user);

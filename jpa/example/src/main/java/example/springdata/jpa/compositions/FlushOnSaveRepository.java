@@ -20,7 +20,7 @@ package example.springdata.jpa.compositions;
  *
  * @author Mark Paluch
  */
-public interface FlushOnSaveRepository<T> {
+interface FlushOnSaveRepository<T> {
 
 	/**
 	 * Saves a given entity and flush immediately. Use the returned instance for further operations as the save operation

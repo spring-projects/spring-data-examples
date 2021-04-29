@@ -27,7 +27,7 @@ import org.springframework.data.domain.AuditorAware;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-public class AuditorAwareImpl implements AuditorAware<AuditableUser> {
+class AuditorAwareImpl implements AuditorAware<AuditableUser> {
 
 	private Optional<AuditableUser> auditor = Optional.empty();
 

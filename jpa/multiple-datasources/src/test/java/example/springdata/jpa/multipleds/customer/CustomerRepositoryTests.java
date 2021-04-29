@@ -15,19 +15,16 @@
  */
 package example.springdata.jpa.multipleds.customer;
 
-import java.util.Optional;
+import static org.assertj.core.api.Assertions.*;
 
 import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.assertj.core.api.Assertions.*;
 
 /**
  * Integration test for {@link CustomerRepository}.
@@ -36,18 +33,17 @@ import static org.assertj.core.api.Assertions.*;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional(transactionManager = "customerTransactionManager")
-public class CustomerRepositoryTests {
+class CustomerRepositoryTests {
 
 	@Autowired CustomerRepository repository;
 	@Autowired @Qualifier("customerEntityManagerFactory") EntityManager em;
 
 	@Test
-	public void findsCustomerByLastname() {
+	void findsCustomerByLastname() {
 
-		Optional<Customer> result = repository.findByLastname("Matthews");
+		var result = repository.findByLastname("Matthews");
 
 		assertThat(result).isNotEmpty();
 		assertThat(result.get().getFirstname()).isEqualTo("Dave");

@@ -32,14 +32,12 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,17 +50,16 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 @Slf4j
-public class SimpleUserRepositoryTests {
+class SimpleUserRepositoryTests {
 
 	@Autowired SimpleUserRepository repository;
-	User user;
+	private User user;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 
 		user = new User();
 		user.setUsername("foobar");
@@ -71,7 +68,7 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void findSavedUserById() {
+	void findSavedUserById() {
 
 		user = repository.save(user);
 
@@ -79,7 +76,7 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void findSavedUserByLastname() throws Exception {
+	void findSavedUserByLastname() {
 
 		user = repository.save(user);
 
@@ -87,7 +84,7 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void findByFirstnameOrLastname() throws Exception {
+	void findByFirstnameOrLastname() {
 
 		user = repository.save(user);
 
@@ -95,7 +92,7 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void useOptionalAsReturnAndParameterType() {
+	void useOptionalAsReturnAndParameterType() {
 
 		assertThat(repository.findByUsername(Optional.of("foobar"))).isEmpty();
 
@@ -105,7 +102,7 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void removeByLastname() {
+	void removeByLastname() {
 
 		// create a 2nd user with the same lastname as user
 		var user2 = new User();
@@ -122,13 +119,13 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void useSliceToLoadContent() {
+	void useSliceToLoadContent() {
 
 		repository.deleteAll();
 
 		// int repository with some values that can be ordered
 		var totalNumberUsers = 11;
-		List<User> source = new ArrayList<User>(totalNumberUsers);
+		List<User> source = new ArrayList<>(totalNumberUsers);
 
 		for (var i = 1; i <= totalNumberUsers; i++) {
 
@@ -146,7 +143,7 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void findFirst2ByOrderByLastnameAsc() {
+	void findFirst2ByOrderByLastnameAsc() {
 
 		var user0 = new User();
 		user0.setLastname("lastname-0");
@@ -166,7 +163,7 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void findTop2ByWithSort() {
+	void findTop2ByWithSort() {
 
 		var user0 = new User();
 		user0.setLastname("lastname-0");
@@ -190,7 +187,7 @@ public class SimpleUserRepositoryTests {
 	}
 
 	@Test
-	public void findByFirstnameOrLastnameUsingSpEL() {
+	void findByFirstnameOrLastnameUsingSpEL() {
 
 		var first = new User();
 		first.setLastname("lastname");
@@ -216,7 +213,7 @@ public class SimpleUserRepositoryTests {
 	 * resulting {@link Stream} contains state it needs to be closed explicitly after use!
 	 */
 	@Test
-	public void useJava8StreamsWithCustomQuery() {
+	void useJava8StreamsWithCustomQuery() {
 
 		var user1 = repository.save(new User("Customer1", "Foo"));
 		var user2 = repository.save(new User("Customer2", "Bar"));
@@ -231,7 +228,7 @@ public class SimpleUserRepositoryTests {
 	 * Note, that since the resulting {@link Stream} contains state it needs to be closed explicitly after use!
 	 */
 	@Test
-	public void useJava8StreamsWithDerivedQuery() {
+	void useJava8StreamsWithDerivedQuery() {
 
 		var user1 = repository.save(new User("Customer1", "Foo"));
 		var user2 = repository.save(new User("Customer2", "Bar"));
@@ -247,7 +244,7 @@ public class SimpleUserRepositoryTests {
 	 */
 	@Test
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
-	public void rejectsStreamExecutionIfNoSurroundingTransactionActive() {
+	void rejectsStreamExecutionIfNoSurroundingTransactionActive() {
 		Assertions.assertThrows(InvalidDataAccessApiUsageException.class, () -> {
 			repository.findAllByLastnameIsNotNull();
 		});
@@ -260,7 +257,7 @@ public class SimpleUserRepositoryTests {
 	 */
 	@Test
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
-	public void supportsCompletableFuturesAsReturnTypeWrapper() throws Exception {
+	void supportsCompletableFuturesAsReturnTypeWrapper() throws Exception {
 
 		repository.save(new User("Customer1", "Foo"));
 		repository.save(new User("Customer2", "Bar"));

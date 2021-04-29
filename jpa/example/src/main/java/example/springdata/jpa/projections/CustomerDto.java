@@ -15,15 +15,9 @@
  */
 package example.springdata.jpa.projections;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 /**
  * @author Oliver Gierke
  */
-@Data
-@RequiredArgsConstructor
-public class CustomerDto {
+public record CustomerDto(String firstname) {
 
-	private final String firstname;
 }

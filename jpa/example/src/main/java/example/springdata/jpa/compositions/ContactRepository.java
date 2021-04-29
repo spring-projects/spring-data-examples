@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author Mark Paluch
  */
-public interface ContactRepository {
+interface ContactRepository {
 
 	/**
 	 * Find relatives of this {@link Contact}.

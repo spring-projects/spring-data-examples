@@ -15,7 +15,7 @@
  */
 package example.springdata.jpa.caching;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.Cache;
@@ -40,8 +40,8 @@ class CachingConfiguration {
 
 		Cache cache = new ConcurrentMapCache("byUsername");
 
-		SimpleCacheManager manager = new SimpleCacheManager();
-		manager.setCaches(Arrays.asList(cache));
+		var manager = new SimpleCacheManager();
+		manager.setCaches(Collections.singletonList(cache));
 
 		return manager;
 	}

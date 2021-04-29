@@ -18,7 +18,6 @@ package example.springdata.jpa.showcase;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -47,7 +46,7 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 
 	/**
 	 * The {@code JdbcTemplate} that this base class manages, available to subclasses.
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	protected final JdbcTemplate jdbcTemplate = new JdbcTemplate();
@@ -66,7 +65,7 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 
 	/**
 	 * Specify the encoding for SQL scripts, if different from the platform encoding.
-	 * 
+	 *
 	 * @see #executeSqlScript
 	 */
 	public void setSqlScriptEncoding(String sqlScriptEncoding) {
@@ -75,7 +74,7 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 
 	/**
 	 * Convenience method for counting the rows in the given table.
-	 * 
+	 *
 	 * @param tableName table name to count rows in
 	 * @return the number of rows in the table
 	 * @see JdbcTestUtils#countRowsInTable
@@ -88,7 +87,7 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 	 * Convenience method for counting the rows in the given table, using the provided {@code WHERE} clause.
 	 * <p>
 	 * See the Javadoc for {@link JdbcTestUtils#countRowsInTableWhere} for details.
-	 * 
+	 *
 	 * @param tableName the name of the table to count rows in
 	 * @param whereClause the {@code WHERE} clause to append to the query
 	 * @return the number of rows in the table that match the provided {@code WHERE} clause
@@ -103,7 +102,7 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 	 * Convenience method for deleting all rows from the specified tables.
 	 * <p>
 	 * Use with caution outside of a transaction!
-	 * 
+	 *
 	 * @param names the names of the tables from which to delete
 	 * @return the total number of rows deleted from all specified tables
 	 * @see JdbcTestUtils#deleteFromTables
@@ -118,7 +117,7 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 	 * Use with caution outside of a transaction!
 	 * <p>
 	 * See the Javadoc for {@link JdbcTestUtils#deleteFromTableWhere} for details.
-	 * 
+	 *
 	 * @param tableName the name of the table to delete rows from
 	 * @param whereClause the {@code WHERE} clause to append to the query
 	 * @param args arguments to bind to the query (leaving it to the {@code
@@ -137,7 +136,7 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 	 * Convenience method for dropping all of the specified tables.
 	 * <p>
 	 * Use with caution outside of a transaction!
-	 * 
+	 *
 	 * @param names the names of the tables to drop
 	 * @since 3.2
 	 * @see JdbcTestUtils#dropTables
@@ -154,7 +153,7 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 	 * The script will normally be loaded by classpath.
 	 * <p>
 	 * <b>Do not use this method to execute DDL if you expect rollback.</b>
-	 * 
+	 *
 	 * @param sqlResourcePath the Spring resource path for the SQL script
 	 * @param continueOnError whether or not to continue without throwing an exception in the event of an error
 	 * @throws DataAccessException if there is an error executing a statement
@@ -162,10 +161,10 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 	 * @see #setSqlScriptEncoding
 	 */
 	protected void executeSqlScript(String sqlResourcePath, boolean continueOnError) throws DataAccessException {
-		DataSource ds = this.jdbcTemplate.getDataSource();
+		var ds = this.jdbcTemplate.getDataSource();
 		Assert.state(ds != null, "No DataSource set");
 		Assert.state(this.applicationContext != null, "No ApplicationContext set");
-		Resource resource = this.applicationContext.getResource(sqlResourcePath);
+		var resource = this.applicationContext.getResource(sqlResourcePath);
 		new ResourceDatabasePopulator(continueOnError, false, this.sqlScriptEncoding, resource).execute(ds);
 	}
 

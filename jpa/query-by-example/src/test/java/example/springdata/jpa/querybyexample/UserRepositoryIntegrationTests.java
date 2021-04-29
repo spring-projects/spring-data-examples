@@ -15,21 +15,20 @@
  */
 package example.springdata.jpa.querybyexample;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.data.domain.ExampleMatcher.matching;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
+import static org.assertj.core.api.Assertions.*;
+import static org.springframework.data.domain.ExampleMatcher.*;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.*;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -40,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Jens Schauder
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
+
 @Transactional
 @SpringBootTest
 public class UserRepositoryIntegrationTests {
@@ -67,7 +66,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void countBySimpleExample() {
 
-		Example<User> example = Example.of(new User(null, "White", null));
+		var example = Example.of(new User(null, "White", null));
 
 		assertThat(repository.count(example)).isEqualTo(3L);
 	}
@@ -78,7 +77,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void ignorePropertiesAndMatchByAge() {
 
-		Example<User> example = Example.of(flynn, matching(). //
+		var example = Example.of(flynn, matching(). //
 				withIgnorePaths("firstname", "lastname"));
 
 		assertThat(repository.findOne(example)).contains(flynn);
@@ -90,7 +89,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void substringMatching() {
 
-		Example<User> example = Example.of(new User("er", null, null), matching(). //
+		var example = Example.of(new User("er", null, null), matching(). //
 				withStringMatcher(StringMatcher.ENDING));
 
 		assertThat(repository.findAll(example)).containsExactly(skyler, walter);
@@ -102,7 +101,7 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void matchStartingStringsIgnoreCase() {
 
-		Example<User> example = Example.of(new User("Walter", "WHITE", null), matching(). //
+		var example = Example.of(new User("Walter", "WHITE", null), matching(). //
 				withIgnorePaths("age"). //
 				withMatcher("firstname", startsWith()). //
 				withMatcher("lastname", ignoreCase()));
@@ -116,10 +115,10 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void configuringMatchersUsingLambdas() {
 
-		Example<User> example = Example.of(new User("Walter", "WHITE", null), matching(). //
+		var example = Example.of(new User("Walter", "WHITE", null), matching(). //
 				withIgnorePaths("age"). //
-				withMatcher("firstname", matcher -> matcher.startsWith()). //
-				withMatcher("lastname", matcher -> matcher.ignoreCase()));
+				withMatcher("firstname", ExampleMatcher.GenericPropertyMatcher::startsWith). //
+				withMatcher("lastname", ExampleMatcher.GenericPropertyMatcher::ignoreCase));
 
 		assertThat(repository.findAll(example)).containsExactlyInAnyOrder(flynn, walter);
 	}
@@ -130,8 +129,8 @@ public class UserRepositoryIntegrationTests {
 	@Test
 	public void valueTransformer() {
 
-		Example<User> example = Example.of(new User(null, "White", 99), matching(). //
-				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(Integer.valueOf(50)))));
+		var example = Example.of(new User(null, "White", 99), matching(). //
+				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
 
 		assertThat(repository.findAll(example)).containsExactly(walter);
 	}

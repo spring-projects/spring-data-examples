@@ -15,12 +15,12 @@
  */
 package example.springdata.jpa.multipleds.order;
 
+import example.springdata.jpa.multipleds.customer.Customer;
+import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
+
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
-
-import example.springdata.jpa.multipleds.customer.Customer;
-import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
 
 /**
  * Spring Data repository managing {@link Order}s.

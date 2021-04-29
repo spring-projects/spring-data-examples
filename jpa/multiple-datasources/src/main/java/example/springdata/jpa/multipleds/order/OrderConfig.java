@@ -50,10 +50,10 @@ class OrderConfig {
 	@Bean
 	LocalContainerEntityManagerFactoryBean orderEntityManagerFactory() {
 
-		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		var vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setGenerateDdl(true);
 
-		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+		var factoryBean = new LocalContainerEntityManagerFactoryBean();
 
 		factoryBean.setDataSource(orderDataSource());
 		factoryBean.setJpaVendorAdapter(vendorAdapter);

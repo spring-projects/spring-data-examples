@@ -19,13 +19,11 @@ import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.jpa.showcase.AbstractShowcaseTest;
 import example.springdata.jpa.showcase.core.Account;
-import example.springdata.jpa.showcase.core.Customer;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -41,7 +39,7 @@ public class AccountRepositoryIntegrationTest extends AbstractShowcaseTest {
 
 	@Test
 	public void savesAccount() {
-		Account account = accountRepository.save(new Account());
+		var account = accountRepository.save(new Account());
 
 		assertThat(account.getId()).isNotNull();
 	}
@@ -49,8 +47,8 @@ public class AccountRepositoryIntegrationTest extends AbstractShowcaseTest {
 	@Test
 	public void findsCustomersAccounts() {
 
-		Optional<Customer> customer = customerRepository.findById(1L);
-		List<Account> accounts = customer.map(accountRepository::findByCustomer).orElse(Collections.emptyList());
+		var customer = customerRepository.findById(1L);
+		var accounts = customer.map(accountRepository::findByCustomer).orElse(Collections.emptyList());
 
 		assertThat(accounts).isNotEmpty();
 		assertThat(customer).hasValueSatisfying(it -> assertThat(accounts.get(0).getCustomer()).isEqualTo(it));

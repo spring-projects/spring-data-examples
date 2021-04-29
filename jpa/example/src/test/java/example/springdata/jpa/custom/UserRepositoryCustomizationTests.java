@@ -15,15 +15,12 @@
  */
 package example.springdata.jpa.custom;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,11 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Thomas Darimont
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
+
 @Transactional
 @SpringBootTest
 // @ActiveProfiles("jdbc") // Uncomment @ActiveProfiles to enable the JDBC Implementation of the custom repository
-public class UserRepositoryCustomizationTests {
+class UserRepositoryCustomizationTests {
 
 	@Autowired UserRepository repository;
 
@@ -45,9 +42,9 @@ public class UserRepositoryCustomizationTests {
 	 * Tests inserting a user and asserts it can be loaded again.
 	 */
 	@Test
-	public void testInsert() {
+	void testInsert() {
 
-		User user = new User();
+		var user = new User();
 		user.setUsername("username");
 
 		user = repository.save(user);
@@ -56,15 +53,15 @@ public class UserRepositoryCustomizationTests {
 	}
 
 	@Test
-	public void saveAndFindByLastNameAndFindByUserName() {
+	void saveAndFindByLastNameAndFindByUserName() {
 
-		User user = new User();
+		var user = new User();
 		user.setUsername("foobar");
 		user.setLastname("lastname");
 
 		user = repository.save(user);
 
-		List<User> users = repository.findByLastname("lastname");
+		var users = repository.findByLastname("lastname");
 
 		assertThat(users).contains(user);
 		assertThat(user).isEqualTo(repository.findByTheUsersName("foobar"));
@@ -74,14 +71,14 @@ public class UserRepositoryCustomizationTests {
 	 * Test invocation of custom method.
 	 */
 	@Test
-	public void testCustomMethod() {
+	void testCustomMethod() {
 
-		User user = new User();
+		var user = new User();
 		user.setUsername("username");
 
 		user = repository.save(user);
 
-		List<User> users = repository.myCustomBatchOperation();
+		var users = repository.myCustomBatchOperation();
 
 		assertThat(users).contains(user);
 	}

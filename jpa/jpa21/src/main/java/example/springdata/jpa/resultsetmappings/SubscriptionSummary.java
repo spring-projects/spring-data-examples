@@ -15,14 +15,9 @@
  */
 package example.springdata.jpa.resultsetmappings;
 
-import lombok.Value;
-
 /**
  * @author Thomas Darimont
  */
-@Value
-public class SubscriptionSummary {
+public record SubscriptionSummary(String product, Long usageCount) {
 
-	String product;
-	Long usageCount;
 }

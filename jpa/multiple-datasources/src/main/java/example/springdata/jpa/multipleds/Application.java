@@ -15,8 +15,6 @@
  */
 package example.springdata.jpa.multipleds;
 
-import example.springdata.jpa.multipleds.customer.Customer.CustomerId;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +43,7 @@ public class Application {
 	@PostConstruct
 	public void init() {
 
-		CustomerId customerId = initializer.initializeCustomer();
+		var customerId = initializer.initializeCustomer();
 		initializer.initializeOrder(customerId);
 	}
 }

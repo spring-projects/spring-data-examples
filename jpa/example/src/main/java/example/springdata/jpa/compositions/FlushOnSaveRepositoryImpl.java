@@ -57,7 +57,7 @@ public class FlushOnSaveRepositoryImpl<T> implements FlushOnSaveRepository<T> {
 	 */
 	private <S extends T> void doSave(S entity) {
 
-		EntityInformation<Object, S> entityInformation = getEntityInformation(entity);
+		var entityInformation = getEntityInformation(entity);
 
 		if (entityInformation.isNew(entity)) {
 			entityManager.persist(entity);
@@ -84,7 +84,7 @@ public class FlushOnSaveRepositoryImpl<T> implements FlushOnSaveRepository<T> {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private <S extends T> EntityInformation<Object, S> getEntityInformation(S entity) {
 
-		Class<?> userClass = ClassUtils.getUserClass(entity.getClass());
+		var userClass = ClassUtils.getUserClass(entity.getClass());
 
 		if (entity instanceof AbstractPersistable<?>) {
 			return new JpaPersistableEntityInformation(userClass, entityManager.getMetamodel());

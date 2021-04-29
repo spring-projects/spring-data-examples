@@ -29,7 +29,7 @@ public class ApplicationConfiguration {
 
 	public @Bean CustomizableTraceInterceptor interceptor() {
 
-		CustomizableTraceInterceptor interceptor = new CustomizableTraceInterceptor();
+		var interceptor = new CustomizableTraceInterceptor();
 		interceptor.setEnterMessage("Entering $[methodName]($[arguments]).");
 		interceptor.setExitMessage("Leaving $[methodName](..) with return value $[returnValue], took $[invocationTime]ms.");
 
@@ -38,7 +38,7 @@ public class ApplicationConfiguration {
 
 	public @Bean Advisor traceAdvisor() {
 
-		AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+		var pointcut = new AspectJExpressionPointcut();
 		pointcut.setExpression("execution(public * org.springframework.data.repository.Repository+.*(..))");
 
 		return new DefaultPointcutAdvisor(pointcut, interceptor());

@@ -21,10 +21,6 @@ import example.springdata.jpa.showcase.core.Customer;
 import java.time.LocalDate;
 import java.util.Date;
 
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.springframework.data.jpa.domain.Specification;
 
 /**
@@ -44,10 +40,10 @@ public class CustomerSpecifications {
 
 		return (Specification<Customer>) (root, query, cb) -> {
 
-			Root<Account> accounts = query.from(Account.class);
-			Path<Date> expiryDate = accounts.<Date> get("expiryDate");
-			Predicate customerIsAccountOwner = cb.equal(accounts.<Customer> get("customer"), root);
-			Predicate accountExpiryDateBefore = cb.lessThan(expiryDate, java.sql.Date.valueOf(date));
+			var accounts = query.from(Account.class);
+			var expiryDate = accounts.<Date> get("expiryDate");
+			var customerIsAccountOwner = cb.equal(accounts.<Customer> get("customer"), root);
+			var accountExpiryDateBefore = cb.lessThan(expiryDate, java.sql.Date.valueOf(date));
 
 			return cb.and(customerIsAccountOwner, accountExpiryDateBefore);
 		};

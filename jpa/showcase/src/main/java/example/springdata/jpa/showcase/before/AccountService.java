@@ -15,10 +15,10 @@
  */
 package example.springdata.jpa.showcase.before;
 
-import java.util.List;
-
 import example.springdata.jpa.showcase.core.Account;
 import example.springdata.jpa.showcase.core.Customer;
+
+import java.util.List;
 
 /**
  * Service interface for {@link Account}s.

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 /**
- *
  * @author Thomas Darimont
  */
 package example.springdata.jpa.basics;

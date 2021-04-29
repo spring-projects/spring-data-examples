@@ -1,6 +1,7 @@
 = Spring Data JPA - Deferred bootstrap modes
 
-The project shows what's necessary to use Spring Data JPA's bootstrap modes to optimize the startup type with different trade-offs. It consists of:
+The project shows what's necessary to use Spring Data JPA's bootstrap modes to optimize the startup type with different trade-offs.
+It consists of:
 
 * 2000 JPA entities
 * 2000 Spring Data JPA repositories
@@ -10,12 +11,13 @@ The project shows what's necessary to use Spring Data JPA's bootstrap modes to o
 
 The example can be run in three different modes that will expose significant differences in bootstrap time:
 
-[cols="1,1,1,4", options="header"]
+[cols="1,1,1,4",options="header"]
 |====
 |Mode|Profile|Startup time|Comment
 |_DEFAULT_|none|35s|Standard JPA infrastructure and repository bootstrap.
 |_DEFERRED_|`deferred`|23s|Background JPA infrastructure initialization and repository initialization deferred until the `ApplicationContext` has completed its initialization.
-|_LAZY_|`lazy`|13s|Background JPA infrastructure initialization. Repository initialization deferred until first access.
+|_LAZY_|`lazy`|13s|Background JPA infrastructure initialization.
+Repository initialization deferred until first access.
 |====
 
 == Details
@@ -27,7 +29,7 @@ The example can be run in three different modes that will expose significant dif
 
 The bootstrap log will look like follows:
 
-[source, bash]
+[source,bash]
 ----
 2018-08-16 14:38:49.540  INFO 44538 --- [           main] example.Application                      : Starting Application v2.0.0.BUILD-SNAPSHOT on …
 2018-08-16 14:38:49.544  INFO 44538 --- [           main] example.Application                      : No active profile set, falling back to default profiles: default
@@ -55,7 +57,7 @@ The bootstrap log will look like follows:
 ====
 To run the example in deferred mode, start it with the `deferred` profile activated.
 
-[source, bash]
+[source,bash]
 ----
 $ java -jar -Dspring.profiles.active=deferred target/*.jar`
 ----
@@ -65,7 +67,7 @@ $ java -jar -Dspring.profiles.active=deferred target/*.jar`
 * Uses Spring Data's deferred repository initialization mechanism that creates lazy injection proxies for repositories so that downstream Spring beans can already be instantiated while JPA still bootstraps.
 Repository initialization is eventually triggered on `ContextRefreshedEvent` to make sure all initialization and verification has been performed before the application starts taking requests.
 
-[source, bash]
+[source,bash]
 ----
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -132,8 +134,10 @@ Repository initialization is eventually triggered on `ContextRefreshedEvent` to 
 <1> Spring triggered application component scanning and finds all services.
 <2> Spring Data repository scanning is started and finds all repository interfaces.
 <3> JPA bootstrap is initialized in a background thread.
-<4> In the meantime, Spring beans are instantiated using lazy injection proxies for repositories to prevent the service instantiation from blocking on the JPA initialization. You should see the logs for the component initialization interleave with JPA initialization log output from the background thread.
-<5> Spring bean instantiation completed while JPA still bootstraps. The container now waits for the JPA bootstrap to complete
+<4> In the meantime, Spring beans are instantiated using lazy injection proxies for repositories to prevent the service instantiation from blocking on the JPA initialization.
+You should see the logs for the component initialization interleave with JPA initialization log output from the background thread.
+<5> Spring bean instantiation completed while JPA still bootstraps.
+The container now waits for the JPA bootstrap to complete
 <6> ApplicationContext publishes a `ContextRefreshedEvent` and triggers the repository initialization to make sure they properly bootstrap before the application is used.
 <7> Repository initialization finishes and the application is started.
 
@@ -147,7 +151,7 @@ Still we have initialized and verified (query methods etc.) the repositories com
 ====
 To run the example in lazy mode, start it with the `lazy` profile activated.
 
-[source, bash]
+[source,bash]
 ----
 $ java -jar -Dspring.profiles.active=lazy target/*.jar`
 ----
@@ -157,7 +161,7 @@ $ java -jar -Dspring.profiles.active=lazy target/*.jar`
 * Uses Spring Data's lazy repository initialization mechanism that creates lazy injection proxies for repositories so that downstream Spring beans can already be instantiated while JPA still bootstraps.
 Repository initialization is completely skipped for the application to start quicker but accepting that repository initialization and verification will only be triggered for components in use to answer a request when they actually start calling methods on the repository instance.
 
-[source, bash]
+[source,bash]
 ----
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -201,9 +205,12 @@ Repository initialization is completely skipped for the application to start qui
 <1> Spring triggered application component scanning and finds all services.
 <2> Spring Data repository scanning is started and finds all repository interfaces.
 <3> JPA bootstrap is initialized in a background thread.
-<4> In the meantime, Spring beans are instantiated using lazy injection proxies for repositories to prevent the service instantiation from blocking on the JPA initialization. You should see the logs for the component initialization interleave with JPA initialization log output from the background thread.
-<5> Spring bean instantiation completed while JPA still bootstraps. The container now waits for the JPA bootstrap to complete
-<6> The application signals that it is completely bootstrapped. Repositories have not been initialized.
+<4> In the meantime, Spring beans are instantiated using lazy injection proxies for repositories to prevent the service instantiation from blocking on the JPA initialization.
+You should see the logs for the component initialization interleave with JPA initialization log output from the background thread.
+<5> Spring bean instantiation completed while JPA still bootstraps.
+The container now waits for the JPA bootstrap to complete
+<6> The application signals that it is completely bootstrapped.
+Repositories have not been initialized.
 
 We gained extra 10 seconds in startup time at the expense of not having the repositories properly initialized yet.
 They will eventually get initialized once other Spring beans start invoking methods on them.

@@ -15,16 +15,14 @@
  */
 package example.springdata.jpa.caching;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,18 +33,17 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Andrea Rizzini
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
-public class CachingRepositoryTests {
+class CachingRepositoryTests {
 
 	@Autowired CachingUserRepository repository;
 	@Autowired CacheManager cacheManager;
 
 	@Test
-	public void checkCachedValue() {
+	void checkCachedValue() {
 
-		User dave = new User();
+		var dave = new User();
 		dave.setUsername("dmatthews");
 
 		dave = repository.save(dave);
@@ -54,19 +51,19 @@ public class CachingRepositoryTests {
 		assertThat(repository.findByUsername("dmatthews")).isEqualTo(dave);
 
 		// Verify entity cached
-		Cache cache = cacheManager.getCache("byUsername");
+		var cache = cacheManager.getCache("byUsername");
 		assertThat(cache.get("dmatthews").get()).isEqualTo(dave);
 	}
 
 	@Test
-	public void checkCacheEviction() {
+	void checkCacheEviction() {
 
-		User dave = new User();
+		var dave = new User();
 		dave.setUsername("dmatthews");
 		repository.save(dave);
 
 		// Verify entity evicted on cache
-		Cache cache = cacheManager.getCache("byUsername");
-		assertThat(cache.get("dmatthews")).isEqualTo(null);
+		var cache = cacheManager.getCache("byUsername");
+		assertThat(cache.get("dmatthews")).isNull();
 	}
 }

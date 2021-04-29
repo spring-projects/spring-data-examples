@@ -15,17 +15,16 @@
  */
 package example.springdata.jpa.showcase.before;
 
+import example.springdata.jpa.showcase.core.Account;
+import example.springdata.jpa.showcase.core.Customer;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import example.springdata.jpa.showcase.core.Account;
-import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Plain JPA implementation of {@link AccountService}.
@@ -61,7 +60,7 @@ class AccountServiceImpl implements AccountService {
 	@Override
 	public List<Account> findByCustomer(Customer customer) {
 
-		TypedQuery<Account> query = em.createQuery("select a from Account a where a.customer = ?1", Account.class);
+		var query = em.createQuery("select a from Account a where a.customer = ?1", Account.class);
 		query.setParameter(1, customer);
 
 		return query.getResultList();

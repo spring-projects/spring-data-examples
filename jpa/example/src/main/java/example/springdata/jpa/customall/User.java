@@ -26,7 +26,7 @@ import javax.persistence.Id;
  * @soundtrack Tim Neuhaus - As life found you (The Cabinet)
  */
 @Entity
-public class User {
+class User {
 
 	private @Id @GeneratedValue Long id;
 }

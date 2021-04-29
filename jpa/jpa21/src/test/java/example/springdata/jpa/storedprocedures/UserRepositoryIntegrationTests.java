@@ -15,18 +15,16 @@
  */
 package example.springdata.jpa.storedprocedures;
 
+import static org.assertj.core.api.Assertions.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.assertj.core.api.Assertions.*;
 
 /**
  * Integration test showing the usage of JPA 2.1 stored procedures support through Spring Data repositories.
@@ -36,18 +34,20 @@ import static org.assertj.core.api.Assertions.*;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
-public class UserRepositoryIntegrationTests {
+class UserRepositoryIntegrationTests {
 
 	@Autowired UserRepository repository;
+	// This is what it would look like implemented manually.
+
+	@Autowired EntityManager em;
 
 	/**
 	 * @see DATAJPA-455
 	 */
 	@Test
-	public void entityAnnotatedCustomNamedProcedurePlus1IO() {
+	void entityAnnotatedCustomNamedProcedurePlus1IO() {
 		assertThat(repository.plus1BackedByOtherNamedStoredProcedure(1)).isEqualTo(2);
 	}
 
@@ -55,18 +55,15 @@ public class UserRepositoryIntegrationTests {
 	 * @see DATAJPA-455
 	 */
 	@Test
-	public void invokeDerivedStoredProcedure() {
+	void invokeDerivedStoredProcedure() {
 		assertThat(repository.plus1inout(1)).isEqualTo(2);
 	}
 
-	// This is what it would look like implemented manually.
-
-	@Autowired EntityManager em;
 
 	@Test
-	public void plainJpa21() {
+	void plainJpa21() {
 
-		StoredProcedureQuery proc = em.createStoredProcedureQuery("plus1inout");
+		var proc = em.createStoredProcedureQuery("plus1inout");
 		proc.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
 		proc.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
 
@@ -77,9 +74,9 @@ public class UserRepositoryIntegrationTests {
 	}
 
 	@Test
-	public void plainJpa21_entityAnnotatedCustomNamedProcedurePlus1IO() {
+	void plainJpa21_entityAnnotatedCustomNamedProcedurePlus1IO() {
 
-		StoredProcedureQuery proc = em.createNamedStoredProcedureQuery("User.plus1");
+		var proc = em.createNamedStoredProcedureQuery("User.plus1");
 
 		proc.setParameter("arg", 1);
 		proc.execute();

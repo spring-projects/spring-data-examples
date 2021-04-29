@@ -15,12 +15,12 @@
  */
 package example.springdata.jpa.showcase.after;
 
+import example.springdata.jpa.showcase.core.Account;
+import example.springdata.jpa.showcase.core.Customer;
+
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
-
-import example.springdata.jpa.showcase.core.Account;
-import example.springdata.jpa.showcase.core.Customer;
 
 /**
  * Repository to manage {@link Account} instances.

@@ -20,7 +20,7 @@ package example.springdata.jpa.compositions;
  *
  * @author Mark Paluch
  */
-public interface Contact {
+interface Contact {
 
 	/**
 	 * @return the first name.

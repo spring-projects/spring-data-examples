@@ -72,7 +72,7 @@ public class DataInitializer {
 
 		Assert.notNull(customer, "Customer identifier must not be null!");
 
-		Order order = new Order(customer);
+		var order = new Order(customer);
 		order.add(new LineItem("Lakewood Guitar"));
 
 		return orders.save(order);

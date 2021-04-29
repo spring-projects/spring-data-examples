@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.history.Revision;
 import org.springframework.data.history.RevisionMetadata.RevisionType;
-import org.springframework.data.history.Revisions;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /**
@@ -34,7 +33,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * @author Jens Schauder
  */
 @SpringBootTest
-public class EnversIntegrationTests {
+class EnversIntegrationTests {
 
 	@Autowired PersonRepository repository;
 	@Autowired TransactionTemplate tx;
@@ -42,11 +41,11 @@ public class EnversIntegrationTests {
 	@Test
 	void testRepository() {
 
-		Person updated = preparePersonHistory();
+		var updated = preparePersonHistory();
 
-		Revisions<Long, Person> revisions = repository.findRevisions(updated.id);
+		var revisions = repository.findRevisions(updated.id);
 
-		Iterator<Revision<Long, Person>> revisionIterator = revisions.iterator();
+		var revisionIterator = revisions.iterator();
 
 		checkNextRevision(revisionIterator, "John", RevisionType.INSERT);
 		checkNextRevision(revisionIterator, "Jonny", RevisionType.UPDATE);
@@ -59,24 +58,24 @@ public class EnversIntegrationTests {
 			RevisionType revisionType) {
 
 		assertThat(revisionIterator.hasNext()).isTrue();
-		Revision<Long, Person> revision = revisionIterator.next();
+		var revision = revisionIterator.next();
 		assertThat(revision.getEntity().name).isEqualTo(name);
 		assertThat(revision.getMetadata().getRevisionType()).isEqualTo(revisionType);
 	}
 
 	private Person preparePersonHistory() {
 
-		Person john = new Person();
+		var john = new Person();
 		john.setName("John");
 
 		// create
-		Person saved = tx.execute(__ -> repository.save(john));
+		var saved = tx.execute(__ -> repository.save(john));
 		assertThat(saved).isNotNull();
 
 		saved.setName("Jonny");
 
 		// update
-		Person updated = tx.execute(__ -> repository.save(saved));
+		var updated = tx.execute(__ -> repository.save(saved));
 		assertThat(updated).isNotNull();
 
 		// delete

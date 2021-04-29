@@ -15,18 +15,15 @@
  */
 package example.springdata.jpa.showcase.snippets;
 
+import example.springdata.jpa.showcase.core.Account;
+
 import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import example.springdata.jpa.showcase.core.Account;
 
 /**
  * @author Oliver Gierke
@@ -48,13 +45,13 @@ class AccountRepositoryImpl implements AccountRepositoryCustom {
 	@Override
 	public void removedExpiredAccounts(LocalDate reference) {
 
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Account> query = cb.createQuery(Account.class);
-		Root<Account> account = query.from(Account.class);
+		var cb = em.getCriteriaBuilder();
+		var query = cb.createQuery(Account.class);
+		var account = query.from(Account.class);
 
 		query.where(cb.lessThan(account.get("expiryDate").as(Date.class), java.sql.Date.valueOf(reference)));
 
-		for (Account each : em.createQuery(query).getResultList()) {
+		for (var each : em.createQuery(query).getResultList()) {
 			em.remove(each);
 		}
 	}

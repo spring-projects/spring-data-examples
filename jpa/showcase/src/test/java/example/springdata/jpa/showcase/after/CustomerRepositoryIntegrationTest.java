@@ -19,15 +19,12 @@ import static example.springdata.jpa.showcase.snippets.CustomerSpecifications.*;
 import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.jpa.showcase.AbstractShowcaseTest;
-import example.springdata.jpa.showcase.core.Customer;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -48,7 +45,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractShowcaseTest {
 	@Test
 	public void findsFirstPageOfMatthews() throws Exception {
 
-		Page<Customer> customers = repository.findByLastname("Matthews", PageRequest.of(0, 2));
+		var customers = repository.findByLastname("Matthews", PageRequest.of(0, 2));
 
 		assertThat(customers.getContent()).hasSize(2);
 		assertThat(customers.hasPrevious()).isFalse();
@@ -66,10 +63,10 @@ public class CustomerRepositoryIntegrationTest extends AbstractShowcaseTest {
 	@Test
 	public void findsCustomersBySpecification() throws Exception {
 
-		Optional<Customer> dave = repository.findById(1L);
+		var dave = repository.findById(1L);
 
-		LocalDate expiryLimit = LocalDate.of(2011, 3, 1);
-		List<Customer> result = repository.findAll(accountExpiresBefore(expiryLimit));
+		var expiryLimit = LocalDate.of(2011, 3, 1);
+		var result = repository.findAll(accountExpiresBefore(expiryLimit));
 
 		assertThat(result).hasSize(1);
 		assertThat(dave).hasValueSatisfying(it -> assertThat(result).contains(it));

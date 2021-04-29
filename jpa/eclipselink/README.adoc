@@ -6,7 +6,7 @@ This project contains an example of how to use Spring Data JPA in combination wi
 
 To run the project with static weaving enable the corresponding build profile on the command line:
 
-[source, bash]
+[source,bash]
 ----
 $ mvn clean test -Pstatic-weaving
 ----
@@ -15,6 +15,8 @@ Note, that you need to make sure the weaving process is run by your IDE, before 
 
 ## Load-time weaving
 
-By default, the projects builds and runs with load-time weaving enabled. This is achieved by configuring the Spring instrumentation agent for both the Surefire and Spring Boot Maven plugin. The build profile for load-time weaving is enabled by default.
+By default, the projects builds and runs with load-time weaving enabled.
+This is achieved by configuring the Spring instrumentation agent for both the Surefire and Spring Boot Maven plugin.
+The build profile for load-time weaving is enabled by default.
 
 For execution within the IDE, make sure you configure the Spring instrumentation agent to be applied.

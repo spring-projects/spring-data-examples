@@ -15,8 +15,7 @@
  */
 package example.springdata.jpa.fetchgraph;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.Collections;
 
@@ -24,10 +23,9 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,20 +35,18 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Jens Schauder
  * @author Divya Srivastava
  */
-
-@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest(classes = FetchGraphConfiguration.class)
-public class FetchGraphIntegrationTests {
+class FetchGraphIntegrationTests {
 
 	@Autowired EntityManager em;
 
 	@Autowired ProductRepository repository;
 
 	@Test
-	public void shouldFetchAssociationMarkedAsLazyViaNamedEntityFetchGraph() {
+	void shouldFetchAssociationMarkedAsLazyViaNamedEntityFetchGraph() {
 
-		Product xps = new Product("Dell XPS 15");
+		var xps = new Product("Dell XPS 15");
 		Collections.addAll(xps.getTags(), new Tag("cool"), new Tag("macbook-killer"), new Tag("speed"));
 
 		xps = repository.save(xps);
@@ -58,7 +54,7 @@ public class FetchGraphIntegrationTests {
 
 		em.detach(xps);
 
-		Product loadedXps = repository.findById(xps.getId()).get();
+		var loadedXps = repository.findById(xps.getId()).get();
 		em.detach(loadedXps);
 
 		assertThatExceptionOfType(LazyInitializationException.class)
@@ -66,15 +62,15 @@ public class FetchGraphIntegrationTests {
 				.isThrownBy(() -> loadedXps.getTags().toString());
 
 		// here we use the findWithNamedEntityGraphById that uses a NamedEntityGraph
-		Product loadedXpsWithFetchGraph = repository.findWithNamedEntityGraphById(xps.getId());
+		var loadedXpsWithFetchGraph = repository.findWithNamedEntityGraphById(xps.getId());
 
 		assertThat(loadedXpsWithFetchGraph.getTags()).hasSize(3);
 	}
 
 	@Test
-	public void shouldFetchAssociationMarkedAsLazyViaCustomEntityFetchGraph() {
+	void shouldFetchAssociationMarkedAsLazyViaCustomEntityFetchGraph() {
 
-		Product xps = new Product("Dell XPS 15");
+		var xps = new Product("Dell XPS 15");
 		Collections.addAll(xps.getTags(), new Tag("cool"), new Tag("macbook-killer"), new Tag("speed"));
 
 		xps = repository.save(xps);
@@ -82,7 +78,7 @@ public class FetchGraphIntegrationTests {
 
 		em.detach(xps);
 
-		Product loadedXps = repository.findById(xps.getId()).get();
+		var loadedXps = repository.findById(xps.getId()).get();
 		em.detach(loadedXps);
 
 		assertThatExceptionOfType(LazyInitializationException.class)
@@ -90,9 +86,8 @@ public class FetchGraphIntegrationTests {
 				.isThrownBy(() -> loadedXps.getTags().toString());
 
 		// here we use findWithAdhocEntityGraphById which uses an ad-hoc declarative fetch graph definition
-		Product loadedXpsWithFetchGraph = repository.findWithAdhocEntityGraphById(xps.getId());
+		var loadedXpsWithFetchGraph = repository.findWithAdhocEntityGraphById(xps.getId());
 
 		assertThat(loadedXpsWithFetchGraph.getTags()).hasSize(3);
-		;
 	}
 }

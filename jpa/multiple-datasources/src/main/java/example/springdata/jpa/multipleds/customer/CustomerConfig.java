@@ -50,10 +50,10 @@ class CustomerConfig {
 	@Bean
 	LocalContainerEntityManagerFactoryBean customerEntityManagerFactory() {
 
-		HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+		var jpaVendorAdapter = new HibernateJpaVendorAdapter();
 		jpaVendorAdapter.setGenerateDdl(true);
 
-		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+		var factoryBean = new LocalContainerEntityManagerFactoryBean();
 
 		factoryBean.setDataSource(customerDataSource());
 		factoryBean.setJpaVendorAdapter(jpaVendorAdapter);

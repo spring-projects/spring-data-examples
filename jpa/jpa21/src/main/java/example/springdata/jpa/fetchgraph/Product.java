@@ -15,6 +15,9 @@
  */
 package example.springdata.jpa.fetchgraph;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,9 +31,6 @@ import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * @author Thomas Darimont
  */
@@ -40,12 +40,12 @@ import lombok.NoArgsConstructor;
 @NamedEntityGraphs(@NamedEntityGraph(name = "product-with-tags", attributeNodes = { @NamedAttributeNode("tags") }))
 public class Product {
 
-	@Id @GeneratedValue//
+	@Id @GeneratedValue //
 	Long id;
 
 	String name;
 
-	@ManyToMany(fetch = FetchType.LAZY, targetEntity = Tag.class, cascade = CascadeType.ALL)//
+	@ManyToMany(fetch = FetchType.LAZY, targetEntity = Tag.class, cascade = CascadeType.ALL) //
 	Set<Tag> tags = new HashSet<>();
 
 	public Product(String name) {

@@ -15,8 +15,6 @@
  */
 package example.springdata.jpa.simple;
 
-import example.springdata.jpa.projections.Customer;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;

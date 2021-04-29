@@ -6,6 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Customer604Service {
-	public Customer604Service(Customer604Repository repo) {
-	}
+	public Customer604Service(Customer604Repository repo) {}
 }

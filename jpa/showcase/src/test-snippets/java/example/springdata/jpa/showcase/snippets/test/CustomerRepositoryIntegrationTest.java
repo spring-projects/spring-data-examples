@@ -19,11 +19,8 @@ import static example.springdata.jpa.showcase.snippets.CustomerSpecifications.*;
 import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.jpa.showcase.after.CustomerRepository;
-import example.springdata.jpa.showcase.core.Customer;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -38,10 +35,10 @@ public class CustomerRepositoryIntegrationTest {
 
 	public void findsCustomersBySpecification() throws Exception {
 
-		Optional<Customer> dave = repository.findById(1L);
+		var dave = repository.findById(1L);
 
-		LocalDate expiryLimit = LocalDate.of(2011, 3, 1);
-		List<Customer> result = repository.findAll(accountExpiresBefore(expiryLimit));
+		var expiryLimit = LocalDate.of(2011, 3, 1);
+		var result = repository.findAll(accountExpiresBefore(expiryLimit));
 
 		assertThat(result).hasSize(1);
 		assertThat(dave).hasValueSatisfying(it -> assertThat(result).contains(it));
