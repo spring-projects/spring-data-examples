@@ -60,11 +60,11 @@ public class ListOperationsTests {
 	@Test
 	public void shouldPollAndPopulateQueue() {
 
-		String queue = "foo";
+		var queue = "foo";
 
-		ReactiveListOperations<String, String> listOperations = operations.opsForList();
+		var listOperations = operations.opsForList();
 
-		Mono<String> blpop = listOperations //
+		var blpop = listOperations //
 				.leftPop(queue, Duration.ofSeconds(30)) //
 				.log("example.springdata.redis", Level.INFO);
 

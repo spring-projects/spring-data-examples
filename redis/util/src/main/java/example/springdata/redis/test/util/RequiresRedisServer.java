@@ -98,7 +98,7 @@ public class RequiresRedisServer extends ExternalResource {
 	@Override
 	protected void before() throws Throwable {
 
-		try (Socket socket = new Socket()) {
+		try (var socket = new Socket()) {
 			socket.setTcpNoDelay(true);
 			socket.setSoLinger(true, 0);
 			socket.connect(new InetSocketAddress(host, port), timeout);
@@ -110,14 +110,14 @@ public class RequiresRedisServer extends ExternalResource {
 			return;
 		}
 
-		RedisClient redisClient = RedisClient.create(ManagedClientResources.getClientResources(),
+		var redisClient = RedisClient.create(ManagedClientResources.getClientResources(),
 				RedisURI.create(host, port));
 
-		try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
+		try (var connection = redisClient.connect()) {
 
-			String infoServer = connection.sync().info("server");
-			String redisVersion = LettuceConverters.stringToProps().convert(infoServer).getProperty("redis_version");
-			Version runningVersion = Version.parse(redisVersion);
+			var infoServer = connection.sync().info("server");
+			var redisVersion = LettuceConverters.stringToProps().convert(infoServer).getProperty("redis_version");
+			var runningVersion = Version.parse(redisVersion);
 
 			if (runningVersion.isLessThan(requiredVersion)) {
 				throw new AssumptionViolatedException(String

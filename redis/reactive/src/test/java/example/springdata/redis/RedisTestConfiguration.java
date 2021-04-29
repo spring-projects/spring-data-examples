@@ -51,11 +51,11 @@ public class RedisTestConfiguration {
 	public ReactiveRedisTemplate<String, Person> reactiveJsonPersonRedisTemplate(
 			ReactiveRedisConnectionFactory connectionFactory) {
 
-		Jackson2JsonRedisSerializer<Person> serializer = new Jackson2JsonRedisSerializer<>(Person.class);
+		var serializer = new Jackson2JsonRedisSerializer<Person>(Person.class);
 		RedisSerializationContextBuilder<String, Person> builder = RedisSerializationContext
 				.newSerializationContext(new StringRedisSerializer());
 
-		RedisSerializationContext<String, Person> serializationContext = builder.value(serializer).build();
+		var serializationContext = builder.value(serializer).build();
 
 		return new ReactiveRedisTemplate<>(connectionFactory, serializationContext);
 	}
@@ -70,7 +70,7 @@ public class RedisTestConfiguration {
 		RedisSerializationContextBuilder<String, Object> builder = RedisSerializationContext
 				.newSerializationContext(new StringRedisSerializer());
 
-		RedisSerializationContext<String, Object> serializationContext = builder
+		var serializationContext = builder
 				.value(new GenericJackson2JsonRedisSerializer("_type")).build();
 
 		return new ReactiveRedisTemplate<>(connectionFactory, serializationContext);

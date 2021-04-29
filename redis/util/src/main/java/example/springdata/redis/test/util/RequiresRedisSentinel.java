@@ -134,8 +134,8 @@ public class RequiresRedisSentinel implements TestRule {
 
 	private void verify(SentinelsAvailable verificationMode) {
 
-		int failed = 0;
-		for (RedisNode node : sentinelConfig.getSentinels()) {
+		var failed = 0;
+		for (var node : sentinelConfig.getSentinels()) {
 			if (!isAvailable(node)) {
 				failed++;
 			}
@@ -163,10 +163,10 @@ public class RequiresRedisSentinel implements TestRule {
 
 	private boolean isAvailable(RedisNode node) {
 
-		RedisClient redisClient = RedisClient.create(ManagedClientResources.getClientResources(),
+		var redisClient = RedisClient.create(ManagedClientResources.getClientResources(),
 				RedisURI.create(node.getHost(), node.getPort()));
 
-		try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
+		try (var connection = redisClient.connect()) {
 			connection.sync().ping();
 		} catch (Exception e) {
 			return false;

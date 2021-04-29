@@ -77,7 +77,7 @@ public class KeyCommandsTests {
 
 		generateRandomKeys(50);
 
-		Mono<Long> keyCount = connection.keyCommands() //
+		var keyCount = connection.keyCommands() //
 				.keys(ByteBuffer.wrap(serializer.serialize(KEY_PATTERN))) //
 				.flatMapMany(Flux::fromIterable) //
 				.doOnNext(byteBuffer -> System.out.println(toString(byteBuffer))) //
@@ -93,12 +93,12 @@ public class KeyCommandsTests {
 	@Test
 	public void storeToListAndPop() {
 
-		Mono<PopResult> popResult = connection.listCommands()
+		var popResult = connection.listCommands()
 				.brPop(Collections.singletonList(ByteBuffer.wrap("list".getBytes())), Duration.ofSeconds(5));
 
-		Mono<Long> llen = connection.listCommands().lLen(ByteBuffer.wrap("list".getBytes()));
+		var llen = connection.listCommands().lLen(ByteBuffer.wrap("list".getBytes()));
 
-		Mono<Long> popAndLlen = connection.listCommands() //
+		var popAndLlen = connection.listCommands() //
 				.rPush(ByteBuffer.wrap("list".getBytes()), Collections.singletonList(ByteBuffer.wrap("item".getBytes())))
 				.flatMap(l -> popResult) //
 				.doOnNext(result -> System.out.println(toString(result.getValue()))) //
@@ -110,9 +110,9 @@ public class KeyCommandsTests {
 
 	private void generateRandomKeys(int nrKeys) {
 
-		Flux<String> keyFlux = Flux.range(0, nrKeys).map(i -> (PREFIX + "-" + i));
+		var keyFlux = Flux.range(0, nrKeys).map(i -> (PREFIX + "-" + i));
 
-		Flux<SetCommand> generator = keyFlux.map(String::getBytes).map(ByteBuffer::wrap) //
+		var generator = keyFlux.map(String::getBytes).map(ByteBuffer::wrap) //
 				.map(key -> SetCommand.set(key) //
 						.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
 

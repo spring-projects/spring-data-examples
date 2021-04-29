@@ -48,16 +48,16 @@ public class RedisSentinelApplication {
 
 		ApplicationContext context = SpringApplication.run(RedisSentinelApplication.class, args);
 
-		StringRedisTemplate template = context.getBean(StringRedisTemplate.class);
+		var template = context.getBean(StringRedisTemplate.class);
 		template.opsForValue().set("loop-forever", "0");
 
-		StopWatch stopWatch = new StopWatch();
+		var stopWatch = new StopWatch();
 
 		while (true) {
 
 			try {
 
-				String value = "IT:= " + template.opsForValue().increment("loop-forever", 1);
+				var value = "IT:= " + template.opsForValue().increment("loop-forever", 1);
 				printBackFromErrorStateInfoIfStopWatchIsRunning(stopWatch);
 				System.out.println(value);
 

@@ -61,11 +61,11 @@ public class ValueOperationsTests {
 	@Test
 	public void shouldCacheValue() {
 
-		String cacheKey = "foo";
+		var cacheKey = "foo";
 
-		ReactiveValueOperations<String, String> valueOperations = operations.opsForValue();
+		var valueOperations = operations.opsForValue();
 
-		Mono<String> cachedMono = valueOperations.get(cacheKey) //
+		var cachedMono = valueOperations.get(cacheKey) //
 				.switchIfEmpty(cacheValue().flatMap(it -> {
 
 					return valueOperations.set(cacheKey, it, Duration.ofSeconds(60)).then(Mono.just(it));
@@ -80,7 +80,7 @@ public class ValueOperationsTests {
 
 		log.info("Subsequent access (use cached value)");
 
-		Duration duration = StepVerifier.create(cachedMono) //
+		var duration = StepVerifier.create(cachedMono) //
 				.expectNext("Hello, World!") //
 				.verifyComplete();
 

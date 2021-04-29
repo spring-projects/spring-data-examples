@@ -68,12 +68,12 @@ public class GeoOperationsTests {
 	@Test
 	public void geoRadiusByMember() {
 
-		GeoResults<GeoLocation<String>> byDistance = geoOperations.geoRadiusByMember("Sicily", "Palermo",
+		var byDistance = geoOperations.geoRadiusByMember("Sicily", "Palermo",
 				new Distance(100, DistanceUnit.KILOMETERS));
 
 		assertThat(byDistance).hasSize(2).extracting("content.name").contains("Arigento", "Palermo");
 
-		GeoResults<GeoLocation<String>> greaterDistance = geoOperations.geoRadiusByMember("Sicily", "Palermo",
+		var greaterDistance = geoOperations.geoRadiusByMember("Sicily", "Palermo",
 				new Distance(200, DistanceUnit.KILOMETERS));
 
 		assertThat(greaterDistance).hasSize(3).extracting("content.name").contains("Arigento", "Catania", "Palermo");
@@ -85,9 +85,9 @@ public class GeoOperationsTests {
 	@Test
 	public void geoRadius() {
 
-		Circle circle = new Circle(new Point(13.583333, 37.316667), //
+		var circle = new Circle(new Point(13.583333, 37.316667), //
 				new Distance(100, DistanceUnit.KILOMETERS));
-		GeoResults<GeoLocation<String>> result = geoOperations.geoRadius("Sicily", circle);
+		var result = geoOperations.geoRadius("Sicily", circle);
 
 		assertThat(result).hasSize(2).extracting("content.name").contains("Arigento", "Palermo");
 	}
@@ -98,7 +98,7 @@ public class GeoOperationsTests {
 	@Test
 	public void geoDistance() {
 
-		Distance distance = geoOperations.geoDist("Sicily", "Catania", "Palermo", DistanceUnit.KILOMETERS);
+		var distance = geoOperations.geoDist("Sicily", "Catania", "Palermo", DistanceUnit.KILOMETERS);
 
 		assertThat(distance.getValue()).isBetween(130d, 140d);
 	}
@@ -109,7 +109,7 @@ public class GeoOperationsTests {
 	@Test
 	public void geoHash() {
 
-		List<String> geohashes = geoOperations.geoHash("Sicily", "Catania", "Palermo");
+		var geohashes = geoOperations.geoHash("Sicily", "Catania", "Palermo");
 
 		assertThat(geohashes).hasSize(2).contains("sqdtr74hyu0", "sq9sm1716e0");
 	}

@@ -26,9 +26,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  *
  * @author Mark Paluch
  */
-@Value
-@RequiredArgsConstructor
 @JsonTypeInfo(use = Id.CLASS, property = "_type")
-public class EmailAddress {
-	final String address;
+public record EmailAddress(String address) {
 }

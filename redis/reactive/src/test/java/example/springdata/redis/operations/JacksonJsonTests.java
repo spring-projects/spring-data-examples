@@ -66,7 +66,7 @@ public class JacksonJsonTests {
 				.expectNext(true) //
 				.verifyComplete();
 
-		Flux<String> get = typedOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("homer".getBytes()))) //
+		var get = typedOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("homer".getBytes()))) //
 				.map(ByteUtils::getBytes) //
 				.map(String::new);
 
@@ -93,7 +93,7 @@ public class JacksonJsonTests {
 				.expectNext(true) //
 				.verifyComplete();
 
-		Flux<String> get = genericOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("homer".getBytes()))) //
+		var get = genericOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("homer".getBytes()))) //
 				.map(ByteUtils::getBytes) //
 				.map(String::new);
 
@@ -121,7 +121,7 @@ public class JacksonJsonTests {
 				.expectNext(true) //
 				.verifyComplete();
 
-		Flux<String> get = genericOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("mail".getBytes()))) //
+		var get = genericOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("mail".getBytes()))) //
 				.map(ByteUtils::getBytes) //
 				.map(String::new);
 

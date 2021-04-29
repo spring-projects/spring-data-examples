@@ -70,8 +70,7 @@ public class KeyOperationsTests {
 
 		generateRandomKeys(1000);
 
-		Set<byte[]> keys = this.connection.keys(serializer.serialize(KEY_PATTERN));
-		printKeys(keys.iterator());
+		var keys = this.connection.keys(serializer.serialize(KEY_PATTERN));
 	}
 
 	/**
@@ -85,23 +84,12 @@ public class KeyOperationsTests {
 
 		generateRandomKeys(1000);
 
-		Cursor<byte[]> cursor = this.connection.scan(ScanOptions.scanOptions().match(KEY_PATTERN).build());
-		printKeys(cursor);
-	}
-
-	private void printKeys(Iterator<byte[]> keys) {
-
-		int i = 0;
-		while (keys.hasNext()) {
-			System.out.println(new String(keys.next()));
-			i++;
-		}
-		System.out.println(String.format("Total No. found: %s", i));
+		this.connection.scan(ScanOptions.scanOptions().match(KEY_PATTERN).build());
 	}
 
 	private void generateRandomKeys(int nrKeys) {
 
-		for (int i = 0; i < nrKeys; i++) {
+		for (var i = 0; i < nrKeys; i++) {
 			this.connection.set((PREFIX + "-" + i).getBytes(), UUID.randomUUID().toString().getBytes());
 		}
 	}

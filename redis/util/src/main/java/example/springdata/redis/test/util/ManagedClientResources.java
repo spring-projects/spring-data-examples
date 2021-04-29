@@ -41,9 +41,9 @@ class ManagedClientResources {
 	 */
 	static ClientResources getClientResources() {
 
-		AtomicReference<ClientResources> ref = instance.clientResources;
+		var ref = instance.clientResources;
 
-		ClientResources clientResources = ref.get();
+		var clientResources = ref.get();
 		if (clientResources != null) {
 			return clientResources;
 		}

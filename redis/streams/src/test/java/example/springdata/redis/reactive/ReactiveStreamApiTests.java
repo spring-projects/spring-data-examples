@@ -113,7 +113,7 @@ public class ReactiveStreamApiTests {
 	@Test
 	public void continuousRead() {
 
-		Flux<MapRecord<String, String, String>> messages = streamReceiver.receive(fromStart(SensorData.KEY));
+		var messages = streamReceiver.receive(fromStart(SensorData.KEY));
 
 		messages.as(StepVerifier::create)
 				.then(() ->

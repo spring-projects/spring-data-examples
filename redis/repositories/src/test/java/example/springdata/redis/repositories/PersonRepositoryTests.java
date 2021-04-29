@@ -114,7 +114,7 @@ public class PersonRepositoryTests {
 
 		flushTestUsers();
 
-		List<Person> starks = repository.findByLastname(eddard.getLastname());
+		var starks = repository.findByLastname(eddard.getLastname());
 
 		assertThat(starks).contains(eddard, robb, sansa, arya, bran, rickon).doesNotContain(jon);
 	}
@@ -127,7 +127,7 @@ public class PersonRepositoryTests {
 
 		flushTestUsers();
 
-		List<Person> aryaStark = repository.findByFirstnameAndLastname(arya.getFirstname(), arya.getLastname());
+		var aryaStark = repository.findByFirstnameAndLastname(arya.getFirstname(), arya.getLastname());
 
 		assertThat(aryaStark).containsOnly(arya);
 	}
@@ -140,7 +140,7 @@ public class PersonRepositoryTests {
 
 		flushTestUsers();
 
-		List<Person> aryaAndJon = repository.findByFirstnameOrLastname(arya.getFirstname(), jon.getLastname());
+		var aryaAndJon = repository.findByFirstnameOrLastname(arya.getFirstname(), jon.getLastname());
 
 		assertThat(aryaAndJon).containsOnly(arya, jon);
 	}
@@ -153,9 +153,9 @@ public class PersonRepositoryTests {
 
 		flushTestUsers();
 
-		Example<Person> example = Example.of(new Person(null, "stark", null));
+		var example = Example.of(new Person(null, "stark", null));
 
-		Iterable<Person> starks = repository.findAll(example);
+		var starks = repository.findAll(example);
 
 		assertThat(starks).contains(arya, eddard).doesNotContain(jon);
 	}
@@ -168,12 +168,12 @@ public class PersonRepositoryTests {
 
 		flushTestUsers();
 
-		Page<Person> page1 = repository.findPersonByLastname(eddard.getLastname(), PageRequest.of(0, 5));
+		var page1 = repository.findPersonByLastname(eddard.getLastname(), PageRequest.of(0, 5));
 
 		assertThat(page1.getNumberOfElements()).isEqualTo(5);
 		assertThat(page1.getTotalElements()).isEqualTo(6);
 
-		Page<Person> page2 = repository.findPersonByLastname(eddard.getLastname(), PageRequest.of(1, 5));
+		var page2 = repository.findPersonByLastname(eddard.getLastname(), PageRequest.of(1, 5));
 
 		assertThat(page2.getNumberOfElements()).isEqualTo(1);
 		assertThat(page2.getTotalElements()).isEqualTo(6);
@@ -185,7 +185,7 @@ public class PersonRepositoryTests {
 	@Test
 	public void findByEmbeddedProperty() {
 
-		Address winterfell = new Address();
+		var winterfell = new Address();
 		winterfell.setCountry("the north");
 		winterfell.setCity("winterfell");
 
@@ -193,7 +193,7 @@ public class PersonRepositoryTests {
 
 		flushTestUsers();
 
-		List<Person> eddardStark = repository.findByAddress_City(winterfell.getCity());
+		var eddardStark = repository.findByAddress_City(winterfell.getCity());
 
 		assertThat(eddardStark).containsOnly(eddard);
 	}
@@ -204,14 +204,14 @@ public class PersonRepositoryTests {
 	@Test
 	public void findByGeoLocationProperty() {
 
-		Address winterfell = new Address();
+		var winterfell = new Address();
 		winterfell.setCountry("the north");
 		winterfell.setCity("winterfell");
 		winterfell.setLocation(new Point(52.9541053, -1.2401016));
 
 		eddard.setAddress(winterfell);
 
-		Address casterlystein = new Address();
+		var casterlystein = new Address();
 		casterlystein.setCountry("Westerland");
 		casterlystein.setCity("Casterlystein");
 		casterlystein.setLocation(new Point(51.5287352, -0.3817819));
@@ -220,13 +220,13 @@ public class PersonRepositoryTests {
 
 		flushTestUsers();
 
-		Circle innerCircle = new Circle(new Point(51.8911912, -0.4979756), new Distance(50, Metrics.KILOMETERS));
-		List<Person> eddardStark = repository.findByAddress_LocationWithin(innerCircle);
+		var innerCircle = new Circle(new Point(51.8911912, -0.4979756), new Distance(50, Metrics.KILOMETERS));
+		var eddardStark = repository.findByAddress_LocationWithin(innerCircle);
 
 		assertThat(eddardStark).containsOnly(robb);
 
-		Circle biggerCircle = new Circle(new Point(51.8911912, -0.4979756), new Distance(200, Metrics.KILOMETERS));
-		List<Person> eddardAndRobbStark = repository.findByAddress_LocationWithin(biggerCircle);
+		var biggerCircle = new Circle(new Point(51.8911912, -0.4979756), new Distance(200, Metrics.KILOMETERS));
+		var eddardAndRobbStark = repository.findByAddress_LocationWithin(biggerCircle);
 
 		assertThat(eddardAndRobbStark).hasSize(2).contains(robb, eddard);
 	}
