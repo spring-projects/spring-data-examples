@@ -24,8 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,7 +44,6 @@ import org.springframework.hateoas.server.core.TypeReferences.CollectionModelTyp
 import org.springframework.hateoas.server.core.TypeReferences.EntityModelType;
 import org.springframework.hateoas.server.core.TypeReferences.PagedModelType;
 import org.springframework.http.RequestEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -54,7 +52,6 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Slf4j
 public class StarbucksClient {
