@@ -23,18 +23,17 @@ import java.util.Optional;
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Integration tests for {@link PersonRepository}.
  *
  * @author Mark Paluch
+ * @author Divya Srivastava
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class PersonRepositoryIntegrationTests {
 
@@ -46,7 +45,7 @@ public class PersonRepositoryIntegrationTests {
 	 * @throws InvalidNameException
 	 */
 	@Test
-	public void findOneByName() throws InvalidNameException {
+	void findOneByName() throws InvalidNameException {
 
 		Optional<Person> person = personRepository.findById(new LdapName("uid=bob,ou=people,dc=springframework,dc=org"));
 
@@ -61,7 +60,7 @@ public class PersonRepositoryIntegrationTests {
 	 * Find all entries in the base path.
 	 */
 	@Test
-	public void findAll() {
+	void findAll() {
 
 		Iterable<Person> people = personRepository.findAll();
 
@@ -72,7 +71,7 @@ public class PersonRepositoryIntegrationTests {
 	 * Find all {@link Person} objects starting with {@code Ham} in the field {@code lastname}.
 	 */
 	@Test
-	public void findByLastname() {
+	void findByLastname() {
 
 		List<Person> people = personRepository.findByLastnameStartsWith("Ham");
 
@@ -85,7 +84,7 @@ public class PersonRepositoryIntegrationTests {
 	 * @throws InvalidNameException
 	 */
 	@Test
-	public void addUser() throws InvalidNameException {
+	void addUser() throws InvalidNameException {
 
 		Person walter = new Person();
 		walter.setFullName("Walter White");

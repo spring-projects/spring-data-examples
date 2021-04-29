@@ -35,7 +35,7 @@ import org.springframework.test.annotation.DirtiesContext;
  * Demonstrates various possibilities to customize the behavior of a repository.
  *
  * @author Jens Schauder
- * @author Divya Srivastava
+ * @author Divya Srivastava
  */
 @SpringBootTest(classes = AggregateConfiguration.class)
 @AutoConfigureDataJdbc
