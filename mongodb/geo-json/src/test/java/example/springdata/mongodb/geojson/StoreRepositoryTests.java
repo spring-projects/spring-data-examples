@@ -16,8 +16,7 @@
 package example.springdata.mongodb.geojson;
 
 import org.bson.Document;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Point;
@@ -28,7 +27,6 @@ import org.springframework.data.mongodb.core.geo.GeoJson;
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests for {@link StoreRepository}.
@@ -36,7 +34,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class StoreRepositoryTests {
 

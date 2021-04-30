@@ -15,20 +15,18 @@
  */
 package example.springdata.mongodb.advanced;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import example.springdata.mongodb.customer.Customer;
 
 import org.bson.Document;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Meta;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
@@ -37,7 +35,6 @@ import com.mongodb.client.FindIterable;
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class AdvancedIntegrationTests {
 
@@ -46,7 +43,7 @@ public class AdvancedIntegrationTests {
 
 	Customer dave, oliver, carter;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		repository.deleteAll();

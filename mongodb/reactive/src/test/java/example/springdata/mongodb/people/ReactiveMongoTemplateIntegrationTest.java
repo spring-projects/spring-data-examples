@@ -24,28 +24,25 @@ import rx.RxReactiveStreams;
 
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link ReactiveMongoTemplate}.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ReactiveMongoTemplateIntegrationTest {
 
 	@Autowired ReactiveMongoTemplate template;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		StepVerifier.create(template.dropCollection(Person.class)).verifyComplete();

@@ -23,9 +23,8 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.Assertions;
 import org.bson.Document;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +35,6 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -51,11 +49,10 @@ import com.mongodb.client.model.Projections;
  * @currentRead The Core - Peter V. Brett
  * @see org.springframework.transaction.annotation.Transactional
  */
-@RunWith(SpringRunner.class)
 @ContextConfiguration
 public class TransitionServiceTests {
 
-	public static @ClassRule EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
+	public static @RegisterExtension EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
 
 	static final String DB_NAME = "spring-data-tx-examples";
 

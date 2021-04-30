@@ -16,8 +16,10 @@
 
 package example.springdata.mongodb.querybyexample;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import static org.springframework.data.domain.ExampleMatcher.*;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
@@ -26,9 +28,8 @@ import static org.springframework.data.mongodb.core.query.Query.*;
 
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
@@ -44,7 +45,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Oliver Gierke
  */
 @SuppressWarnings("unused")
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class MongoOperationsIntegrationTests {
 
@@ -52,7 +52,7 @@ public class MongoOperationsIntegrationTests {
 
 	Person skyler, walter, flynn, marie, hank;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		operations.remove(new Query(), Person.class);

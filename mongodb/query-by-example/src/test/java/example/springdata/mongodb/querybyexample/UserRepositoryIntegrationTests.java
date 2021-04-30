@@ -21,9 +21,8 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
@@ -38,7 +37,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Jens Schauder
  */
 @SuppressWarnings("unused")
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserRepositoryIntegrationTests {
 
@@ -46,7 +44,7 @@ public class UserRepositoryIntegrationTests {
 
 	Person skyler, walter, flynn, marie, hank;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		repository.deleteAll();

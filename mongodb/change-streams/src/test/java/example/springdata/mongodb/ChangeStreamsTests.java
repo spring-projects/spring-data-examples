@@ -29,9 +29,8 @@ import reactor.test.StepVerifier;
 import java.time.Duration;
 
 import org.bson.Document;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
@@ -49,7 +48,6 @@ import org.springframework.data.mongodb.core.messaging.DefaultMessageListenerCon
 import org.springframework.data.mongodb.core.messaging.Message;
 import org.springframework.data.mongodb.core.messaging.MessageListenerContainer;
 import org.springframework.data.mongodb.core.messaging.Subscription;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import com.mongodb.reactivestreams.client.MongoClients;
@@ -62,11 +60,10 @@ import com.mongodb.reactivestreams.client.MongoClients;
  * @author Christoph Strobl
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @DataMongoTest
 public class ChangeStreamsTests {
 
-	public static @ClassRule EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
+	public static @RegisterExtension EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
 
 	@Autowired MessageListenerContainer container; // for imperative style
 

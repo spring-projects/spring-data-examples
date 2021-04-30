@@ -26,6 +26,7 @@ import reactor.test.StepVerifier;
 import org.bson.Document;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +54,7 @@ import com.mongodb.reactivestreams.client.MongoClients;
 @ContextConfiguration
 public class ReactiveManagedTransitionServiceTests {
 
-	public static @ClassRule EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
+	public static @RegisterExtension EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
 
 	@Autowired ReactiveManagedTransitionService managedTransitionService;
 	@Autowired MongoClient client;

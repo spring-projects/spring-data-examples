@@ -27,10 +27,8 @@ import java.util.List;
 
 import org.assertj.core.util.Files;
 import org.bson.Document;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -44,7 +42,7 @@ import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.data.mongodb.core.aggregation.BucketAutoOperation.Granularities;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 /**
  * Examples for Spring Books using the MongoDB Aggregation Framework. Data originates from Google's Book search.
@@ -55,14 +53,13 @@ import org.springframework.test.context.junit4.SpringRunner;
  *      "https://www.googleapis.com/books/v1/volumes?q=intitle:spring+framework">https://www.googleapis.com/books/v1/volumes?q=intitle:spring+framework</a>
  * @see <a href="/books.json>books.json</a>
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringBooksIntegrationTests {
 
 	@Autowired MongoOperations operations;
 
 	@SuppressWarnings("unchecked")
-	@Before
+	@BeforeEach
 	public void before() throws Exception {
 
 		if (operations.count(new Query(), "books") == 0) {

@@ -21,16 +21,14 @@ import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.*
 import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.isEqualTo
-import org.springframework.test.context.junit4.SpringRunner
 import reactor.test.StepVerifier
 
 /**
@@ -38,14 +36,13 @@ import reactor.test.StepVerifier
  *
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner::class)
 @SpringBootTest
 class FlowAndCoroutinesTests {
 
 	@Autowired
 	lateinit var operations: ReactiveMongoOperations
 
-	@Before
+	@BeforeEach
 	fun before() {
 		StepVerifier.create(operations.dropCollection<Person>()).verifyComplete()
 	}

@@ -19,13 +19,12 @@ import static example.springdata.mongodb.util.ConsoleResultPrinter.*;
 
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.mapping.TextScore;
 import org.springframework.data.mongodb.core.query.TextCriteria;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 /**
  * Integration tests showing the text search functionality using repositories.
@@ -34,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 public class TextSearchRepositoryTests {
 
