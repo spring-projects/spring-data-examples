@@ -19,12 +19,10 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -33,23 +31,23 @@ import org.springframework.web.context.WebApplicationContext;
  * Integration tests to make sure the URI customizations are applied.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  * @soundtrack Clueso - Gewinner (Stadtrandlichter Live)
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class WebIntegrationTests {
+class WebIntegrationTests {
 
 	@Autowired WebApplicationContext context;
 
-	MockMvc mvc;
+	private MockMvc mvc;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 
 	@Test
-	public void identifiesResourcesUsingUsername() throws Exception {
+	void identifiesResourcesUsingUsername() throws Exception {
 
 		mvc.perform(get("/users/olivergierke")).//
 				andExpect(status().isOk()).//
