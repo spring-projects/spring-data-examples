@@ -16,7 +16,7 @@
 package example.springdata.rest.security;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
@@ -25,6 +25,7 @@ import java.util.Base64;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
@@ -42,19 +43,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  * @author Greg Turnquist
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @SpringBootTest
-public class UrlLevelSecurityTests {
+class UrlLevelSecurityTests {
 
-	static final String PAYLOAD = "{\"firstName\": \"Saruman\", \"lastName\": \"the White\", " + "\"title\": \"Wizard\"}";
+	private static final String PAYLOAD = "{\"firstName\": \"Saruman\", \"lastName\": \"the White\", "
+			+ "\"title\": \"Wizard\"}";
 
 	@Autowired WebApplicationContext context;
 	@Autowired FilterChainProxy filterChain;
 
-	MockMvc mvc;
+	private MockMvc mvc;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 
 		this.mvc = webAppContextSetup(context).addFilters(filterChain).build();
 
@@ -62,7 +65,7 @@ public class UrlLevelSecurityTests {
 	}
 
 	@Test
-	public void allowsAccessToRootResource() throws Exception {
+	void allowsAccessToRootResource() throws Exception {
 
 		mvc.perform(get("/").//
 				accept(MediaTypes.HAL_JSON)).//
@@ -71,7 +74,7 @@ public class UrlLevelSecurityTests {
 	}
 
 	@Test
-	public void rejectsPostAccessToCollectionResource() throws Exception {
+	void rejectsPostAccessToCollectionResource() throws Exception {
 
 		mvc.perform(post("/employees").//
 				content(PAYLOAD).//
@@ -80,7 +83,7 @@ public class UrlLevelSecurityTests {
 	}
 
 	@Test
-	public void allowsGetRequestsButRejectsPostForUser() throws Exception {
+	void allowsGetRequestsButRejectsPostForUser() throws Exception {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.ACCEPT, MediaTypes.HAL_JSON_VALUE);
@@ -98,7 +101,7 @@ public class UrlLevelSecurityTests {
 	}
 
 	@Test
-	public void allowsPostRequestForAdmin() throws Exception {
+	void allowsPostRequestForAdmin() throws Exception {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaTypes.HAL_JSON_VALUE);

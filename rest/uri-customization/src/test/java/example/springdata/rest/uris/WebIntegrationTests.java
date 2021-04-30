@@ -31,22 +31,23 @@ import org.springframework.web.context.WebApplicationContext;
  * Integration tests to make sure the URI customizations are applied.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  * @soundtrack Clueso - Gewinner (Stadtrandlichter Live)
  */
 @SpringBootTest
-public class WebIntegrationTests {
+class WebIntegrationTests {
 
 	@Autowired WebApplicationContext context;
 
-	MockMvc mvc;
+	private MockMvc mvc;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 
 	@Test
-	public void identifiesResourcesUsingUsername() throws Exception {
+	void identifiesResourcesUsingUsername() throws Exception {
 
 		mvc.perform(get("/users/olivergierke")).//
 				andExpect(status().isOk()).//

@@ -15,10 +15,11 @@
  */
 package example.springdata.rest.security;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,19 +31,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
  *
  * @author Greg Turnquist
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @SpringBootTest
-public class MethodLevelSecurityTests {
+class MethodLevelSecurityTests {
 
 	@Autowired ItemRepository itemRepository;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		SecurityContextHolder.clearContext();
 	}
 
 	@Test
-	public void rejectsMethodInvocationsForNoAuth() {
+	void rejectsMethodInvocationsForNoAuth() {
 
 		try {
 			itemRepository.findAll();
@@ -67,7 +69,7 @@ public class MethodLevelSecurityTests {
 	}
 
 	@Test
-	public void rejectsMethodInvocationsForAuthWithInsufficientPermissions() {
+	void rejectsMethodInvocationsForAuthWithInsufficientPermissions() {
 
 		SecurityUtils.runAs("system", "system", "ROLE_USER");
 
@@ -88,7 +90,7 @@ public class MethodLevelSecurityTests {
 	}
 
 	@Test
-	public void allowsMethodInvocationsForAuthWithSufficientPermissions() {
+	void allowsMethodInvocationsForAuthWithSufficientPermissions() {
 
 		SecurityUtils.runAs("system", "system", "ROLE_USER", "ROLE_ADMIN");
 

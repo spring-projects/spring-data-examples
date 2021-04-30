@@ -51,10 +51,11 @@ import org.springframework.web.client.RestTemplate;
  * A test case to discover the search resource and execute a predefined search with it.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Slf4j
-public class StarbucksClient {
+class StarbucksClient {
 
 	@SpringBootApplication
 	static class Config {
@@ -70,7 +71,7 @@ public class StarbucksClient {
 	private static final String SERVICE_URI = "http://localhost:%s/api";
 
 	@Test
-	public void discoverStoreSearch() {
+	void discoverStoreSearch() {
 
 		Traverson traverson = new Traverson(URI.create(String.format(SERVICE_URI, port)), MediaTypes.HAL_JSON);
 
@@ -103,7 +104,7 @@ public class StarbucksClient {
 	@Autowired RestOperations restOperations;
 
 	@Test
-	public void accessServiceUsingRestTemplate() {
+	void accessServiceUsingRestTemplate() {
 
 		// Access root resource
 
@@ -125,12 +126,12 @@ public class StarbucksClient {
 	static class Store {
 
 		public String name;
-		public Address address;
+		Address address;
 
 		static class Address {
 
-			public String city, zip, street;
-			public Location location;
+			String city, zip, street;
+			Location location;
 
 			@Override
 			public String toString() {
@@ -138,7 +139,7 @@ public class StarbucksClient {
 			}
 
 			static class Location {
-				public double x, y;
+				double x, y;
 			}
 		}
 	}

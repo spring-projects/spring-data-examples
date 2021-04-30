@@ -16,12 +16,13 @@
 package example.springdata.rest.projections;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
@@ -30,13 +31,14 @@ import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
  * Test cases showing the programatic use of a {@link ProjectionFactory}.
  *
  * @author Oliver Gierke
+ * @author Divya Srivastava
  */
-public class SimpleProjectionTests {
+class SimpleProjectionTests {
 
-	ProjectionFactory factory = new SpelAwareProxyProjectionFactory();
+	private ProjectionFactory factory = new SpelAwareProxyProjectionFactory();
 
 	@Test
-	public void createMapBackedProjection() {
+	void createMapBackedProjection() {
 
 		Customer customer = factory.createProjection(Customer.class);
 		customer.setFirstname("Dave");
@@ -51,7 +53,7 @@ public class SimpleProjectionTests {
 	}
 
 	@Test
-	public void createsProxyForSourceMap() {
+	void createsProxyForSourceMap() {
 
 		Map<String, Object> backingMap = new HashMap<>();
 		backingMap.put("firstname", "Dave");
