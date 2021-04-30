@@ -17,43 +17,34 @@ package example.springdata.redis.commands;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.redis.test.util.RequiresRedisServer;
+import example.springdata.redis.test.condition.EnabledOnCommand;
 
-import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Point;
 import org.springframework.data.redis.connection.RedisGeoCommands.DistanceUnit;
-import org.springframework.data.redis.connection.RedisGeoCommands.GeoLocation;
 import org.springframework.data.redis.core.GeoOperations;
 import org.springframework.data.redis.core.RedisOperations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Show usage of redis geo-index operations using Template API provided by {@link GeoOperations}.
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class GeoOperationsTests {
-
-	// we only want to run this tests when redis is up an running
-	public static @ClassRule RequiresRedisServer requiresServer = RequiresRedisServer.onLocalhost().atLeast("3.2");
+@EnabledOnCommand("GEOADD")
+class GeoOperationsTests {
 
 	@Autowired RedisOperations<String, String> operations;
-	GeoOperations<String, String> geoOperations;
+	private GeoOperations<String, String> geoOperations;
 
-	@Before
-	public void before() {
+	@BeforeEach
+	void before() {
 
 		geoOperations = operations.opsForGeo();
 
@@ -66,7 +57,7 @@ public class GeoOperationsTests {
 	 * Look up points using a geo-index member as reference.
 	 */
 	@Test
-	public void geoRadiusByMember() {
+	void geoRadiusByMember() {
 
 		var byDistance = geoOperations.geoRadiusByMember("Sicily", "Palermo",
 				new Distance(100, DistanceUnit.KILOMETERS));
@@ -83,7 +74,7 @@ public class GeoOperationsTests {
 	 * Lookup points within a circle around coordinates.
 	 */
 	@Test
-	public void geoRadius() {
+	void geoRadius() {
 
 		var circle = new Circle(new Point(13.583333, 37.316667), //
 				new Distance(100, DistanceUnit.KILOMETERS));
@@ -96,7 +87,7 @@ public class GeoOperationsTests {
 	 * Calculate the distance between two geo-index members.
 	 */
 	@Test
-	public void geoDistance() {
+	void geoDistance() {
 
 		var distance = geoOperations.geoDist("Sicily", "Catania", "Palermo", DistanceUnit.KILOMETERS);
 
@@ -107,7 +98,7 @@ public class GeoOperationsTests {
 	 * Return the geo-hash.
 	 */
 	@Test
-	public void geoHash() {
+	void geoHash() {
 
 		var geohashes = geoOperations.geoHash("Sicily", "Catania", "Palermo");
 

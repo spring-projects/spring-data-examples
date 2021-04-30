@@ -16,7 +16,7 @@
 package example.springdata.redis.operations;
 
 import example.springdata.redis.RedisTestConfiguration;
-import example.springdata.redis.test.util.RequiresRedisServer;
+import example.springdata.redis.test.condition.EnabledOnRedisAvailable;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -24,15 +24,12 @@ import reactor.test.StepVerifier;
 import java.time.Duration;
 import java.util.logging.Level;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.ReactiveListOperations;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Show usage of reactive Template API on Redis lists using {@link ReactiveRedisOperations}.
@@ -40,17 +37,14 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Mark Paluch
  */
 @Slf4j
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = RedisTestConfiguration.class)
-public class ListOperationsTests {
-
-	// we only want to run this tests when redis is up an running
-	public static @ClassRule RequiresRedisServer requiresServer = RequiresRedisServer.onLocalhost();
+@EnabledOnRedisAvailable
+class ListOperationsTests {
 
 	@Autowired ReactiveRedisOperations<String, String> operations;
 
-	@Before
-	public void before() {
+	@BeforeEach
+	void before() {
 		StepVerifier.create(operations.execute(it -> it.serverCommands().flushDb())).expectNext("OK").verifyComplete();
 	}
 
@@ -58,7 +52,7 @@ public class ListOperationsTests {
 	 * A simple queue using Redis blocking list commands {@code BLPOP} and {@code LPUSH} to produce the queue message.
 	 */
 	@Test
-	public void shouldPollAndPopulateQueue() {
+	void shouldPollAndPopulateQueue() {
 
 		var queue = "foo";
 

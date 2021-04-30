@@ -16,9 +16,8 @@
 package example.springdata.redis.commands;
 
 import example.springdata.redis.RedisTestConfiguration;
-import example.springdata.redis.test.util.RequiresRedisServer;
+import example.springdata.redis.test.condition.EnabledOnRedisAvailable;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.nio.ByteBuffer;
@@ -26,20 +25,17 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.connection.ReactiveListCommands.PopResult;
 import org.springframework.data.redis.connection.ReactiveRedisConnection;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.connection.ReactiveStringCommands.SetCommand;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.redis.util.ByteUtils;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Show usage of reactive operations on Redis keys using low level API provided by
@@ -47,12 +43,9 @@ import org.springframework.test.context.junit4.SpringRunner;
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = RedisTestConfiguration.class)
-public class KeyCommandsTests {
-
-	// we only want to run this tests when redis is up an running
-	public static @ClassRule RequiresRedisServer requiresServer = RequiresRedisServer.onLocalhost();
+@EnabledOnRedisAvailable
+class KeyCommandsTests {
 
 	private static final String PREFIX = KeyCommandsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";
@@ -62,8 +55,8 @@ public class KeyCommandsTests {
 	private ReactiveRedisConnection connection;
 	private RedisSerializer<String> serializer = new StringRedisSerializer();
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		this.connection = connectionFactory.getReactiveConnection();
 	}
 
@@ -73,7 +66,7 @@ public class KeyCommandsTests {
 	 * All keys will be loaded within <strong>one single</strong> operation.
 	 */
 	@Test
-	public void iterateOverKeysMatchingPrefixUsingKeysCommand() {
+	void iterateOverKeysMatchingPrefixUsingKeysCommand() {
 
 		generateRandomKeys(50);
 
@@ -91,7 +84,7 @@ public class KeyCommandsTests {
 	 * Uses {@code RPUSH} to store an item inside a list and {@code BRPOP} <br />
 	 */
 	@Test
-	public void storeToListAndPop() {
+	void storeToListAndPop() {
 
 		var popResult = connection.listCommands()
 				.brPop(Collections.singletonList(ByteBuffer.wrap("list".getBytes())), Duration.ofSeconds(5));

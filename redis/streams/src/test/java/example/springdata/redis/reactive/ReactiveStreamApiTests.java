@@ -18,16 +18,19 @@ package example.springdata.redis.reactive;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.redis.connection.stream.StreamOffset.*;
 
+import example.springdata.redis.SensorData;
+import example.springdata.redis.test.condition.EnabledOnCommand;
+import reactor.test.StepVerifier;
+
 import java.time.Duration;
 
-import example.springdata.redis.SensorData;
-import example.springdata.redis.test.util.RequiresRedisServer;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.connection.stream.MapRecord;
 import org.springframework.data.redis.connection.stream.ReadOffset;
@@ -36,26 +39,22 @@ import org.springframework.data.redis.connection.stream.StreamOffset;
 import org.springframework.data.redis.core.ReactiveStreamOperations;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.stream.StreamReceiver;
-import org.springframework.test.context.junit4.SpringRunner;
-import reactor.core.publisher.Flux;
-import reactor.test.StepVerifier;
 
 /**
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ReactiveStreamApiTests {
-
-	public static @ClassRule RequiresRedisServer server = RequiresRedisServer.onLocalhost().atLeast("5.0");
+@DataRedisTest
+@EnabledOnCommand("XADD")
+@ImportAutoConfiguration(RedisReactiveAutoConfiguration.class)
+class ReactiveStreamApiTests {
 
 	@Autowired ReactiveStringRedisTemplate template;
 	@Autowired StreamReceiver<String, MapRecord<String, String, String>> streamReceiver;
 
-	ReactiveStreamOperations<String, String, String> streamOps;
+	private ReactiveStreamOperations<String, String, String> streamOps;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		// clear all
 		template.getConnectionFactory().getReactiveConnection()
@@ -67,7 +66,7 @@ public class ReactiveStreamApiTests {
 	}
 
 	@Test
-	public void basics() {
+	void basics() {
 
 		// XADD with fixed id
 		streamOps.add(SensorData.RECORD_1234_0)
@@ -111,7 +110,7 @@ public class ReactiveStreamApiTests {
 	}
 
 	@Test
-	public void continuousRead() {
+	void continuousRead() {
 
 		var messages = streamReceiver.receive(fromStart(SensorData.KEY));
 

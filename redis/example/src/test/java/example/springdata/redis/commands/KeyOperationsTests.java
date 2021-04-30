@@ -15,37 +15,29 @@
  */
 package example.springdata.redis.commands;
 
-import example.springdata.redis.test.util.RequiresRedisServer;
+import example.springdata.redis.test.condition.EnabledOnRedisAvailable;
 
-import java.util.Iterator;
-import java.util.Set;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Show usage of operations on redis keys using low level API provided by {@link RedisConnection}.
  *
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class KeyOperationsTests {
-
-	// we only want to run this tests when redis is up an running
-	public static @ClassRule RequiresRedisServer requiresServer = RequiresRedisServer.onLocalhost();
+@DataRedisTest
+@EnabledOnRedisAvailable
+class KeyOperationsTests {
 
 	private static final String PREFIX = KeyOperationsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";
@@ -55,8 +47,8 @@ public class KeyOperationsTests {
 	private RedisConnection connection;
 	private RedisSerializer<String> serializer = new StringRedisSerializer();
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		this.connection = connectionFactory.getConnection();
 	}
 
@@ -66,7 +58,7 @@ public class KeyOperationsTests {
 	 * All keys will be loaded within <strong>one single</strong> operation.
 	 */
 	@Test
-	public void iterateOverKeysMatchingPrefixUsingKeysCommand() {
+	void iterateOverKeysMatchingPrefixUsingKeysCommand() {
 
 		generateRandomKeys(1000);
 
@@ -80,7 +72,7 @@ public class KeyOperationsTests {
 	 * All keys will be loaded using <strong>multiple</strong> operations.
 	 */
 	@Test
-	public void iterateOverKeysMatchingPrefixUsingScanCommand() {
+	void iterateOverKeysMatchingPrefixUsingScanCommand() {
 
 		generateRandomKeys(1000);
 

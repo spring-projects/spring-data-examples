@@ -17,24 +17,19 @@ package example.springdata.redis.repositories;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.redis.test.util.EmbeddedRedisServer;
-import example.springdata.redis.test.util.RequiresRedisServer;
+import example.springdata.redis.test.condition.EnabledOnRedisAvailable;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.RuleChain;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Circle;
@@ -45,25 +40,15 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.index.GeoIndexed;
 import org.springframework.data.redis.core.index.Indexed;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class PersonRepositoryTests {
-
-	/**
-	 * We need to have a Redis server instance available. <br />
-	 * 1) Start/Stop an embedded instance or reuse an already running local installation <br />
-	 * 2) Ignore tests if startup failed and no server running locally.
-	 */
-	public static @ClassRule RuleChain rules = RuleChain
-			.outerRule(EmbeddedRedisServer.runningAt(6379).suppressExceptions())
-			.around(RequiresRedisServer.onLocalhost().atLeast("3.2"));
+@DataRedisTest
+@EnabledOnRedisAvailable
+class PersonRepositoryTests {
 
 	/** {@link Charset} for String conversion **/
 	private static final Charset CHARSET = StandardCharsets.UTF_8;
@@ -74,17 +59,17 @@ public class PersonRepositoryTests {
 	/*
 	 * Set of test users
 	 */
-	Person eddard = new Person("eddard", "stark", Gender.MALE);
-	Person robb = new Person("robb", "stark", Gender.MALE);
-	Person sansa = new Person("sansa", "stark", Gender.FEMALE);
-	Person arya = new Person("arya", "stark", Gender.FEMALE);
-	Person bran = new Person("bran", "stark", Gender.MALE);
-	Person rickon = new Person("rickon", "stark", Gender.MALE);
-	Person jon = new Person("jon", "snow", Gender.MALE);
+	private Person eddard = new Person("eddard", "stark", Gender.MALE);
+	private Person robb = new Person("robb", "stark", Gender.MALE);
+	private Person sansa = new Person("sansa", "stark", Gender.FEMALE);
+	private Person arya = new Person("arya", "stark", Gender.FEMALE);
+	private Person bran = new Person("bran", "stark", Gender.MALE);
+	private Person rickon = new Person("rickon", "stark", Gender.MALE);
+	private Person jon = new Person("jon", "snow", Gender.MALE);
 
-	@Before
-	@After
-	public void setUp() {
+	@BeforeEach
+	@AfterEach
+	void setUp() {
 
 		operations.execute((RedisConnection connection) -> {
 			connection.flushDb();
@@ -97,7 +82,7 @@ public class PersonRepositoryTests {
 	 * Print out the hash structure within Redis.
 	 */
 	@Test
-	public void saveSingleEntity() {
+	void saveSingleEntity() {
 
 		repository.save(eddard);
 
@@ -110,7 +95,7 @@ public class PersonRepositoryTests {
 	 * Find entity by a single {@link Indexed} property value.
 	 */
 	@Test
-	public void findBySingleProperty() {
+	void findBySingleProperty() {
 
 		flushTestUsers();
 
@@ -123,7 +108,7 @@ public class PersonRepositoryTests {
 	 * Find entities by multiple {@link Indexed} properties using {@literal AND}.
 	 */
 	@Test
-	public void findByMultipleProperties() {
+	void findByMultipleProperties() {
 
 		flushTestUsers();
 
@@ -136,7 +121,7 @@ public class PersonRepositoryTests {
 	 * Find entities by multiple {@link Indexed} properties using {@literal OR}.
 	 */
 	@Test
-	public void findByMultiplePropertiesUsingOr() {
+	void findByMultiplePropertiesUsingOr() {
 
 		flushTestUsers();
 
@@ -149,7 +134,7 @@ public class PersonRepositoryTests {
 	 * Find entities by {@link Example Query by Example}.
 	 */
 	@Test
-	public void findByQueryByExample() {
+	void findByQueryByExample() {
 
 		flushTestUsers();
 
@@ -164,7 +149,7 @@ public class PersonRepositoryTests {
 	 * Find entities in range defined by {@link Pageable}.
 	 */
 	@Test
-	public void findByReturningPage() {
+	void findByReturningPage() {
 
 		flushTestUsers();
 
@@ -183,7 +168,7 @@ public class PersonRepositoryTests {
 	 * Find entity by a single {@link Indexed} property on an embedded entity.
 	 */
 	@Test
-	public void findByEmbeddedProperty() {
+	void findByEmbeddedProperty() {
 
 		var winterfell = new Address();
 		winterfell.setCountry("the north");
@@ -202,7 +187,7 @@ public class PersonRepositoryTests {
 	 * Find entity by a {@link GeoIndexed} property on an embedded entity.
 	 */
 	@Test
-	public void findByGeoLocationProperty() {
+	void findByGeoLocationProperty() {
 
 		var winterfell = new Address();
 		winterfell.setCountry("the north");
@@ -236,7 +221,7 @@ public class PersonRepositoryTests {
 	 * Print out the hash structure within Redis.
 	 */
 	@Test
-	public void useReferencesToStoreDataToOtherObjects() {
+	void useReferencesToStoreDataToOtherObjects() {
 
 		flushTestUsers();
 

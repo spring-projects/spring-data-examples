@@ -18,17 +18,16 @@ package example.springdata.redis.sync;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.redis.connection.stream.StreamOffset.*;
 
-import java.util.List;
+import example.springdata.redis.SensorData;
+import example.springdata.redis.test.condition.EnabledOnCommand;
+
 import java.util.concurrent.TimeUnit;
 
-import example.springdata.redis.SensorData;
-import example.springdata.redis.test.util.RequiresRedisServer;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.connection.stream.MapRecord;
 import org.springframework.data.redis.connection.stream.ReadOffset;
@@ -37,25 +36,22 @@ import org.springframework.data.redis.connection.stream.StreamOffset;
 import org.springframework.data.redis.core.StreamOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class SyncStreamApiTests {
-
-	public static @ClassRule RequiresRedisServer server = RequiresRedisServer.onLocalhost().atLeast("5.0");
+@DataRedisTest
+@EnabledOnCommand("XADD")
+class SyncStreamApiTests {
 
 	@Autowired StringRedisTemplate template;
 	@Autowired StreamMessageListenerContainer<String, MapRecord<String, String, String>> messageListenerContainer;
 
-	StreamOperations<String, String, String> streamOps;
+	private StreamOperations<String, String, String> streamOps;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 
 		// clear all
 		template.getConnectionFactory().getConnection().flushAll();
@@ -64,7 +60,7 @@ public class SyncStreamApiTests {
 	}
 
 	@Test
-	public void basics() {
+	void basics() {
 
 		// XADD with fixed id
 		var fixedId1 = streamOps.add(SensorData.RECORD_1234_0);
@@ -97,7 +93,7 @@ public class SyncStreamApiTests {
 	}
 
 	@Test
-	public void continuousRead() throws InterruptedException {
+	void continuousRead() throws InterruptedException {
 
 		// container autostart is disabled by default
 		if (!messageListenerContainer.isRunning()) {
