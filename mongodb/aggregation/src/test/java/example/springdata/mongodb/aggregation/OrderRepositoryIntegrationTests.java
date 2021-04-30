@@ -20,13 +20,11 @@ import static org.assertj.core.data.Offset.offset;
 
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration tests for {@link OrderRepository}.
@@ -36,7 +34,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Christoph Strobl
  * @author Divya Srivastava
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderRepositoryIntegrationTests {
 
@@ -46,7 +43,7 @@ public class OrderRepositoryIntegrationTests {
 	private final static LineItem product2 = new LineItem("p2", 0.87, 2);
 	private final static LineItem product3 = new LineItem("p3", 5.33);
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		repository.deleteAll();
 	}

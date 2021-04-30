@@ -16,13 +16,12 @@
 package example.springdata.mongodb.projections;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Collection;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,14 +31,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.projection.TargetAware;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Integration tests for {@link CustomerRepository} to show projection capabilities.
  *
  * @author Oliver Gierke
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class CustomerRepositoryIntegrationTest {
 
@@ -51,7 +48,7 @@ public class CustomerRepositoryIntegrationTest {
 
 	Customer dave, carter;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		customers.deleteAll();

@@ -27,14 +27,12 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.bson.Document;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.CollectionOptions;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mongodb.reactivestreams.client.MongoCollection;
 
@@ -47,14 +45,13 @@ import com.mongodb.reactivestreams.client.MongoCollection;
  * @author Jens Schauder
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class RxJava2PersonRepositoryIntegrationTest {
 
 	@Autowired RxJava2PersonRepository repository;
 	@Autowired ReactiveMongoOperations operations;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		Mono<MongoCollection<Document>> recreateCollection = operations.collectionExists(Person.class) //

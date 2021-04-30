@@ -16,27 +16,25 @@
 package example.springdata.multistore;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 import example.springdata.multistore.customer.Customer;
 import example.springdata.multistore.shop.Order;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.repository.support.Repositories;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test to check repository interfaces are assigned to the correct store modules.
  *
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationConfigurationTest {
 

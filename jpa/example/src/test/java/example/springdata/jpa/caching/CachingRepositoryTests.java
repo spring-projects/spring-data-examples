@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Andrea Rizzini
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 public class CachingRepositoryTests {

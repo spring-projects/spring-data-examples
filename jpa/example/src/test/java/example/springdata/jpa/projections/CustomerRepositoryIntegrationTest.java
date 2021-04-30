@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +31,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.projection.TargetAware;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class CustomerRepositoryIntegrationTest {

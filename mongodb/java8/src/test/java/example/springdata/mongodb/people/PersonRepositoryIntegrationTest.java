@@ -17,14 +17,12 @@ package example.springdata.mongodb.people;
 
 import java.util.stream.Stream;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link PersonRepository}.
@@ -32,7 +30,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class PersonRepositoryIntegrationTest {
 
@@ -41,7 +38,7 @@ public class PersonRepositoryIntegrationTest {
 
 	Person dave, oliver, carter;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		repository.deleteAll();

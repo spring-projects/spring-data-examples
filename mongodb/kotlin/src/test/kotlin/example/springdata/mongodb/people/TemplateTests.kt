@@ -17,9 +17,9 @@ package example.springdata.mongodb.people
 
 import org.assertj.core.api.Assertions.assertThat
 import org.bson.Document
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.*
@@ -33,14 +33,13 @@ import org.springframework.test.context.junit4.SpringRunner
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner::class)
 @SpringBootTest
 class TemplateTests {
 
 	@Autowired
 	lateinit var operations: MongoOperations
 
-	@Before
+	@BeforeEach
 	fun before() {
 		operations.dropCollection<Person>()
 	}

@@ -24,16 +24,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StreamUtils;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
@@ -44,13 +42,12 @@ import com.mongodb.client.gridfs.model.GridFSFile;
  * @author Hartmut Lang
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class GridFsTests {
 
 	@Autowired GridFsOperations gridFsOperations;
 
-	@Before
+	@BeforeEach
 	public void before() {
 		gridFsOperations.delete(new Query());
 	}

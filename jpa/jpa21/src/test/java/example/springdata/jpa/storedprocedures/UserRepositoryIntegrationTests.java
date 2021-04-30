@@ -20,10 +20,8 @@ import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -36,7 +34,6 @@ import static org.assertj.core.api.Assertions.*;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class UserRepositoryIntegrationTests {

@@ -16,20 +16,18 @@
 package example.springdata.mongodb.security;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test for {@link PersonRepository}.
@@ -37,7 +35,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class PersonRepositoryIntegrationTest {
 
@@ -45,7 +42,7 @@ public class PersonRepositoryIntegrationTest {
 
 	Person dave, oliver, carter, admin;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		repository.deleteAll();

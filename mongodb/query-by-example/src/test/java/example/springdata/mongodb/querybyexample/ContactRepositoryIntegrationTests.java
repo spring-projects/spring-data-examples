@@ -18,18 +18,16 @@ package example.springdata.mongodb.querybyexample;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.data.domain.ExampleMatcher.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Integration test showing the usage of MongoDB Query-by-Example support through Spring Data repositories for a case
@@ -39,7 +37,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Oliver Gierke
  * @soundtrack Paul van Dyk - VONYC Sessions Episode 496 with guest Armin van Buuren
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ContactRepositoryIntegrationTests {
 
@@ -50,7 +47,7 @@ public class ContactRepositoryIntegrationTests {
 	Person skyler, walter, flynn;
 	Relative marie, hank;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		contactRepository.deleteAll();

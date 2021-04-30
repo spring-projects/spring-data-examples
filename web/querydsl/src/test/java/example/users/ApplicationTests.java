@@ -17,15 +17,12 @@ package example.users;
 
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ApplicationTests {
 

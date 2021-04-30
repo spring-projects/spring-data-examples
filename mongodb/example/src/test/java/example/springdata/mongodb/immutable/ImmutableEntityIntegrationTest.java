@@ -15,15 +15,16 @@
  */
 package example.springdata.mongodb.immutable;
 
-import static org.assertj.core.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 /**
  * Integration test for {@link ImmutablePerson} showing features around immutable object support.
@@ -31,13 +32,12 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Mark Paluch
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ImmutableEntityIntegrationTest {
 
 	@Autowired MongoOperations operations;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		operations.dropCollection(ImmutablePerson.class);
 	}

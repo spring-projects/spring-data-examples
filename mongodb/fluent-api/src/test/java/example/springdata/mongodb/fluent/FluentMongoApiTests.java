@@ -23,9 +23,8 @@ import static org.springframework.data.mongodb.core.query.Update.*;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -35,7 +34,6 @@ import org.springframework.data.mongodb.core.ExecutableFindOperation.Terminating
 import org.springframework.data.mongodb.core.FluentMongoOperations;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.NearQuery;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mongodb.client.result.UpdateResult;
 
@@ -53,7 +51,6 @@ import com.mongodb.client.result.UpdateResult;
  *
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class FluentMongoApiTests {
 
@@ -67,7 +64,7 @@ public class FluentMongoApiTests {
 	final NearQuery alderaanWithin3Parsecs = NearQuery.near(-73.9667, 40.78).maxDistance(new Distance(3, MILES))
 			.spherical(true);
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		findLuke = mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name

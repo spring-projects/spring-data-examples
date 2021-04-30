@@ -20,19 +20,15 @@ import static org.assertj.core.api.Assertions.*;
 import example.springdata.mongodb.Customer;
 import example.springdata.mongodb.QCustomer;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Christoph Strobl
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class CustomerRepositoryTests {
 
@@ -41,7 +37,7 @@ public class CustomerRepositoryTests {
 
 	Customer dave, oliver, carter;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		repository.deleteAll();

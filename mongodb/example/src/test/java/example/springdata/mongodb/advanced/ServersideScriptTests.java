@@ -15,36 +15,34 @@
  */
 package example.springdata.mongodb.advanced;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import example.springdata.mongodb.customer.Customer;
 
 import java.util.Map;
 
 import org.bson.Document;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.script.ExecutableMongoScript;
 import org.springframework.data.mongodb.core.script.NamedMongoScript;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ServersideScriptTests {
 
 	@Autowired AdvancedRepository repository;
 	@Autowired MongoOperations operations;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		if (!operations.collectionExists(Customer.class)) {
@@ -73,7 +71,7 @@ public class ServersideScriptTests {
 	 * {@link Map#putIfAbsent(Object, Object)}
 	 */
 	@Test
-	@Ignore
+	@Disabled
 	public void complexScriptExecutionSimulatingPutIfAbsent() {
 
 		Customer ned = new Customer("Ned", "Stark");

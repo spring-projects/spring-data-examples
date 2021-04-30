@@ -40,8 +40,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.junit.AssumptionViolatedException;
-import org.junit.rules.ExternalResource;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.Assumptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +59,7 @@ import com.mongodb.client.MongoClients;
  * @author Christoph Strobl
  * @author Mark Paluch
  */
-public class EmbeddedMongo extends ExternalResource {
+public class EmbeddedMongo implements AfterAllCallback,BeforeAllCallback {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EmbeddedMongo.class);
 
@@ -182,24 +184,27 @@ public class EmbeddedMongo extends ExternalResource {
 	}
 
 	@Override
-	protected void before() {
-
+	public void beforeAll(ExtensionContext context) throws Exception {
+		boolean isServerRunning=true;
 		try {
 			resource.start();
 		} catch (RuntimeException e) {
+			isServerRunning=false;
 			LOGGER.error("Cannot start MongoDB", e);
-			throw new AssumptionViolatedException("Cannot start MongoDB. Skipping", e);
 		}
+		Assumptions.assumeTrue(isServerRunning,"Cannot start MongoDB. Skipping");
 	}
 
 	@Override
-	protected void after() {
-
+	public void afterAll(ExtensionContext context) throws Exception {
+		boolean isServerStopped=true;
 		try {
+			isServerStopped=false;
 			resource.stop();
 		} catch (RuntimeException e) {
 			LOGGER.error("Cannot stop MongoDB", e);
 		}
+		Assumptions.assumeTrue(isServerStopped,"Cannot start MongoDB. Skipping");
 	}
 
 	public MongoClient getMongoClient() {

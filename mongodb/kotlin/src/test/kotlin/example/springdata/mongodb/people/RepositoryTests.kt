@@ -17,9 +17,9 @@ package example.springdata.mongodb.people
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.EmptyResultDataAccessException
@@ -30,14 +30,13 @@ import org.springframework.test.context.junit4.SpringRunner
  *
  * @author Mark Paluch
  */
-@RunWith(SpringRunner::class)
 @SpringBootTest
 class RepositoryTests {
 
 	@Autowired
 	lateinit var repository: PersonRepository
 
-	@Before
+	@BeforeEach
 	fun before() {
 		repository.deleteAll()
 	}
