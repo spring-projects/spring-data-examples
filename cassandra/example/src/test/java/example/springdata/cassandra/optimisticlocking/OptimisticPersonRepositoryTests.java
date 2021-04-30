@@ -17,6 +17,8 @@ package example.springdata.cassandra.optimisticlocking;
 
 import static org.assertj.core.api.Assertions.*;
 
+import example.springdata.cassandra.util.CassandraKeyspace;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,13 +35,14 @@ import org.springframework.data.cassandra.core.query.Criteria;
  * @author Mark Paluch
  */
 @SpringBootTest(classes = BasicConfiguration.class)
-public class OptimisticPersonRepositoryTests {
+@CassandraKeyspace
+class OptimisticPersonRepositoryTests {
 
 	@Autowired OptimisticPersonRepository repository;
 	@Autowired CassandraOperations operations;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		repository.deleteAll();
 	}
 
@@ -48,7 +51,7 @@ public class OptimisticPersonRepositoryTests {
 	 * and increment the version property.
 	 */
 	@Test
-	public void insertShouldIncrementVersion() {
+	void insertShouldIncrementVersion() {
 
 		var person = new OptimisticPerson(42L, 0, "Walter White");
 
@@ -61,7 +64,7 @@ public class OptimisticPersonRepositoryTests {
 	 * Modifying an existing object will update the last modified fields.
 	 */
 	@Test
-	public void updateShouldDetectChangedEntity() {
+	void updateShouldDetectChangedEntity() {
 
 		var person = new OptimisticPerson(42L, 0, "Walter White");
 
@@ -85,7 +88,7 @@ public class OptimisticPersonRepositoryTests {
 	 * statement through {@link CassandraOperations#update(Object, UpdateOptions)}.
 	 */
 	@Test
-	public void updateUsingLightWeightTransactions() {
+	void updateUsingLightWeightTransactions() {
 
 		var person = new SimplePerson();
 		person.setId(42L);

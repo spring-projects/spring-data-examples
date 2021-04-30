@@ -37,11 +37,6 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.awaitility</groupId>
-				<artifactId>awaitility</artifactId>
-				<version>4.0.2</version>
-			</dependency>
-			<dependency>
 				<groupId>org.iq80.snappy</groupId>
 				<artifactId>snappy</artifactId>
 				<version>0.4</version>

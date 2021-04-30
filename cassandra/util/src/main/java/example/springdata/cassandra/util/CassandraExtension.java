@@ -17,7 +17,9 @@ package example.springdata.cassandra.util;
 
 import java.net.InetSocketAddress;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.util.AnnotationUtils;
@@ -39,6 +41,8 @@ class CassandraExtension implements BeforeAllCallback {
 	private static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace
 			.create(CassandraExtension.class);
 
+	private static CassandraContainer container;
+
 	@Override
 	public void beforeAll(ExtensionContext context) {
 
@@ -57,10 +61,22 @@ class CassandraExtension implements BeforeAllCallback {
 
 		keyspace.before();
 
+
+		Callable<CqlSession> sessionFactory = () -> CqlSession.builder()
+				.addContactPoint(new InetSocketAddress(keyspace.host(), keyspace.port())).withLocalDatacenter("datacenter1")
+				.build();
+		Awaitility.await().ignoreExceptions().untilAsserted(() -> {
+
+			sessionFactory.call().close();
+		});
+
 		var session = store.getOrComputeIfAbsent(CqlSession.class, it -> {
 
-			return CqlSession.builder().addContactPoint(new InetSocketAddress(keyspace.host(), keyspace.port()))
-					.withLocalDatacenter("datacenter1").build();
+			try {
+				return sessionFactory.call();
+			} catch (Exception e) {
+				throw new IllegalStateException(e);
+			}
 		}, CqlSession.class);
 
 		session.execute(String.format("CREATE KEYSPACE IF NOT EXISTS %s \n"
@@ -78,7 +94,11 @@ class CassandraExtension implements BeforeAllCallback {
 
 	private CassandraContainer<?> runTestcontainer() {
 
-		var container = new CassandraContainer<>(getCassandraDockerImageName());
+		if (container != null) {
+			return container;
+		}
+
+		container = new CassandraContainer<>(getCassandraDockerImageName());
 		container.withReuse(true);
 
 		container.start();
