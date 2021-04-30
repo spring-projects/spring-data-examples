@@ -14,18 +14,31 @@ We have separate folders for the samples of individual modules:
 
 ## Spring Data Elasticsearch
 
-* `example` - Example how to use basic text search, geo-spatial search and facets. It uses the High Level REST Client backing template and repository.
+* `example` - Example how to use basic text search, geo-spatial search and facets. It uses
+  the High Level REST Client backing template and repository.
 * `reactive` - Example how to use reactive client, template and repository features.
+
+Local Elasticsearch instance must be running to run the tests.
 
 ## Spring Data for Apache Geode
 
-* `events` - In this example the test will make use of event handlers and async event queue to handle events.
-* `expiration-eviction` - In these examples the server is configured to delete entries after a certain idle period or after a Time-To-Live period (expiration0 or remove data from memory when certain thresholds are reached (eviction).
-* `function-invocation` - In this example the server will have 3 functions registered. The client will invoke each of the functions.
-* `queries` - In this example a client will query the data in various ways using OQl, continuous queries, and Apache Lucene indexes.
-* `security` - In this example the servers and clients are set up with security (username/password) authentication using Geode Security and Apache Shiro.
-* `storage` - In this example the server is configured to store data off of hte JVM heap using the `@EnableOffHeap` annotation and to compress region data using SnappyCompressor`.
-* `transactions` - In this example the client will perform operations within a transaction. First, it will do a successful transaction where entries are saved to the server, and then a failed transaction where all changes are reverted.
+* `events` - In this example the test will make use of event handlers and async event
+  queue to handle events.
+* `expiration-eviction` - In these examples the server is configured to delete entries
+  after a certain idle period or after a Time-To-Live period (expiration0 or remove data
+  from memory when certain thresholds are reached (eviction).
+* `function-invocation` - In this example the server will have 3 functions registered. The
+  client will invoke each of the functions.
+* `queries` - In this example a client will query the data in various ways using OQl,
+  continuous queries, and Apache Lucene indexes.
+* `security` - In this example the servers and clients are set up with security (
+  username/password) authentication using Geode Security and Apache Shiro.
+* `storage` - In this example the server is configured to store data off of hte JVM heap
+  using the `@EnableOffHeap` annotation and to compress region data using
+  SnappyCompressor`.
+* `transactions` - In this example the client will perform operations within a
+  transaction. First, it will do a successful transaction where entries are saved to the
+  server, and then a failed transaction where all changes are reverted.
 * `wan` - In these example two servers are deployed. One server populates itself with data, and the other server gets populated with that data via WAN replication.
 
 ## Spring Data JDBC
@@ -93,11 +106,6 @@ Local Redis instances must be running to run the tests.
 * `starbucks` - A sample REST web-service built with Spring Data REST and MongoDB.
 * `uri-customizations` - Example project to show URI customization capabilities.
 
-## Spring Data for Apache Solr
-
-* `example` - Example project for Spring Data repositories for Apache Solr.
-* `managed-schema` - Example project to show managed schema integration.
-
 ## Spring Data web support
 
 * `projections` - Example for Spring Data web support for JSONPath and XPath expressions on projection interfaces.
@@ -118,5 +126,7 @@ Local Redis instances must be running to run the tests.
   proper code navigation in your IDE, you must install it separately. Lombok is available
   in the IntelliJ plugins repository and as
   a [download](https://projectlombok.org/download) for Eclipse-based IDEs.
-
-You need Java 16 or newer and Docker to run and compile the examples. Most examples start their database via Testcontainers unless stated otherwise.
+* The code makes use of Java 16 language features therefore you need Java 16 or newer to
+  run and compile the examples.
+* Most store modules examples start their database via Testcontainers or as
+  embedded/in-memory server unless stated otherwise.
