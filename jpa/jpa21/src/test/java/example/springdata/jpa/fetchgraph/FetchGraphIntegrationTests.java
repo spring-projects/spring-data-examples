@@ -24,10 +24,8 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,8 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Jens Schauder
  * @author Divya Srivastava
  */
-
-@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest(classes = FetchGraphConfiguration.class)
 public class FetchGraphIntegrationTests {

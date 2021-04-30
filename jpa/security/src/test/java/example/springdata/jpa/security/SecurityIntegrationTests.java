@@ -22,13 +22,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -39,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class SecurityIntegrationTests {

@@ -32,7 +32,6 @@ import static org.assertj.core.api.Assertions.*;
  * @author Divya Srivastava
  * @author Jens Schauder
  */
-@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 public class AuditableUserSample {

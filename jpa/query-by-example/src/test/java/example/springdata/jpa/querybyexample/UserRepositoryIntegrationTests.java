@@ -24,12 +24,10 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -40,7 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Jens Schauder
  * @author Divya Srivastava
  */
-@ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
 public class UserRepositoryIntegrationTests {
