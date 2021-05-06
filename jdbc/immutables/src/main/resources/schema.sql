@@ -1,0 +1,34 @@
+CREATE TABLE IF NOT EXISTS ENIGMA
+(
+    ID
+    INTEGER
+    IDENTITY
+    PRIMARY
+    KEY,
+    MODEL
+    VARCHAR
+(
+    100
+)
+    );
+
+CREATE TABLE IF NOT EXISTS ROTOR
+(
+    ENIGMA_ID
+    INTEGER,
+    ROTOR_KEY
+    INTEGER,
+    NAME
+    VARCHAR
+(
+    100
+),
+    WIRING VARCHAR
+(
+    26
+),
+    NOTCH CHAR
+(
+    1
+)
+    );

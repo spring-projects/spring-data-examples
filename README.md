@@ -44,6 +44,8 @@ Local Elasticsearch instance must be running to run the tests.
 ## Spring Data JDBC
 
 * `basic` - Basic usage of Spring Data JDBC.
+* `immutables` - Showing Spring Data JDBC usage
+  with [Immutables](https://immutables.github.io/)
 
 ## Spring Data JPA
 

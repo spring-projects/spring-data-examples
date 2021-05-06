@@ -1,0 +1,27 @@
+== Spring Data JDBC with Immutables
+
+This example show how to use https://immutables.github.io/[Immutables] with Spring Data.
+The core concept of Immutables is to define an interface (or abstract class) for which Immutables generates an immutable implementation that can then be used by application code.
+
+Persisting immutable objects and associating the saved object with generated identifiers works out of the box.
+The reading side requires a redirection of the to be created object type, see `ImmutablesJdbcConfiguration`.
+
+Limitations:
+
+Immutables tends to generate additional constructors when using `@Value.Style(allParameters = true)` or `@Value.Parameter`.
+This conflicts with Spring Data's constructor resolution as Spring Data cannot identify reliably a persistence constructor.
+
+To run the tests, run:
+
+[indent=0]
+----
+	$ mvn test
+----
+
+The code generator is automatically run when executing the tests.
+If you want to rerun the code generator manually, just run the following command:
+
+[indent=0]
+----
+	$ mvn clean generate-sources
+----
