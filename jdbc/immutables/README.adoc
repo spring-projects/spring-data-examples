@@ -1,6 +1,6 @@
 == Spring Data JDBC with Immutables
 
-This example show how to use https://immutables.github.io/[Immutables] with Spring Data.
+This example shows how to use https://immutables.github.io/[Immutables] with Spring Data.
 The core concept of Immutables is to define an interface (or abstract class) for which Immutables generates an immutable implementation that can then be used by application code.
 
 Persisting immutable objects and associating the saved object with generated identifiers works out of the box.

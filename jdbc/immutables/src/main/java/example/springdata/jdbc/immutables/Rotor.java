@@ -36,10 +36,10 @@ public interface Rotor {
 	 * Factory method for {@link Rotor} as using {@code @Value.Style} and {@code @Value.Parameter} conflicts with Spring
 	 * Data's constructor discovery rules.
 	 *
-	 * @param name
-	 * @param wiring
-	 * @param notch
-	 * @return
+	 * @param name The name of the rotor, just a label to distinguish them.
+	 * @param wiring A String consisting of all letters of the alphabet encoding which input letter is connected to which output letter.
+	 * @param notch The current position of the rotor.
+	 * @return a newly created Rotor.
 	 */
 	static Rotor of(String name, String wiring, char notch) {
 		return ImmutableRotor.builder().name(name).wiring(wiring).notch(notch).build();
