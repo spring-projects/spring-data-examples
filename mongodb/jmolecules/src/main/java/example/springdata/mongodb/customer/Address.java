@@ -15,8 +15,6 @@
  */
 package example.springdata.mongodb.customer;
 
-import org.jmolecules.ddd.annotation.ValueObject;
+import org.jmolecules.ddd.types.ValueObject;
 
-@ValueObject
-public record Address(String street, String city, String zipCode) {
-}
+public record Address(String street, String city, String zipCode) implements ValueObject {}

@@ -22,7 +22,6 @@ import example.springdata.jdbc.jmolecules.customer.Customer;
 import example.springdata.jdbc.jmolecules.customer.Customers;
 import example.springdata.jdbc.jmolecules.order.Order;
 import example.springdata.jdbc.jmolecules.order.Orders;
-import lombok.RequiredArgsConstructor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

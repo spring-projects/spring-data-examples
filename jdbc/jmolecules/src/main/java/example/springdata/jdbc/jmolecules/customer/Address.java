@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2021 the original author or authors.
+ * Copyright 2020-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 package example.springdata.jdbc.jmolecules.customer;
 
-import org.jmolecules.ddd.annotation.ValueObject;
+import org.jmolecules.ddd.types.ValueObject;
 
-@ValueObject
-public record Address(String street, String city, String zipCode) {
-}
+public record Address(String street, String city, String zipCode) implements ValueObject {}

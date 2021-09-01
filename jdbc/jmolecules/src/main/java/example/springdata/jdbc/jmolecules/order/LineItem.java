@@ -15,8 +15,6 @@
  */
 package example.springdata.jdbc.jmolecules.order;
 
-import org.jmolecules.ddd.annotation.ValueObject;
+import org.jmolecules.ddd.types.ValueObject;
 
-@ValueObject
-public record LineItem(String description) {
-}
+public record LineItem(String description) implements ValueObject {}
