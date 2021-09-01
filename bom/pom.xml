@@ -9,8 +9,8 @@
 	<name>Spring Data - Using the BOM for dependency management</name>
 
 	<properties>
-		<spring.version>5.1.5.RELEASE</spring.version>
-		<spring-data.version>Lovelace-SR5</spring-data.version>
+		<spring.version>5.3.9</spring.version>
+		<spring-data.version>2021.0.4</spring-data.version>
 	</properties>
 
 	<dependencyManagement>
@@ -26,7 +26,7 @@
 
 			<dependency>
 				<groupId>org.springframework.data</groupId>
-				<artifactId>spring-data-releasetrain</artifactId>
+				<artifactId>spring-data-bom</artifactId>
 				<version>${spring-data.version}</version>
 				<scope>import</scope>
 				<type>pom</type>

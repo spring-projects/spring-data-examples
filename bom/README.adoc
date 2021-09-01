@@ -1,17 +1,17 @@
 = Spring Data - Release Train BOM example
 
-This project shows the usage of the Spring Data release train in a non-Spring-Boot project with both Maven and Gradle.
+This project shows the usage of the Spring Data BOM in a non-Spring-Boot project with both Maven and Gradle.
 
 == Properties
 
-In both Maven and Gradle a couple of properties are used to define the versions of Spring Framework and Spring Data to use. For Spring Framework a plain version is used. For Spring Data we refer to a particular revision of a release train. The naming of Spring Data releases uses the following conventions:
+In both Maven and Gradle a couple of properties are used to define the versions of Spring Framework and Spring Data to use. For Spring Framework a plain version is used. For Spring Data we refer to the https://spring.io/blog/2020/04/30/updates-to-spring-versions[calver revision] of the BOM. The naming of Spring Data releases uses the following conventions:
 
-** `${release-train}-M1` -> Milestones
+** `${calver-version}-M1` -> Milestones
 ** …
-** `${release-train}-RC1` -> Release candidate
+** `${calver-version}-RC1` -> Release candidate
 ** …
-** `${release-train}-RELEASE` -> GA version
-** `${release-train}-SR1` -> Services release (bugfixes) for that release train
+** `${calver-version}` -> GA version
+** `${calver-version}` -> Services release (bugfixes) for that release train
 
 == Maven
 

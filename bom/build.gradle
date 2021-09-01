@@ -8,14 +8,14 @@ repositories {
 }
 
 ext {
-	springVersion = '5.1.5.RELEASE'
-	springDataVersion = 'Lovelace-SR5'
+	springVersion = '5.3.9'
+	springDataVersion = '2021.0.4'
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework:spring-framework-bom:${springVersion}"
-		mavenBom "org.springframework.data:spring-data-releasetrain:${springDataVersion}"
+		mavenBom "org.springframework.data:spring-data-bom:${springDataVersion}"
 	}
 }
 
