@@ -1,0 +1,5 @@
+== Spring Data JDBC How Tos
+
+=== ID Generation
+
+Demonstrates the various ways how the user might control generation of IDs when the default of database generated IDs is not sufficient.
