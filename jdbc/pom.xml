@@ -22,6 +22,7 @@
 		<module>immutables</module>
 		<module>jmolecules</module>
 		<module>jooq</module>
+		<module>howto</module>
 	</modules>
 
 	<dependencies>

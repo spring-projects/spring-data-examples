@@ -1,0 +1,24 @@
+== Spring Data JDBC How To ID Generation
+
+There are multiple ways how the generation of IDs can be controlled.
+
+1. The default is to let the database create the ID by using a `AUTOINCREMENT`, `SERIAL` or `IDENTITY` column.
+  If you try to save a new aggregate root with a preset ID you will receive an exception.
+  See `IdGenerationApplicationTest.cantSaveNewAggregateWithPresetId`.
+
+  The reason is that Spring Data JDBC will inspect the aggregate root, notes that the ID is not `null` and tries to perform an update which will update 0 rows and cause an exception.
+
+2. You can manually set the id of an aggregate root to a value of your choice if you use `JdbcAggregateTemplate.insert`.
+ This bypasses the check if an update or insert is to be performed and always performs an insert.
+ See `IdGenerationApplicationTest.insertNewAggregateWithPresetIdUsingTemplate`.
+
+3. You may use a `BeforeSaveEntityCallBack` to set the id of aggregate roots with null ID.
+  This has the benefit of being transparent in to your domain code, as it should be since IDs are normally not relevant to it.
+  See `IdGenerationApplicationTest.idByCallBack` and `IdGenerationApplication.beforeSaveCallback`.
+  As long as your entity is mutable you might as well use an `BeforeSaveEntityListener`, but since the callback works for both cases it is the recommended approach.
+
+4. If you add a version attribute, i.e. one annotated with `@Version` that attribute is used to determine if the aggregate is new or not, leaving you free to set the ID as you see fit.
+  See `IdGenerationApplicationTest.determineIsNewPerVersion`.
+
+5. The final option is to let your aggregate root implement `Persistable` which allows you to define your own `isNew` method, which controls if we perform an insert or an update.
+  See `IdGenerationApplicationTest.determineIsNewPerPersistable`.
