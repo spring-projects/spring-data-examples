@@ -18,11 +18,11 @@
 
 	<modules>
 		<module>basics</module>
-		<module>mybatis</module>
+		<module>howto</module>
 		<module>immutables</module>
 		<module>jmolecules</module>
 		<module>jooq</module>
-		<module>howto</module>
+		<module>mybatis</module>
 	</modules>
 
 	<dependencies>
