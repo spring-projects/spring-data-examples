@@ -1,0 +1,6 @@
+== Spring Data JDBC How To Bidirectional External Relationship
+
+An external relationship is one that links one aggregate from another one.
+Spring Data JDBC models such a relationship by referencing the aggregate by id, possibly wrapped in an `AggregateReference`.
+
+For a bidirectional navigation it turns out you just need an additional query method.
