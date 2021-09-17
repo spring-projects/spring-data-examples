@@ -19,6 +19,8 @@
 	<inceptionYear>2021</inceptionYear>
 
 	<modules>
+		<module>bidirectionalexternal</module>
+		<module>bidirectionalinternal</module>
 		<module>idgeneration</module>
 	</modules>
 

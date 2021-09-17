@@ -3,3 +3,11 @@
 === ID Generation
 
 Demonstrates the various ways how the user might control generation of IDs when the default of database generated IDs is not sufficient.
+
+=== Bidirectional aggregate internal relationships.
+
+Demonstrates how to maintain a bidirectional relationship within a single aggregate.
+
+=== Bidirectional relationships between aggregates.
+
+Demonstrates how to maintain a bidirectional relationship between aggregates.

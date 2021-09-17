@@ -1,0 +1,6 @@
+== Spring Data JDBC How To Bidirectional Internal Relationship
+
+An internal relationship is one that links entities within an aggregate.
+Spring Data JDBC doesn't have special mechanics to maintain such a relationship.
+Instead you may choose to maintain the reverse relationship while creating the aggregate.
+This takes care of the construction during initial creation or modification of the aggregate, and also of the construction when loading an aggregate from the database.
