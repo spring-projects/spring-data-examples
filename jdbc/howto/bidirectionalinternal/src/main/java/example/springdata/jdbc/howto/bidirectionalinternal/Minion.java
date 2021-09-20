@@ -33,7 +33,9 @@ class Minion {
 	}
 
 	@PersistenceConstructor
-	private Minion(String name, Collection<Toy> toys) {
+	private Minion(Long id, String name, Collection<Toy> toys) {
+
+		this.id = id;
 		this.name = name;
 		toys.forEach(this::addToy);
 	}
