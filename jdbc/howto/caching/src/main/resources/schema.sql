@@ -1,0 +1,5 @@
+CREATE TABLE MINION
+(
+    ID              IDENTITY PRIMARY KEY,
+    NAME           VARCHAR(255),
+);

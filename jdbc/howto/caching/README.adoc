@@ -1,0 +1,6 @@
+== Spring Data JDBC How To cache.
+
+Spring Data JDBC doesn't include any caching for entities.
+But it is trivially combined with Springs Cache abstraction.
+
+This project demonstrates this.

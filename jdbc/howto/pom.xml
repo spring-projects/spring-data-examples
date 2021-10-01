@@ -21,6 +21,7 @@
 	<modules>
 		<module>bidirectionalexternal</module>
 		<module>bidirectionalinternal</module>
+		<module>caching</module>
 		<module>idgeneration</module>
 	</modules>
 
