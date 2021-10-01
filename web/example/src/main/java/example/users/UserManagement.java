@@ -16,7 +16,9 @@
 package example.users;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
@@ -85,5 +87,16 @@ public class UserManagement {
 		Assert.notNull(username, "Username must not be null!");
 
 		return repository.findByUsername(username);
+	}
+
+	/**
+	 * Creates a few sample users.
+	 */
+	@PostConstruct
+	public void init() {
+
+		IntStream.range(0, 41).forEach(index -> {
+			register(new Username("user" + index), Password.raw("foobar"));
+		});
 	}
 }
