@@ -15,15 +15,8 @@
  */
 package example;
 
-import example.users.Password;
 import example.users.UserManagement;
-import example.users.Username;
 
-import java.util.stream.IntStream;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -53,19 +46,6 @@ public class Application {
 
 	public static void main(String... args) {
 		SpringApplication.run(Application.class, args);
-	}
-
-	@Autowired UserManagement userManagement;
-
-	/**
-	 * Creates a few sample users.
-	 */
-	@PostConstruct
-	public void init() {
-
-		IntStream.range(0, 41).forEach(index -> {
-			userManagement.register(new Username("user" + index), Password.raw("foobar"));
-		});
 	}
 
 	/**

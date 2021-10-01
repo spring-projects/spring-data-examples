@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.4</version>
+		<version>2.6.0-M3</version>
 	</parent>
 
 	<modules>
@@ -67,32 +67,32 @@
 		<developer>
 			<id>odrotbohm</id>
 			<name>Oliver Drotbohm</name>
-			<email>odrotbohm@pivotal.io</email>
+			<email>odrotbohm@vmware.com</email>
 		</developer>
 		<developer>
 			<id>tdarimont</id>
 			<name>Thomas Darimont</name>
-			<email>tdarimont@gopivotal.io</email>
+			<email>tdarimont@vmware.com</email>
 		</developer>
 		<developer>
 			<id>cstrobl</id>
 			<name>Christoph Strobl</name>
-			<email>cstrobl@pivotal.io</email>
+			<email>cstrobl@vmware.com</email>
 		</developer>
 		<developer>
 			<id>gturnquist</id>
 			<name>Greg Turnquist</name>
-			<email>gturnquist@pivotal.io</email>
+			<email>gturnquist@vmware.com</email>
 		</developer>
 		<developer>
 			<id>mpaluch</id>
 			<name>Mark Paluch</name>
-			<email>mpaluch@pivotal.io</email>
+			<email>mpaluch@vmware.com</email>
 		</developer>
 		<developer>
 			<id>jschauder</id>
 			<name>Jens Schauder</name>
-			<email>jschauder@pivotal.io</email>
+			<email>jschauder@vmware.com</email>
 		</developer>
 	</developers>
 
@@ -109,7 +109,7 @@
 			<dependency>
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-keyvalue</artifactId>
-				<version>2.5.1-SNAPSHOT</version>
+				<version>2.6.0-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>

@@ -17,11 +17,9 @@ package example.springdata.redis;
 
 import javax.annotation.PreDestroy;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
@@ -35,8 +33,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @SpringBootApplication
 public class RedisTestConfiguration {
-
-	@Autowired RedisConnectionFactory factory;
 
 	@Bean
 	public LettuceConnectionFactory redisConnectionFactory() {
@@ -80,6 +76,6 @@ public class RedisTestConfiguration {
 	 * Clear database before shut down.
 	 */
 	public @PreDestroy void flushTestDb() {
-		factory.getConnection().flushDb();
+		redisConnectionFactory().getConnection().flushDb();
 	}
 }
