@@ -33,6 +33,7 @@
 		<module>transactions</module>
 		<module>schema-validation</module>
 		<module>querydsl</module>
+		<module>linking</module>
 		<module>util</module>
 	</modules>
 
