@@ -35,6 +35,12 @@ import org.springframework.data.mongodb.core.ExecutableFindOperation.Terminating
 import org.springframework.data.mongodb.core.FluentMongoOperations;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.NearQuery;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Some tests showing usage and capabilities of {@link FluentMongoOperations}. <br />
@@ -50,8 +56,18 @@ import org.springframework.data.mongodb.core.query.NearQuery;
  *
  * @author Christoph Strobl
  */
+@Testcontainers
 @DataMongoTest
 class FluentMongoApiTests {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired FluentMongoOperations mongoOps;
 

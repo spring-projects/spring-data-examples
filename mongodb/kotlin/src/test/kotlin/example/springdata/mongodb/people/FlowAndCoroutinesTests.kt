@@ -29,6 +29,12 @@ import org.springframework.data.mongodb.core.*
 import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.isEqualTo
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
 import reactor.test.StepVerifier
 
 /**
@@ -36,8 +42,21 @@ import reactor.test.StepVerifier
  *
  * @author Christoph Strobl
  */
+@Testcontainers
 @DataMongoTest
 class FlowAndCoroutinesTests {
+
+	companion object {
+		@Container //
+		private val mongoDBContainer = MongoDBContainer(
+				DockerImageName.parse("mongo:5.0"))
+
+		@JvmStatic
+		@DynamicPropertySource
+		fun setProperties(registry: DynamicPropertyRegistry) {
+			registry.add("spring.data.mongodb.uri") { mongoDBContainer.replicaSetUrl }
+		}
+	}
 
 	@Autowired
 	lateinit var operations: ReactiveMongoOperations

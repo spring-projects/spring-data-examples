@@ -22,14 +22,33 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
 
 /**
  * Tests showing Kotlin usage of Spring Data Repositories.
  *
  * @author Mark Paluch
  */
+@Testcontainers
 @DataMongoTest
 class RepositoryTests {
+
+	companion object {
+		@Container //
+		private val mongoDBContainer = MongoDBContainer(
+				DockerImageName.parse("mongo:5.0"))
+
+		@JvmStatic
+		@DynamicPropertySource
+		fun setProperties(registry: DynamicPropertyRegistry) {
+			registry.add("spring.data.mongodb.uri") { mongoDBContainer.replicaSetUrl }
+		}
+	}
 
 	@Autowired
 	lateinit var repository: PersonRepository
