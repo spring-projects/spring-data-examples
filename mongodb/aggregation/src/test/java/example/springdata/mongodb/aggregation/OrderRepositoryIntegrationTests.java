@@ -26,6 +26,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration tests for {@link OrderRepository}.
@@ -35,8 +41,18 @@ import org.springframework.data.domain.Sort;
  * @author Christoph Strobl
  * @author Divya Srivastava
  */
+@Testcontainers
 @SpringBootTest
 class OrderRepositoryIntegrationTests {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired OrderRepository repository;
 

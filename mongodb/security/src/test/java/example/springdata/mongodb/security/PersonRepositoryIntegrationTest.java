@@ -27,6 +27,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test for {@link PersonRepository}.
@@ -34,8 +40,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
+@Testcontainers
 @SpringBootTest
 class PersonRepositoryIntegrationTest {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired PersonRepository repository;
 

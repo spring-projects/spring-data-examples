@@ -22,8 +22,13 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test for {@link ImmutablePerson} showing features around immutable object support.
@@ -31,8 +36,18 @@ import org.springframework.data.mongodb.core.MongoOperations;
  * @author Mark Paluch
  * @author Christoph Strobl
  */
+@Testcontainers
 @DataMongoTest
 class ImmutableEntityIntegrationTest {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired MongoOperations operations;
 

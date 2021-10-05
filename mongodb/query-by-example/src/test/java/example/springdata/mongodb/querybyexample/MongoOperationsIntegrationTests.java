@@ -34,6 +34,12 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test showing the usage of MongoDB Query-by-Example support through Spring Data repositories.
@@ -42,8 +48,18 @@ import org.springframework.data.mongodb.core.query.Query;
  * @author Oliver Gierke
  */
 @SuppressWarnings("unused")
+@Testcontainers
 @DataMongoTest
 class MongoOperationsIntegrationTests {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired MongoOperations operations;
 

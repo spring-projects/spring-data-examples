@@ -31,14 +31,30 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.querydsl.QSort;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test for {@link CustomerRepository}.
  *
  * @author Oliver Gierke
  */
+@Testcontainers
 @DataMongoTest
 class CustomerRepositoryIntegrationTest {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired CustomerRepository repository;
 	@Autowired MongoOperations operations;

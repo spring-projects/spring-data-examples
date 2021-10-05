@@ -28,6 +28,12 @@ import org.springframework.data.mongodb.core.geo.GeoJson;
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration tests for {@link StoreRepository}.
@@ -35,8 +41,18 @@ import org.springframework.data.mongodb.core.query.Criteria;
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
+@Testcontainers
 @DataMongoTest
 class StoreRepositoryTests {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	private static final GeoJsonPolygon GEO_JSON_POLYGON = new GeoJsonPolygon(new Point(-73.992514, 40.758934),
 			new Point(-73.961138, 40.760348), new Point(-73.991658, 40.730006), new Point(-73.992514, 40.758934));

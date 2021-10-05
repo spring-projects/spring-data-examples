@@ -25,14 +25,33 @@ import org.springframework.data.mongodb.core.*
 import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.isEqualTo
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
 
 /**
  * Tests showing Kotlin usage of [MongoTemplate] and its Kotlin extensions.
  *
  * @author Mark Paluch
  */
+@Testcontainers
 @DataMongoTest
 class TemplateTests {
+
+	companion object {
+		@Container //
+		private val mongoDBContainer = MongoDBContainer(
+				DockerImageName.parse("mongo:5.0"))
+
+		@JvmStatic
+		@DynamicPropertySource
+		fun setProperties(registry: DynamicPropertyRegistry) {
+			registry.add("spring.data.mongodb.uri") { mongoDBContainer.replicaSetUrl }
+		}
+	}
 
 	@Autowired
 	lateinit var operations: MongoOperations

@@ -30,15 +30,34 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.isEqualTo
 import org.springframework.data.mongodb.core.query.regex
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.context.junit4.SpringRunner
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
 
 /**
  * Tests showing the Mongo Criteria DSL.
  *
  * @author Christoph Strobl
  */
+@Testcontainers
 @DataMongoTest
 class MongoDslTests {
+
+	companion object {
+		@Container //
+		private val mongoDBContainer = MongoDBContainer(
+				DockerImageName.parse("mongo:5.0"))
+
+		@JvmStatic
+		@DynamicPropertySource
+		fun setProperties(registry: DynamicPropertyRegistry) {
+			registry.add("spring.data.mongodb.uri") { mongoDBContainer.replicaSetUrl }
+		}
+	}
 
 	@Autowired
 	lateinit var operations: MongoOperations

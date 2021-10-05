@@ -37,6 +37,12 @@ import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.data.mongodb.core.aggregation.BucketAutoOperation.Granularities;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Examples for Spring Books using the MongoDB Aggregation Framework. Data originates from Google's Book search.
@@ -47,8 +53,18 @@ import org.springframework.data.mongodb.core.query.Query;
  *      "https://www.googleapis.com/books/v1/volumes?q=intitle:spring+framework">https://www.googleapis.com/books/v1/volumes?q=intitle:spring+framework</a>
  * @see <a href="/books.json>books.json</a>
  */
+@Testcontainers
 @SpringBootTest
 class SpringBooksIntegrationTests {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired MongoOperations operations;
 

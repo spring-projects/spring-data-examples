@@ -19,6 +19,12 @@ import static org.assertj.core.api.Assertions.*;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -42,8 +48,18 @@ import org.springframework.data.mongodb.core.ReactiveMongoOperations;
  * @author Jens Schauder
  * @author Christoph Strobl
  */
+@Testcontainers
 @DataMongoTest
 class RxJava2PersonRepositoryIntegrationTest {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired RxJava2PersonRepository repository;
 	@Autowired ReactiveMongoOperations operations;

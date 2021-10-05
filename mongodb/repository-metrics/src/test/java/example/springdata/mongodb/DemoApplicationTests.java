@@ -15,6 +15,12 @@
  */
 package example.springdata.mongodb;
 
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
@@ -30,8 +36,18 @@ import org.springframework.boot.test.context.SpringBootTest;
  *
  * @author Christoph Strobl
  */
+@Testcontainers
 @SpringBootTest
 class DemoApplicationTests {
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+			DockerImageName.parse("mongo:5.0"));
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired PersonRepository repo;
 
