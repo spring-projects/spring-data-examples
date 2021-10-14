@@ -18,17 +18,20 @@ package example.springdata.mongodb.linking.docref.jpastyle;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.mongodb.core.query.Criteria.*;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Christoph Strobl
@@ -38,8 +41,7 @@ import org.testcontainers.utility.DockerImageName;
 public class JpaStyleDocRefTests {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

@@ -15,6 +15,8 @@
  */
 package example.springdata.mongodb.geojson;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
 
@@ -30,10 +32,10 @@ import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration tests for {@link StoreRepository}.
@@ -46,8 +48,7 @@ import org.testcontainers.utility.DockerImageName;
 class StoreRepositoryTests {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

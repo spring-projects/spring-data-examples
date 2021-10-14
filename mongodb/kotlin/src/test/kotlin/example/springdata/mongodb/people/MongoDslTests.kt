@@ -15,13 +15,12 @@
  */
 package example.springdata.mongodb.people;
 
+import example.springdata.mongodb.util.MongoContainers
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.dropCollection
 import org.springframework.data.mongodb.core.find
@@ -32,11 +31,8 @@ import org.springframework.data.mongodb.core.query.isEqualTo
 import org.springframework.data.mongodb.core.query.regex
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.springframework.test.context.junit4.SpringRunner
-import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.utility.DockerImageName
 
 /**
  * Tests showing the Mongo Criteria DSL.
@@ -49,8 +45,7 @@ class MongoDslTests {
 
 	companion object {
 		@Container //
-		private val mongoDBContainer = MongoDBContainer(
-				DockerImageName.parse("mongo:5.0"))
+		private val mongoDBContainer = MongoContainers.getDefaultContainer()
 
 		@JvmStatic
 		@DynamicPropertySource

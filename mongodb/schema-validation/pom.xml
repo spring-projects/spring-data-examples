@@ -4,7 +4,7 @@
 
     <artifactId>spring-data-mongodb-schema-validation</artifactId>
 
-    <name>Spring Data MongoDB 2.1 - Schema &amp; Validation Example</name>
+    <name>Spring Data MongoDB - Schema &amp; Validation Example</name>
 
     <parent>
         <groupId>org.springframework.data.examples</groupId>
@@ -13,17 +13,11 @@
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>mongodb</artifactId>
-            <version>${testcontainers.version}</version>
-            <scope>test</scope>
-        </dependency>
+	    <dependency>
+		    <groupId>org.springframework.data.examples</groupId>
+		    <artifactId>spring-data-mongodb-example-utils</artifactId>
+		    <scope>test</scope>
+	    </dependency>
     </dependencies>
 
 </project>

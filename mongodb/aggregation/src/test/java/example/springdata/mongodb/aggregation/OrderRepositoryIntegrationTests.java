@@ -18,6 +18,8 @@ package example.springdata.mongodb.aggregation;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.data.Offset.offset;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,10 +30,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration tests for {@link OrderRepository}.
@@ -46,8 +48,7 @@ import org.testcontainers.utility.DockerImageName;
 class OrderRepositoryIntegrationTests {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

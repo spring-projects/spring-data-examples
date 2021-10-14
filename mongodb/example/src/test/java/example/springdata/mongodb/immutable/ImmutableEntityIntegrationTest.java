@@ -17,6 +17,8 @@ package example.springdata.mongodb.immutable;
 
 import static org.assertj.core.api.Assertions.*;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +27,10 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test for {@link ImmutablePerson} showing features around immutable object support.
@@ -41,8 +43,7 @@ import org.testcontainers.utility.DockerImageName;
 class ImmutableEntityIntegrationTest {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

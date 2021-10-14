@@ -17,6 +17,8 @@ package example.springdata.mongodb.security;
 
 import static org.assertj.core.api.Assertions.*;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,10 +31,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test for {@link PersonRepository}.
@@ -45,8 +47,7 @@ import org.testcontainers.utility.DockerImageName;
 class PersonRepositoryIntegrationTest {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

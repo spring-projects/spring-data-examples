@@ -15,6 +15,7 @@
  */
 package example.springdata.mongodb.people
 
+import example.springdata.mongodb.util.MongoContainers
 import org.assertj.core.api.Assertions.assertThat
 import org.bson.Document
 import org.junit.jupiter.api.BeforeEach
@@ -27,10 +28,8 @@ import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.isEqualTo
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.utility.DockerImageName
 
 /**
  * Tests showing Kotlin usage of [MongoTemplate] and its Kotlin extensions.
@@ -43,8 +42,7 @@ class TemplateTests {
 
 	companion object {
 		@Container //
-		private val mongoDBContainer = MongoDBContainer(
-				DockerImageName.parse("mongo:5.0"))
+		private val mongoDBContainer = MongoContainers.getDefaultContainer()
 
 		@JvmStatic
 		@DynamicPropertySource

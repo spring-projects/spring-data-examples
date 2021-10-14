@@ -17,6 +17,8 @@ package example.springdata.mongodb.textsearch;
 
 import static example.springdata.mongodb.util.ConsoleResultPrinter.*;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,10 @@ import org.springframework.data.mongodb.core.mapping.TextScore;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration tests showing the text search functionality using repositories.
@@ -42,8 +44,7 @@ import org.testcontainers.utility.DockerImageName;
 class TextSearchRepositoryTests {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

@@ -15,6 +15,7 @@
  */
 package example.springdata.mongodb.people
 
+import example.springdata.mongodb.util.MongoContainers
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -24,10 +25,8 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.utility.DockerImageName
 
 /**
  * Tests showing Kotlin usage of Spring Data Repositories.
@@ -40,8 +39,7 @@ class RepositoryTests {
 
 	companion object {
 		@Container //
-		private val mongoDBContainer = MongoDBContainer(
-				DockerImageName.parse("mongo:5.0"))
+		private val mongoDBContainer = MongoContainers.getDefaultContainer()
 
 		@JvmStatic
 		@DynamicPropertySource

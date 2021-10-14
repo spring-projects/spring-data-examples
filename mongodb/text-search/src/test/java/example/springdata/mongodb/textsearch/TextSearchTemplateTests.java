@@ -18,6 +18,8 @@ package example.springdata.mongodb.textsearch;
 import static example.springdata.mongodb.util.ConsoleResultPrinter.*;
 import static org.springframework.data.mongodb.core.query.Query.*;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,10 @@ import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.core.query.TextQuery;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Christoph Strobl
@@ -41,8 +43,7 @@ import org.testcontainers.utility.DockerImageName;
 class TextSearchTemplateTests {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

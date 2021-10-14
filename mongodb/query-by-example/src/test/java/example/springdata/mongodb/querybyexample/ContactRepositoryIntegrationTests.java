@@ -18,6 +18,8 @@ package example.springdata.mongodb.querybyexample;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.domain.ExampleMatcher.*;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,10 +29,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test showing the usage of MongoDB Query-by-Example support through Spring Data repositories for a case
@@ -45,8 +47,7 @@ import org.testcontainers.utility.DockerImageName;
 class ContactRepositoryIntegrationTests {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

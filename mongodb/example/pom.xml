@@ -12,20 +12,6 @@
 		<version>2.0.0.BUILD-SNAPSHOT</version>
 	</parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>mongodb</artifactId>
-			<version>${testcontainers.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -47,7 +33,9 @@
 						</goals>
 						<configuration>
 							<outputDirectory>target/generated-sources/queries</outputDirectory>
-							<processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
+							<processor>
+								org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor
+							</processor>
 							<logOnlyOnError>true</logOnlyOnError>
 						</configuration>
 					</execution>
@@ -56,5 +44,13 @@
 
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.data.examples</groupId>
+			<artifactId>spring-data-mongodb-example-utils</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 </project>

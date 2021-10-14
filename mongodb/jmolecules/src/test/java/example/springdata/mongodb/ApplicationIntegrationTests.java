@@ -22,6 +22,7 @@ import example.springdata.mongodb.customer.Customer;
 import example.springdata.mongodb.customer.Customers;
 import example.springdata.mongodb.order.Order;
 import example.springdata.mongodb.order.Orders;
+import example.springdata.mongodb.util.MongoContainers;
 import lombok.RequiredArgsConstructor;
 
 import org.junit.jupiter.api.Test;
@@ -29,15 +30,30 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 /**
  * @author Oliver Drotbohm
  */
 @DataMongoTest
 @RequiredArgsConstructor
+@Testcontainers
 class ApplicationIntegrationTests {
 
 	private final ConfigurableApplicationContext context;
+
+	@Container //
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Test
 	void exposesAssociationInMetamodel() {

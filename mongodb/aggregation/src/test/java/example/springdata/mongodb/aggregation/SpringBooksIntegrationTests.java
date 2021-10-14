@@ -18,6 +18,8 @@ package example.springdata.mongodb.aggregation;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
+import example.springdata.mongodb.util.MongoContainers;
+
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -39,10 +41,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * Examples for Spring Books using the MongoDB Aggregation Framework. Data originates from Google's Book search.
@@ -58,8 +60,7 @@ import org.testcontainers.utility.DockerImageName;
 class SpringBooksIntegrationTests {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {

@@ -15,6 +15,7 @@
  */
 package example.springdata.mongodb.people
 
+import example.springdata.mongodb.util.MongoContainers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactive.asFlow
@@ -31,10 +32,8 @@ import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.isEqualTo
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.utility.DockerImageName
 import reactor.test.StepVerifier
 
 /**
@@ -48,8 +47,7 @@ class FlowAndCoroutinesTests {
 
 	companion object {
 		@Container //
-		private val mongoDBContainer = MongoDBContainer(
-				DockerImageName.parse("mongo:5.0"))
+		private val mongoDBContainer = MongoContainers.getDefaultContainer()
 
 		@JvmStatic
 		@DynamicPropertySource
