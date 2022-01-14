@@ -23,6 +23,7 @@
 		<module>bidirectionalinternal</module>
 		<module>caching</module>
 		<module>idgeneration</module>
+		<module>selectiveupdate</module>
 	</modules>
 
 </project>

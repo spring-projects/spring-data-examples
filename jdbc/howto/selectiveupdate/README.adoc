@@ -1,0 +1,5 @@
+== Spring Data JDBC How To perform selective updates.
+
+Spring Data JDBC normally persists complete aggregates, which is wasteful if only few things have changed.
+
+This project demonstrates alternatives that require a little more work from the developer but are much more efficient. 
