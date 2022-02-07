@@ -179,6 +179,7 @@
 				<configuration>
 					<release>16</release>
 					<parameters>true</parameters>
+					<fork>true</fork>
 				</configuration>
 			</plugin>
 		</plugins>
