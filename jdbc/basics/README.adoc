@@ -6,9 +6,9 @@ This example demonstrate basic usage of JDBC based repositories.
 
 * The `SimpleEntityTests` demonstrate CRUD operations for an entity without references, just simple properties of various types.
 
-* The `CategoryContext` shows how to configure an application context so that Spring Data JDBC can create repositories.
+* The `CategoryConfiguration` shows how to configure an application context so that Spring Data JDBC can create repositories.
 
-* The `ApplicationListener` registered in `CategoryContext` demonstrate how to react to events published by Spring Data JDBC and how entities can get manipulated in such event listeners.
+* The `ApplicationListener` registered in `CategoryConfiguration` demonstrate how to react to events published by Spring Data JDBC and how entities can get manipulated in such event listeners.
 
 === AggregateTests
 
