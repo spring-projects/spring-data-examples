@@ -57,7 +57,8 @@ public class WanServerConfig {
 	@Bean(name = "DiskStore")
 	DiskStoreFactoryBean diskStore(GemFireCache gemFireCache, Faker faker) throws IOException {
 		DiskStoreFactoryBean diskStoreFactoryBean = new DiskStoreFactoryBean();
-		File tempDirectory = File.createTempFile(faker.name().firstName(), faker.name().firstName());
+		File tempDirectory = File.createTempFile("prefix-" + faker.name().firstName(),
+				"suffix-" + faker.name().firstName());
 		tempDirectory.delete();
 		tempDirectory.mkdirs();
 		tempDirectory.deleteOnExit();

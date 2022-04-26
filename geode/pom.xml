@@ -25,13 +25,11 @@
 		<module>security</module>
 		<module>storage</module>
 		<module>transactions</module>
-
-		<!-- WAN Server does not stop. Disabled for now -->
-		<!-- <module>wan</module> -->
+		<module>wan</module>
 	</modules>
 
 	<properties>
-		<spring.test.data.geode.version>0.0.14.RELEASE</spring.test.data.geode.version>
+		<spring.test.data.geode.version>0.1.2</spring.test.data.geode.version>
 	</properties>
 
 	<dependencyManagement>

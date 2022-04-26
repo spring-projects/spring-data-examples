@@ -21,7 +21,7 @@
 		<!-- <module>couchbase</module> Bug in Couchbase SDK -->
 		<module>cassandra</module>
 		<module>elasticsearch</module>
-		<!-- <module>geode</module> Geode isn't Java 16-ready -->
+		<module>geode</module>
 		<module>jdbc</module>
 		<module>jpa</module>
 		<module>ldap</module>
