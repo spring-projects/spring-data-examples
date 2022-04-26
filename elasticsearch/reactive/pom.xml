@@ -18,11 +18,6 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.springframework.data.examples</groupId>
-			<artifactId>spring-data-elasticsearch-example-utils</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
 		</dependency>

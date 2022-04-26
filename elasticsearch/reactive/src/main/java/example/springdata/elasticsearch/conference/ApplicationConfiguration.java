@@ -19,7 +19,6 @@ import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -27,12 +26,11 @@ import javax.annotation.PreDestroy;
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
@@ -43,13 +41,13 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 class ApplicationConfiguration {
 
 	@Autowired ReactiveElasticsearchOperations operations;
+	@Autowired RestHighLevelClient client;
 	@Autowired ConferenceRepository repository;
 
 	@PreDestroy
 	public void deleteIndex() {
 		try {
-			RestClients.create(ClientConfiguration.localhost()).rest().indices()
-					.delete(new DeleteIndexRequest("conference-index"), RequestOptions.DEFAULT);
+			client.indices().delete(new DeleteIndexRequest("conference-index"), RequestOptions.DEFAULT);
 		} catch (IOException | ElasticsearchStatusException e) {
 			// just ignore it
 		}
@@ -59,8 +57,7 @@ class ApplicationConfiguration {
 	public void insertDataSample() {
 
 		try {
-			RestClients.create(ClientConfiguration.localhost()).rest().indices()
-					.create(new CreateIndexRequest("conference-index"), RequestOptions.DEFAULT);
+			client.indices().create(new CreateIndexRequest("conference-index"), RequestOptions.DEFAULT);
 		} catch (IOException | ElasticsearchStatusException e) {
 			// just ignore it
 		}
@@ -79,7 +76,6 @@ class ApplicationConfiguration {
 						.location(new GeoPoint(50.0646501D, 19.9449799)).build());
 
 		// Remove all documents
-		repository.deleteAll().then(repository.saveAll(documents).then())
-				.as(StepVerifier::create).verifyComplete();
+		repository.deleteAll().then(repository.saveAll(documents).then()).as(StepVerifier::create).verifyComplete();
 	}
 }

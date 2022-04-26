@@ -16,7 +16,6 @@
 	<url>https://github.com/spring-projects/spring-data-elasticsearch</url>
 
 	<modules>
-		<module>util</module>
 		<module>example</module>
 		<module>reactive</module>
 	</modules>
@@ -42,6 +41,18 @@
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

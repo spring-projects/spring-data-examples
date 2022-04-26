@@ -17,7 +17,6 @@ package example.springdata.elasticsearch.conference;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.elasticsearch.util.EnabledOnElasticsearch;
 import reactor.test.StepVerifier;
 
 import java.text.ParseException;
@@ -27,6 +26,13 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+
+import org.testcontainers.elasticsearch.ElasticsearchContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Test case to show reactive Spring Data Elasticsearch repository functionality.
@@ -34,14 +40,26 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author Christoph Strobl
  * @author Prakhar Gupta
  */
-@EnabledOnElasticsearch
 @SpringBootTest(classes = ApplicationConfiguration.class)
+@Testcontainers
 class ReactiveElasticsearchRepositoryTest {
 
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-	@Autowired
-	ConferenceRepository repository;
+	@Container //
+	private static ElasticsearchContainer container = new ElasticsearchContainer(
+			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.2")) //
+					.withPassword("foobar") //
+					.withReuse(true);
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.elasticsearch.uris", () -> "http://" + container.getHttpHostAddress());
+		registry.add("spring.elasticsearch.username", () -> "elastic");
+		registry.add("spring.elasticsearch.password", () -> "foobar");
+	}
+
+	@Autowired ConferenceRepository repository;
 
 	@Test
 	void textSearch() {
