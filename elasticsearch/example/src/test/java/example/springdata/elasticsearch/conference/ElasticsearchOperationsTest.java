@@ -74,7 +74,7 @@ class ElasticsearchOperationsTest {
 		var query = new CriteriaQuery(
 				new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
 
-		var result = operations.search(query, Conference.class, IndexCoordinates.of("conference-index"));
+		var result = operations.search(query, Conference.class);
 
 		assertThat(result).hasSize(3);
 

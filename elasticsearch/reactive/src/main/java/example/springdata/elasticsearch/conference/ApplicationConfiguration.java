@@ -15,23 +15,14 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import reactor.test.StepVerifier;
-
-import java.io.IOException;
 import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.elasticsearch.ElasticsearchStatusException;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CreateIndexRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
 /**
@@ -40,27 +31,20 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 @SpringBootApplication
 class ApplicationConfiguration {
 
-	@Autowired ReactiveElasticsearchOperations operations;
-	@Autowired RestHighLevelClient client;
+	@Autowired ElasticsearchOperations operations;
 	@Autowired ConferenceRepository repository;
 
 	@PreDestroy
 	public void deleteIndex() {
-		try {
-			client.indices().delete(new DeleteIndexRequest("conference-index"), RequestOptions.DEFAULT);
-		} catch (IOException | ElasticsearchStatusException e) {
-			// just ignore it
-		}
+		operations.indexOps(Conference.class).delete();
 	}
 
 	@PostConstruct
 	public void insertDataSample() {
 
-		try {
-			client.indices().create(new CreateIndexRequest("conference-index"), RequestOptions.DEFAULT);
-		} catch (IOException | ElasticsearchStatusException e) {
-			// just ignore it
-		}
+		operations.indexOps(Conference.class).refresh();
+
+		// Save data sample
 
 		var documents = Arrays.asList(
 				Conference.builder().date("2014-11-06").name("Spring eXchange 2014 - London")
@@ -75,7 +59,8 @@ class ApplicationConfiguration {
 				Conference.builder().date("2014-10-04").name("JDD14 - Cracow").keywords(Arrays.asList("java", "spring"))
 						.location(new GeoPoint(50.0646501D, 19.9449799)).build());
 
-		// Remove all documents
-		repository.deleteAll().then(repository.saveAll(documents).then()).as(StepVerifier::create).verifyComplete();
+		operations.save(documents);
+		operations.indexOps(Conference.class).refresh(); // ensure we have all documents properly refreshed to avoid races
+																											// between tests.
 	}
 }

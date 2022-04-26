@@ -71,7 +71,7 @@ class ReactiveElasticsearchOperationsTest {
 		var expectedDate = "2014-10-29";
 		var expectedWord = "java";
 		var query = new CriteriaQuery(
-				new Criteria("keywords").contains(expectedWord).and("date").greaterThanEqual(expectedDate));
+				new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
 
 		operations.search(query, Conference.class) //
 				.as(StepVerifier::create) //
