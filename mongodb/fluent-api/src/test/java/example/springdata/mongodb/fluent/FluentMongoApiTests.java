@@ -124,7 +124,7 @@ class FluentMongoApiTests {
 	@Test
 	void fetchInterfaceProjection() {
 
-		var anakin = mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
+		var anakin = mongoOps.query(Jedi.class) // SWCharacter does only define the collection, id and name
 				.as(Sith.class) // use an interface as return type to create a projection
 				.matching(query(where("firstname").is("anakin"))) // so properties are taken as is
 				.oneValue();

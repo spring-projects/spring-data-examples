@@ -16,19 +16,16 @@
 package example.springdata.mongodb.util;
 
 import de.flapdoodle.embed.mongo.Command;
-import de.flapdoodle.embed.mongo.config.ImmutableMongodConfig;
-import de.flapdoodle.embed.mongo.config.ImmutableMongosConfig;
 import de.flapdoodle.embed.mongo.config.MongoCmdOptions;
 import de.flapdoodle.embed.mongo.config.MongodConfig;
 import de.flapdoodle.embed.mongo.config.MongosConfig;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.config.Storage;
-import de.flapdoodle.embed.mongo.distribution.Feature;
 import de.flapdoodle.embed.mongo.distribution.IFeatureAwareVersion;
 import de.flapdoodle.embed.mongo.distribution.Versions;
-import de.flapdoodle.embed.process.config.io.ProcessOutput;
+import de.flapdoodle.embed.mongo.packageresolver.Feature;
+import de.flapdoodle.embed.process.config.process.ProcessOutput;
 import de.flapdoodle.embed.process.distribution.Version;
-import de.flapdoodle.embed.process.io.Processors;
 import de.flapdoodle.embed.process.runtime.Network;
 
 import java.io.IOException;
@@ -67,9 +64,9 @@ public class EmbeddedMongo extends ExternalResource {
 
 	private static final String STORAGE_ENGINE = "wiredTiger";
 
-	private static final IFeatureAwareVersion VERSION = Versions.withFeatures(Version.of("3.7.9"),
-			Feature.ONLY_WITH_SSL, Feature.ONLY_64BIT, Feature.NO_HTTP_INTERFACE_ARG, Feature.STORAGE_ENGINE,
-			Feature.MONGOS_CONFIGDB_SET_STYLE, Feature.NO_CHUNKSIZE_ARG);
+	private static final IFeatureAwareVersion VERSION = Versions.withFeatures(Version.of("3.7.9"), Feature.ONLY_64BIT,
+			Feature.NO_HTTP_INTERFACE_ARG, Feature.STORAGE_ENGINE, Feature.MONGOS_CONFIGDB_SET_STYLE,
+			Feature.NO_CHUNKSIZE_ARG);
 
 	private final TestResource resource;
 
@@ -269,10 +266,9 @@ public class EmbeddedMongo extends ExternalResource {
 			this.mongosPort = randomOrDefaultServerPort();
 
 			if (silent) {
-				outputFunction = it -> new ProcessOutput(Processors.silent(),
-						Processors.namedConsole("[ " + it.commandName() + " error]"), Processors.console());
+				outputFunction = it -> ProcessOutput.silent();
 			} else {
-				outputFunction = it -> ProcessOutput.getDefaultInstance(it.commandName());
+				outputFunction = it -> ProcessOutput.named(it.commandName(), LoggerFactory.getLogger(getClass()));
 			}
 		}
 
