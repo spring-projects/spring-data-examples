@@ -41,7 +41,7 @@ class ApplicationConfiguration {
 
 			if (customer.id() == null) {
 
-				return databaseClient.sql("SELECT primary_key.nextval") //
+				return databaseClient.sql("SELECT NEXT VALUE FOR primary_key") //
 						.map(row -> row.get(0, Long.class)) //
 						.first() //
 						.map(customer::withId);
