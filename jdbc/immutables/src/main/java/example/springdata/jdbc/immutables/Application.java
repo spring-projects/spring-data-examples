@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.jdbc.core.convert.BasicJdbcConverter;
 import org.springframework.data.jdbc.core.convert.DefaultJdbcTypeFactory;
@@ -73,7 +74,7 @@ class Application {
 		 */
 		@Override
 		public JdbcConverter jdbcConverter(JdbcMappingContext mappingContext, NamedParameterJdbcOperations operations,
-				RelationResolver relationResolver, JdbcCustomConversions conversions, Dialect dialect) {
+				@Lazy RelationResolver relationResolver, JdbcCustomConversions conversions, Dialect dialect) {
 
 			var jdbcTypeFactory = new DefaultJdbcTypeFactory(operations.getJdbcOperations());
 

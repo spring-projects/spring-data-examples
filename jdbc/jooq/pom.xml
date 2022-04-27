@@ -14,6 +14,10 @@
 	<name>Spring Data JDBC - Usage with jOOQ</name>
 	<description>Sample project demonstrating Spring Data JDBC features</description>
 
+	<properties>
+		<jooq.version>3.16.6</jooq.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.jooq</groupId>
