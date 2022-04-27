@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.relational.core.mapping.event.BeforeSaveCallback;
+import org.springframework.data.relational.core.mapping.event.BeforeConvertCallback;
 
 @SpringBootApplication
 class IdGenerationApplication {
@@ -15,9 +15,9 @@ class IdGenerationApplication {
 	}
 
 	@Bean
-	BeforeSaveCallback<StringIdMinion> beforeSaveCallback() {
+	BeforeConvertCallback<StringIdMinion> beforeSaveCallback() {
 
-		return (minion, mutableAggregateChange) -> {
+		return (minion) -> {
 			if (minion.id == null) {
 				minion.id = UUID.randomUUID().toString();
 			}
