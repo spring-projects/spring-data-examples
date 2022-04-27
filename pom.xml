@@ -18,7 +18,7 @@
 
 	<modules>
 		<module>bom</module>
-		<!-- <module>couchbase</module> Bug in Couchbase SDK -->
+		<module>couchbase</module>
 		<module>cassandra</module>
 		<module>elasticsearch</module>
 		<module>geode</module>
