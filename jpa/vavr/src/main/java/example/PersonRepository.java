@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Repository interface showing the usage of Vavr collections and its {@link Option} type as repository query method
@@ -51,7 +52,7 @@ public interface PersonRepository extends Repository<Person, Long> {
 	 * @param firstname
 	 * @return
 	 */
-	Seq<Person> findByFirstnameContaining(String firstname);
+	Seq<Person> findByFirstnameContaining(@Param("firstname") String firstname);
 
 	/**
 	 * Returning a {@link Try} is supported out of the box with all exceptions being handled by {@link Try} immediately.
@@ -59,5 +60,5 @@ public interface PersonRepository extends Repository<Person, Long> {
 	 * @param lastname
 	 * @return
 	 */
-	Try<Option<Person>> findByLastnameContaining(String lastname);
+	Try<Option<Person>> findByLastnameContaining(@Param("lastname") String lastname);
 }
