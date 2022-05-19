@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>spring-data-jpa-examples</artifactId>
@@ -13,20 +13,20 @@
 
 	<name>Spring Data JPA - Examples</name>
 	<description>Sample projects for Spring Data JPA</description>
-	<url>https://projects.spring.io/spring-data-jpa</url>
+	<url>https://spring.io/projects/spring-data-jpa</url>
 	<inceptionYear>2011</inceptionYear>
 
 	<modules>
-		<module>example</module>
-		<module>showcase</module>
-		<module>interceptors</module>
-		<module>jpa21</module>
-		<module>security</module>
-		<module>multiple-datasources</module>
-		<module>query-by-example</module>
-		<module>vavr</module>
 		<module>deferred</module>
 		<module>envers</module>
+		<module>example</module>
+		<module>interceptors</module>
+		<module>jpa21</module>
+		<module>multiple-datasources</module>
+		<module>query-by-example</module>
+		<module>security</module>
+		<module>showcase</module>
+		<module>vavr</module>
 	</modules>
 
 	<profiles>
