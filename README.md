@@ -72,7 +72,6 @@ Local Elasticsearch instance must be running to run the tests.
 * `gridfs` - Example project showing usage of gridFS with MongoDB.
 * `jmolecules` - Example of Spring Data MongoDB working with a jMolecules based domain model.
 * `kotlin` - Example for using [Kotlin](https://kotlinlang.org/) with MongoDB.
-* `linking` - Example demonstrating possibilities for linking documents.
 * `query-by-example` - Example project showing usage of Query by Example with MongoDB.
 * `querydsl` - Example project showing imperative and reactive [Querydsl](https://github.com/querydsl/querydsl) support for MongoDB.
 * `reactive` - Example project to show reactive template and repository support.
