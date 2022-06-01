@@ -15,7 +15,7 @@
  */
 package example.springdata.jpa.multipleds.customer;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;

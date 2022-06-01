@@ -9,8 +9,8 @@
 	<name>Spring Data - Using the BOM for dependency management</name>
 
 	<properties>
-		<spring.version>5.3.9</spring.version>
-		<spring-data.version>2021.0.4</spring-data.version>
+		<spring.version>6.0.0-SNAPSHOT</spring.version>
+		<spring-data.version>2022.0.0-SNAPSHOT</spring-data.version>
 	</properties>
 
 	<dependencyManagement>

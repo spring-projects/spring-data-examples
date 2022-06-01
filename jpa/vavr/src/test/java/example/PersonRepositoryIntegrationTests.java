@@ -17,7 +17,7 @@ package example;
 
 import static org.assertj.core.api.Assertions.*;
 
-import javax.persistence.NonUniqueResultException;
+import jakarta.persistence.NonUniqueResultException;
 
 import org.junit.jupiter.api.Test;
 

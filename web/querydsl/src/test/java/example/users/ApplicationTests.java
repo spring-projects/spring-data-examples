@@ -19,14 +19,40 @@ package example.users;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
+@Testcontainers
 @SpringBootTest
 class ApplicationTests {
 
+	@Container //
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
+
 	@Test
 	void contextBootstraps() {}
+
+	static class MongoContainers {
+
+		private static final String IMAGE_NAME = "mongo:5.0";
+		private static final String IMAGE_NAME_PROPERTY = "mongo.default.image.name";
+
+		public static MongoDBContainer getDefaultContainer() {
+			return new MongoDBContainer(DockerImageName.parse(System.getProperty(IMAGE_NAME_PROPERTY, IMAGE_NAME)))
+					.withReuse(true);
+		}
+	}
 }

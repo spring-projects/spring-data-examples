@@ -17,7 +17,7 @@ package example.springdata.rest.headers;
 
 import example.springdata.rest.headers.Customer.Gender;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

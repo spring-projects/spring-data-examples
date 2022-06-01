@@ -17,6 +17,7 @@ package example.users;
 
 import java.util.Optional;
 
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
@@ -24,7 +25,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  *
  * @author Oliver Gierke
  */
-interface UserRepository extends PagingAndSortingRepository<User, Long> {
+interface UserRepository extends CrudRepository<User, Long>, PagingAndSortingRepository<User, Long> {
 
 	/**
 	 * Returns the user with the given {@link Username}.

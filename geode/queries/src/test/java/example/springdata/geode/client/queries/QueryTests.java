@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.lucene.LuceneResultStruct;

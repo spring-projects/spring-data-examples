@@ -33,7 +33,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.geode.cache.Region;
 import org.junit.BeforeClass;

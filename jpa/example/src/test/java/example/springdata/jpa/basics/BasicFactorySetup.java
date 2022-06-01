@@ -20,9 +20,9 @@ import static org.assertj.core.api.Assertions.*;
 import example.springdata.jpa.simple.SimpleUserRepository;
 import example.springdata.jpa.simple.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

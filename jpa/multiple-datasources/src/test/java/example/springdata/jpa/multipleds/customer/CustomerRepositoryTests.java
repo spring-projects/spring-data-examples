@@ -17,7 +17,7 @@ package example.springdata.jpa.multipleds.customer;
 
 import static org.assertj.core.api.Assertions.*;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.junit.jupiter.api.Test;
 
