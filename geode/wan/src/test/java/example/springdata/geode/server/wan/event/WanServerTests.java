@@ -25,7 +25,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.geode.cache.Region;
 import org.awaitility.Awaitility;

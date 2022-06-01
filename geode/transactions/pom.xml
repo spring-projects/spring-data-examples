@@ -13,4 +13,11 @@
 	<artifactId>spring-data-geode-transactions-example</artifactId>
 	<name>Spring Data Geode - Transactions</name>
 
+	<dependencies>
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+		</dependency>
+	</dependencies>
+
 </project>

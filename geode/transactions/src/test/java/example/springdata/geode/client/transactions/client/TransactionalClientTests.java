@@ -25,7 +25,7 @@ import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.geode.cache.Region;
 import org.junit.BeforeClass;

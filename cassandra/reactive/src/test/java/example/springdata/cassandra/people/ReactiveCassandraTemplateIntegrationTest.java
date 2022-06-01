@@ -15,20 +15,14 @@
  */
 package example.springdata.cassandra.people;
 
-import static org.assertj.core.api.Assertions.*;
-
 import example.springdata.cassandra.util.CassandraKeyspace;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
-import rx.RxReactiveStreams;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.ReactiveCassandraTemplate;
+import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
 /**
  * Integration test for {@link ReactiveCassandraTemplate}.
@@ -74,22 +68,5 @@ class ReactiveCassandraTemplateIntegrationTest {
 				.doOnNext(System.out::println);
 
 		StepVerifier.create(saveAndCount).expectNext(6L).verifyComplete();
-	}
-
-	/**
-	 * Note that the all object conversions are performed before the results are printed to the console.
-	 */
-	@Test
-	void convertReactorTypesToRxJava1() throws Exception {
-
-		var flux = template.select("SELECT * FROM person WHERE lastname = 'White'", Person.class);
-
-		long count = RxReactiveStreams.toObservable(flux) //
-				.count() //
-				.toSingle() //
-				.toBlocking() //
-				.value(); //
-
-		assertThat(count).isEqualTo(2);
 	}
 }

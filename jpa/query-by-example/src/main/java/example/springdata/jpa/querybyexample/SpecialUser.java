@@ -18,7 +18,7 @@ package example.springdata.jpa.querybyexample;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 /**
  * Sample class that extends {@link User}.

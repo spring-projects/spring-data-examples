@@ -15,7 +15,7 @@
  */
 package example.springdata.jpa.storedprocedures;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;

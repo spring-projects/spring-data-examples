@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.*;
 import example.springdata.mongodb.util.MongoContainers;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
-import rx.RxReactiveStreams;
 
 import java.util.Arrays;
 
@@ -90,16 +89,4 @@ class ReactiveMongoTemplateIntegrationTest {
 		count.as(StepVerifier::create).expectNext(6L).verifyComplete();
 	}
 
-	/**
-	 * Note that the all object conversions are performed before the results are printed to the console.
-	 */
-	@Test
-	void convertReactorTypesToRxJava2() {
-
-		var flux = template.find(Query.query(Criteria.where("lastname").is("White")), Person.class);
-
-		long count = RxReactiveStreams.toObservable(flux).count().toSingle().toBlocking().value();
-
-		assertThat(count).isEqualTo(2);
-	}
 }

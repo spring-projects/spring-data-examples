@@ -17,7 +17,7 @@ package example.springdata.geode.server.storage;
 
 import static org.assertj.core.api.Assertions.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.geode.cache.Cache;
 import org.apache.geode.cache.Region;

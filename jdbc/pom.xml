@@ -22,7 +22,7 @@
 		<module>immutables</module>
 		<module>jmolecules</module>
 		<module>jooq</module>
-		<module>mybatis</module>
+		<!-- <module>mybatis</module> -->
 	</modules>
 
 	<dependencies>

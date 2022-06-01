@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.0</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -48,14 +48,14 @@
 		<profile>
 			<id>spring-data-next-releasetrain</id>
 			<properties>
-				<spring-data-bom.version>2021.1.0-SNAPSHOT</spring-data-bom.version>
+				<spring-data-bom.version>2022.0.0-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-bom.version>2021.0.1-SNAPSHOT</spring-data-bom.version>
+				<spring-data-bom.version>2022.0.0-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 
@@ -104,11 +104,11 @@
 				<scope>import</scope>
 			</dependency>
 
-			<dependency>
+<!-- 			<dependency>
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-keyvalue</artifactId>
 				<version>2.6.0-SNAPSHOT</version>
-			</dependency>
+			</dependency> -->
 
 			<dependency>
 				<groupId>org.awaitility</groupId>
@@ -158,14 +158,14 @@
 
 		<!-- Java 9++ dependencies -->
 
-		<dependency>
+<!-- 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
-		</dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+		</dependency> -->
 
 	</dependencies>
 

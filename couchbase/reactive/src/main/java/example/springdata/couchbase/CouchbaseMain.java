@@ -18,7 +18,7 @@ package example.springdata.couchbase;
 import example.springdata.couchbase.model.Airline;
 import lombok.RequiredArgsConstructor;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

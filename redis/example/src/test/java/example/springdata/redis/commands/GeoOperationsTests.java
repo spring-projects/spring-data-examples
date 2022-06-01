@@ -48,9 +48,9 @@ class GeoOperationsTests {
 
 		geoOperations = operations.opsForGeo();
 
-		geoOperations.geoAdd("Sicily", new Point(13.361389, 38.115556), "Arigento");
-		geoOperations.geoAdd("Sicily", new Point(15.087269, 37.502669), "Catania");
-		geoOperations.geoAdd("Sicily", new Point(13.583333, 37.316667), "Palermo");
+		geoOperations.add("Sicily", new Point(13.361389, 38.115556), "Arigento");
+		geoOperations.add("Sicily", new Point(15.087269, 37.502669), "Catania");
+		geoOperations.add("Sicily", new Point(13.583333, 37.316667), "Palermo");
 	}
 
 	/**
@@ -59,12 +59,12 @@ class GeoOperationsTests {
 	@Test
 	void geoRadiusByMember() {
 
-		var byDistance = geoOperations.geoRadiusByMember("Sicily", "Palermo",
+		var byDistance = geoOperations.radius("Sicily", "Palermo",
 				new Distance(100, DistanceUnit.KILOMETERS));
 
 		assertThat(byDistance).hasSize(2).extracting("content.name").contains("Arigento", "Palermo");
 
-		var greaterDistance = geoOperations.geoRadiusByMember("Sicily", "Palermo",
+		var greaterDistance = geoOperations.radius("Sicily", "Palermo",
 				new Distance(200, DistanceUnit.KILOMETERS));
 
 		assertThat(greaterDistance).hasSize(3).extracting("content.name").contains("Arigento", "Catania", "Palermo");
@@ -78,7 +78,7 @@ class GeoOperationsTests {
 
 		var circle = new Circle(new Point(13.583333, 37.316667), //
 				new Distance(100, DistanceUnit.KILOMETERS));
-		var result = geoOperations.geoRadius("Sicily", circle);
+		var result = geoOperations.radius("Sicily", circle);
 
 		assertThat(result).hasSize(2).extracting("content.name").contains("Arigento", "Palermo");
 	}
@@ -89,7 +89,7 @@ class GeoOperationsTests {
 	@Test
 	void geoDistance() {
 
-		var distance = geoOperations.geoDist("Sicily", "Catania", "Palermo", DistanceUnit.KILOMETERS);
+		var distance = geoOperations.distance("Sicily", "Catania", "Palermo", DistanceUnit.KILOMETERS);
 
 		assertThat(distance.getValue()).isBetween(130d, 140d);
 	}
@@ -100,7 +100,7 @@ class GeoOperationsTests {
 	@Test
 	void geoHash() {
 
-		var geohashes = geoOperations.geoHash("Sicily", "Catania", "Palermo");
+		var geohashes = geoOperations.hash("Sicily", "Catania", "Palermo");
 
 		assertThat(geohashes).hasSize(2).contains("sqdtr74hyu0", "sq9sm1716e0");
 	}

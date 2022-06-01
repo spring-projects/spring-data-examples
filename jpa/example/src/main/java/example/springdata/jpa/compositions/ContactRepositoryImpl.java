@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 /**
  * {@link ContactRepository} fragment implementation.

@@ -18,7 +18,7 @@ package example.springdata.jpa.compositions;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.repository.support.JpaMetamodelEntityInformation;

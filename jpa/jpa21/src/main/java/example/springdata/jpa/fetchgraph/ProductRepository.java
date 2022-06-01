@@ -15,8 +15,8 @@
  */
 package example.springdata.jpa.fetchgraph;
 
-import javax.persistence.FetchType;
-import javax.persistence.NamedEntityGraph;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.NamedEntityGraph;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

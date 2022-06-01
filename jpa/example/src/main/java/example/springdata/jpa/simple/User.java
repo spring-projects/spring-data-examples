@@ -15,9 +15,9 @@
  */
 package example.springdata.jpa.simple;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQuery;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 

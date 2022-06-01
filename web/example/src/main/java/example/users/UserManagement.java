@@ -18,8 +18,8 @@ package example.users;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
+import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
 

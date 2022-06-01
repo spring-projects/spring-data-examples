@@ -17,8 +17,8 @@ package example.springdata.jpa.storedprocedures;
 
 import static org.assertj.core.api.Assertions.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
 
 import org.junit.jupiter.api.Test;
 

@@ -15,7 +15,7 @@
  */
 package example.springdata.multistore.customer;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

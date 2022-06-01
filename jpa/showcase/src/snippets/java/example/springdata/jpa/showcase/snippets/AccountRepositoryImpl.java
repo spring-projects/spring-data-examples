@@ -20,7 +20,7 @@ import example.springdata.jpa.showcase.core.Account;
 import java.time.LocalDate;
 import java.util.Date;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
