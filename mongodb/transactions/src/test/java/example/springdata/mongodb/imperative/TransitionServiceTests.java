@@ -15,19 +15,21 @@
  */
 package example.springdata.mongodb.imperative;
 
-import example.springdata.mongodb.Process;
-import example.springdata.mongodb.State;
-import example.springdata.mongodb.util.EmbeddedMongo;
-
 import java.util.function.Consumer;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
+import example.springdata.mongodb.Process;
+import example.springdata.mongodb.State;
+import example.springdata.mongodb.util.MongoContainers;
 import org.assertj.core.api.Assertions;
 import org.bson.Document;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -35,14 +37,14 @@ import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Projections;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 /**
  * Test showing MongoDB Transaction usage through a synchronous (imperative) API using Spring's managed transactions.
@@ -51,11 +53,17 @@ import com.mongodb.client.model.Projections;
  * @currentRead The Core - Peter V. Brett
  * @see org.springframework.transaction.annotation.Transactional
  */
-@RunWith(SpringRunner.class)
-@ContextConfiguration
+@Testcontainers
+@ExtendWith(SpringExtension.class)
 public class TransitionServiceTests {
 
-	public static @ClassRule EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
+	@Container //
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	static final String DB_NAME = "spring-data-tx-examples";
 
@@ -73,10 +81,9 @@ public class TransitionServiceTests {
 			return new MongoTransactionManager(dbFactory);
 		}
 
-		@Override
 		@Bean
 		public MongoClient mongoClient() {
-			return replSet.getMongoClient();
+			return MongoClients.create(mongoDBContainer.getReplicaSetUrl());
 		}
 
 		@Override
@@ -110,5 +117,4 @@ public class TransitionServiceTests {
 		return State.valueOf(client.getDatabase(DB_NAME).getCollection("processes").find(Filters.eq("_id", process.id()))
 				.projection(Projections.include("state")).first().get("state", String.class));
 	}
-
 }

@@ -17,16 +17,14 @@ package example.springdata.mongodb.reactive;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.mongodb.reactivestreams.client.MongoClients;
 import example.springdata.mongodb.Process;
+import com.mongodb.reactivestreams.client.MongoClient;
 import example.springdata.mongodb.State;
-import example.springdata.mongodb.util.EmbeddedMongo;
-import reactor.core.publisher.Flux;
-import reactor.test.StepVerifier;
-
+import example.springdata.mongodb.util.MongoContainers;
 import org.bson.Document;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -35,13 +33,16 @@ import org.springframework.data.mongodb.ReactiveMongoDatabaseFactory;
 import org.springframework.data.mongodb.ReactiveMongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.ReactiveTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.MongoClients;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
 /**
  * Test showing MongoDB Transaction usage through a reactive API.
@@ -49,11 +50,17 @@ import com.mongodb.reactivestreams.client.MongoClients;
  * @author Christoph Strobl
  * @currentRead The Core - Peter V. Brett
  */
-@RunWith(SpringRunner.class)
-@ContextConfiguration
+@Testcontainers
+@ExtendWith(SpringExtension.class)
 public class ReactiveManagedTransitionServiceTests {
 
-	public static @ClassRule EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
+	@Container //
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired ReactiveManagedTransitionService managedTransitionService;
 	@Autowired MongoClient client;
@@ -74,7 +81,7 @@ public class ReactiveManagedTransitionServiceTests {
 		@Bean
 		@Override
 		public MongoClient reactiveMongoClient() {
-			return MongoClients.create(replSet.getConnectionString());
+			return MongoClients.create(mongoDBContainer.getReplicaSetUrl());
 		}
 
 		@Override
