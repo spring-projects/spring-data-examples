@@ -29,7 +29,5 @@ import org.springframework.data.mongodb.core.mapping.Field;
  * @author Christoph Strobl
  */
 record Person(@Id ObjectId id, @Field("first_name") String firstname, @Field("last_name") String lastname, int age) {
-	public Person(String firstname, String lastname, int age) {
-		this(null, firstname, lastname, age);
-	}
+
 }

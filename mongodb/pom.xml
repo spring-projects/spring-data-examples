@@ -18,7 +18,7 @@
 
 	<modules>
 	    <module>aggregation</module>
-		<!-- <module>change-streams</module> -->
+		<module>change-streams</module>
 		<module>example</module>
 		<module>fluent-api</module>
 		<module>geo-json</module>
@@ -30,7 +30,7 @@
 		<module>repository-metrics</module>
 		<module>security</module>
 		<module>text-search</module>
-		<!-- <module>transactions</module> -->
+		<module>transactions</module>
 		<module>schema-validation</module>
 		<module>querydsl</module>
 		<module>linking</module>

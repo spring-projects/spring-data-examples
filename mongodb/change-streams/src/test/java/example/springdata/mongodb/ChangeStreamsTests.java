@@ -21,19 +21,19 @@ import static org.springframework.data.mongodb.core.query.Criteria.*;
 import static org.springframework.data.mongodb.core.query.Query.*;
 import static org.springframework.data.mongodb.core.query.Update.*;
 
-import example.springdata.mongodb.util.EmbeddedMongo;
-import reactor.test.StepVerifier;
-
 import java.time.Duration;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.model.changestream.ChangeStreamDocument;
+import com.mongodb.reactivestreams.client.MongoClients;
+import example.springdata.mongodb.util.MongoContainers;
+import org.assertj.core.api.Assertions;
 import org.bson.Document;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.bson.types.ObjectId;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,11 +46,13 @@ import org.springframework.data.mongodb.core.messaging.ChangeStreamRequest;
 import org.springframework.data.mongodb.core.messaging.DefaultMessageListenerContainer;
 import org.springframework.data.mongodb.core.messaging.Message;
 import org.springframework.data.mongodb.core.messaging.MessageListenerContainer;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.model.changestream.ChangeStreamDocument;
-import com.mongodb.reactivestreams.client.MongoClients;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import reactor.test.StepVerifier;
 
 /**
  * A simple Test demonstrating required {@link Configuration} for consumption of MongoDB
@@ -60,11 +62,18 @@ import com.mongodb.reactivestreams.client.MongoClients;
  * @author Christoph Strobl
  * @author Mark Paluch
  */
-@RunWith(SpringRunner.class)
+@Testcontainers
+@ExtendWith(SpringExtension.class)
 @DataMongoTest
 public class ChangeStreamsTests {
 
-	public static @ClassRule EmbeddedMongo replSet = EmbeddedMongo.replSet().configure();
+	@Container //
+	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
+
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+	}
 
 	@Autowired MessageListenerContainer container; // for imperative style
 
@@ -72,14 +81,14 @@ public class ChangeStreamsTests {
 
 	@Autowired ReactiveMongoOperations reactiveTemplate; // for reactive style
 
-	Person gabriel = new Person("Gabriel", "Lorca", 30);
-	Person michael = new Person("Michael", "Burnham", 30);
-	Person ash = new Person("Ash", "Tyler", 35);
+	Person gabriel = new Person(new ObjectId(), "Gabriel", "Lorca", 30);
+	Person michael = new Person(new ObjectId(), "Michael", "Burnham", 30);
+	Person ash = new Person(new ObjectId(), "Ash", "Tyler", 35);
 
 	/**
 	 * Configuration? Yes we need a bit of it - Do not worry, it won't be much!
 	 */
-	@SpringBootApplication(exclude = EmbeddedMongoAutoConfiguration.class)
+	@SpringBootApplication()
 	static class Config {
 
 		/**
@@ -90,7 +99,7 @@ public class ChangeStreamsTests {
 		 */
 		@Bean
 		MongoClient mongoClient() {
-			return replSet.getMongoClient();
+			return com.mongodb.client.MongoClients.create(mongoDBContainer.getReplicaSetUrl());
 		}
 
 		/**
@@ -100,7 +109,7 @@ public class ChangeStreamsTests {
 		 */
 		@Bean
 		SimpleMongoClientDatabaseFactory mongoDbFactory() {
-			return new SimpleMongoClientDatabaseFactory(replSet.getMongoClient(), "changestreams");
+			return new SimpleMongoClientDatabaseFactory(mongoClient(), "changestreams");
 		}
 
 		/**
@@ -110,7 +119,7 @@ public class ChangeStreamsTests {
 		 */
 		@Bean
 		SimpleReactiveMongoDatabaseFactory reactiveMongoDatabaseFactory() {
-			return new SimpleReactiveMongoDatabaseFactory(MongoClients.create(replSet.getConnectionString()),
+			return new SimpleReactiveMongoDatabaseFactory(MongoClients.create(mongoDBContainer.getReplicaSetUrl()),
 					"changestreams");
 		}
 
@@ -118,7 +127,7 @@ public class ChangeStreamsTests {
 		 * Since listening to a <a href="https://docs.mongodb.com/manual/changeStreams/">Change Stream</a> using the sync
 		 * MongoDB Java Driver is a blocking class, we need to move load to another {@link Thread} by simply using a
 		 * {@link MessageListenerContainer}.
-		 * <p />
+		 * <p/>
 		 * As this is a {@link org.springframework.context.SmartLifecycle smart lifecycle component} we do actually not need
 		 * to worry about its lifecycle, the resource allocation and freeing.
 		 *

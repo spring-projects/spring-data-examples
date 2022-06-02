@@ -49,14 +49,10 @@ public class ReactiveTransitionService {
 
 	public Mono<Integer> run(Integer id) {
 
-		return template.inTransaction().execute(action -> {
-
 			return lookup(id) //
-					.flatMap(process -> start(action, process)) //
+					.flatMap(process -> start(template, process)) //
 					.flatMap(it -> verify(it)) //
-					.flatMap(process -> finish(action, process));
-
-		}).next().map(Process::id);
+					.flatMap(process -> finish(template, process)).map(Process::id);
 	}
 
 	private Mono<Process> finish(ReactiveMongoOperations operations, Process process) {
