@@ -22,7 +22,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
@@ -31,12 +33,15 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
  * @author Oliver Gierke
  * @author Christoph Strobl
  * @author Prakhar Gupta
+ * @author Farhan Syakir
  */
-@SpringBootApplication
+@Configuration
 class ApplicationConfiguration {
 
-	@Autowired ElasticsearchOperations operations;
-	@Autowired ConferenceRepository repository;
+	@Autowired
+	ElasticsearchOperations operations;
+	@Autowired
+	ConferenceRepository repository;
 
 	@PreDestroy
 	public void deleteIndex() {

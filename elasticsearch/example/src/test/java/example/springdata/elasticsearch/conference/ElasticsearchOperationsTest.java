@@ -45,7 +45,7 @@ import org.testcontainers.utility.DockerImageName;
  * @author Christoph Strobl
  * @author Prakhar Gupta
  */
-@SpringBootTest(classes = ApplicationConfiguration.class)
+@SpringBootTest(classes = Application.class)
 @Testcontainers
 class ElasticsearchOperationsTest {
 
