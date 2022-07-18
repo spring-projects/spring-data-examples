@@ -48,7 +48,7 @@ public class Application {
 	}
 
 	/**
-	 * Pre-load the system with employees and items.
+	 * Preload the system with employees and items.
 	 */
 	public @PostConstruct void init() {
 

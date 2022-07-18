@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * OrderProductSummary is an object used in the examples to show a summary of all Orders on a per product basis, on a per
+ * OrderProductSummary is an object used in the examples to show a summary of all Orders on a per-product basis, on a per
  * timeframe shard (every 10s, or every 1hr)
  *
  * @author Udo Kohlmeyer

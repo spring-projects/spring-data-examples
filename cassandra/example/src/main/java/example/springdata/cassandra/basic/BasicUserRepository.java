@@ -21,8 +21,8 @@ import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Simple repository interface for {@link User} instances. The interface is used to declare so called query methods,
- * methods to retrieve single entities or collections of them.
+ * Simple repository interface for {@link User} instances. The interface is used to declare the so-called query methods,
+ * i.e. methods to retrieve single entities or collections of them.
  *
  * @author Thomas Darimont
  */

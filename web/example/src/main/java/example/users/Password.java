@@ -56,7 +56,7 @@ public class Password implements CharSequence {
 
 	/**
 	 * Creates a new encrypted {@link Password} for the given {@link String}. Note how this method is package protected so
-	 * that encrypted passwords can only created by components in this package and not accidentally by clients using the
+	 * that encrypted passwords can only be created by components in this package and not accidentally by clients using the
 	 * type from other packages.
 	 *
 	 * @param password must not be {@literal null} or empty.

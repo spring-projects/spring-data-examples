@@ -42,7 +42,7 @@ public class SecurityManagerProxy extends LazyWiringDeclarableSupport
 	private org.apache.geode.security.SecurityManager securityManager;
 
 	/**
-	 * Constructs an instance of the {@link SecurityManagerProxy}, whick will delegate all Apache Geode security
+	 * Constructs an instance of the {@link SecurityManagerProxy}, which will delegate all Apache Geode security
 	 * operations to a Spring managed {@link org.apache.geode.security.SecurityManager} bean.
 	 */
 	public SecurityManagerProxy() {

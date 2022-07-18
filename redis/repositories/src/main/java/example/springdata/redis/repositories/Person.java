@@ -90,7 +90,7 @@ class Person {
 	private Gender gender;
 
 	/**
-	 * Since {@link Indexed} is used on {@link Address#getCity()} index structures for {@code persons:address:city} are be
+	 * Since {@link Indexed} is used on {@link Address#getCity()}, index structures for {@code persons:address:city} are
 	 * maintained.
 	 */
 	private Address address;

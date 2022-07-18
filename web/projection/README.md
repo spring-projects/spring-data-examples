@@ -22,9 +22,9 @@ This type is used in `UserController.index(…)` and basically combines two mode
 
 ## Binding request data via JSON Path expression
 
-The `@JsonPath` annotations bind the values obtained by evaluating the expressions from the request. The sample is using a recursive property lookup for `firstname` and `lastname`. Using those expressions allows the payload thats received to slightly changed and the code dealing with not having to be changed.
+The `@JsonPath` annotations bind the values obtained by evaluating the expressions from the request. The sample is using a recursive property lookup for `firstname` and `lastname`. Using those expressions allows the payload that received to slightly changed and the code dealing with not having to be changed.
 
-As an example using that on the server side can be found in `UserControllerIntegrationTests`. The tests sends two different flavors of JSON to simulate a change in behavior of the client and the server can handle both representation formats without the need for a change.
+As an example using that on the server side can be found in `UserControllerIntegrationTests`. The tests send two different flavors of JSON to simulate a change in behavior of the client and the server can handle both representation formats without the need for a change.
 
 This is also very useful on the client side which is simulated in `UserControllerClientTests` setting up a `RestTemplate` with the newly introduced `HttpMessageConverters` so that the projection interface can be used to access the payload. See how the test case accesses different HTTP resources, that simulate a change in the representation on the server side.
 

@@ -31,7 +31,7 @@ mongoOps.query(SWCharacter.class)
 
 ```
 
-Different stages in the command essembly process allow to seamlessly switch to different API paths. Using `near` instead of `matching` switches to the path for geo queries requireing the presence of a `NearQuery` while altering the command result type from `List` to `GeoResults` and limiting terminating operations to just `all()`.
+Different stages in the command assembly process allow to seamlessly switch to different API paths. Using `near` instead of `matching` switches to the path for geo queries requiring the presence of a `NearQuery` while altering the command result type from `List` to `GeoResults` and limiting terminating operations to just `all()`.
 
 ```java
 

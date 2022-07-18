@@ -154,7 +154,7 @@ class SimpleUserRepositoryTests {
 		var user2 = new User();
 		user2.setLastname("lastname-2");
 
-		// we deliberatly save the items in reverse
+		// we deliberately save the items in reverse
 		repository.saveAll(Arrays.asList(user2, user1, user0));
 
 		var result = repository.findFirst2ByOrderByLastnameAsc();
@@ -253,7 +253,7 @@ class SimpleUserRepositoryTests {
 	/**
 	 * Here we demonstrate the usage of {@link CompletableFuture} as a result wrapper for asynchronous repository query
 	 * methods. Note, that we need to disable the surrounding transaction to be able to asynchronously read the written
-	 * data from from another thread within the same test method.
+	 * data from another thread within the same test method.
 	 */
 	@Test
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)

@@ -42,7 +42,7 @@ public interface CustomerRepository extends CrudRepository<Customer, String> {
 	List<Customer> findByLastname(String lastname, Sort sort);
 
 	/**
-	 * Show case for a repository query using geo-spatial functionality.
+	 * Showcase for a repository query using geospatial functionality.
 	 *
 	 * @param point
 	 * @param distance

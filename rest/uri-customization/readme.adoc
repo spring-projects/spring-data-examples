@@ -18,7 +18,7 @@ public class SpringDataRestCustomization extends RepositoryRestConfigurerAdapter
 }
 ----
 
-As you can see the `EntityLookupRegistrar` obtained via `RepositoryrestConfiguration.withCustomEntityLookup()` takes two method references.
+As you can see the `EntityLookupRegistrar` obtained via `RepositoryRestConfiguration.withCustomEntityLookup()` takes two method references.
 The first one defines the identifier mapping, the second one defines how to look up the entity using the repository.
 The customization could also be defined in a slightly more explicit way like this:
 
@@ -30,7 +30,7 @@ config.withCustomEntityLookup().
   withLookup(UserRepository::findByUsername);
 ----
 
-In non-Java 8 environments the method references would have to be replaced with a quite verbose anonymous inner class, so that it's probably easier to implement `EntityLookup` explixitly and declare it as Spring bean:
+In non-Java 8 environments the method references would have to be replaced with a quite verbose anonymous inner class, so that it's probably easier to implement `EntityLookup` explicitly and declare it as Spring bean:
 
 [source, java]
 ----

@@ -24,7 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Intergration test showing the usage of a custom method implemented for all repositories
+ * Integration test showing the usage of a custom method implemented for all repositories
  *
  * @author Oliver Gierke
  * @author Divya Srivastava

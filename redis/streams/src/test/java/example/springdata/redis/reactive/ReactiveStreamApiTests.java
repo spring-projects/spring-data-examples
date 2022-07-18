@@ -82,7 +82,7 @@ class ReactiveStreamApiTests {
 				.as(StepVerifier::create)
 				.expectNext(2L).verifyComplete();
 
-		// XADD errors when timestamp is less then last inserted
+		// XADD errors when timestamp is less than the last inserted
 		streamOps.add(SensorData.create("1234", "19.8", "invalid").withId(RecordId.of("0-0")))
 				.as(StepVerifier::create)
 				.verifyError(RedisSystemException.class);

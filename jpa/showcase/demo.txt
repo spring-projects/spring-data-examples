@@ -19,7 +19,7 @@
 4. Explain general proxy mechanism, SimpleJpaRepository
 -------------------------------------------------
 - show JpaRepository interface
-- findAll(Pageable pageble) 
+- findAll(Pageable pageable)
 
 3. CustomerRepository
 ---------------------

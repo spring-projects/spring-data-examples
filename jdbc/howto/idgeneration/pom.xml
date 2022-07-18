@@ -13,7 +13,7 @@
 
 	<name>Spring Data JDBC - How to ID generation</name>
 	<description>Sample project for Spring Data JDBC demonstrating the various options to use user defined IDs in Spring Data JDBC aggregates.
-	It serves as a source code repository for a How To article on the Spring Blog</description>
+	It serves as a source code repository for a How-To article on the Spring Blog</description>
 	<url>https://projects.spring.io/spring-data-jdbc</url>
 	<inceptionYear>2021</inceptionYear>
 

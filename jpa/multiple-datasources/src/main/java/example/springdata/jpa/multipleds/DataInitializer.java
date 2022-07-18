@@ -38,8 +38,8 @@ import org.springframework.util.Assert;
  * create a dedicated annotation meta-annotated with {@code @Transactional("…")} to be able to refer to a particular
  * data source without using String qualifiers.
  * <p>
- * Also, not that one cannot interact with both databases in a single, transactional method as transactions are thread
- * bound in Spring an thus only a single transaction can be active in a single thread. See {@link Application#init()}
+ * Also, note that one cannot interact with both databases in a single, transactional method as transactions are thread
+ * bound in Spring and thus only a single transaction can be active in a single thread. See {@link Application#init()}
  * for how to orchestrate the calls.
  *
  * @author Oliver Gierke

@@ -18,7 +18,7 @@ package example.springdata.ldap;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Test configuration to spin up a in-memory LDAP server (see {@code application.properties}). Also enables Spring Data
+ * Test configuration to spin up an in-memory LDAP server (see {@code application.properties}). Also enables Spring Data
  * repositories for LDAP.
  *
  * @author Mark Paluch

@@ -27,7 +27,7 @@ import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 
 /**
- * Test cases showing the programatic use of a {@link ProjectionFactory}.
+ * Test cases showing the programmatic use of a {@link ProjectionFactory}.
  *
  * @author Oliver Gierke
  * @author Divya Srivastava

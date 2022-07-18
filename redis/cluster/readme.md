@@ -6,7 +6,7 @@ To run the code in this sample a running cluster environment is required. Please
 
 ## Support for Cluster ##
 
-Cluster Support uses the same building blocks as the non clustered counterpart. We use `application.properties` to point to an initial set of known cluster nodes which will be picked up by the auto configuration.
+Cluster Support uses the same building blocks as the non-clustered counterpart. We use `application.properties` to point to an initial set of known cluster nodes which will be picked up by the auto-configuration.
 
 ```properties
 spring.redis.cluster.nodes[0]=127.0.0.1:30001
@@ -81,7 +81,7 @@ redis/src $ ./redis-cli -c -p 30001
   321978... 127.0.0.1:30006 slave 5f3e97... 0 1450765113050 6 connected
 ```
 
-To shutdown the cluster use the `create-cluster stop` command.
+To shut down the cluster use the `create-cluster stop` command.
 
 ```bash
 redis/utils/create-cluster $ ./create-cluster stop

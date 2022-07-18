@@ -30,7 +30,7 @@ class UserController {
 }
 ```
 
-As you can see `Predicate` can be used as Spring MVC controller argument. It will automatically populate such a `Predicate` with values from the current request based on the type configured in `@QuerydslPredicate`. Explicit bindings can be configured by either explictly defining one in the annotation, too. By default, we will inspect the domain types's repository for binding customizations. In this example, it looks like this:
+As you can see `Predicate` can be used as Spring MVC controller argument. It will automatically populate such a `Predicate` with values from the current request based on the type configured in `@QuerydslPredicate`. Explicit bindings can be configured by either explicitly defining one in the annotation, too. By default, we will inspect the domain types's repository for binding customizations. In this example, it looks like this:
 
 ```java
 public interface UserRepository
@@ -45,7 +45,7 @@ public interface UserRepository
 }
 ```
 
-The repository extends `QuerydslBinderCustomizer` which exposes a `QuerydslBindings` instance for customization. It allows for property based (by using Querydsl's meta-model types) and type based customizations of the value binding. The example here defines a `String`-properties to be bound using the `containsIgnoreCase(…)` operator. For further information checkout the JavaDoc of [QuerydslBindings](http://docs.spring.io/spring-data/commons/docs/1.11.0.RC1/api/org/springframework/data/querydsl/binding/QuerydslBindings.html).
+The repository extends `QuerydslBinderCustomizer` which exposes a `QuerydslBindings` instance for customization. It allows for property based (by using Querydsl's metamodel types) and type based customizations of the value binding. The example here defines a `String`-properties to be bound using the `containsIgnoreCase(…)` operator. For further information checkout the JavaDoc of [QuerydslBindings](http://docs.spring.io/spring-data/commons/docs/1.11.0.RC1/api/org/springframework/data/querydsl/binding/QuerydslBindings.html).
 
 ## Technologies used
 
