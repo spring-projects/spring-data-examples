@@ -36,7 +36,7 @@ import org.springframework.data.mongodb.core.index.IndexResolver;
 import org.springframework.stereotype.Component;
 
 /**
- * Component initializing a hand full of Starbucks stores and persisting them through a {@link StoreRepository}.
+ * Component initializing a handful of Starbucks stores and persisting them through a {@link StoreRepository}.
  *
  * @author Oliver Gierke
  * @author Mark Paluch
@@ -65,7 +65,7 @@ public class StoreInitializer {
 
 	/**
 	 * Reads a file {@code starbucks.csv} from the class path and parses it into {@link Store} instances about to
-	 * persisted.
+	 * be persisted.
 	 *
 	 * @return
 	 * @throws Exception

@@ -1,14 +1,14 @@
 Spring Data For GemFire and Apache Geode Examples
 =========================================================
 
-This project provides a number of examples to get you started using Spring Data for Apache Geode or Pivotal GemFire. These examples are designed to work with [Spring Data for Pivotal GemFire](http://projects.spring.io/spring-data-gemfire) 2.0.9-RELEASE or higher and are organized into the following sub projects:
+This project provides a number of examples to get you started using Spring Data for Apache Geode or Pivotal GemFire. These examples are designed to work with [Spring Data for Pivotal GemFire](http://projects.spring.io/spring-data-gemfire) 2.0.9-RELEASE or higher and are organized into the following subprojects:
 
 It is important to note that all examples will follow the prescribed Maven directory structure.
 
 Examples:
 
 * **events** - In this example the test will make use of event handlers and async event queue to handle events.
-* **expiration-eviction** - In these examples the server is configured to delete entries after a certain idle period or after a Time-To-Live period (expiration0 or remove data from memory when certain thresholds are reached (eviction).
+* **expiration-eviction** - In these examples the server is configured to delete entries after a certain idle period or after a Time-To-Live period (expiration) or remove data from memory when certain thresholds are reached (eviction).
 * **function-invocation** - In this example the server will have 3 functions registered. The client will invoke each of the functions.
 * **queries** - In this example a client will query the data in various ways using OQl, continuous queries, and Apache Lucene indexes.
 * **security** - In this example the servers and clients are set up with security (username/password) authentication using Geode Security and Apache Shiro.

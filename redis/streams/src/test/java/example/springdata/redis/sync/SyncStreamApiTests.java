@@ -72,7 +72,7 @@ class SyncStreamApiTests {
 		// XLEN
 		assertThat(streamOps.size(SensorData.KEY)).isEqualTo(2L);
 
-		// XADD errors when timestamp is less then last inserted
+		// XADD errors when timestamp is less than the last inserted
 		assertThatExceptionOfType(RedisSystemException.class).isThrownBy(() -> {
 			streamOps.add(SensorData.create("1234", "19.8", "invalid").withId(RecordId.of("0-0")));
 		}).withMessageContaining("ID specified");

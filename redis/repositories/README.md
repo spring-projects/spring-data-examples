@@ -2,7 +2,7 @@
 
 This project contains examples for Spring Data specific repository abstraction on top of Redis.
 
-## Repository Suport ##
+## Repository Support ##
 
 Redis Repository support allows to convert, store, retrieve and index entities within Redis native data structures. To do, besides the `HASH` containing the actual properties several [Secondary Index](http://redis.io/topics/indexes) structures are set up and maintained.
 

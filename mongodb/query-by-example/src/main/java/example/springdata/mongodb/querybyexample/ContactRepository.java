@@ -20,7 +20,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 /**
- * Repository interface for {@link Contact} and sub-types.
+ * Repository interface for {@link Contact} and subtypes.
  *
  * @author Oliver Gierke
  */

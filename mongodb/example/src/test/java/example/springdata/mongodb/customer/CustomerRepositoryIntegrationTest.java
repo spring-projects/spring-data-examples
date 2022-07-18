@@ -108,7 +108,7 @@ class CustomerRepositoryIntegrationTest {
 	}
 
 	/**
-	 * Test case to show the usage of the geo-spatial APIs to lookup people within a given distance of a reference point.
+	 * Test case to show the usage of the geospatial APIs to lookup people within a given distance of a reference point.
 	 */
 	@Test
 	void exposesGeoSpatialFunctionality() {

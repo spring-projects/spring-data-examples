@@ -33,7 +33,7 @@ interface SecureBusinessObjectRepository extends Repository<BusinessObject, Long
 	 * information provided by the Spring Security Context. The Spring Data Repository infrastructure will translate the
 	 * given query string into the parameterized form: <code>
 	 *     select o from BusinessObject o where o.owner.emailAddress like ?
-	 * </code> and set the the result SpEL expression evaluated at method invocation time as parameter value.
+	 * </code> and set the result SpEL expression evaluated at method invocation time as parameter value.
 	 *
 	 * @return
 	 */
@@ -41,7 +41,7 @@ interface SecureBusinessObjectRepository extends Repository<BusinessObject, Long
 	List<BusinessObject> findBusinessObjectsForCurrentUser();
 
 	/**
-	 * Here we apply a dynamic filter condition in there query depending of the role of the current principal.
+	 * Here we apply a dynamic filter condition in the query depending on the role of the current principal.
 	 *
 	 * @return
 	 */
@@ -53,5 +53,5 @@ interface SecureBusinessObjectRepository extends Repository<BusinessObject, Long
 	 */
 	@Modifying(clearAutomatically = true)
 	@Query("update BusinessObject b set b.data = upper(b.data), b.lastModifiedBy = :#{#security.principal}, b.lastModifiedDate = :#{new java.util.Date()}")
-	void modifiyDataWithRecordingSecurityContext();
+	void modifyDataWithRecordingSecurityContext();
 }

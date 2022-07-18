@@ -1,6 +1,6 @@
 # Spring Data - Multi-store example
 
-This sample shows a project working with multiple Spring Data modules and how the repository auto-detection has become more strict with the Evans release train.
+This sample shows a project working with multiple Spring Data modules and how the repository auto-detection has become stricter with the Evans release train.
 
 If you run `ApplicationConfigurationTest` you should see the following output:
 

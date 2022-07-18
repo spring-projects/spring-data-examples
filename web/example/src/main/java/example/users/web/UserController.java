@@ -58,7 +58,7 @@ class UserController {
 	private final UserManagement userManagement;
 
 	/**
-	 * Equis the model with a {@link Page} of {@link User}s. Spring Data automatically populates the {@link Pageable} from
+	 * Populates the model with a {@link Page} of {@link User}s. Spring Data automatically populates the {@link Pageable} from
 	 * request data according to the setup of {@link PageableHandlerMethodArgumentResolver}. Note how the defaults can be
 	 * tweaked by using {@link PageableDefault}.
 	 *

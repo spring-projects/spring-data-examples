@@ -29,7 +29,7 @@ import org.springframework.data.cassandra.core.query.Query;
 
 /**
  * Test showing differences between fetching results as {@link List} and {@link Stream streaming} results using
- * Cassandra Lifecyle Events.
+ * Cassandra Lifecycle Events.
  *
  * @author Mark Paluch
  */

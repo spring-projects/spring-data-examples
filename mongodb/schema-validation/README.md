@@ -59,7 +59,7 @@ MongoJsonSchema schema = MongoJsonSchema.builder() //
     ).build();
 ```
 
-The schema can be used for various funcitionality: Set up `Document` validation for a collection:
+The schema can be used for various functionality: Set up `Document` validation for a collection:
 
 ```java
 template.createCollection(Jedi.class, CollectionOptions.empty().validator(Validator.schema(schema)));

@@ -12,4 +12,4 @@ public interface PersonRepository extends CrudRepository<Person, Name> {
 }
 ```
 
-The test cases in `PersonRepositoryIntegrationTests` show basic interaction to search, create and modify objects stored in a LDAP repository.
+The test cases in `PersonRepositoryIntegrationTests` show basic interaction to search, create and modify objects stored in an LDAP repository.

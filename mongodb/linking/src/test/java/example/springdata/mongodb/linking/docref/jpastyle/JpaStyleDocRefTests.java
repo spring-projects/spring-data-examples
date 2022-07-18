@@ -51,7 +51,7 @@ public class JpaStyleDocRefTests {
 	@Autowired MongoOperations operations;
 
 	/**
-	 * Load linked documents where where the actual reference is stored in the obverse side of the association.
+	 * Load linked documents where the actual reference is stored in the obverse side of the association.
 	 */
 	@Test
 	void saveAndLoadJpaStyleRelation() {
@@ -63,12 +63,12 @@ public class JpaStyleDocRefTests {
 		Employee employee1 = new Employee("greedo-tetsu-jr", "greedo");
 		employee1.setManagerId(manager.getId()); // establish the link to the manager document
 		operations.save(employee1);
-		// no need to update he manager document after save of employee
+		// no need to update the manager document after save of employee
 
 		Employee employee2 = new Employee("boba-fett", "boba");
 		employee2.setManagerId(manager.getId()); // establish the link to the manager document
 		operations.save(employee2);
-		// no need to update he manager document after save of employee
+		// no need to update the manager document after save of employee
 
 		operations.execute(Manager.class, collection -> {
 

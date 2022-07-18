@@ -34,7 +34,7 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
- * User domain class that uses auditing functionality of Spring Data that can either be aquired implementing
+ * User domain class that uses auditing functionality of Spring Data that can either be acquired implementing
  * {@link Auditable} or extend {@link AbstractAuditable}.
  *
  * @author Oliver Gierke

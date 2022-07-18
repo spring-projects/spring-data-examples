@@ -22,7 +22,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  * Implementation fo the custom repository functionality declared in {@link UserRepositoryCustom} based on JPA. To use
- * this implementation in combination with Spring Data JPA you can either register it programatically:
+ * this implementation in combination with Spring Data JPA you can either register it programmatically:
  *
  * <pre>
  * EntityManager em = ... // Obtain EntityManager

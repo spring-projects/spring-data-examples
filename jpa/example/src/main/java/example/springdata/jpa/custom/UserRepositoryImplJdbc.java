@@ -28,7 +28,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Component;
 
 /**
- * Class with the implementation of the custom repository code. Uses JDBC in this case. For basic programatic setup see
+ * Class with the implementation of the custom repository code. Uses JDBC in this case. For basic programmatic setup see
  * {@link UserRepositoryImpl} for examples.
  * <p>
  * As you need to hand the instance a {@link javax.sql.DataSource} or

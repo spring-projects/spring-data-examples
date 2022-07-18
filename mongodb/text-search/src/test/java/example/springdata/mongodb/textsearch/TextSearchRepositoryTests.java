@@ -55,7 +55,7 @@ class TextSearchRepositoryTests {
 
 	/**
 	 * Show how to do simple matching. <br />
-	 * Note that text search is case insensitive and will also find entries like {@literal releases}.
+	 * Note that text search is case-insensitive and will also find entries like {@literal releases}.
 	 */
 	@Test
 	void findAllBlogPostsWithRelease() {

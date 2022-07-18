@@ -82,7 +82,7 @@ public class Role implements Comparable<Role>, Iterable<ResourcePermission>, Ser
 	}
 
 	/**
-	 * Adds (assigns/grants) all given [persmissions][ResourcePermission] to this [Role].
+	 * Adds (assigns/grants) all given [permissions][ResourcePermission] to this [Role].
 	 *
 	 * @param permissions [ResourcePermission]s to assign/grant to this [Role].
 	 * @return this [Role].
@@ -94,13 +94,13 @@ public class Role implements Comparable<Role>, Iterable<ResourcePermission>, Ser
 	}
 
 	/**
-	 * Adds (assigns/grants) all given [persmissions][ResourcePermission] to this [Role].
+	 * Adds (assigns/grants) all given [permissions][ResourcePermission] to this [Role].
 	 *
 	 * @param permissions [ResourcePermission]s to assign/grant to this [Role].
 	 * @return this [Role].
 	 * @see ResourcePermission
 	 */
-	public Role withPersmissions(Iterable<ResourcePermission> permissions) {
+	public Role withPermissions(Iterable<ResourcePermission> permissions) {
 		this.permissions.addAll((Collection<? extends ResourcePermission>) permissions);
 		return this;
 	}

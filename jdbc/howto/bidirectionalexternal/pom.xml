@@ -15,7 +15,7 @@
 
 	<name>Spring Data JDBC - How to model bidirectional relationships between aggregates</name>
 	<description>Sample project for Spring Data JDBC demonstrating how to model bidirectional relationships between aggregates.
-		It serves as a source code repository for a How To article on the Spring Blog</description>
+		It serves as a source code repository for a How-To article on the Spring Blog</description>
 	<url>https://projects.spring.io/spring-data-jdbc</url>
 	<inceptionYear>2021</inceptionYear>
 </project>

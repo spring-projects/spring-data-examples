@@ -45,7 +45,7 @@ class ApplicationConfiguration {
 
 			var randomNumber = ThreadLocalRandom.current().nextInt(1, 100);
 
-			// withRandomNumber is a so called wither method returning a new instance of the entity with a new value assigned
+			// withRandomNumber is a so-called wither method returning a new instance of the entity with a new value assigned
 			return immutablePerson.withRandomNumber(randomNumber);
 		};
 	}

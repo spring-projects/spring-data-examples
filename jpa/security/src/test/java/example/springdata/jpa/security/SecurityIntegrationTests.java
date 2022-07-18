@@ -122,7 +122,7 @@ class SecurityIntegrationTests {
 
 		SecurityContextHolder.getContext().setAuthentication(adminAuth);
 
-		secureBusinessObjectRepository.modifiyDataWithRecordingSecurityContext();
+		secureBusinessObjectRepository.modifyDataWithRecordingSecurityContext();
 
 		for (var bo : businessObjectRepository.findAll()) {
 

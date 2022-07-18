@@ -54,7 +54,7 @@ public class SimpleDocRefTests {
 	@Autowired MongoOperations operations;
 
 	/**
-	 * Load linked documents where where the reference is stored on the inverse and evaluated against the id property on
+	 * Load linked documents where the reference is stored on the inverse and evaluated against the id property on
 	 * the obverse side of the association.
 	 */
 	@Test

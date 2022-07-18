@@ -79,7 +79,7 @@ public class User implements Comparable<User>, Cloneable, Principal, Serializabl
 	/**
 	 * Determines whether this [User] has been granted (assigned) the given [permission][ResourcePermission].
 	 *
-	 * @param permission [ResourcePermission] to evalute.
+	 * @param permission [ResourcePermission] to evaluate.
 	 * @return a boolean value indicating whether this [User] has been granted (assigned) the given [ResourcePermission].
 	 * @see ResourcePermission
 	 */
