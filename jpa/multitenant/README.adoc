@@ -1,0 +1,10 @@
+This is the parent project for a couple of examples demonstrating how to integrate Hibernates Multitenant feature with Spring Data JPA.
+
+There are three modules for the three examples.
+
+Each uses a different strategy to separate data by tenant:
+
+1. Partition tables by tenant id.
+2. Use a separate schema per tenant
+3. Use a separate database per tenant.
+
