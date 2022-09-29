@@ -52,13 +52,13 @@ public interface PersonRepository extends Repository<Person, Long> {
 	 * @param firstname
 	 * @return
 	 */
-	Seq<Person> findByFirstnameContaining(@Param("firstname") String firstname);
+	Seq<Person> findByFirstnameContaining(String firstname);
 
 	/**
 	 * Returning a {@link Try} is supported out of the box with all exceptions being handled by {@link Try} immediately.
-	 * 
+	 *
 	 * @param lastname
 	 * @return
 	 */
-	Try<Option<Person>> findByLastnameContaining(@Param("lastname") String lastname);
+	Try<Option<Person>> findByLastnameContaining(String lastname);
 }
