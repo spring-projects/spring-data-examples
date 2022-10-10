@@ -19,15 +19,16 @@
 		<module>example</module>
 		<module>reactive</module>
 		<module>util</module>
+		<module>transactions</module>
 	</modules>
 
 	<dependencies>
 
 	<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-couchbase</artifactId>
-		</dependency>
+		<groupId>org.springframework.data</groupId>
+		<artifactId>spring-data-couchbase</artifactId>
+	</dependency>
 
-	</dependencies>
+        </dependencies>
 
 </project>
