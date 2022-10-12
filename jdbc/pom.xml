@@ -23,6 +23,7 @@
 		<module>jmolecules</module>
 		<module>jooq</module>
 		<!-- <module>mybatis</module> -->
+		<module>graalvm-native</module>
 	</modules>
 
 	<dependencies>
