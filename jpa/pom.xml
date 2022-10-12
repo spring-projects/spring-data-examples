@@ -28,6 +28,7 @@
 		<module>showcase</module>
 		<module>vavr</module>
 		<module>multitenant</module>
+		<module>graalvm-native</module>
 	</modules>
 
 	<profiles>
