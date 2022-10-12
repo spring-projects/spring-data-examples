@@ -1,0 +1,48 @@
+== Spring Data Jpa - GraalVM native image
+
+This example compiles a basic Spring Data Jpa application into a GraalVM native image.
+
+=== Install GraalVM & native image tooling
+
+Download and install GraalVM using https://sdkman.io/[SDKMAN!].
+
+```
+$> sdk install java <recent version>.r17-grl
+$> gu install native-image
+```
+
+=== Compile to native image
+
+The maven build uses a dedicated profile `native` to trigger the native image creation.
+
+```
+$> maven clean package -P native
+```
+
+This will create the native executable in the target folder.
+
+=== Run the image
+
+Run the image directly from your console as shown below.
+This will print results of crud functions invoked via a `CommandLineRunner`.
+
+```
+$> ./target/spring-data-jpa-graalvm-native
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v3.0.0-SNAPSHOT)
+
+INFO 82562 --- [           main] e.s.j.g.GraalvmNativeApplication         : Starting GraalvmNativeApplication using Java 17.0.4 with PID 51404
+INFO 51404 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+INFO 51404 --- [           main] c.example.data.jpa.DataJpaApplication    : Started DataJpaApplication in 0.079 seconds (process running for 0.097)
+insertAuthors(): author1 = Author{name='Josh Long'}
+insertAuthors(): author2 = Author{name='Martin Kleppmann'}
+listAllAuthors(): author = Author{name='Josh Long'}
+	Book{title='Reactive Spring'}
+...
+```
