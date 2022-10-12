@@ -15,6 +15,7 @@
  */
 package example.springdata.jpa.compositions;
 
+import jakarta.persistence.PersistenceUnitUtil;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -87,9 +88,9 @@ public class FlushOnSaveRepositoryImpl<T> implements FlushOnSaveRepository<T> {
 		var userClass = ClassUtils.getUserClass(entity.getClass());
 
 		if (entity instanceof AbstractPersistable<?>) {
-			return new JpaPersistableEntityInformation(userClass, entityManager.getMetamodel());
+			return new JpaPersistableEntityInformation(userClass, entityManager.getMetamodel(),entityManager.getEntityManagerFactory().getPersistenceUnitUtil() );
 		}
 
-		return new JpaMetamodelEntityInformation(userClass, entityManager.getMetamodel());
+		return new JpaMetamodelEntityInformation(userClass, entityManager.getMetamodel(), entityManager.getEntityManagerFactory().getPersistenceUnitUtil());
 	}
 }

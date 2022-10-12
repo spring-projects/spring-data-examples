@@ -121,12 +121,10 @@ class CassandraOperationsIntegrationTests {
 
 		var future = asyncTemplate.insert(user);
 
-		future.addCallback(it -> countDownLatch.countDown(), throwable -> countDownLatch.countDown());
-
-		countDownLatch.await(5, TimeUnit.SECONDS);
-
-		var loaded = template.selectOneById(user.getId(), User.class);
-		assertThat(loaded).isEqualTo(user);
+		future.whenComplete((it,ex) -> {
+			var loaded = template.selectOneById(it.getId(), User.class);
+			assertThat(loaded).isEqualTo(it);
+		});
 	}
 
 	/**
