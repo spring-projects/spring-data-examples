@@ -52,8 +52,8 @@ class CassandraExtension implements BeforeAllCallback {
 		var keyspace = store.getOrComputeIfAbsent(CassandraServer.class, it -> {
 
 			CassandraContainer container = runTestcontainer();
-			System.setProperty("spring.data.cassandra.port", "" + container.getMappedPort(9042));
-			System.setProperty("spring.data.cassandra.contact-points", "" + container.getHost());
+			System.setProperty("spring.cassandra.port", "" + container.getMappedPort(9042));
+			System.setProperty("spring.cassandra.contact-points", "" + container.getHost());
 
 			return new CassandraServer(container.getHost(), container.getMappedPort(9042),
 					CassandraServer.RuntimeMode.EMBEDDED_IF_NOT_RUNNING);

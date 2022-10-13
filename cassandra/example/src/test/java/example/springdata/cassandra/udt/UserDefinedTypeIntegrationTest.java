@@ -32,10 +32,6 @@ import org.springframework.data.cassandra.config.SchemaAction;
 import org.springframework.data.cassandra.core.CassandraAdminOperations;
 import org.springframework.data.cassandra.core.CassandraOperations;
 
-import com.datastax.oss.driver.api.core.data.UdtValue;
-import com.datastax.oss.driver.api.core.metadata.schema.KeyspaceMetadata;
-import com.datastax.oss.driver.api.core.type.UserDefinedType;
-
 /**
  * Integration test to show User-Defined type support.
  *
@@ -51,12 +47,12 @@ class UserDefinedTypeIntegrationTest {
 
 		@Override
 		protected int getPort() {
-			return Integer.getInteger("spring.data.cassandra.port");
+			return Integer.getInteger("spring.cassandra.port");
 		}
 
 		@Override
 		protected String getContactPoints() {
-			return System.getProperty("spring.data.cassandra.contact-points");
+			return System.getProperty("spring.cassandra.contact-points");
 		}
 
 		@Override
