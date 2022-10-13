@@ -36,11 +36,17 @@ import org.junit.platform.commons.util.AnnotationUtils;
  */
 class EnabledOnCommandCondition implements ExecutionCondition {
 
+	EnabledOnRedisAvailableCondition redisAvailable = new EnabledOnRedisAvailableCondition();
+
 	private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled("@EnabledOnCommand is not present");
 	private static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(RedisConditions.class);
 
 	@Override
 	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
+
+		if(redisAvailable.evaluateExecutionCondition(context).isDisabled()) {
+			return disabled("Redis not available");
+		}
 
 		var optional = AnnotationUtils.findAnnotation(context.getElement(), EnabledOnCommand.class);
 
