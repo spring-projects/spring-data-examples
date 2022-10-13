@@ -36,7 +36,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@ExtendWith(EnabledOnCommandCondition.class)
+@EnabledOnRedisAvailable
+@ExtendWith({EnabledOnRedisAvailableCondition.class})
 public @interface EnabledOnCommand {
 
 	String host() default "localhost";
