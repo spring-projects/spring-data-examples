@@ -26,8 +26,6 @@ import org.springframework.data.couchbase.repository.config.EnableCouchbaseRepos
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- *
- * 
  * @author Michael Reiche
  */
 @Configuration

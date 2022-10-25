@@ -21,10 +21,10 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.couchbase.core.index.QueryIndexed;
 import org.springframework.data.couchbase.core.mapping.Document;
 
-@Document
 /**
  * @author Michael Reiche
  */
+@Document
 public class AirlineGates {
 	@Id String id;
 	@Version Long version;

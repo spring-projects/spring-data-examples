@@ -15,19 +15,19 @@
  */
 package com.example.demo;
 
+import example.springdata.couchbase.util.EnabledIfCouchbaseAvailable;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- *
- * 
  * @author Michael Reiche
+ * @author Christoph Strobl
  */
+@EnabledIfCouchbaseAvailable
 @SpringBootTest
 class DemoApplicationTests {
 
 	@Test
 	void contextLoads() {
 	}
-
 }

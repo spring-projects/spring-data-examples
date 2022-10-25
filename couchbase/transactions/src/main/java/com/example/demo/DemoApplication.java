@@ -21,8 +21,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import java.util.Properties;
 
 /**
- *
- * 
  * @author Michael Reiche
  */
 @SpringBootApplication
