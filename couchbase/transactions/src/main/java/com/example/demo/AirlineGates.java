@@ -28,7 +28,6 @@ import org.springframework.data.couchbase.core.mapping.Document;
 public class AirlineGates {
 	@Id String id;
 	@Version Long version;
-
 	@QueryIndexed String name;
 	String iata;
 	Long gates;
@@ -44,15 +43,6 @@ public class AirlineGates {
 	public String getId() {
 		return id;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getIata() {
-		return iata;
-	}
-
 	public Long getGates() {
 		return gates;
 	}
