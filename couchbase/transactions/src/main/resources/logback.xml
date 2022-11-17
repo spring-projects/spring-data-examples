@@ -22,9 +22,9 @@
      - log additional debug info during automatic index creation
     -->
 
-    <logger name="org.springframework.data.couchbase.core" level="debug"/>"
-    <logger name="org.springframework.data.couchbase.repository.query" level="debug"/>
-    <logger name="com.couchbase.transactions" level="debug"/>"
-    <logger name="org.springframework.data.couchbase.transaction" level="trace"/>
+    <logger name="org.springframework.data.couchbase.core" level="info"/>"
+    <logger name="org.springframework.data.couchbase.repository.query" level="info"/>
+    <logger name="com.couchbase.transactions" level="info"/>"
+    <logger name="org.springframework.data.couchbase.transaction" level="info"/>
 
 </configuration>

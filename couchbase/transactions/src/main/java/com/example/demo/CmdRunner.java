@@ -48,22 +48,25 @@ public class CmdRunner implements CommandLineRunner {
 		AirlineGates airlineGates2 = new AirlineGates("2", "JFK", "Lufthansa", Long.valueOf(200));
 		AirlineGates saved1 = airlineGatesService.save(airlineGates1);
 		AirlineGates saved2 = airlineGatesService.save(airlineGates2);
-		AirlineGates found1 = airlineGatesService.findById(saved1.getId()); //2
-		AirlineGates found2 = airlineGatesService.findById(saved2.getId());
+		AirlineGates found_a_1 = airlineGatesService.findById(saved1.getId()); //2
+		AirlineGates found_a_2 = airlineGatesService.findById(saved2.getId());
 		System.err.println("initialized airlines");
-		System.err.println("  found before transferGates: " + found1);
-		System.err.println("  found before transferGates: " + found2);
-		System.err.println("this transferGates attempt will succeed");
+		System.err.println("  found before transferGates: " + found_a_1);
+		System.err.println("  found before transferGates: " + found_a_2);
 		// move 50 gates from airline1 to airline2
 		int gatesToTransfer=50;
+		System.err.println("===============================================================");
+		System.err.println("this transferGates attempt will succeed. transferring "+gatesToTransfer);
 		airlineGatesService.transferGates(airlineGates1.getId(), airlineGates2.getId(), gatesToTransfer, null); //3
-		found1 = airlineGatesService.findById(saved1.getId());
-		found2 = airlineGatesService.findById(saved2.getId());
-		System.err.println("  found after  transferGates: " + found1); //4
-		System.err.println("  found after  transferGates: " + found2);
-		Assert.isTrue(found1.getGates().equals(airlineGates1.getGates()-gatesToTransfer), "should have transferred");
-		Assert.isTrue(found2.getGates().equals(airlineGates1.getGates()+gatesToTransfer), "should have transferred");
-		System.err.println("this transferGates attempt will fail");
+		AirlineGates found_b_1 = airlineGatesService.findById(airlineGates1.getId());
+		AirlineGates found_b_2 = airlineGatesService.findById(airlineGates2.getId());
+		System.err.println("  found after  transferGates: " + found_b_1); //4
+		System.err.println("  found after  transferGates: " + found_b_2);
+		Assert.isTrue(found_b_1.getGates().equals(found_a_1.getGates()-gatesToTransfer), "should have transferred");
+		Assert.isTrue(found_b_2.getGates().equals(found_a_1.getGates()+gatesToTransfer), "should have transferred");
+		System.err.println("===============================================================");
+		gatesToTransfer = 44;
+		System.err.println("this transferGates attempt will fail. transferring "+gatesToTransfer);
 		// attempt to move 44 gates from airline1 to airline2, but it fails.
 		try {
 			// 5
@@ -75,14 +78,18 @@ public class CmdRunner implements CommandLineRunner {
 			}
 			System.err.println("  got exception "+rte);
 		}
-		System.err.println("  found after  transferGates: " + airlineGatesService.findById(airlineGates1.getId()));
-		System.err.println("  found after  transferGates: " + airlineGatesService.findById(airlineGates2.getId()));
-		Assert.isTrue(found1.getGates().equals(airlineGates1.getGates()-gatesToTransfer), "should be same as previous");
-		Assert.isTrue(found2.getGates().equals(airlineGates1.getGates()+gatesToTransfer), "should be same as previous");
-		System.err.println("this transferGates attempt will succeed");
+		AirlineGates found_c_1 = airlineGatesService.findById(airlineGates1.getId());
+		AirlineGates found_c_2 = airlineGatesService.findById(airlineGates2.getId());
+		System.err.println("  found after  transferGates: " + found_c_1);
+		System.err.println("  found after  transferGates: " + found_c_2);
+		Assert.isTrue(found_c_1.getGates().equals(found_b_1.getGates()), "should be same as previous");
+		Assert.isTrue(found_c_2.getGates().equals(found_b_2.getGates()), "should be same as previous");
+		System.err.println("===============================================================");
+		gatesToTransfer = 44;
+		System.err.println("this transferGates attempt will succeed. transferring "+gatesToTransfer);
 		try {
 			// 5
-			airlineGatesService.transferGatesReactive(airlineGates1.getId(), airlineGates2.getId(), 44, null).block();
+			airlineGatesService.transferGatesReactive(airlineGates1.getId(), airlineGates2.getId(), gatesToTransfer, null).block();
 		} catch (RuntimeException rte) {
 			if (!(rte instanceof TransactionSystemUnambiguousException) && rte != null
 					&& rte.getCause() instanceof SimulateErrorException) {
@@ -90,10 +97,12 @@ public class CmdRunner implements CommandLineRunner {
 			}
 			System.err.println("  got exception "+rte);
 		}
-		System.err.println("  found after  transferGates: " + airlineGatesService.findById(airlineGates1.getId()));
-		System.err.println("  found after  transferGates: " + airlineGatesService.findById(airlineGates2.getId()));
-		Assert.isTrue(found1.getGates().equals(airlineGates1.getGates()-gatesToTransfer), "should have transferred");
-		Assert.isTrue(found2.getGates().equals(airlineGates1.getGates()+gatesToTransfer), "should have transferred");
+		AirlineGates found_d_1 = airlineGatesService.findById(airlineGates1.getId());
+		AirlineGates found_d_2 = airlineGatesService.findById(airlineGates2.getId());
+		System.err.println("  found after  transferGates: " + found_d_1);
+		System.err.println("  found after  transferGates: " + found_d_2);
+		Assert.isTrue(found_d_1.getGates().equals(found_c_1.getGates()-gatesToTransfer), "should have transferred");
+		Assert.isTrue(found_d_2.getGates().equals(found_c_2.getGates()+gatesToTransfer), "should have transferred");
 	}
 
 	static class SimulateErrorException extends RuntimeException {}
