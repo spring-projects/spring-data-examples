@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.0</version>
+		<version>3.0.2</version>
 	</parent>
 
 	<modules>
@@ -156,8 +156,8 @@
 			<url>https://repo1.maven.org/maven2/</url>
 		</repository>
 		<repository>
-			<id>spring-libs-snapshot</id>
-			<url>https://repo.spring.io/libs-snapshot</url>
+			<id>spring-snapshot</id>
+			<url>https://repo.spring.io/snapshot/</url>
 		</repository>
 	</repositories>
 
@@ -168,8 +168,8 @@
 			<url>https://repo1.maven.org/maven2/</url>
 		</pluginRepository>
 		<pluginRepository>
-			<id>spring-libs-snapshot</id>
-			<url>https://repo.spring.io/libs-snapshot</url>
+			<id>spring-snapshot</id>
+			<url>https://repo.spring.io/snapshot/</url>
 		</pluginRepository>
 	</pluginRepositories>
 

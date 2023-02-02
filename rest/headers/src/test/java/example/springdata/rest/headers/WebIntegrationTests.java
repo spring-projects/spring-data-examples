@@ -17,16 +17,20 @@ package example.springdata.rest.headers;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.restdocs.RestDocumentation.*;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.restdocs.config.RestDocumentationConfigurer;
+import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -37,47 +41,52 @@ import org.springframework.web.util.UriTemplate;
  * @soundtrack The Intersphere - Out of phase (Live at Alte Feuerwache Mannheim)
  */
 @SpringBootTest
+@ExtendWith(RestDocumentationExtension.class)
 public class WebIntegrationTests {
 
-	@Autowired WebApplicationContext context;
-	@Autowired CustomerRepository customers;
+    public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
 
-	private MockMvc mvc;
+    @Autowired
+    WebApplicationContext context;
+    @Autowired
+    CustomerRepository customers;
 
-	@BeforeEach
-	public void setUp() {
+    private MockMvc mvc;
 
-		this.mvc = MockMvcBuilders.webAppContextSetup(context).//
-				apply(new RestDocumentationConfigurer()).//
-				build();
-	}
+    @BeforeEach
+    public void setUp(RestDocumentationContextProvider restDocumentation) {
 
-	@Test
-	public void executeConditionalGetRequests() throws Exception {
+        this.mvc = MockMvcBuilders.webAppContextSetup(context).//
+                apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)).//
+                build();
+    }
 
-		var customer = customers.findAll().iterator().next();
-		var uri = new UriTemplate("/customers/{id}").expand(customer.getId());
+    @Test
+    public void executeConditionalGetRequests() throws Exception {
 
-		var response = mvc.perform(get(uri)).//
-				andExpect(header().string(ETAG, is(notNullValue()))).//
-				andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
-				andReturn().getResponse();
+        var customer = customers.findAll().iterator().next();
+        var uri = new UriTemplate("/customers/{id}").expand(customer.getId());
 
-		// ETag-based
+        var response = mvc.perform(get(uri)).//
+                andExpect(header().string(ETAG, is(notNullValue()))).//
+                andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
+                andReturn().getResponse();
 
-		response = mvc.perform(get(uri).header(IF_NONE_MATCH, response.getHeader(ETAG))).//
-				andExpect(status().isNotModified()).//
-				andExpect(header().string(ETAG, is(notNullValue()))).//
-				andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
-				andDo(document("if-none-match")).//
-				andReturn().getResponse();
+        // ETag-based
 
-		// Last-modified-based
+        response = mvc.perform(get(uri).header(IF_NONE_MATCH, response.getHeader(ETAG))).//
+                andExpect(status().isNotModified()).//
+                andExpect(header().string(ETAG, is(notNullValue()))).//
+                andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
+                andDo(document("if-none-match")).//
+                andReturn().getResponse();
 
-		mvc.perform(get(uri).header(IF_MODIFIED_SINCE, response.getHeader(LAST_MODIFIED))).//
-				andExpect(status().isNotModified()).//
-				andExpect(header().string(ETAG, is(notNullValue()))).//
-				andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
-				andDo(document("if-modified-since"));
-	}
+        // Last-modified-based
+
+        mvc.perform(get(uri).header(IF_MODIFIED_SINCE, response.getHeader(LAST_MODIFIED))).//
+                andExpect(status().isNotModified()).//
+                andExpect(header().string(ETAG, is(notNullValue()))).//
+                andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
+                andDo(document("if-modified-since"));
+    }
 }

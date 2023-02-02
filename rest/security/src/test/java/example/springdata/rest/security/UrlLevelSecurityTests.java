@@ -68,8 +68,8 @@ class UrlLevelSecurityTests {
 
 		mvc.perform(get("/").//
 				accept(MediaTypes.HAL_JSON)).//
-				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
-				andExpect(status().isOk());
+				andExpect(status().isOk()).//
+				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON));
 	}
 
 	@Test
