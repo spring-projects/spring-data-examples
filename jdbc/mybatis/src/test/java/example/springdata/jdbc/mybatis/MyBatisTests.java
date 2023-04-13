@@ -35,7 +35,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @MybatisTest
 class MyBatisTests {
 
-	@Autowired LegoSetRepository repository;
+	@Autowired
+	LegoSetRepository repository;
 
 	@Test
 	void exerciseSomewhatComplexEntity() {

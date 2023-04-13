@@ -30,6 +30,6 @@ public class MongoContainers {
 
 	public static MongoDBContainer getDefaultContainer() {
 		return new MongoDBContainer(DockerImageName.parse(System.getProperty(IMAGE_NAME_PROPERTY, IMAGE_NAME)))
-				.withReuse(true);
+	.withReuse(true);
 	}
 }

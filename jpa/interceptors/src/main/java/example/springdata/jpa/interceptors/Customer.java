@@ -22,7 +22,9 @@ import jakarta.persistence.Id;
 @Entity
 public class Customer {
 
-	@Id @GeneratedValue Long id;
+	@Id
+	@GeneratedValue
+	Long id;
 
 	String firstname;
 	String lastname;

@@ -34,7 +34,8 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @AllArgsConstructor
 public class Order {
 
-	@Id String id;
+	@Id
+	String id;
 	LocalDate orderDate;
 	ZoneId zoneId;
 }

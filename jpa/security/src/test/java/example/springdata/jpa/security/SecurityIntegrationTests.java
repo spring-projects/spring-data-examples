@@ -40,9 +40,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class SecurityIntegrationTests {
 
-	@Autowired UserRepository userRepository;
-	@Autowired BusinessObjectRepository businessObjectRepository;
-	@Autowired SecureBusinessObjectRepository secureBusinessObjectRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	BusinessObjectRepository businessObjectRepository;
+	@Autowired
+	SecureBusinessObjectRepository secureBusinessObjectRepository;
 
 	private User tom, ollie, admin;
 	private UsernamePasswordAuthenticationToken olliAuth, tomAuth, adminAuth;
@@ -62,7 +65,7 @@ class SecurityIntegrationTests {
 		olliAuth = new UsernamePasswordAuthenticationToken(ollie, "x");
 		tomAuth = new UsernamePasswordAuthenticationToken(tom, "x");
 		adminAuth = new UsernamePasswordAuthenticationToken(admin, "x",
-				singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
+	singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
 	}
 
 	@Test

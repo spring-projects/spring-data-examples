@@ -70,7 +70,8 @@ class FluentMongoApiTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired FluentMongoOperations mongoOps;
+	@Autowired
+	FluentMongoOperations mongoOps;
 
 	/**
 	 * A predefined, reusable lookup method.
@@ -78,14 +79,14 @@ class FluentMongoApiTests {
 	private TerminatingFind<Jedi> findLuke;
 
 	private final NearQuery alderaanWithin3Parsecs = NearQuery.near(-73.9667, 40.78).maxDistance(new Distance(3, MILES))
-			.spherical(true);
+.spherical(true);
 
 	@BeforeEach
 	void setUp() {
 
 		findLuke = mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
-				.as(Jedi.class) // so we use Jedi as the desired return type to also map "lastname"
-				.matching(query(where("name").is("luke"))); // for all with a matching "name" that maps to "firstname".
+	.as(Jedi.class) // so we use Jedi as the desired return type to also map "lastname"
+	.matching(query(where("name").is("luke"))); // for all with a matching "name" that maps to "firstname".
 	}
 
 	/**
@@ -125,9 +126,9 @@ class FluentMongoApiTests {
 	void fetchInterfaceProjection() {
 
 		var anakin = mongoOps.query(Jedi.class) // SWCharacter does only define the collection, id and name
-				.as(Sith.class) // use an interface as return type to create a projection
-				.matching(query(where("firstname").is("anakin"))) // so properties are taken as is
-				.oneValue();
+	.as(Sith.class) // use an interface as return type to create a projection
+	.matching(query(where("firstname").is("anakin"))) // so properties are taken as is
+	.oneValue();
 
 		assertThat(anakin.getName()).isEqualTo("anakin skywalker");
 	}
@@ -162,16 +163,16 @@ class FluentMongoApiTests {
 	void queryFirstVsOne() {
 
 		mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
-				.matching(query(where("lastname").is("skywalker"))) // so properties are taken as is
-				.first(); // and we'll just get the first whatever entry if there is.
+	.matching(query(where("lastname").is("skywalker"))) // so properties are taken as is
+	.first(); // and we'll just get the first whatever entry if there is.
 
 		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class) //
-				.isThrownBy(() -> {
+	.isThrownBy(() -> {
 
-					mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
-							.matching(query(where("lastname").is("skywalker"))) // so properties are taken as is
-							.one(); // and we expect there is only one entry matching. Not more! But obviously there is.
-				});
+		mongoOps.query(SWCharacter.class) // SWCharacter does only define the collection, id and name
+	.matching(query(where("lastname").is("skywalker"))) // so properties are taken as is
+	.one(); // and we expect there is only one entry matching. Not more! But obviously there is.
+	});
 	}
 
 	/**
@@ -193,9 +194,9 @@ class FluentMongoApiTests {
 	void geoNearQuery() {
 
 		var results = mongoOps.query(SWCharacter.class) // SWCharacter defines collection, id and name
-				.as(Jedi.class) // but we want to map the results to Jedi
-				.near(alderaanWithin3Parsecs) // and find those with home planet near alderaan
-				.all();
+	.as(Jedi.class) // but we want to map the results to Jedi
+	.near(alderaanWithin3Parsecs) // and find those with home planet near alderaan
+	.all();
 
 		assertThat(results.getContent()).hasSize(2);
 	}
@@ -218,9 +219,9 @@ class FluentMongoApiTests {
 	void querySpecificCollection() {
 
 		var skywalkers = mongoOps.query(Human.class) // Human does not define a collection via @Document
-				.inCollection("star-wars") // so we set an explicit collection name
-				.matching(query(where("lastname").is("skywalker"))) // to find all documents with a matching "lastname"
-				.all();
+	.inCollection("star-wars") // so we set an explicit collection name
+	.matching(query(where("lastname").is("skywalker"))) // to find all documents with a matching "lastname"
+	.all();
 
 		assertThat(skywalkers).containsExactlyInAnyOrder(new Human("anakin", "skywalker"), new Human("luke", "skywalker"));
 	}
@@ -255,15 +256,15 @@ class FluentMongoApiTests {
 	void updateAndUpsert() {
 
 		var result = mongoOps.update(Jedi.class) // Jedi defines the collection and field mapping
-				.matching(query(where("lastname").is("windu"))) // so "last" maps to "lastname".
-				.apply(update("name", "mence")) // We'll update the "firstname" to "mence"
-				.upsert(); // and add a new document if it does not exist already.
+	.matching(query(where("lastname").is("windu"))) // so "last" maps to "lastname".
+	.apply(update("name", "mence")) // We'll update the "firstname" to "mence"
+	.upsert(); // and add a new document if it does not exist already.
 
 		assertThat(result.getMatchedCount()).isEqualTo(0);
 		assertThat(result.getUpsertedId()).isNotNull();
 
 		assertThat(
-				mongoOps.query(Human.class).inCollection("star-wars").matching(query(where("firstname").is("mence"))).one())
-						.contains(new Human("mence", "windu"));
+	mongoOps.query(Human.class).inCollection("star-wars").matching(query(where("firstname").is("mence"))).one())
+	.contains(new Human("mence", "windu"));
 	}
 }

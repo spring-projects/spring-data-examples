@@ -55,7 +55,8 @@ class OrderRepositoryIntegrationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired OrderRepository repository;
+	@Autowired
+	OrderRepository repository;
 
 	private final static LineItem product1 = new LineItem("p1", 1.23);
 	private final static LineItem product2 = new LineItem("p2", 0.87, 2);
@@ -70,7 +71,7 @@ class OrderRepositoryIntegrationTests {
 	void createsInvoiceViaProgrammaticAggregation() {
 
 		var order = new Order("c42", new Date()).//
-				addItem(product1).addItem(product2).addItem(product3);
+	addItem(product1).addItem(product2).addItem(product3);
 		order = repository.save(order);
 
 		var invoice = repository.getInvoiceFor(order);
@@ -86,7 +87,7 @@ class OrderRepositoryIntegrationTests {
 	void createsInvoiceViaDeclarativeAggregation() {
 
 		var order = new Order("c42", new Date()).//
-				addItem(product1).addItem(product2).addItem(product3);
+	addItem(product1).addItem(product2).addItem(product3);
 		order = repository.save(order);
 
 		var invoice = repository.aggregateInvoiceForOrder(order.getId());
@@ -109,9 +110,9 @@ class OrderRepositoryIntegrationTests {
 		repository.save(new Order("b12", new Date()).addItem(product1));
 
 		assertThat(repository.totalOrdersPerCustomer(Sort.by(Sort.Order.desc("total")))) //
-				.containsExactly( //
-						new OrdersPerCustomer("c42", 3L), new OrdersPerCustomer("b12", 2L) //
-				);
+	.containsExactly( //
+new OrdersPerCustomer("c42", 3L), new OrdersPerCustomer("b12", 2L) //
+	);
 	}
 
 	@Test

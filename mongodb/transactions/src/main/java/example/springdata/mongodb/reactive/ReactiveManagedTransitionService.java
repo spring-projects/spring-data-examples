@@ -51,24 +51,24 @@ public class ReactiveManagedTransitionService {
 	public Mono<Integer> run(Integer id) {
 
 		return lookup(id) //
-				.flatMap(process -> start(template, process)) //
-				.flatMap(this::verify) //
-				.flatMap(process -> finish(template, process)) //
-				.map(Process::id);
+	.flatMap(process -> start(template, process)) //
+	.flatMap(this::verify) //
+	.flatMap(process -> finish(template, process)) //
+	.map(Process::id);
 	}
 
 	private Mono<Process> finish(ReactiveMongoOperations operations, Process process) {
 
 		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
-				.apply(Update.update("state", State.DONE).inc("transitionCount", 1)).first() //
-				.then(Mono.just(process));
+	.apply(Update.update("state", State.DONE).inc("transitionCount", 1)).first() //
+	.then(Mono.just(process));
 	}
 
 	Mono<Process> start(ReactiveMongoOperations operations, Process process) {
 
 		return operations.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
-				.apply(Update.update("state", State.ACTIVE).inc("transitionCount", 1)).first() //
-				.then(Mono.just(process));
+	.apply(Update.update("state", State.ACTIVE).inc("transitionCount", 1)).first() //
+	.then(Mono.just(process));
 	}
 
 	Mono<Process> lookup(Integer id) {

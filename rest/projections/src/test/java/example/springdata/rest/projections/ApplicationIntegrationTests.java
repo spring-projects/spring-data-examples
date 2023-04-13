@@ -30,7 +30,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class ApplicationIntegrationTests {
 
-	@Autowired OrderRepository repository;
+	@Autowired
+	OrderRepository repository;
 
 	@Test
 	public void initializesRepositoryWithSampleData() {

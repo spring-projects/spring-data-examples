@@ -36,7 +36,7 @@ import org.junit.platform.commons.util.AnnotationUtils;
 class EnabledOnRedisAvailableCondition implements ExecutionCondition {
 
 	private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled(
-			"@EnabledOnRedisAvailable is not present");
+"@EnabledOnRedisAvailable is not present");
 
 	@Override
 	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {

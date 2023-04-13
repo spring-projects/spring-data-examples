@@ -21,4 +21,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Mark Paluch
  */
 @SpringBootApplication
-public class ApplicationConfiguration {}
+public class ApplicationConfiguration {
+}

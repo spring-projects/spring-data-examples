@@ -41,8 +41,8 @@ public class ApplicationConfiguration {
 			}
 
 			var index = new GeospatialIndex("homePlanet.coordinates") //
-					.typed(GeoSpatialIndexType.GEO_2DSPHERE) //
-					.named("planet-coordinate-idx");
+		.typed(GeoSpatialIndexType.GEO_2DSPHERE) //
+		.named("planet-coordinate-idx");
 
 			template.createCollection(COLLECTION);
 			template.indexOps(SWCharacter.class).ensureIndex(index);

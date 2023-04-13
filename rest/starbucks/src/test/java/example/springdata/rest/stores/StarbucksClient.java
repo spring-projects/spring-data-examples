@@ -60,9 +60,11 @@ class StarbucksClient {
 		}
 	}
 
-	@LocalServerPort int port;
+	@LocalServerPort
+	int port;
 
-	@Autowired RestOperations restOperations;
+	@Autowired
+	RestOperations restOperations;
 
 	private static final String SERVICE_URI = "http://localhost:%s/api";
 
@@ -73,7 +75,7 @@ class StarbucksClient {
 
 		// Set up path traversal
 		var builder = traverson. //
-				follow("stores", "search", "by-location");
+	follow("stores", "search", "by-location");
 
 		// Log discovered
 		log.info("");
@@ -85,16 +87,17 @@ class StarbucksClient {
 		parameters.put("distance", "0.5miles");
 
 		var resources = builder.//
-				withTemplateParameters(parameters).//
-				toObject(new PagedModelType<EntityModel<Store>>() {});
+	withTemplateParameters(parameters).//
+	toObject(new PagedModelType<EntityModel<Store>>() {
+		});
 
 		var metadata = resources.getMetadata();
 
 		log.info("Got {} of {} stores: ", resources.getContent().size(), metadata.getTotalElements());
 
 		StreamSupport.stream(resources.spliterator(), false).//
-				map(EntityModel::getContent).//
-				forEach(store -> log.info("{} - {}", store.name, store.address));
+	map(EntityModel::getContent).//
+	forEach(store -> log.info("{} - {}", store.name, store.address));
 	}
 
 	@Test
@@ -104,7 +107,8 @@ class StarbucksClient {
 
 		var uri = URI.create(String.format(SERVICE_URI, port));
 		var request = RequestEntity.get(uri).accept(HAL_JSON).build();
-		var rootLinks = restOperations.exchange(request, new EntityModelType<>() {}).getBody();
+		var rootLinks = restOperations.exchange(request, new EntityModelType<>() {
+		}).getBody();
 		var links = rootLinks.getLinks();
 
 		// Follow stores link
@@ -112,7 +116,8 @@ class StarbucksClient {
 		var storesLink = links.getRequiredLink("stores").expand();
 
 		request = RequestEntity.get(URI.create(storesLink.getHref())).accept(HAL_JSON).build();
-		var stores = restOperations.exchange(request, new CollectionModelType<Store>() {}).getBody();
+		var stores = restOperations.exchange(request, new CollectionModelType<Store>() {
+		}).getBody();
 
 		stores.getContent().forEach(store -> log.info("{} - {}", store.name, store.address));
 	}

@@ -23,4 +23,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author Greg Turnquist
  * @author Oliver Gierke
  */
-public interface TreasureRepository extends CrudRepository<Treasure, String> {}
+public interface TreasureRepository extends CrudRepository<Treasure, String> {
+}

@@ -49,7 +49,8 @@ class DemoApplicationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired PersonRepository repo;
+	@Autowired
+	PersonRepository repo;
 
 	@Test
 	void repositoryMetrics() throws InterruptedException {

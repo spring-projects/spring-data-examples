@@ -35,9 +35,11 @@ class PersonRepositoryIntegrationTest {
 
 	@SpringBootApplication
 	@EnableMapRepositories
-	static class Config {}
+	static class Config {
+	}
 
-	@Autowired PersonRepository repository;
+	@Autowired
+	PersonRepository repository;
 
 	@Test
 	void storesPerson() {

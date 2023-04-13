@@ -52,7 +52,8 @@ class CustomerIntegrationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	@BeforeEach
 	void setUp() {
@@ -84,9 +85,9 @@ class CustomerIntegrationTests {
 		Document document = operations.findOne(new Query(), Document.class, "customer");
 
 		assertThat(document.get("primary"))
-				.isEqualTo("{\"location\":{\"x\":4.1,\"y\":5.6},\"street\":\"308 Negra Arroyo Lane\",\"zipCode\":\"87104\"}");
+	.isEqualTo("{\"location\":{\"x\":4.1,\"y\":5.6},\"street\":\"308 Negra Arroyo Lane\",\"zipCode\":\"87104\"}");
 		assertThat(document.get("secondary")).isEqualTo(
-				new Document("x", secondaryAddress.getLocation().getX()).append("y", secondaryAddress.getLocation().getY()));
+	new Document("x", secondaryAddress.getLocation().getX()).append("y", secondaryAddress.getLocation().getY()));
 
 		Customer loadedCustomer = operations.findOne(new Query(), Customer.class, "customer");
 

@@ -42,15 +42,17 @@ class CustomerRepositoryTests {
 
 	@Container //
 	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:5.0"));
+DockerImageName.parse("mongo:5.0"));
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired CustomerQuerydslRepository repository;
-	@Autowired MongoOperations operations;
+	@Autowired
+	CustomerQuerydslRepository repository;
+	@Autowired
+	MongoOperations operations;
 
 	private Customer dave, oliver, carter;
 

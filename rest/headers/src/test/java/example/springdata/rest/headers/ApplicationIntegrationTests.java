@@ -31,7 +31,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class ApplicationIntegrationTests {
 
-	@Autowired CustomerRepository repository;
+	@Autowired
+	CustomerRepository repository;
 
 	@Test
 	public void initializesRepositoryWithSampleData() {

@@ -38,7 +38,7 @@ public class Address {
 	private String zipCode;
 
 	Address(@JsonProperty("location") Map<String, Double> location, @JsonProperty("street") String street,
-			@JsonProperty("zipCode") String zipCode) {
+@JsonProperty("zipCode") String zipCode) {
 
 		this.location = new Point(location.get("x"), location.get("y"));
 		this.street = street;

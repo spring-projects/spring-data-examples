@@ -57,5 +57,6 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 		return this;
 	}
 
-	public static record OrderId(UUID id) implements Identifier {}
+	public static record OrderId(UUID id) implements Identifier {
+	}
 }

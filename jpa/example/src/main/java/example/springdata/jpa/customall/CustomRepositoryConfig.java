@@ -28,4 +28,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @SpringBootApplication
 @EnableJpaRepositories(repositoryBaseClass = ExtendedJpaRepository.class)
-class CustomRepositoryConfig {}
+class CustomRepositoryConfig {
+}

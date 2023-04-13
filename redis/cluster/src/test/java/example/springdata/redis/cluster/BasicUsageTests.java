@@ -36,11 +36,12 @@ import org.springframework.data.redis.core.RedisTemplate;
  *
  * @author Christoph Strobl
  */
-@SpringBootTest(classes = { AppConfig.class })
+@SpringBootTest(classes = {AppConfig.class})
 @EnabledOnRedisClusterAvailable(port = 30001)
 class BasicUsageTests {
 
-	@Autowired RedisTemplate<String, String> template;
+	@Autowired
+	RedisTemplate<String, String> template;
 
 	@BeforeEach
 	void setUp() {
@@ -74,7 +75,7 @@ class BasicUsageTests {
 		template.opsForValue().set("nickname", "prince of the ravens"); // slot 14594
 
 		assertThat(template.opsForValue().multiGet(Arrays.asList("name", "nickname"))).contains("matrim cauthon",
-				"prince of the ravens");
+	"prince of the ravens");
 	}
 
 	/**
@@ -88,7 +89,7 @@ class BasicUsageTests {
 		template.opsForValue().set("{user}.nickname", "wolfbrother"); // slot 5474
 
 		assertThat(template.opsForValue().multiGet(Arrays.asList("{user}.name", "{user}.nickname")))
-				.contains("perrin aybara", "wolfbrother");
+	.contains("perrin aybara", "wolfbrother");
 	}
 
 	/**

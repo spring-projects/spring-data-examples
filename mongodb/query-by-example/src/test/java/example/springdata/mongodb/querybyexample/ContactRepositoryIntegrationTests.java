@@ -54,9 +54,12 @@ class ContactRepositoryIntegrationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired UserRepository userRepository;
-	@Autowired ContactRepository contactRepository;
-	@Autowired MongoOperations mongoOperations;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	ContactRepository contactRepository;
+	@Autowired
+	MongoOperations mongoOperations;
 
 	private Person skyler, walter, flynn;
 	private Relative marie, hank;
@@ -91,7 +94,7 @@ class ContactRepositoryIntegrationTests {
 	void findAllPersonsBySimpleExample() {
 
 		var example = Example.of(new Person(".*", null, null), //
-				matching().withStringMatcher(StringMatcher.REGEX));
+	matching().withStringMatcher(StringMatcher.REGEX));
 
 		assertThat(userRepository.findAll(example)).contains(skyler, walter, flynn);
 		assertThat((Iterable) userRepository.findAll(example)).doesNotContain(hank, marie);
@@ -104,7 +107,7 @@ class ContactRepositoryIntegrationTests {
 	void findAllRelativesBySimpleExample() {
 
 		var example = Example.of(new Relative(".*", null, null), //
-				matching().withStringMatcher(StringMatcher.REGEX));
+	matching().withStringMatcher(StringMatcher.REGEX));
 
 		assertThat(contactRepository.findAll(example)).contains(hank, marie);
 		assertThat((Iterable) contactRepository.findAll(example)).doesNotContain(skyler, walter, flynn);

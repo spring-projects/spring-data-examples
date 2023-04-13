@@ -31,8 +31,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
 
-	@Autowired CustomerRepository customers;
-	@Autowired OrderRepository orders;
+	@Autowired
+	CustomerRepository customers;
+	@Autowired
+	OrderRepository orders;
 
 	public static void main(String... args) {
 		SpringApplication.run(Application.class, args);
@@ -41,7 +43,7 @@ public class Application {
 	public @PostConstruct void init() {
 
 		var dave = customers.save(new Customer("Dave", "Matthews", Gender.MALE, //
-				new Address("4711 Some Place", "54321", "Charlottesville", "VA")));
+	new Address("4711 Some Place", "54321", "Charlottesville", "VA")));
 
 		var order = new Order();
 

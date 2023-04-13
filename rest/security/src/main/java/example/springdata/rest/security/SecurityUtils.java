@@ -43,6 +43,6 @@ class SecurityUtils {
 		Assert.notNull(password, "Password must not be null!");
 
 		SecurityContextHolder.getContext().setAuthentication(
-				new UsernamePasswordAuthenticationToken(username, password, AuthorityUtils.createAuthorityList(roles)));
+	new UsernamePasswordAuthenticationToken(username, password, AuthorityUtils.createAuthorityList(roles)));
 	}
 }

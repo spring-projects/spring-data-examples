@@ -37,10 +37,11 @@ import jakarta.persistence.NamedEntityGraphs;
 @Data
 @NoArgsConstructor
 @Entity
-@NamedEntityGraphs(@NamedEntityGraph(name = "product-with-tags", attributeNodes = { @NamedAttributeNode("tags") }))
+@NamedEntityGraphs(@NamedEntityGraph(name = "product-with-tags", attributeNodes = {@NamedAttributeNode("tags")}))
 public class Product {
 
-	@Id @GeneratedValue //
+	@Id
+	@GeneratedValue //
 	Long id;
 
 	String name;

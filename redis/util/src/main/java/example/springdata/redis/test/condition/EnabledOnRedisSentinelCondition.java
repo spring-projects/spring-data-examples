@@ -32,7 +32,7 @@ import org.junit.platform.commons.util.AnnotationUtils;
 class EnabledOnRedisSentinelCondition implements ExecutionCondition {
 
 	private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled(
-			"@EnabledOnSentinelAvailable is not present");
+"@EnabledOnSentinelAvailable is not present");
 
 	@Override
 	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
@@ -48,7 +48,7 @@ class EnabledOnRedisSentinelCondition implements ExecutionCondition {
 		if (RedisDetector.canConnectToPort(annotation.host(), annotation.value())) {
 
 			return enabled(
-					String.format("Connection successful to Redis Sentinel at %s:%d", annotation.host(), annotation.value()));
+		String.format("Connection successful to Redis Sentinel at %s:%d", annotation.host(), annotation.value()));
 		}
 
 		return disabled(String.format("Cannot connect to Redis Sentinel at %s:%d", annotation.host(), annotation.value()));

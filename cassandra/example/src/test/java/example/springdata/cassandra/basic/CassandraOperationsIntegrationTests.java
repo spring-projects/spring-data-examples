@@ -49,8 +49,10 @@ import com.datastax.oss.driver.api.querybuilder.insert.Insert;
 class CassandraOperationsIntegrationTests {
 
 
-	@Autowired CqlSession session;
-	@Autowired CassandraOperations template;
+	@Autowired
+	CqlSession session;
+	@Autowired
+	CassandraOperations template;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -65,10 +67,10 @@ class CassandraOperationsIntegrationTests {
 	void insertAndSelect() {
 
 		var insert = QueryBuilder.insertInto("users").value("user_id", QueryBuilder.literal(42L)) //
-				.value("uname", QueryBuilder.literal("heisenberg")) //
-				.value("fname", QueryBuilder.literal("Walter")) //
-				.value("lname", QueryBuilder.literal("White")) //
-				.ifNotExists(); //
+	.value("uname", QueryBuilder.literal("heisenberg")) //
+	.value("fname", QueryBuilder.literal("Walter")) //
+	.value("lname", QueryBuilder.literal("White")) //
+	.ifNotExists(); //
 
 		template.getCqlOperations().execute(insert.asCql());
 
@@ -121,7 +123,7 @@ class CassandraOperationsIntegrationTests {
 
 		var future = asyncTemplate.insert(user);
 
-		future.whenComplete((it,ex) -> {
+		future.whenComplete((it, ex) -> {
 			var loaded = template.selectOneById(it.getId(), User.class);
 			assertThat(loaded).isEqualTo(it);
 		});

@@ -38,8 +38,10 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 public class CrossOriginIntegrationTests {
 
-	@Autowired WebApplicationContext context;
-	@Autowired CustomerRepository customers;
+	@Autowired
+	WebApplicationContext context;
+	@Autowired
+	CustomerRepository customers;
 
 	private MockMvc mvc;
 
@@ -55,9 +57,9 @@ public class CrossOriginIntegrationTests {
 		var uri = URI.create("/customers");
 
 		mvc.perform(options(uri).header(ORIGIN, origin).header(ACCESS_CONTROL_REQUEST_METHOD, "POST")) //
-				.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, is(origin))) //
-				.andExpect(header().string(ACCESS_CONTROL_ALLOW_METHODS, containsString("GET"))) //
-				.andExpect(header().string(ACCESS_CONTROL_ALLOW_METHODS, containsString("POST"))); //
+	.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, is(origin))) //
+	.andExpect(header().string(ACCESS_CONTROL_ALLOW_METHODS, containsString("GET"))) //
+	.andExpect(header().string(ACCESS_CONTROL_ALLOW_METHODS, containsString("POST"))); //
 	}
 
 	@Test
@@ -67,8 +69,8 @@ public class CrossOriginIntegrationTests {
 		var uri = URI.create("/customers");
 
 		mvc.perform(get(uri).header(ORIGIN, origin)) //
-				.andExpect(status().isOk()) //
-				.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, is(origin)));
+	.andExpect(status().isOk()) //
+	.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, is(origin)));
 	}
 
 	@Test
@@ -78,6 +80,6 @@ public class CrossOriginIntegrationTests {
 		var uri = URI.create("/customers");
 
 		mvc.perform(get(uri).header(ORIGIN, origin)) //
-				.andExpect(status().isForbidden());
+	.andExpect(status().isForbidden());
 	}
 }

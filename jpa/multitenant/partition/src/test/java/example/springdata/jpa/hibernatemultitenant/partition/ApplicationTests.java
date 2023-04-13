@@ -12,16 +12,19 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.transaction.support.TransactionTemplate;
 
 @SpringBootTest
-@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class })
+@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class})
 class ApplicationTests {
 
 	public static final String PIVOTAL = "PIVOTAL";
 	public static final String VMWARE = "VMWARE";
-	@Autowired Persons persons;
+	@Autowired
+	Persons persons;
 
-	@Autowired TransactionTemplate txTemplate;
+	@Autowired
+	TransactionTemplate txTemplate;
 
-	@Autowired TenantIdentifierResolver currentTenant;
+	@Autowired
+	TenantIdentifierResolver currentTenant;
 
 	@AfterEach
 	void afterEach() {

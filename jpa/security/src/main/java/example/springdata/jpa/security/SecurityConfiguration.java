@@ -22,4 +22,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Darimont
  */
 @SpringBootApplication
-class SecurityConfiguration {}
+class SecurityConfiguration {
+}

@@ -63,7 +63,8 @@ class ActorRepositoryIntegrationTest {
 	static class ExampleConfig {
 	}
 
-	@Autowired ActorRepository actorRepository;
+	@Autowired
+	ActorRepository actorRepository;
 
 	@Test // #131
 	void shouldBeAbleToSaveAndLoadActor() {
@@ -78,9 +79,9 @@ class ActorRepositoryIntegrationTest {
 		assertThat(actorRepository.findById(daniel.getId())).hasValueSatisfying(actor -> {
 			assertThat(actor.getName()).isEqualTo(daniel.getName());
 			assertThat(actor.getRoles()).hasSize(1)
-				.satisfies(roles -> assertThat(roles).flatExtracting(Roles::getRoles)
-					.hasSize(1).first()
-					.isEqualTo("Harry Potter"));
+		.satisfies(roles -> assertThat(roles).flatExtracting(Roles::getRoles)
+	.hasSize(1).first()
+	.isEqualTo("Harry Potter"));
 		});
 	}
 
@@ -92,7 +93,7 @@ class ActorRepositoryIntegrationTest {
 
 		var lindsayLohan = new Actor("Lindsay Lohan");
 
-		lindsayLohan.actedIn(theParentTrap, Arrays.asList("Hallie Parker","Annie James"));
+		lindsayLohan.actedIn(theParentTrap, Arrays.asList("Hallie Parker", "Annie James"));
 		lindsayLohan.actedIn(iKnowWhoKilledMe, Arrays.asList("Aubrey Fleming", "Dakota Moss"));
 		actorRepository.save(lindsayLohan);
 
@@ -101,16 +102,16 @@ class ActorRepositoryIntegrationTest {
 		actorRepository.save(nealMcDonough);
 
 		assertThat(actorRepository.findAllByRolesMovieTitle(iKnowWhoKilledMe.getTitle())).hasSize(2)
-			.satisfies(actors -> assertThat(actors).extracting(Actor::getName)
-				.contains(lindsayLohan.getName(), nealMcDonough.getName()))
-			.allSatisfy(actor -> {
-				if (actor.getName().equals(nealMcDonough.getName())) {
-					assertThat(actor.getRoles())
-						.allSatisfy((r) -> assertThat(r.getRoles()).containsOnly("Daniel Fleming"));
-				} else if (actor.getName().equals(lindsayLohan.getName())) {
-					assertThat(actor.getRoles())
-						.allSatisfy((r) -> assertThat(r.getRoles()).containsOnly("Aubrey Fleming", "Dakota Moss"));
-				}
-			});
+	.satisfies(actors -> assertThat(actors).extracting(Actor::getName)
+.contains(lindsayLohan.getName(), nealMcDonough.getName()))
+	.allSatisfy(actor -> {
+		if (actor.getName().equals(nealMcDonough.getName())) {
+			assertThat(actor.getRoles())
+		.allSatisfy((r) -> assertThat(r.getRoles()).containsOnly("Daniel Fleming"));
+		} else if (actor.getName().equals(lindsayLohan.getName())) {
+			assertThat(actor.getRoles())
+		.allSatisfy((r) -> assertThat(r.getRoles()).containsOnly("Aubrey Fleming", "Dakota Moss"));
+		}
+	});
 	}
 }

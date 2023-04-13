@@ -31,9 +31,7 @@ import org.springframework.test.context.web.ServletTestExecutionListener;
 /**
  * @author Divya Srivastava
  */
-@TestExecutionListeners({ ServletTestExecutionListener.class, DirtiesContextBeforeModesTestExecutionListener.class,
-		DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
-		EventPublishingTestExecutionListener.class })
+@TestExecutionListeners({ServletTestExecutionListener.class, DirtiesContextBeforeModesTestExecutionListener.class,DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,EventPublishingTestExecutionListener.class})
 public abstract class AbstractShowcaseContextTests implements ApplicationContextAware {
 
 	/**
@@ -45,7 +43,8 @@ public abstract class AbstractShowcaseContextTests implements ApplicationContext
 	 * The {@link ApplicationContext} that was injected into this test instance via
 	 * {@link #setApplicationContext(ApplicationContext)}.
 	 */
-	@Nullable protected ApplicationContext applicationContext;
+	@Nullable
+	protected ApplicationContext applicationContext;
 
 	/**
 	 * Set the {@link ApplicationContext} to be used by this test instance, provided via {@link ApplicationContextAware}

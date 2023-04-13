@@ -67,7 +67,7 @@ class UserDefinedTypeIntegrationTest {
 
 		@Override
 		public String[] getEntityBasePackages() {
-			return new String[] { Person.class.getPackage().getName() };
+			return new String[]{Person.class.getPackage().getName()};
 		}
 
 		@Override
@@ -76,8 +76,10 @@ class UserDefinedTypeIntegrationTest {
 		}
 	}
 
-	@Autowired CassandraOperations operations;
-	@Autowired CassandraAdminOperations adminOperations;
+	@Autowired
+	CassandraOperations operations;
+	@Autowired
+	CassandraAdminOperations adminOperations;
 
 	@BeforeEach
 	void before() throws Exception {

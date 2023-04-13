@@ -40,7 +40,8 @@ public class Application implements WebMvcConfigurer {
 		return new SpringDataDialect();
 	}
 
-	@Autowired UserRepository repo;
+	@Autowired
+	UserRepository repo;
 
 	@PostConstruct
 	void initialize() throws Exception {

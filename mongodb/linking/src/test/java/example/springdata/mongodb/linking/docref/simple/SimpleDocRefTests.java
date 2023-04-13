@@ -51,7 +51,8 @@ public class SimpleDocRefTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	/**
 	 * Load linked documents where the reference is stored on the inverse and evaluated against the id property on
@@ -68,32 +69,32 @@ public class SimpleDocRefTests {
 		employee1.setManager(manager); // back-link to the manager document
 		operations.save(employee1);
 		operations.update(Manager.class) // establish the link to the employee document via employee.id
-				.matching(where("id").is(manager.getId())) //
-				.apply(new Update().push("employees").value(employee1)) //
-				.first();
+	.matching(where("id").is(manager.getId())) //
+	.apply(new Update().push("employees").value(employee1)) //
+	.first();
 
 		Employee employee2 = new Employee("boba-fett", "boba");
 		employee2.setManager(manager); // back-link to the manager document
 		operations.save(employee2);
 		operations.update(Manager.class) // establish the link to the employee document via employee.id
-				.matching(where("id").is(manager.getId())) //
-				.apply(new Update().push("employees").value(employee2)) //
-				.first();
+	.matching(where("id").is(manager.getId())) //
+	.apply(new Update().push("employees").value(employee2)) //
+	.first();
 
 		operations.execute(Manager.class, collection -> {
 
 			Document rawManager = collection.find(new Document("_id", manager.getId())).first();
 			assertThat(rawManager.get("employees", List.class)) //
-					.containsExactly("greedo-tetsu-jr", "boba-fett");
+		.containsExactly("greedo-tetsu-jr", "boba-fett");
 			return "OK";
 		});
 
 		Manager loaded = operations.query(Manager.class)
-				.matching(where("id").is(manager.getId()))
-				.firstValue();
+	.matching(where("id").is(manager.getId()))
+	.firstValue();
 
 		assertThat(loaded.getEmployees()) //
-				.allMatch(it -> it instanceof Employee) //
-				.extracting("name").containsExactly("greedo", "boba");
+	.allMatch(it -> it instanceof Employee) //
+	.extracting("name").containsExactly("greedo", "boba");
 	}
 }

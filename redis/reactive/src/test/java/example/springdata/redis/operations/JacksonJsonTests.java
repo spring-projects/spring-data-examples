@@ -42,9 +42,11 @@ import org.springframework.data.redis.util.ByteUtils;
 @EnabledOnRedisAvailable
 class JacksonJsonTests {
 
-	@Autowired ReactiveRedisOperations<String, Person> typedOperations;
+	@Autowired
+	ReactiveRedisOperations<String, Person> typedOperations;
 
-	@Autowired ReactiveRedisOperations<String, Object> genericOperations;
+	@Autowired
+	ReactiveRedisOperations<String, Object> genericOperations;
 
 	/**
 	 * {@link ReactiveRedisOperations} using {@link String} keys and {@link Person} values serialized via
@@ -57,20 +59,20 @@ class JacksonJsonTests {
 	void shouldWriteAndReadPerson() {
 
 		StepVerifier.create(typedOperations.opsForValue().set("homer", new Person("Homer", "Simpson"))) //
-				.expectNext(true) //
-				.verifyComplete();
+	.expectNext(true) //
+	.verifyComplete();
 
 		var get = typedOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("homer".getBytes()))) //
-				.map(ByteUtils::getBytes) //
-				.map(String::new);
+	.map(ByteUtils::getBytes) //
+	.map(String::new);
 
 		get.as(StepVerifier::create) //
-				.expectNext("{\"firstname\":\"Homer\",\"lastname\":\"Simpson\"}") //
-				.verifyComplete();
+	.expectNext("{\"firstname\":\"Homer\",\"lastname\":\"Simpson\"}") //
+	.verifyComplete();
 
 		typedOperations.opsForValue().get("homer").as(StepVerifier::create) //
-				.expectNext(new Person("Homer", "Simpson")) //
-				.verifyComplete();
+	.expectNext(new Person("Homer", "Simpson")) //
+	.verifyComplete();
 	}
 
 	/**
@@ -84,21 +86,21 @@ class JacksonJsonTests {
 	void shouldWriteAndReadPersonObject() {
 
 		genericOperations.opsForValue().set("homer", new Person("Homer", "Simpson")) //
-				.as(StepVerifier::create) //
-				.expectNext(true) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNext(true) //
+	.verifyComplete();
 
 		var get = genericOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("homer".getBytes()))) //
-				.map(ByteUtils::getBytes) //
-				.map(String::new);
+	.map(ByteUtils::getBytes) //
+	.map(String::new);
 
 		get.as(StepVerifier::create) //
-				.expectNext("{\"_type\":\"example.springdata.redis.Person\",\"firstname\":\"Homer\",\"lastname\":\"Simpson\"}") //
-				.verifyComplete();
+	.expectNext("{\"_type\":\"example.springdata.redis.Person\",\"firstname\":\"Homer\",\"lastname\":\"Simpson\"}") //
+	.verifyComplete();
 
 		genericOperations.opsForValue().get("homer").as(StepVerifier::create) //
-				.expectNext(new Person("Homer", "Simpson")) //
-				.verifyComplete();
+	.expectNext(new Person("Homer", "Simpson")) //
+	.verifyComplete();
 	}
 
 	/**
@@ -113,21 +115,21 @@ class JacksonJsonTests {
 	void shouldWriteAndReadEmailObject() {
 
 		genericOperations.opsForValue().set("mail", new EmailAddress("homer@the-simpsons.com")) //
-				.as(StepVerifier::create) //
-				.expectNext(true) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNext(true) //
+	.verifyComplete();
 
 		var get = genericOperations.execute(conn -> conn.stringCommands().get(ByteBuffer.wrap("mail".getBytes()))) //
-				.map(ByteUtils::getBytes) //
-				.map(String::new);
+	.map(ByteUtils::getBytes) //
+	.map(String::new);
 
 		get.as(StepVerifier::create) //
-				.expectNext("{\"_type\":\"example.springdata.redis.EmailAddress\",\"address\":\"homer@the-simpsons.com\"}") //
-				.verifyComplete();
+	.expectNext("{\"_type\":\"example.springdata.redis.EmailAddress\",\"address\":\"homer@the-simpsons.com\"}") //
+	.verifyComplete();
 
 		genericOperations.opsForValue().get("mail") //
-				.as(StepVerifier::create) //
-				.expectNext(new EmailAddress("homer@the-simpsons.com")) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNext(new EmailAddress("homer@the-simpsons.com")) //
+	.verifyComplete();
 	}
 }

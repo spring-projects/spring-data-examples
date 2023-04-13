@@ -25,4 +25,5 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
  *
  * @author Mark Paluch
  */
-interface PersonRepository extends ReactiveCrudRepository<Person, String>, ReactiveQueryByExampleExecutor<Person> {}
+interface PersonRepository extends ReactiveCrudRepository<Person, String>, ReactiveQueryByExampleExecutor<Person> {
+}

@@ -53,7 +53,7 @@ public class StoreInitializer {
 		}
 
 		var indexDefinitions = IndexResolver.create(operations.getConverter().getMappingContext())
-				.resolveIndexFor(Store.class);
+	.resolveIndexFor(Store.class);
 
 		indexDefinitions.forEach(operations.indexOps(Store.class)::ensureIndex);
 
@@ -90,7 +90,7 @@ public class StoreInitializer {
 
 			var location = new Point(fields.readDouble("Longitude"), fields.readDouble("Latitude"));
 			var address = new Address(fields.readString("Street Address"), fields.readString("City"),
-					fields.readString("Zip"), location);
+		fields.readString("Zip"), location);
 
 			return new Store(UUID.randomUUID(), fields.readString("Name"), address);
 		});

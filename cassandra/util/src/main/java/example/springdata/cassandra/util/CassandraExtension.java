@@ -39,7 +39,7 @@ import com.datastax.oss.driver.api.core.CqlSession;
 class CassandraExtension implements BeforeAllCallback {
 
 	private static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace
-			.create(CassandraExtension.class);
+.create(CassandraExtension.class);
 
 	private static CassandraContainer container;
 
@@ -56,15 +56,15 @@ class CassandraExtension implements BeforeAllCallback {
 			System.setProperty("spring.cassandra.contact-points", "" + container.getHost());
 
 			return new CassandraServer(container.getHost(), container.getMappedPort(9042),
-					CassandraServer.RuntimeMode.EMBEDDED_IF_NOT_RUNNING);
+		CassandraServer.RuntimeMode.EMBEDDED_IF_NOT_RUNNING);
 		}, CassandraServer.class);
 
 		keyspace.before();
 
 
 		Callable<CqlSession> sessionFactory = () -> CqlSession.builder()
-				.addContactPoint(new InetSocketAddress(keyspace.host(), keyspace.port())).withLocalDatacenter("datacenter1")
-				.build();
+	.addContactPoint(new InetSocketAddress(keyspace.host(), keyspace.port())).withLocalDatacenter("datacenter1")
+	.build();
 		Awaitility.await().ignoreExceptions().untilAsserted(() -> {
 
 			sessionFactory.call().close();
@@ -80,7 +80,7 @@ class CassandraExtension implements BeforeAllCallback {
 		}, CqlSession.class);
 
 		session.execute(String.format("CREATE KEYSPACE IF NOT EXISTS %s \n"
-				+ "WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };", cassandra.keyspace()));
+	+ "WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };", cassandra.keyspace()));
 	}
 
 	private static CassandraKeyspace findAnnotation(ExtensionContext context) {
@@ -109,6 +109,6 @@ class CassandraExtension implements BeforeAllCallback {
 	private String getCassandraDockerImageName() {
 
 		return String.format("cassandra:%s",
-				Optional.ofNullable(System.getenv("CASSANDRA_VERSION")).filter(StringUtils::hasText).orElse("3.11.10"));
+	Optional.ofNullable(System.getenv("CASSANDRA_VERSION")).filter(StringUtils::hasText).orElse("3.11.10"));
 	}
 }

@@ -36,7 +36,7 @@ import org.junit.platform.commons.util.AnnotationUtils;
 class EnabledOnRedisClusterCondition implements ExecutionCondition {
 
 	private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled(
-			"@EnabledOnClusterAvailable is not present");
+"@EnabledOnClusterAvailable is not present");
 
 	@Override
 	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
@@ -54,10 +54,10 @@ class EnabledOnRedisClusterCondition implements ExecutionCondition {
 			socket.connect(new InetSocketAddress(annotation.host(), annotation.port()), 100);
 
 			return enabled(
-					String.format("Connection successful to Redis Cluster at %s:%d", annotation.host(), annotation.port()));
+		String.format("Connection successful to Redis Cluster at %s:%d", annotation.host(), annotation.port()));
 		} catch (IOException e) {
 			return disabled(
-					String.format("Cannot connect to Redis Cluster at %s:%d (%s)", annotation.host(), annotation.port(), e));
+		String.format("Cannot connect to Redis Cluster at %s:%d (%s)", annotation.host(), annotation.port(), e));
 		}
 	}
 

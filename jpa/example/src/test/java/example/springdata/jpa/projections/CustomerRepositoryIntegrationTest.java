@@ -45,9 +45,11 @@ class CustomerRepositoryIntegrationTest {
 
 	@Configuration
 	@EnableAutoConfiguration
-	static class Config {}
+	static class Config {
+	}
 
-	@Autowired CustomerRepository customers;
+	@Autowired
+	CustomerRepository customers;
 
 	private Customer dave;
 	private Customer carter;
@@ -63,16 +65,16 @@ class CustomerRepositoryIntegrationTest {
 	void projectsEntityIntoInterface() {
 
 		assertThat(customers.findAllProjectedBy())//
-				.hasSize(2)//
-				.first().satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
+	.hasSize(2)//
+	.first().satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
 	}
 
 	@Test
 	void projectsMapIntoInterface() {
 
 		assertThat(customers.findsByProjectedColumns())//
-				.hasSize(2)//
-				.first().satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
+	.hasSize(2)//
+	.first().satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
 
 	}
 
@@ -80,17 +82,17 @@ class CustomerRepositoryIntegrationTest {
 	void projectsToDto() {
 
 		assertThat(customers.findAllDtoedBy())//
-				.hasSize(2)//
-				.first().satisfies(it -> assertThat(it.firstname()).isEqualTo("Dave"));
+	.hasSize(2)//
+	.first().satisfies(it -> assertThat(it.firstname()).isEqualTo("Dave"));
 	}
 
 	@Test
 	void projectsDynamically() {
 
 		assertThat(customers.findByFirstname("Dave", CustomerProjection.class))//
-				.hasSize(1)//
-				.first()//
-				.satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
+	.hasSize(1)//
+	.first()//
+	.satisfies(it -> assertThat(it.getFirstname()).isEqualTo("Dave"));
 	}
 
 	@Test
@@ -102,7 +104,7 @@ class CustomerRepositoryIntegrationTest {
 
 		// Proxy backed by original instance as the projection uses dynamic elements
 		assertThat(result).isInstanceOfSatisfying(TargetAware.class,
-				it -> assertThat(it.getTarget()).isInstanceOf(Customer.class));
+	it -> assertThat(it.getTarget()).isInstanceOf(Customer.class));
 	}
 
 	@Test
@@ -112,7 +114,7 @@ class CustomerRepositoryIntegrationTest {
 
 		assertThat(projectedDave.getFirstname()).isEqualTo("Dave");
 		assertThat(projectedDave).isInstanceOfSatisfying(TargetAware.class,
-				it -> assertThat(it.getTarget()).isInstanceOf(Map.class));
+	it -> assertThat(it.getTarget()).isInstanceOf(Map.class));
 	}
 
 	@Test

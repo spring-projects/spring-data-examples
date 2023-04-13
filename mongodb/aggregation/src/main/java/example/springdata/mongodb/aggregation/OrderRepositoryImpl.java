@@ -49,18 +49,18 @@ class OrderRepositoryImpl implements OrderRepositoryCustom {
 	public Invoice getInvoiceFor(Order order) {
 
 		var results = operations.aggregate(newAggregation(Order.class, //
-				match(where("id").is(order.getId())), //
-				unwind("items"), //
-				project("id", "customerId", "items") //
-						.andExpression("'$items.price' * '$items.quantity'").as("lineTotal"), //
-				group("id") //
-						.sum("lineTotal").as("netAmount") //
-						.addToSet("items").as("items"), //
-				project("id", "items", "netAmount") //
-						.and("orderId").previousOperation() //
-						.andExpression("netAmount * [0]", taxRate).as("taxAmount") //
-						.andExpression("netAmount * (1 + [0])", taxRate).as("totalAmount") //
-				), Invoice.class);
+	match(where("id").is(order.getId())), //
+	unwind("items"), //
+	project("id", "customerId", "items") //
+.andExpression("'$items.price' * '$items.quantity'").as("lineTotal"), //
+	group("id") //
+.sum("lineTotal").as("netAmount") //
+.addToSet("items").as("items"), //
+	project("id", "items", "netAmount") //
+.and("orderId").previousOperation() //
+.andExpression("netAmount * [0]", taxRate).as("taxAmount") //
+.andExpression("netAmount * (1 + [0])", taxRate).as("totalAmount") //
+		), Invoice.class);
 
 		return results.getUniqueMappedResult();
 	}

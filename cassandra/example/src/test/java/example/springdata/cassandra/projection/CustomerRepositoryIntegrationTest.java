@@ -37,7 +37,8 @@ import org.springframework.data.projection.TargetAware;
 @CassandraKeyspace
 class CustomerRepositoryIntegrationTest {
 
-	@Autowired CustomerRepository customers;
+	@Autowired
+	CustomerRepository customers;
 
 	private Customer dave, carter;
 

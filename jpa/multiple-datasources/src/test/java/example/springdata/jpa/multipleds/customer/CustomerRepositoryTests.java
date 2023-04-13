@@ -37,8 +37,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(transactionManager = "customerTransactionManager")
 class CustomerRepositoryTests {
 
-	@Autowired CustomerRepository repository;
-	@Autowired @Qualifier("customerEntityManagerFactory") EntityManager em;
+	@Autowired
+	CustomerRepository repository;
+	@Autowired
+	@Qualifier("customerEntityManagerFactory")
+	EntityManager em;
 
 	@Test
 	void findsCustomerByLastname() {

@@ -21,4 +21,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * @author Artur Konczak
  * @author Oliver Gierke
  */
-interface ConferenceRepository extends ElasticsearchRepository<Conference, String> {}
+interface ConferenceRepository extends ElasticsearchRepository<Conference, String> {
+}

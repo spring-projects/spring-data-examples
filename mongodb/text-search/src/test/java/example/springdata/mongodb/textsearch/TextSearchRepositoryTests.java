@@ -51,7 +51,8 @@ class TextSearchRepositoryTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired BlogPostRepository repo;
+	@Autowired
+	BlogPostRepository repo;
 
 	/**
 	 * Show how to do simple matching. <br />

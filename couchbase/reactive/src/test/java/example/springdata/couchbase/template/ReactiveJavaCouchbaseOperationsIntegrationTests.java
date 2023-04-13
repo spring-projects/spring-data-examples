@@ -66,13 +66,13 @@ public class ReactiveJavaCouchbaseOperationsIntegrationTests {
 	@Test
 	public void shouldFindByAll() {
 		operations.findByQuery(Airline.class).all() //
-				.count() //
-				.as(StepVerifier::create) //
-				.assertNext(count -> {
+	.count() //
+	.as(StepVerifier::create) //
+	.assertNext(count -> {
 
-					assertThat(count).isGreaterThan(100);
-				}) //
-				.verifyComplete();
+		assertThat(count).isGreaterThan(100);
+	}) //
+	.verifyComplete();
 	}
 
 	/**
@@ -90,11 +90,11 @@ public class ReactiveJavaCouchbaseOperationsIntegrationTests {
 		airline.setCountry("Germany");
 
 		Mono<Airline> airlineMono = operations.upsertById(Airline.class)
-				.one(airline) //
-				.map(Airline::getId) //
-				.flatMap(id -> operations.findById(Airline.class).one(id));
+	.one(airline) //
+	.map(Airline::getId) //
+	.flatMap(id -> operations.findById(Airline.class).one(id));
 
 		airlineMono.as(StepVerifier::create) //
-				.expectNext(airline).verifyComplete();
+	.expectNext(airline).verifyComplete();
 	}
 }

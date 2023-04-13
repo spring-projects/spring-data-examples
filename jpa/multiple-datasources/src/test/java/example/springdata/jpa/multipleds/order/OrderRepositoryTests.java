@@ -36,8 +36,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(transactionManager = "orderTransactionManager")
 class OrderRepositoryTests {
 
-	@Autowired OrderRepository orders;
-	@Autowired CustomerRepository customers;
+	@Autowired
+	OrderRepository orders;
+	@Autowired
+	CustomerRepository customers;
 
 	@Test
 	void persistsAndFindsCustomer() {

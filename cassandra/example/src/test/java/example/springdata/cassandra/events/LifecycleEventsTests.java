@@ -37,7 +37,8 @@ import org.springframework.data.cassandra.core.query.Query;
 @CassandraKeyspace
 class LifecycleEventsTests {
 
-	@Autowired CassandraOperations operations;
+	@Autowired
+	CassandraOperations operations;
 
 	@Test
 	void shouldStreamEntities() {

@@ -48,9 +48,9 @@ class ReactiveElasticsearchRepositoryTest {
 
 	@Container //
 	private static ElasticsearchContainer container = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.2")) //
-					.withPassword("foobar") //
-					.withReuse(true);
+DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.2")) //
+.withPassword("foobar") //
+.withReuse(true);
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
@@ -59,7 +59,8 @@ class ReactiveElasticsearchRepositoryTest {
 		registry.add("spring.elasticsearch.password", () -> "foobar");
 	}
 
-	@Autowired ConferenceRepository repository;
+	@Autowired
+	ConferenceRepository repository;
 
 	@Test
 	void textSearch() {
@@ -68,11 +69,11 @@ class ReactiveElasticsearchRepositoryTest {
 		var expectedWord = "java";
 
 		repository.findAllByKeywordsContainsAndDateAfter(expectedWord, expectedDate) //
-				.as(StepVerifier::create) //
-				.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
-				.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
-				.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
+	.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
+	.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
+	.verifyComplete();
 	}
 
 	private void verify(Conference it, String expectedWord, String expectedDate) {

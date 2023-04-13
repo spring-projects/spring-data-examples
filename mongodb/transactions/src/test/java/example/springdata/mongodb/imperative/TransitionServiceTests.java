@@ -67,8 +67,10 @@ public class TransitionServiceTests {
 
 	static final String DB_NAME = "spring-data-tx-examples";
 
-	@Autowired TransitionService transitionService;
-	@Autowired MongoClient client;
+	@Autowired
+	TransitionService transitionService;
+	@Autowired
+	MongoClient client;
 
 	@Configuration
 	@ComponentScan
@@ -109,12 +111,12 @@ public class TransitionServiceTests {
 		}
 
 		client.getDatabase(DB_NAME).getCollection("processes").find(new Document())
-				.forEach((Consumer<? super Document>) System.out::println);
+	.forEach((Consumer<? super Document>) System.out::println);
 	}
 
 	State stateInDb(Process process) {
 
 		return State.valueOf(client.getDatabase(DB_NAME).getCollection("processes").find(Filters.eq("_id", process.id()))
-				.projection(Projections.include("state")).first().get("state", String.class));
+	.projection(Projections.include("state")).first().get("state", String.class));
 	}
 }

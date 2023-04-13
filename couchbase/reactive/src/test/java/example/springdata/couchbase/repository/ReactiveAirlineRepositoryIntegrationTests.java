@@ -43,9 +43,11 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 	@ClassRule //
 	public static CouchbaseAvailableRule COUCHBASE = CouchbaseAvailableRule.onLocalhost();
 
-	@Autowired ReactiveAirlineRepository airlineRepository;
+	@Autowired
+	ReactiveAirlineRepository airlineRepository;
 
-	@Autowired CouchbaseOperations couchbaseOperations;
+	@Autowired
+	CouchbaseOperations couchbaseOperations;
 
 	@Before
 	public void before() {
@@ -61,10 +63,10 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 	public void shouldFindAirlineN1ql() {
 
 		airlineRepository.findByIata("TQ") //
-				.as(StepVerifier::create) //
-				.assertNext(it -> {
-					assertThat(it.getCallsign()).isEqualTo("TXW");
-				}).verifyComplete();
+	.as(StepVerifier::create) //
+	.assertNext(it -> {
+		assertThat(it.getCallsign()).isEqualTo("TXW");
+	}).verifyComplete();
 	}
 
 	/**
@@ -76,14 +78,14 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 	public void shouldFindById() {
 
 		Mono<Airline> airline = airlineRepository.findByIata("TQ") //
-				.map(Airline::getId) //
-				.flatMap(airlineRepository::findById);
+	.map(Airline::getId) //
+	.flatMap(airlineRepository::findById);
 
 		airline.as(StepVerifier::create) //
-				.assertNext(it -> {
+	.assertNext(it -> {
 
-					assertThat(it.getCallsign()).isEqualTo("TXW");
-				}).verifyComplete();
+		assertThat(it.getCallsign()).isEqualTo("TXW");
+	}).verifyComplete();
 
 	}
 
@@ -93,11 +95,11 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 	@Test
 	public void shouldFindAll() {
 		airlineRepository.findAllBy().count() //
-				.as(StepVerifier::create) //
-				.assertNext(count -> {
+	.as(StepVerifier::create) //
+	.assertNext(count -> {
 
-					assertThat(count).isGreaterThan(100);
-				}).verifyComplete();
+		assertThat(count).isGreaterThan(100);
+	}).verifyComplete();
 	}
 
 	/**
@@ -117,11 +119,11 @@ public class ReactiveAirlineRepositoryIntegrationTests {
 		airline.setCountry("Germany");
 
 		Mono<Airline> airlineMono = airlineRepository.save(airline) //
-				.map(Airline::getId) //
-				.flatMap(airlineRepository::findById);
+	.map(Airline::getId) //
+	.flatMap(airlineRepository::findById);
 
 		airlineMono.as(StepVerifier::create) //
-				.expectNext(airline) //
-				.verifyComplete();
+	.expectNext(airline) //
+	.verifyComplete();
 	}
 }

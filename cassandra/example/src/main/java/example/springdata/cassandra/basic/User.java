@@ -34,11 +34,15 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Table(value = "users")
 public class User {
 
-	@PrimaryKey("user_id") private Long id;
+	@PrimaryKey("user_id")
+	private Long id;
 
-	@Column("uname") private String username;
-	@Column("fname") private String firstname;
-	@Column("lname") private String lastname;
+	@Column("uname")
+	private String username;
+	@Column("fname")
+	private String firstname;
+	@Column("lname")
+	private String lastname;
 
 	public User(Long id) {
 		this.setId(id);

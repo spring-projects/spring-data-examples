@@ -21,4 +21,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Thomas Darimont
  */
 @SpringBootApplication
-class CustomResultSetMappingsConfiguration {}
+class CustomResultSetMappingsConfiguration {
+}

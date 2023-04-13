@@ -47,7 +47,7 @@ public enum BlogPostInitializer {
 		loadFromClasspathSource(operations);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private void loadFromClasspathSource(MongoOperations operations) throws Exception {
 
 		var reader = new Jackson2ResourceReader();

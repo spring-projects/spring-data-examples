@@ -41,7 +41,8 @@ import org.springframework.data.redis.core.ReactiveRedisOperations;
 @EnabledOnRedisAvailable
 class ListOperationsTests {
 
-	@Autowired ReactiveRedisOperations<String, String> operations;
+	@Autowired
+	ReactiveRedisOperations<String, String> operations;
 
 	@BeforeEach
 	void before() {
@@ -59,20 +60,20 @@ class ListOperationsTests {
 		var listOperations = operations.opsForList();
 
 		var blpop = listOperations //
-				.leftPop(queue, Duration.ofSeconds(30)) //
-				.log("example.springdata.redis", Level.INFO);
+	.leftPop(queue, Duration.ofSeconds(30)) //
+	.log("example.springdata.redis", Level.INFO);
 
 		log.info("Blocking pop...waiting for message");
 		StepVerifier.create(blpop) //
-				.then(() -> {
+	.then(() -> {
 
-					Mono.delay(Duration.ofSeconds(10)).doOnSuccess(it -> {
+		Mono.delay(Duration.ofSeconds(10)).doOnSuccess(it -> {
 
-						log.info("Subscriber produces message");
+			log.info("Subscriber produces message");
 
-					}).then(listOperations.leftPush(queue, "Hello, World!")).subscribe();
+		}).then(listOperations.leftPush(queue, "Hello, World!")).subscribe();
 
-				}).expectNext("Hello, World!").verifyComplete();
+	}).expectNext("Hello, World!").verifyComplete();
 
 		log.info("Blocking pop...done!");
 	}

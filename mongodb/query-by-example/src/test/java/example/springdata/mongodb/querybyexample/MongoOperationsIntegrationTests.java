@@ -61,7 +61,8 @@ class MongoOperationsIntegrationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	private Person skyler, walter, flynn, marie, hank;
 
@@ -101,7 +102,7 @@ class MongoOperationsIntegrationTests {
 	void substringMatching() {
 
 		var example = Example.of(new Person("er", null, null), matching().//
-				withStringMatcher(StringMatcher.ENDING));
+	withStringMatcher(StringMatcher.ENDING));
 
 		assertThat(operations.find(query(byExample(example)), Person.class)).contains(skyler, walter);
 	}
@@ -113,7 +114,7 @@ class MongoOperationsIntegrationTests {
 	void regexMatching() {
 
 		var example = Example.of(new Person("(Skyl|Walt)er", null, null), matching().//
-				withMatcher("firstname", GenericPropertyMatcher::regex));
+	withMatcher("firstname", GenericPropertyMatcher::regex));
 
 		assertThat(operations.find(query(byExample(example)), Person.class)).contains(skyler, walter);
 	}
@@ -125,9 +126,9 @@ class MongoOperationsIntegrationTests {
 	void matchStartingStringsIgnoreCase() {
 
 		var example = Example.of(new Person("Walter", "WHITE", null), matching(). //
-				withIgnorePaths("age").//
-				withMatcher("firstname", startsWith()).//
-				withMatcher("lastname", ignoreCase()));
+	withIgnorePaths("age").//
+	withMatcher("firstname", startsWith()).//
+	withMatcher("lastname", ignoreCase()));
 
 		assertThat(operations.find(query(byExample(example)), Person.class)).contains(flynn, walter);
 	}
@@ -139,9 +140,9 @@ class MongoOperationsIntegrationTests {
 	void configuringMatchersUsingLambdas() {
 
 		var example = Example.of(new Person("Walter", "WHITE", null), matching().//
-				withIgnorePaths("age"). //
-				withMatcher("firstname", GenericPropertyMatcher::startsWith). //
-				withMatcher("lastname", GenericPropertyMatcher::ignoreCase));
+	withIgnorePaths("age"). //
+	withMatcher("firstname", GenericPropertyMatcher::startsWith). //
+	withMatcher("lastname", GenericPropertyMatcher::ignoreCase));
 
 		assertThat(operations.find(query(byExample(example)), Person.class)).contains(flynn, walter);
 	}
@@ -153,7 +154,7 @@ class MongoOperationsIntegrationTests {
 	void valueTransformer() {
 
 		var example = Example.of(new Person(null, "White", 99), matching(). //
-				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
+	withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
 
 		assertThat(operations.find(query(byExample(example)), Person.class)).contains(walter);
 	}

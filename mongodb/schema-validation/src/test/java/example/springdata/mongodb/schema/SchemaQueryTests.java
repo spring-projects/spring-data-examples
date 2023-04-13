@@ -53,7 +53,8 @@ class SchemaQueryTests {
 
 	private static final String COLLECTION = "star-wars";
 
-	@Autowired MongoOperations mongoOps;
+	@Autowired
+	MongoOperations mongoOps;
 
 	@BeforeEach
 	void setUp() {
@@ -97,11 +98,11 @@ class SchemaQueryTests {
 		mongoOps.save(yoda);
 
 		var schema = MongoJsonSchema.builder() //
-				.required("name", "age") //
-				.properties( //
-						string("name").minLength(1), //
-						int32("age").gte(0).lte(125) //
-				).build();
+	.required("name", "age") //
+	.properties( //
+string("name").minLength(1), //
+int32("age").gte(0).lte(125) //
+	).build();
 
 		assertThat(mongoOps.find(query(matchingDocumentStructure(schema)), Jedi.class)).containsExactly(luke);
 	}

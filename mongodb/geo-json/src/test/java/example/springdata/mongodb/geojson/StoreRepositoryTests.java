@@ -56,10 +56,12 @@ class StoreRepositoryTests {
 	}
 
 	private static final GeoJsonPolygon GEO_JSON_POLYGON = new GeoJsonPolygon(new Point(-73.992514, 40.758934),
-			new Point(-73.961138, 40.760348), new Point(-73.991658, 40.730006), new Point(-73.992514, 40.758934));
+new Point(-73.961138, 40.760348), new Point(-73.991658, 40.730006), new Point(-73.992514, 40.758934));
 
-	@Autowired StoreRepository repository;
-	@Autowired MongoOperations operations;
+	@Autowired
+	StoreRepository repository;
+	@Autowired
+	MongoOperations operations;
 
 	/**
 	 * Get all the Starbucks stores within the triangle defined by
@@ -119,7 +121,7 @@ class StoreRepositoryTests {
 	@Test
 	void findWithinLegacyPolygon() {
 		repository.findByLocationWithin(new Polygon(new Point(-73.992514, 40.758934), new Point(-73.961138, 40.760348),
-				new Point(-73.991658, 40.730006))).forEach(System.out::println);
+	new Point(-73.991658, 40.730006))).forEach(System.out::println);
 	}
 
 	/**
@@ -134,7 +136,7 @@ class StoreRepositoryTests {
 		operations.getConverter().write(GEO_JSON_POLYGON, geoJsonDbo);
 
 		var bq = new BasicQuery(
-				new Document("location", new Document("$geoIntersects", new Document("$geometry", geoJsonDbo))));
+	new Document("location", new Document("$geoIntersects", new Document("$geometry", geoJsonDbo))));
 
 		operations.find(bq, Store.class).forEach(System.out::println);
 	}

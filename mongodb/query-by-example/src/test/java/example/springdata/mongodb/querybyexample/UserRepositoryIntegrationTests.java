@@ -56,7 +56,8 @@ class UserRepositoryIntegrationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired UserRepository repository;
+	@Autowired
+	UserRepository repository;
 
 	private Person skyler, walter, flynn, marie, hank;
 
@@ -90,7 +91,7 @@ class UserRepositoryIntegrationTests {
 	void ignorePropertiesAndMatchByAge() {
 
 		var example = Example.of(flynn, matching(). //
-				withIgnorePaths("firstname", "lastname"));
+	withIgnorePaths("firstname", "lastname"));
 
 		assertThat(repository.findOne(example)).contains(flynn);
 	}
@@ -102,7 +103,7 @@ class UserRepositoryIntegrationTests {
 	void substringMatching() {
 
 		var example = Example.of(new Person("er", null, null), matching(). //
-				withStringMatcher(StringMatcher.ENDING));
+	withStringMatcher(StringMatcher.ENDING));
 
 		assertThat(repository.findAll(example)).containsExactlyInAnyOrder(skyler, walter);
 	}
@@ -114,7 +115,7 @@ class UserRepositoryIntegrationTests {
 	void regexMatching() {
 
 		var example = Example.of(new Person("(Skyl|Walt)er", null, null), matching(). //
-				withMatcher("firstname", GenericPropertyMatcher::regex));
+	withMatcher("firstname", GenericPropertyMatcher::regex));
 
 		assertThat(repository.findAll(example)).contains(skyler, walter);
 	}
@@ -126,9 +127,9 @@ class UserRepositoryIntegrationTests {
 	void matchStartingStringsIgnoreCase() {
 
 		var example = Example.of(new Person("Walter", "WHITE", null), matching(). //
-				withIgnorePaths("age"). //
-				withMatcher("firstname", startsWith()). //
-				withMatcher("lastname", ignoreCase()));
+	withIgnorePaths("age"). //
+	withMatcher("firstname", startsWith()). //
+	withMatcher("lastname", ignoreCase()));
 
 		assertThat(repository.findAll(example)).containsExactlyInAnyOrder(flynn, walter);
 	}
@@ -140,9 +141,9 @@ class UserRepositoryIntegrationTests {
 	void configuringMatchersUsingLambdas() {
 
 		var example = Example.of(new Person("Walter", "WHITE", null), matching(). //
-				withIgnorePaths("age"). //
-				withMatcher("firstname", GenericPropertyMatcher::startsWith). //
-				withMatcher("lastname", GenericPropertyMatcher::ignoreCase));
+	withIgnorePaths("age"). //
+	withMatcher("firstname", GenericPropertyMatcher::startsWith). //
+	withMatcher("lastname", GenericPropertyMatcher::ignoreCase));
 
 		assertThat(repository.findAll(example)).containsExactlyInAnyOrder(flynn, walter);
 	}
@@ -154,7 +155,7 @@ class UserRepositoryIntegrationTests {
 	void valueTransformer() {
 
 		var example = Example.of(new Person(null, "White", 99), matching(). //
-				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
+	withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
 
 		assertThat(repository.findAll(example)).containsExactlyInAnyOrder(walter);
 	}

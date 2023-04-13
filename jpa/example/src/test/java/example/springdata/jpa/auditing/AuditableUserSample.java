@@ -35,9 +35,12 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 public class AuditableUserSample {
 
-	@Autowired AuditableUserRepository repository;
-	@Autowired AuditorAwareImpl auditorAware;
-	@Autowired AuditingEntityListener listener;
+	@Autowired
+	AuditableUserRepository repository;
+	@Autowired
+	AuditorAwareImpl auditorAware;
+	@Autowired
+	AuditingEntityListener listener;
 
 	@Test
 	void auditEntityCreation() {

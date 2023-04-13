@@ -36,7 +36,8 @@ import org.springframework.boot.test.autoconfigure.data.cassandra.DataCassandraT
 @DataCassandraTest
 public class AuditingIntegrationTests {
 
-	@Autowired OrderRepository orderRepository;
+	@Autowired
+	OrderRepository orderRepository;
 
 	@Test
 	public void shouldUpdateAuditor() throws InterruptedException {

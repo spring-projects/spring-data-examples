@@ -35,8 +35,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 @SpringBootTest
 class EnversIntegrationTests {
 
-	@Autowired PersonRepository repository;
-	@Autowired TransactionTemplate tx;
+	@Autowired
+	PersonRepository repository;
+	@Autowired
+	TransactionTemplate tx;
 
 	@Test
 	void testRepository() {
@@ -55,7 +57,7 @@ class EnversIntegrationTests {
 	}
 
 	private void checkNextRevision(Iterator<Revision<Long, Person>> revisionIterator, String name,
-			RevisionType revisionType) {
+RevisionType revisionType) {
 
 		assertThat(revisionIterator.hasNext()).isTrue();
 		var revision = revisionIterator.next();

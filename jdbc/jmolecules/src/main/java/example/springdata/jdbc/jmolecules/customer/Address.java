@@ -17,4 +17,5 @@ package example.springdata.jdbc.jmolecules.customer;
 
 import org.jmolecules.ddd.types.ValueObject;
 
-public record Address(String street, String city, String zipCode) implements ValueObject {}
+public record Address(String street, String city, String zipCode) implements ValueObject {
+}

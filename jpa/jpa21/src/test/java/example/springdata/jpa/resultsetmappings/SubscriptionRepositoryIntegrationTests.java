@@ -36,7 +36,8 @@ class SubscriptionRepositoryIntegrationTests {
 	private static final String SERVICE_1 = "Service 1";
 	private static final String SERVICE_2 = "Service 2";
 
-	@Autowired SubscriptionRepository repository;
+	@Autowired
+	SubscriptionRepository repository;
 
 	@BeforeEach
 	void setUp() {
@@ -52,15 +53,15 @@ class SubscriptionRepositoryIntegrationTests {
 	void shouldReturnCorrectSubscriptionSummary() {
 
 		assertThat(repository.findAllSubscriptionSummaries()) //
-				.flatExtracting(s -> asList(s.product(), s.usageCount())) //
-				.contains(SERVICE_1, 3L, SERVICE_2, 2L);
+	.flatExtracting(s -> asList(s.product(), s.usageCount())) //
+	.contains(SERVICE_1, 3L, SERVICE_2, 2L);
 	}
 
 	@Test
 	void shouldReturnCorrectSubscriptionProjection() {
 
 		assertThat(repository.findAllSubscriptionProjections()) //
-				.flatExtracting(s -> asList(s.getProduct(), s.getUsageCount())) //
-				.contains(SERVICE_1, 3L, SERVICE_2, 2L);
+	.flatExtracting(s -> asList(s.getProduct(), s.getUsageCount())) //
+	.contains(SERVICE_1, 3L, SERVICE_2, 2L);
 	}
 }

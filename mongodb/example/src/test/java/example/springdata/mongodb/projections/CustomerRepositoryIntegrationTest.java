@@ -56,9 +56,11 @@ class CustomerRepositoryIntegrationTest {
 
 	@Configuration
 	@EnableAutoConfiguration
-	static class Config {}
+	static class Config {
+	}
 
-	@Autowired CustomerRepository customers;
+	@Autowired
+	CustomerRepository customers;
 
 	private Customer dave, carter;
 
@@ -124,7 +126,7 @@ class CustomerRepositoryIntegrationTest {
 	void supportsProjectionInCombinationWithPagination() {
 
 		var page = customers
-				.findPagedProjectedBy(PageRequest.of(0, 1, Sort.by(Direction.ASC, "lastname")));
+	.findPagedProjectedBy(PageRequest.of(0, 1, Sort.by(Direction.ASC, "lastname")));
 
 		assertThat(page.getContent().get(0).getFirstname()).isEqualTo("Carter");
 	}

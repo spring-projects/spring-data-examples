@@ -35,7 +35,8 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Autowired UserRepository repository;
+	@Autowired
+	UserRepository repository;
 
 	public @PostConstruct void init() {
 

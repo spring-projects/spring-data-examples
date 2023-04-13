@@ -67,7 +67,8 @@ class SpringBooksIntegrationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	@SuppressWarnings("unchecked")
 	@BeforeEach
@@ -94,14 +95,14 @@ class SpringBooksIntegrationTests {
 		}
 
 		var aggregation = newAggregation( //
-				sort(Direction.ASC, "volumeInfo.title"), //
-				project().and("volumeInfo.title").as("title"));
+	sort(Direction.ASC, "volumeInfo.title"), //
+	project().and("volumeInfo.title").as("title"));
 
 		var result = operations.aggregate(aggregation, "books", BookTitle.class);
 
 		assertThat(result.getMappedResults())//
-				.extracting("title")//
-				.containsSequence("Aprende a Desarrollar con Spring Framework", "Beginning Spring", "Beginning Spring 2");
+	.extracting("title")//
+	.containsSequence("Aprende a Desarrollar con Spring Framework", "Beginning Spring", "Beginning Spring 2");
 	}
 
 	/**
@@ -111,10 +112,10 @@ class SpringBooksIntegrationTests {
 	void shouldRetrieveBooksPerPublisher() {
 
 		var aggregation = newAggregation( //
-				group("volumeInfo.publisher") //
-						.count().as("count"), //
-				sort(Direction.DESC, "count"), //
-				project("count").and("_id").as("publisher"));
+	group("volumeInfo.publisher") //
+.count().as("count"), //
+	sort(Direction.DESC, "count"), //
+	project("count").and("_id").as("publisher"));
 
 		var result = operations.aggregate(aggregation, "books", BooksPerPublisher.class);
 
@@ -130,11 +131,11 @@ class SpringBooksIntegrationTests {
 	void shouldRetrieveBooksPerPublisherWithTitles() {
 
 		var aggregation = newAggregation( //
-				group("volumeInfo.publisher") //
-						.count().as("count") //
-						.addToSet("volumeInfo.title").as("titles"), //
-				sort(Direction.DESC, "count"), //
-				project("count", "titles").and("_id").as("publisher"));
+	group("volumeInfo.publisher") //
+.count().as("count") //
+.addToSet("volumeInfo.title").as("titles"), //
+	sort(Direction.DESC, "count"), //
+	project("count", "titles").and("_id").as("publisher"));
 
 		var result = operations.aggregate(aggregation, "books", BooksPerPublisher.class);
 
@@ -152,10 +153,10 @@ class SpringBooksIntegrationTests {
 	void shouldRetrieveDataRelatedBooks() {
 
 		var aggregation = newAggregation( //
-				match(Criteria.where("volumeInfo.title").regex("data", "i")), //
-				replaceRoot("volumeInfo"), //
-				project("title", "authors"), //
-				sort(Direction.ASC, "title"));
+	match(Criteria.where("volumeInfo.title").regex("data", "i")), //
+	replaceRoot("volumeInfo"), //
+	project("title", "authors"), //
+	sort(Direction.ASC, "title"));
 
 		var result = operations.aggregate(aggregation, "books", BookAndAuthors.class);
 
@@ -163,7 +164,7 @@ class SpringBooksIntegrationTests {
 
 		assertThat(bookAndAuthors.title()).isEqualTo("Spring Data");
 		assertThat(bookAndAuthors.authors()).contains("Mark Pollack", "Oliver Gierke", "Thomas Risberg", "Jon Brisbin",
-				"Michael Hunger");
+	"Michael Hunger");
 	}
 
 	/**
@@ -176,17 +177,16 @@ class SpringBooksIntegrationTests {
 		}
 
 		var aggregation = newAggregation( //
-				match(Criteria.where("volumeInfo.authors").exists(true)), //
-				replaceRoot("volumeInfo"), //
-				project("authors", "pageCount") //
-						.and(ArithmeticOperators.valueOf("pageCount") //
-								.divideBy(ArrayOperators.arrayOf("authors").length()))
-						.as("pagesPerAuthor"),
-				unwind("authors"), //
-				group("authors") //
-						.sum("pageCount").as("totalPageCount") //
-						.sum("pagesPerAuthor").as("approxWritten"), //
-				sort(Direction.DESC, "totalPageCount"));
+	match(Criteria.where("volumeInfo.authors").exists(true)), //
+	replaceRoot("volumeInfo"), //
+	project("authors", "pageCount") //
+.and(ArithmeticOperators.valueOf("pageCount") //.divideBy(ArrayOperators.arrayOf("authors").length()))
+.as("pagesPerAuthor"),
+	unwind("authors"), //
+	group("authors") //
+.sum("pageCount").as("totalPageCount") //
+.sum("pagesPerAuthor").as("approxWritten"), //
+	sort(Direction.DESC, "totalPageCount"));
 
 		var result = operations.aggregate(aggregation, "books", PagesPerAuthor.class);
 
@@ -204,12 +204,12 @@ class SpringBooksIntegrationTests {
 	void shouldCategorizeBooksInBuckets() {
 
 		var aggregation = newAggregation( //
-				replaceRoot("volumeInfo"), //
-				match(Criteria.where("pageCount").exists(true)),
-				bucketAuto("pageCount", 10) //
-						.withGranularity(Granularities.SERIES_1_2_5) //
-						.andOutput("title").push().as("titles") //
-						.andOutput("titles").count().as("count"));
+	replaceRoot("volumeInfo"), //
+	match(Criteria.where("pageCount").exists(true)),
+	bucketAuto("pageCount", 10) //
+.withGranularity(Granularities.SERIES_1_2_5) //
+.andOutput("title").push().as("titles") //
+.andOutput("titles").count().as("count"));
 
 		var result = operations.aggregate(aggregation, "books", BookFacetPerPage.class);
 
@@ -236,23 +236,17 @@ class SpringBooksIntegrationTests {
 	void shouldCategorizeInMultipleFacetsByPriceAndAuthor() {
 
 		var aggregation = newAggregation( //
-				match(Criteria.where("volumeInfo.authors").exists(true).and("volumeInfo.publisher").exists(true)),
-				facet() //
-						.and(match(Criteria.where("saleInfo.listPrice").exists(true)), //
-								replaceRoot("saleInfo"), //
-								bucket("listPrice.amount") //
+	match(Criteria.where("volumeInfo.authors").exists(true).and("volumeInfo.publisher").exists(true)),
+	facet() //
+.and(match(Criteria.where("saleInfo.listPrice").exists(true)), //replaceRoot("saleInfo"), //bucket("listPrice.amount") //
 										.withBoundaries(1, 10, 50, 100))
-						.as("prices") //
+.as("prices") //
 
-						.and(unwind("volumeInfo.authors"), //
-								replaceRoot("volumeInfo"), //
-								match(Criteria.where("authors").not().size(0)), //
-								project() //
+.and(unwind("volumeInfo.authors"), //replaceRoot("volumeInfo"), //match(Criteria.where("authors").not().size(0)), //project() //
 										.andExpression("substrCP(authors, 0, 1)").as("startsWith") //
-										.and("authors").as("author"), //
-								bucketAuto("startsWith", 10) //
+										.and("authors").as("author"), //bucketAuto("startsWith", 10) //
 										.andOutput("author").push().as("authors") //
-						).as("authors"));
+).as("authors"));
 
 		var result = operations.aggregate(aggregation, "books", Document.class);
 

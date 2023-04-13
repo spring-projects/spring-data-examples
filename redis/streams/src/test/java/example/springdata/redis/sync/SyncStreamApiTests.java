@@ -45,8 +45,10 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 @EnabledOnCommand("XADD")
 class SyncStreamApiTests {
 
-	@Autowired StringRedisTemplate template;
-	@Autowired StreamMessageListenerContainer<String, MapRecord<String, String, String>> messageListenerContainer;
+	@Autowired
+	StringRedisTemplate template;
+	@Autowired
+	StreamMessageListenerContainer<String, MapRecord<String, String, String>> messageListenerContainer;
 
 	private StreamOperations<String, String, String> streamOps;
 

@@ -34,8 +34,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AccountRepositoryIntegrationTest extends AbstractShowcaseTest {
 
-	@Autowired AccountRepository accountRepository;
-	@Autowired CustomerRepository customerRepository;
+	@Autowired
+	AccountRepository accountRepository;
+	@Autowired
+	CustomerRepository customerRepository;
 
 	@Test
 	public void savesAccount() {

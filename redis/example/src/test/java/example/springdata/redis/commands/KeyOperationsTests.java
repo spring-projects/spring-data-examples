@@ -42,7 +42,8 @@ class KeyOperationsTests {
 	private static final String PREFIX = KeyOperationsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";
 
-	@Autowired RedisConnectionFactory connectionFactory;
+	@Autowired
+	RedisConnectionFactory connectionFactory;
 
 	private RedisConnection connection;
 	private RedisSerializer<String> serializer = new StringRedisSerializer();

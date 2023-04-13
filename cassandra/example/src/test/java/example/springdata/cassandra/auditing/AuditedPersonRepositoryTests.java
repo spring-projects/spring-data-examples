@@ -37,7 +37,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @CassandraKeyspace
 class AuditedPersonRepositoryTests {
 
-	@Autowired AuditedPersonRepository repository;
+	@Autowired
+	AuditedPersonRepository repository;
 
 	@BeforeEach
 	void setUp() {
@@ -59,9 +60,9 @@ class AuditedPersonRepositoryTests {
 		assertThat(saved.getCreatedBy()).isEqualTo("Some user");
 		assertThat(saved.getLastModifiedBy()).isEqualTo("Some user");
 		assertThat(saved.getCreatedDate()).isBetween(Instant.now().minus(Duration.ofMinutes(1)),
-				Instant.now().plus(Duration.ofMinutes(1)));
+	Instant.now().plus(Duration.ofMinutes(1)));
 		assertThat(saved.getLastModifiedDate()).isBetween(Instant.now().minus(Duration.ofMinutes(1)),
-				Instant.now().plus(Duration.ofMinutes(1)));
+	Instant.now().plus(Duration.ofMinutes(1)));
 	}
 
 	/**
@@ -83,10 +84,10 @@ class AuditedPersonRepositoryTests {
 		assertThat(modified.getCreatedBy()).isEqualTo("Some user");
 		assertThat(modified.getLastModifiedBy()).isEqualTo("Some user");
 		assertThat(modified.getCreatedDate()).isBetween(Instant.now().minus(Duration.ofMinutes(1)),
-				Instant.now().plus(Duration.ofMinutes(1)));
+	Instant.now().plus(Duration.ofMinutes(1)));
 		assertThat(modified.getLastModifiedDate())
-				.isBetween(Instant.now().minus(Duration.ofMinutes(1)), Instant.now().plus(Duration.ofMinutes(1)))
-				.isNotEqualTo(modified.getCreatedDate());
+	.isBetween(Instant.now().minus(Duration.ofMinutes(1)), Instant.now().plus(Duration.ofMinutes(1)))
+	.isNotEqualTo(modified.getCreatedDate());
 	}
 
 }

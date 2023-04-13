@@ -48,7 +48,8 @@ public class JpaStyleDocRefTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	/**
 	 * Load linked documents where the actual reference is stored in the obverse side of the association.
@@ -78,11 +79,11 @@ public class JpaStyleDocRefTests {
 		});
 
 		Manager loaded = operations.query(Manager.class)
-				.matching(where("id").is(manager.getId()))
-				.firstValue();
+	.matching(where("id").is(manager.getId()))
+	.firstValue();
 
 		assertThat(loaded.getEmployees()) //
-				.allMatch(it -> it instanceof Employee) //
-				.extracting("name").containsExactly("greedo", "boba");
+	.allMatch(it -> it instanceof Employee) //
+	.extracting("name").containsExactly("greedo", "boba");
 	}
 }

@@ -22,4 +22,5 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Mark Paluch
  */
-public interface OptimisticPersonRepository extends CrudRepository<OptimisticPerson, Long> {}
+public interface OptimisticPersonRepository extends CrudRepository<OptimisticPerson, Long> {
+}

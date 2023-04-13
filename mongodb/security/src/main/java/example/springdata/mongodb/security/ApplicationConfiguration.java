@@ -25,4 +25,5 @@ import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener;
  * @author Thomas Darimont
  */
 @SpringBootApplication
-class ApplicationConfiguration {}
+class ApplicationConfiguration {
+}

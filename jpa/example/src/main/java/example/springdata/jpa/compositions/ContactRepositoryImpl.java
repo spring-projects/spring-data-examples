@@ -41,7 +41,7 @@ public class ContactRepositoryImpl implements ContactRepository {
 	public List<Contact> findRelatives(Contact contact) {
 
 		return entityManager.createQuery("SELECT u FROM User u WHERE u.lastname = :lastname") //
-				.setParameter("lastname", contact.getLastname()) //
-				.getResultList();
+	.setParameter("lastname", contact.getLastname()) //
+	.getResultList();
 	}
 }

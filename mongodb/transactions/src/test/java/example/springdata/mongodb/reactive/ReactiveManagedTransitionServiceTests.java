@@ -62,8 +62,10 @@ public class ReactiveManagedTransitionServiceTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired ReactiveManagedTransitionService managedTransitionService;
-	@Autowired MongoClient client;
+	@Autowired
+	ReactiveManagedTransitionService managedTransitionService;
+	@Autowired
+	MongoClient client;
 
 	static final String DB_NAME = "spring-data-reactive-tx-examples";
 
@@ -95,30 +97,31 @@ public class ReactiveManagedTransitionServiceTests {
 
 		for (var i = 0; i < 10; i++) {
 			managedTransitionService.newProcess() //
-					.map(Process::id) //
-					.flatMap(managedTransitionService::run) //
-					.onErrorReturn(-1).as(StepVerifier::create) //
-					.consumeNextWith(val -> {}) //
-					.verifyComplete();
+		.map(Process::id) //
+		.flatMap(managedTransitionService::run) //
+		.onErrorReturn(-1).as(StepVerifier::create) //
+		.consumeNextWith(val -> {
+		}) //
+		.verifyComplete();
 		}
 
 		Flux.from(client.getDatabase(DB_NAME).getCollection("processes").find(new Document())) //
-				.buffer(10) //
-				.as(StepVerifier::create) //
-				.consumeNextWith(list -> {
+	.buffer(10) //
+	.as(StepVerifier::create) //
+	.consumeNextWith(list -> {
 
-					for (var document : list) {
+		for (var document : list) {
 
-						System.out.println("document: " + document);
+			System.out.println("document: " + document);
 
-						if (document.getInteger("_id") % 3 == 0) {
-							assertThat(document.getString("state")).isEqualTo(State.CREATED.toString());
-						} else {
-							assertThat(document.getString("state")).isEqualTo(State.DONE.toString());
-						}
-					}
+			if (document.getInteger("_id") % 3 == 0) {
+				assertThat(document.getString("state")).isEqualTo(State.CREATED.toString());
+			} else {
+				assertThat(document.getString("state")).isEqualTo(State.DONE.toString());
+			}
+		}
 
-				}) //
-				.verifyComplete();
+	}) //
+	.verifyComplete();
 	}
 }

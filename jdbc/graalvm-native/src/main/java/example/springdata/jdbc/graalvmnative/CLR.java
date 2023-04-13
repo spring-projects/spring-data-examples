@@ -88,9 +88,9 @@ public class CLR implements CommandLineRunner {
 
 	private void insertAuthors() {
 		Author author1 = this.authorRepository.save(new Author(null, "Josh Long",
-				Set.of(new Book(null, "Reactive Spring"), new Book(null, "Cloud Native Java"))));
+	Set.of(new Book(null, "Reactive Spring"), new Book(null, "Cloud Native Java"))));
 		Author author2 = this.authorRepository.save(
-				new Author(null, "Martin Kleppmann", Set.of(new Book(null, "Designing Data Intensive Applications"))));
+	new Author(null, "Martin Kleppmann", Set.of(new Book(null, "Designing Data Intensive Applications"))));
 
 		System.out.printf("insertAuthors(): author1 = %s%n", author1);
 		System.out.printf("insertAuthors(): author2 = %s%n", author2);

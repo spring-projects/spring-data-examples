@@ -38,11 +38,12 @@ import org.springframework.util.StopWatch;
 public class RedisSentinelApplication {
 
 	static final RedisSentinelConfiguration SENTINEL_CONFIG = new RedisSentinelConfiguration().master("mymaster") //
-			.sentinel("localhost", 26379) //
-			.sentinel("localhost", 26380) //
-			.sentinel("localhost", 26381);
+.sentinel("localhost", 26379) //
+.sentinel("localhost", 26380) //
+.sentinel("localhost", 26381);
 
-	@Autowired RedisConnectionFactory factory;
+	@Autowired
+	RedisConnectionFactory factory;
 
 	public static void main(String[] args) throws Exception {
 

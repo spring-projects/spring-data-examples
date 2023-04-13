@@ -59,7 +59,7 @@ public class CouchbaseAvailableRule extends ExternalResource {
 			socket.connect(new InetSocketAddress(host, port), Math.toIntExact(timeout.toMillis()));
 		} catch (IOException e) {
 			throw new AssumptionViolatedException(
-					String.format("Couchbase not available on on %s:%d. Skipping tests.", host, port), e);
+		String.format("Couchbase not available on on %s:%d. Skipping tests.", host, port), e);
 		} finally {
 			socket.close();
 		}

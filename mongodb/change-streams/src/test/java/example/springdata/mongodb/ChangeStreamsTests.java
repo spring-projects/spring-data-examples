@@ -75,11 +75,14 @@ public class ChangeStreamsTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired MessageListenerContainer container; // for imperative style
+	@Autowired
+	MessageListenerContainer container; // for imperative style
 
-	@Autowired MongoTemplate template;
+	@Autowired
+	MongoTemplate template;
 
-	@Autowired ReactiveMongoOperations reactiveTemplate; // for reactive style
+	@Autowired
+	ReactiveMongoOperations reactiveTemplate; // for reactive style
 
 	Person gabriel = new Person(new ObjectId(), "Gabriel", "Lorca", 30);
 	Person michael = new Person(new ObjectId(), "Michael", "Burnham", 30);
@@ -120,7 +123,7 @@ public class ChangeStreamsTests {
 		@Bean
 		SimpleReactiveMongoDatabaseFactory reactiveMongoDatabaseFactory() {
 			return new SimpleReactiveMongoDatabaseFactory(MongoClients.create(mongoDBContainer.getReplicaSetUrl()),
-					"changestreams");
+		"changestreams");
 		}
 
 		/**
@@ -160,9 +163,9 @@ public class ChangeStreamsTests {
 		var messageListener = new CollectingMessageListener<ChangeStreamDocument<Document>, Person>();
 
 		var request = ChangeStreamRequest.builder(messageListener) //
-				.collection("person") //
-				.filter(newAggregation(match(where("operationType").is("insert")))) // we are only interested in inserts
-				.build();
+	.collection("person") //
+	.filter(newAggregation(match(where("operationType").is("insert")))) // we are only interested in inserts
+	.build();
 
 		var subscription = container.register(request, Person.class);
 		subscription.await(Duration.ofMillis(200)); // wait till the subscription becomes active
@@ -175,9 +178,9 @@ public class ChangeStreamsTests {
 		assertThat(messageListener.messageCount()).isEqualTo(2); // first two insert events, so far so good
 
 		template.update(Person.class) //
-				.matching(query(where("id").is(ash.id()))) //
-				.apply(update("age", 40)) //
-				.first();
+	.matching(query(where("id").is(ash.id()))) //
+	.apply(update("age", 40)) //
+	.first();
 
 		Thread.sleep(200);
 
@@ -197,34 +200,34 @@ public class ChangeStreamsTests {
 	public void reactiveChangeEvents() {
 
 		var changeStream = reactiveTemplate.changeStream("person",
-				ChangeStreamOptions.builder().filter(newAggregation(match(where("operationType").is("insert")))).build(),
-				Person.class);
+	ChangeStreamOptions.builder().filter(newAggregation(match(where("operationType").is("insert")))).build(),
+	Person.class);
 
 		StepVerifier.create(changeStream) //
-				.expectSubscription() //
-				.expectNoEvent(Duration.ofMillis(200)) // wait till change streams becomes active
+	.expectSubscription() //
+	.expectNoEvent(Duration.ofMillis(200)) // wait till change streams becomes active
 
-				// Save documents and await their change events
-				.then(() -> {
-					StepVerifier.create(reactiveTemplate.save(gabriel)).expectNextCount(1).verifyComplete();
-					StepVerifier.create(reactiveTemplate.save(ash)).expectNextCount(1).verifyComplete();
-				}).expectNextCount(2) //
+	// Save documents and await their change events
+	.then(() -> {
+		StepVerifier.create(reactiveTemplate.save(gabriel)).expectNextCount(1).verifyComplete();
+		StepVerifier.create(reactiveTemplate.save(ash)).expectNextCount(1).verifyComplete();
+	}).expectNextCount(2) //
 
-				// Update a document
-				.then(() -> {
+	// Update a document
+	.then(() -> {
 
-					StepVerifier.create(reactiveTemplate.update(Person.class) //
-							.matching(query(where("id").is(ash.id()))) //
-							.apply(update("age", 40)) //
-							.first()).expectNextCount(1).verifyComplete();
-				}).expectNoEvent(Duration.ofMillis(200)) // updates are skipped
+		StepVerifier.create(reactiveTemplate.update(Person.class) //
+	.matching(query(where("id").is(ash.id()))) //
+	.apply(update("age", 40)) //
+	.first()).expectNextCount(1).verifyComplete();
+	}).expectNoEvent(Duration.ofMillis(200)) // updates are skipped
 
-				// Save another document and await its change event
-				.then(() -> {
-					StepVerifier.create(reactiveTemplate.save(michael)).expectNextCount(1).verifyComplete();
-				}).expectNextCount(1) // there we go, all events received.
+	// Save another document and await its change event
+	.then(() -> {
+		StepVerifier.create(reactiveTemplate.save(michael)).expectNextCount(1).verifyComplete();
+	}).expectNextCount(1) // there we go, all events received.
 
-				.thenCancel() // change streams are infinite streams, at some point we need to unsubscribe
-				.verify();
+	.thenCancel() // change streams are infinite streams, at some point we need to unsubscribe
+	.verify();
 	}
 }

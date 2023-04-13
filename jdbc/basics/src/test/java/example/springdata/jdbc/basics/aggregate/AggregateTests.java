@@ -42,7 +42,8 @@ import org.springframework.test.annotation.DirtiesContext;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class AggregateTests {
 
-	@Autowired LegoSetRepository repository;
+	@Autowired
+	LegoSetRepository repository;
 
 	@Test
 	void exerciseSomewhatComplexEntity() {
@@ -89,13 +90,13 @@ class AggregateTests {
 
 		var constructionVehicles = createLegoSet("Construction Vehicles", 3, 6);
 		constructionVehicles.setManual(
-				new Manual("Build a Road Roler, a Mobile Crane, a Tracked Dumper, or a Backhoe Loader ", "Bob the Builder"));
+	new Manual("Build a Road Roler, a Mobile Crane, a Tracked Dumper, or a Backhoe Loader ", "Bob the Builder"));
 
 		constructionVehicles.addModel("scoop", "A backhoe loader");
 		constructionVehicles.addModel("Muck", "Muck is a continuous tracked dump truck with an added bulldozer blade");
 		constructionVehicles.addModel("lofty", "A mobile crane");
 		constructionVehicles.addModel("roley",
-				"A road roller that loves to make up songs and frequently spins his eyes when he is excited.");
+	"A road roller that loves to make up songs and frequently spins his eyes when he is excited.");
 
 		repository.saveAll(Arrays.asList(smallCars, f1Racer, constructionVehicles));
 
@@ -103,7 +104,7 @@ class AggregateTests {
 		Output.list(report, "Model Report");
 
 		assertThat(report).hasSize(7)
-				.allMatch(m -> m.description() != null && m.modelName() != null && m.setName() != null);
+	.allMatch(m -> m.description() != null && m.modelName() != null && m.setName() != null);
 
 		var updated = repository.lowerCaseMapKeys();
 		// SUV, F1 Ferrari 2018 and Muck get updated
@@ -127,9 +128,9 @@ class AggregateTests {
 	private void checkLegoSets(Iterable<LegoSet> legoSets, String manualText, int numberOfModels) {
 
 		assertThat(legoSets) //
-				.extracting( //
-						ls -> ls.getManual().getText(), //
-						ls -> ls.getModels().size()) //
-				.containsExactly(new Tuple(manualText, numberOfModels));
+	.extracting( //
+ls -> ls.getManual().getText(), //
+ls -> ls.getModels().size()) //
+	.containsExactly(new Tuple(manualText, numberOfModels));
 	}
 }

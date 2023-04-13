@@ -85,8 +85,8 @@ public class User {
 		if (o == null || getClass() != o.getClass()) return false;
 		var user = (User) o;
 		return Objects.equals(id, user.id) &&
-				Objects.equals(userName, user.userName) &&
-				Objects.equals(email, user.email);
+	Objects.equals(userName, user.userName) &&
+	Objects.equals(email, user.email);
 	}
 
 	@Override
@@ -97,9 +97,9 @@ public class User {
 	@Override
 	public String toString() {
 		return "User{" +
-				"id='" + id + '\'' +
-				", userName=" + userName +
-				", email=" + email +
-				'}';
+	"id='" + id + '\'' +
+	", userName=" + userName +
+	", email=" + email +
+	'}';
 	}
 }

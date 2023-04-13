@@ -55,7 +55,8 @@ class DocumentValidationTests {
 
 	private static final String COLLECTION = "star-wars";
 
-	@Autowired MongoOperations mongoOps;
+	@Autowired
+	MongoOperations mongoOps;
 
 	@BeforeEach
 	void setUp() {
@@ -90,8 +91,8 @@ class DocumentValidationTests {
 	void criteriaValidator() {
 
 		var validator = Validator.criteria( //
-				where("name").exists(true).ne(null).type(2) // non null String
-						.and("age").exists(true).ne(null).type(16).gte(0).lte(125)) // non null int between 0 and 125
+	where("name").exists(true).ne(null).type(2) // non null String
+.and("age").exists(true).ne(null).type(16).gte(0).lte(125)) // non null int between 0 and 125
 		;
 
 		mongoOps.createCollection(Jedi.class, CollectionOptions.empty().validator(validator));
@@ -99,7 +100,7 @@ class DocumentValidationTests {
 		assertThat(mongoOps.save(new Jedi("luke", "luke", "skywalker", 25))).isNotNull();
 
 		assertThatExceptionOfType(DataIntegrityViolationException.class)
-				.isThrownBy(() -> mongoOps.save(new Jedi("yoda", "yoda", null, 900)));
+	.isThrownBy(() -> mongoOps.save(new Jedi("yoda", "yoda", null, 900)));
 	}
 
 	/**
@@ -132,16 +133,16 @@ class DocumentValidationTests {
 	void schemaValidator() {
 
 		var validator = Validator.schema(MongoJsonSchema.builder() //
-				.required("name", "age") //
-				.properties( //
-						string("name").minLength(1), //
-						int32("age").gte(0).lte(125) //
-				).build());
+	.required("name", "age") //
+	.properties( //
+string("name").minLength(1), //
+int32("age").gte(0).lte(125) //
+	).build());
 		mongoOps.createCollection(Jedi.class, CollectionOptions.empty().validator(validator));
 
 		assertThat(mongoOps.save(new Jedi("luke", "luke", "skywalker", 25))).isNotNull();
 
 		assertThatExceptionOfType(DataIntegrityViolationException.class)
-				.isThrownBy(() -> mongoOps.save(new Jedi("yoda", "yoda", null, 900)));
+	.isThrownBy(() -> mongoOps.save(new Jedi("yoda", "yoda", null, 900)));
 	}
 }

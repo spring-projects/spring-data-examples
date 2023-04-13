@@ -38,7 +38,8 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Autowired DataInitializer initializer;
+	@Autowired
+	DataInitializer initializer;
 
 	@PostConstruct
 	public void init() {

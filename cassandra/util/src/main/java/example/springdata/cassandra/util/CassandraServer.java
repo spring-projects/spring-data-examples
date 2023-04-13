@@ -30,7 +30,7 @@ import org.springframework.util.Assert;
  * @author Mark Paluch
  */
 record CassandraServer(String host, int port,
-		example.springdata.cassandra.util.CassandraServer.RuntimeMode runtimeMode) {
+example.springdata.cassandra.util.CassandraServer.RuntimeMode runtimeMode) {
 
 	/**
 	 * Require a running instance on {@code host:port}. Fails with {@link AssumptionViolatedException} if Cassandra is not
@@ -88,7 +88,7 @@ record CassandraServer(String host, int port,
 
 		if (runtimeMode == RuntimeMode.REQUIRE_RUNNING_INSTANCE) {
 			Assumptions.assumeTrue(isConnectable(getHost(), getPort()),
-					() -> String.format("Cassandra is not reachable at %s:%s.", getHost(), getPort()));
+		() -> String.format("Cassandra is not reachable at %s:%s.", getHost(), getPort()));
 		}
 
 		if (runtimeMode == RuntimeMode.EMBEDDED_IF_NOT_RUNNING) {

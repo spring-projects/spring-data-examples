@@ -34,8 +34,10 @@ import org.springframework.r2dbc.core.DatabaseClient;
 @SpringBootTest(classes = InfrastructureConfiguration.class)
 class CustomerRepositoryIntegrationTests {
 
-	@Autowired CustomerRepository customers;
-	@Autowired DatabaseClient database;
+	@Autowired
+	CustomerRepository customers;
+	@Autowired
+	DatabaseClient database;
 
 	@BeforeEach
 	void setUp() {
@@ -43,15 +45,15 @@ class CustomerRepositoryIntegrationTests {
 		Hooks.onOperatorDebug();
 
 		var statements = Arrays.asList(//
-				"DROP TABLE IF EXISTS customer;",
-				"CREATE TABLE customer ( id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL);");
+	"DROP TABLE IF EXISTS customer;",
+	"CREATE TABLE customer ( id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL);");
 
 		statements.forEach(it -> database.sql(it) //
-				.fetch() //
-				.rowsUpdated() //
-				.as(StepVerifier::create) //
-				.expectNextCount(1) //
-				.verifyComplete());
+	.fetch() //
+	.rowsUpdated() //
+	.as(StepVerifier::create) //
+	.expectNextCount(1) //
+	.verifyComplete());
 	}
 
 	@Test
@@ -63,10 +65,10 @@ class CustomerRepositoryIntegrationTests {
 		insertCustomers(dave, carter);
 
 		customers.findAll() //
-				.as(StepVerifier::create) //
-				.expectNext(dave) //
-				.expectNext(carter) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNext(dave) //
+	.expectNext(carter) //
+	.verifyComplete();
 	}
 
 	@Test
@@ -78,16 +80,16 @@ class CustomerRepositoryIntegrationTests {
 		insertCustomers(dave, carter);
 
 		customers.findByLastname("Matthews") //
-				.as(StepVerifier::create) //
-				.expectNext(dave) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNext(dave) //
+	.verifyComplete();
 	}
 
 	private void insertCustomers(Customer... customers) {
 
 		this.customers.saveAll(Arrays.asList(customers))//
-				.as(StepVerifier::create) //
-				.expectNextCount(2) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNextCount(2) //
+	.verifyComplete();
 	}
 }

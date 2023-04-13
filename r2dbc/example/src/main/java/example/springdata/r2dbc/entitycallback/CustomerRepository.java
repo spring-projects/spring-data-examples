@@ -20,4 +20,5 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 /**
  * @author Mark Paluch
  */
-interface CustomerRepository extends ReactiveCrudRepository<Customer, Long> {}
+interface CustomerRepository extends ReactiveCrudRepository<Customer, Long> {
+}

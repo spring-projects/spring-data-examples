@@ -30,6 +30,6 @@ import org.springframework.data.mongodb.core.mapping.TextScore;
  */
 @Document
 public record BlogPost(@Id String id, @TextIndexed(weight = 3) String title, @TextIndexed(weight = 2) String content,
-		@TextIndexed List<String> categories, @TextScore Float score) {
+@TextIndexed List<String> categories, @TextScore Float score) {
 
 }

@@ -53,8 +53,10 @@ class PersonRepositoryTests {
 	/** {@link Charset} for String conversion **/
 	private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-	@Autowired RedisOperations<Object, Object> operations;
-	@Autowired PersonRepository repository;
+	@Autowired
+	RedisOperations<Object, Object> operations;
+	@Autowired
+	PersonRepository repository;
 
 	/*
 	 * Set of test users
@@ -87,8 +89,8 @@ class PersonRepositoryTests {
 		repository.save(eddard);
 
 		assertThat(operations
-				.execute((RedisConnection connection) -> connection.exists(("persons:" + eddard.getId()).getBytes(CHARSET))))
-						.isTrue();
+	.execute((RedisConnection connection) -> connection.exists(("persons:" + eddard.getId()).getBytes(CHARSET))))
+	.isTrue();
 	}
 
 	/**

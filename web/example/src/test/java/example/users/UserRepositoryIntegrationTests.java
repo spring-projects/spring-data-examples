@@ -28,7 +28,8 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
  */
 class UserRepositoryIntegrationTests extends AbstractIntegrationTests {
 
-	@Autowired UserRepository users;
+	@Autowired
+	UserRepository users;
 
 	/**
 	 * @see #65

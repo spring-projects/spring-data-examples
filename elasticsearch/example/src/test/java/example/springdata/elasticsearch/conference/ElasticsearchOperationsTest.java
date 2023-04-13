@@ -53,9 +53,9 @@ class ElasticsearchOperationsTest {
 
 	@Container //
 	private static ElasticsearchContainer container = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.2")) //
-					.withPassword("foobar") //
-					.withReuse(true);
+DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.2")) //
+.withPassword("foobar") //
+.withReuse(true);
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
@@ -64,7 +64,8 @@ class ElasticsearchOperationsTest {
 		registry.add("spring.elasticsearch.password", () -> "foobar");
 	}
 
-	@Autowired ElasticsearchOperations operations;
+	@Autowired
+	ElasticsearchOperations operations;
 
 	@Test
 	void textSearch() throws ParseException {
@@ -72,7 +73,7 @@ class ElasticsearchOperationsTest {
 		var expectedDate = "2014-10-29";
 		var expectedWord = "java";
 		var query = new CriteriaQuery(
-				new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
+	new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
 
 		var result = operations.search(query, Conference.class);
 

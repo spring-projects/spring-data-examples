@@ -55,7 +55,8 @@ class ReactiveMongoTemplateIntegrationTest {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired ReactiveMongoTemplate template;
+	@Autowired
+	ReactiveMongoTemplate template;
 
 	@BeforeEach
 	void setUp() {
@@ -63,10 +64,10 @@ class ReactiveMongoTemplateIntegrationTest {
 		StepVerifier.create(template.dropCollection(Person.class)).verifyComplete();
 
 		var insertAll = template
-				.insertAll(Flux.just(new Person("Walter", "White", 50), //
-						new Person("Skyler", "White", 45), //
-						new Person("Saul", "Goodman", 42), //
-						new Person("Jesse", "Pinkman", 27)).collectList());
+	.insertAll(Flux.just(new Person("Walter", "White", 50), //
+new Person("Skyler", "White", 45), //
+new Person("Saul", "Goodman", 42), //
+new Person("Jesse", "Pinkman", 27)).collectList());
 
 		insertAll.as(StepVerifier::create).expectNextCount(4).verifyComplete();
 	}
@@ -79,12 +80,12 @@ class ReactiveMongoTemplateIntegrationTest {
 	void shouldInsertAndCountData() {
 
 		var count = template.count(new Query(), Person.class) //
-				.doOnNext(System.out::println) //
-				.thenMany(template.insertAll(Arrays.asList(new Person("Hank", "Schrader", 43), //
-						new Person("Mike", "Ehrmantraut", 62)))) //
-				.last() //
-				.flatMap(v -> template.count(new Query(), Person.class)) //
-				.doOnNext(System.out::println);//
+	.doOnNext(System.out::println) //
+	.thenMany(template.insertAll(Arrays.asList(new Person("Hank", "Schrader", 43), //
+new Person("Mike", "Ehrmantraut", 62)))) //
+	.last() //
+	.flatMap(v -> template.count(new Query(), Person.class)) //
+	.doOnNext(System.out::println);//
 
 		count.as(StepVerifier::create).expectNext(6L).verifyComplete();
 	}

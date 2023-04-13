@@ -50,13 +50,14 @@ public class ApplicationConfiguration {
 		mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		var factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
-		factoryBean.setResources(new Resource[] { new ClassPathResource("starbucks-in-nyc.json") });
+		factoryBean.setResources(new Resource[]{new ClassPathResource("starbucks-in-nyc.json")});
 		factoryBean.setMapper(mapper);
 
 		return factoryBean;
 	}
 
 	static abstract class GeoJsonPointMixin {
-		GeoJsonPointMixin(@JsonProperty("longitude") double x, @JsonProperty("latitude") double y) {}
+		GeoJsonPointMixin(@JsonProperty("longitude") double x, @JsonProperty("latitude") double y) {
+		}
 	}
 }

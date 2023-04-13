@@ -38,7 +38,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
 class UserControllerIntegrationTests {
 
-	@Autowired MockMvc mvc;
+	@Autowired
+	MockMvc mvc;
 
 	@Test
 	void handlesJsonPayloadWithExactProperties() throws Exception {
@@ -48,7 +49,7 @@ class UserControllerIntegrationTests {
 	@Test
 	void handlesJsonPayloadWithNestedProperties() throws Exception {
 		postAndExpect("{ \"user\" : { \"firstname\" : \"Dave\", \"lastname\" : \"Matthews\" } }",
-				MediaType.APPLICATION_JSON);
+	MediaType.APPLICATION_JSON);
 	}
 
 	@Test
@@ -60,9 +61,9 @@ class UserControllerIntegrationTests {
 	private void postAndExpect(String payload, MediaType mediaType) throws Exception {
 
 		var actions = mvc.perform(post("/")//
-				.content(payload)//
-				.contentType(mediaType))//
-				.andExpect(status().isOk());
+	.content(payload)//
+	.contentType(mediaType))//
+	.andExpect(status().isOk());
 
 		actions.andExpect(content().string(containsString("Dave")));
 		actions.andExpect(content().string(containsString("Matthews")));

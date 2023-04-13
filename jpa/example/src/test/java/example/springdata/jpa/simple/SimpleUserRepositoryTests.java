@@ -55,7 +55,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 class SimpleUserRepositoryTests {
 
-	@Autowired SimpleUserRepository repository;
+	@Autowired
+	SimpleUserRepository repository;
 	private User user;
 
 	@BeforeEach

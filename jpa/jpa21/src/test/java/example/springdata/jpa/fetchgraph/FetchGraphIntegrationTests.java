@@ -39,9 +39,11 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(classes = FetchGraphConfiguration.class)
 class FetchGraphIntegrationTests {
 
-	@Autowired EntityManager em;
+	@Autowired
+	EntityManager em;
 
-	@Autowired ProductRepository repository;
+	@Autowired
+	ProductRepository repository;
 
 	@Test
 	void shouldFetchAssociationMarkedAsLazyViaNamedEntityFetchGraph() {
@@ -58,8 +60,8 @@ class FetchGraphIntegrationTests {
 		em.detach(loadedXps);
 
 		assertThatExceptionOfType(LazyInitializationException.class)
-				.as("Expected LazyInitializationException to occur when trying to access uninitialized association 'tags'.")
-				.isThrownBy(() -> loadedXps.getTags().toString());
+	.as("Expected LazyInitializationException to occur when trying to access uninitialized association 'tags'.")
+	.isThrownBy(() -> loadedXps.getTags().toString());
 
 		// here we use the findWithNamedEntityGraphById that uses a NamedEntityGraph
 		var loadedXpsWithFetchGraph = repository.findWithNamedEntityGraphById(xps.getId());
@@ -82,8 +84,8 @@ class FetchGraphIntegrationTests {
 		em.detach(loadedXps);
 
 		assertThatExceptionOfType(LazyInitializationException.class)
-				.as("Expected LazyInitializationException to occur when trying to access uninitialized association 'tags'.")
-				.isThrownBy(() -> loadedXps.getTags().toString());
+	.as("Expected LazyInitializationException to occur when trying to access uninitialized association 'tags'.")
+	.isThrownBy(() -> loadedXps.getTags().toString());
 
 		// here we use findWithAdhocEntityGraphById which uses an ad-hoc declarative fetch graph definition
 		var loadedXpsWithFetchGraph = repository.findWithAdhocEntityGraphById(xps.getId());

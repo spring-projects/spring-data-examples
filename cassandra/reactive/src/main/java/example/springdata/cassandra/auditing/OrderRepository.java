@@ -20,4 +20,5 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 /**
  * @author Mark Paluch
  */
-public interface OrderRepository extends ReactiveCrudRepository<Order, String> {}
+public interface OrderRepository extends ReactiveCrudRepository<Order, String> {
+}

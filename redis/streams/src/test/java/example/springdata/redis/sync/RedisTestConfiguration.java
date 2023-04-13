@@ -30,7 +30,8 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 @SpringBootApplication
 public class RedisTestConfiguration {
 
-	@Autowired RedisConnectionFactory factory;
+	@Autowired
+	RedisConnectionFactory factory;
 
 	@Bean
 	StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerContainer() {

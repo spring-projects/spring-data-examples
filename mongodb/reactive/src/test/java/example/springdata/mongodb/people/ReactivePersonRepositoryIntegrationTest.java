@@ -56,25 +56,27 @@ class ReactivePersonRepositoryIntegrationTest {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired ReactivePersonRepository repository;
-	@Autowired ReactiveMongoOperations operations;
+	@Autowired
+	ReactivePersonRepository repository;
+	@Autowired
+	ReactiveMongoOperations operations;
 
 	@BeforeEach
 	void setUp() {
 
 		var recreateCollection = operations.collectionExists(Person.class) //
-				.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
-				.then(operations.createCollection(Person.class, CollectionOptions.empty() //
-						.size(1024 * 1024) //
-						.maxDocuments(100) //
-						.capped()));
+	.flatMap(exists -> exists ? operations.dropCollection(Person.class) : Mono.just(exists)) //
+	.then(operations.createCollection(Person.class, CollectionOptions.empty() //
+.size(1024 * 1024) //
+.maxDocuments(100) //
+.capped()));
 
 		recreateCollection.as(StepVerifier::create).expectNextCount(1).verifyComplete();
 
 		var insertAll = operations.insertAll(Flux.just(new Person("Walter", "White", 50), //
-						new Person("Skyler", "White", 45), //
-						new Person("Saul", "Goodman", 42), //
-				new Person("Jesse", "Pinkman", 27)).collectList());
+	new Person("Skyler", "White", 45), //
+	new Person("Saul", "Goodman", 42), //
+	new Person("Jesse", "Pinkman", 27)).collectList());
 
 		insertAll.as(StepVerifier::create).expectNextCount(4).verifyComplete();
 	}
@@ -87,12 +89,12 @@ class ReactivePersonRepositoryIntegrationTest {
 	void shouldInsertAndCountData() {
 
 		var saveAndCount = repository.count() //
-				.doOnNext(System.out::println) //
-				.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
-						new Person("Mike", "Ehrmantraut", 62)))) //
-				.last() //
-				.flatMap(v -> repository.count()) //
-				.doOnNext(System.out::println);
+	.doOnNext(System.out::println) //
+	.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
+new Person("Mike", "Ehrmantraut", 62)))) //
+	.last() //
+	.flatMap(v -> repository.count()) //
+	.doOnNext(System.out::println);
 
 		saveAndCount.as(StepVerifier::create).expectNext(6L).verifyComplete();
 	}
@@ -104,9 +106,9 @@ class ReactivePersonRepositoryIntegrationTest {
 	void shouldPerformConversionBeforeResultProcessing() {
 
 		repository.findAll().doOnNext(System.out::println) //
-				.as(StepVerifier::create) //
-				.expectNextCount(4) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNextCount(4) //
+	.verifyComplete();
 	}
 
 	/**
@@ -118,32 +120,32 @@ class ReactivePersonRepositoryIntegrationTest {
 		Queue<Person> people = new ConcurrentLinkedQueue<>();
 
 		var disposable = repository.findWithTailableCursorBy() //
-				.doOnNext(System.out::println) //
-				.doOnNext(people::add) //
-				.doOnComplete(() -> System.out.println("Complete")) //
-				.doOnTerminate(() -> System.out.println("Terminated")) //
-				.subscribe();
+	.doOnNext(System.out::println) //
+	.doOnNext(people::add) //
+	.doOnComplete(() -> System.out.println("Complete")) //
+	.doOnTerminate(() -> System.out.println("Terminated")) //
+	.subscribe();
 
 		Thread.sleep(100);
 
 		repository.save(new Person("Tuco", "Salamanca", 33)) //
-				.as(StepVerifier::create) //
-				.expectNextCount(1) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNextCount(1) //
+	.verifyComplete();
 		Thread.sleep(100);
 
 		repository.save(new Person("Mike", "Ehrmantraut", 62)) //
-				.as(StepVerifier::create) //
-				.expectNextCount(1) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNextCount(1) //
+	.verifyComplete();
 		Thread.sleep(100);
 
 		disposable.dispose();
 
 		repository.save(new Person("Gus", "Fring", 53)) //
-				.as(StepVerifier::create) //
-				.expectNextCount(1) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNextCount(1) //
+	.verifyComplete();
 		Thread.sleep(100);
 
 		assertThat(people).hasSize(6);
@@ -163,7 +165,7 @@ class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	void shouldQueryDataWithStringQuery() {
 		repository.findByFirstnameAndLastname("Walter", "White").as(StepVerifier::create).expectNextCount(1)
-				.verifyComplete();
+	.verifyComplete();
 	}
 
 	/**
@@ -181,7 +183,7 @@ class ReactivePersonRepositoryIntegrationTest {
 	void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
 		repository.findByFirstnameAndLastname(Mono.just("Walter"), "White").as(StepVerifier::create) //
-				.expectNextCount(1) //
-				.verifyComplete();
+	.expectNextCount(1) //
+	.verifyComplete();
 	}
 }

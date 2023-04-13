@@ -39,17 +39,23 @@ import org.springframework.data.domain.Persistable;
 @RequiredArgsConstructor
 public class Order implements Persistable<String> {
 
-	@Transient boolean isNew;
+	@Transient
+	boolean isNew;
 
-	@Id final String orderId;
+	@Id
+	final String orderId;
 
-	@CreatedBy String createdBy;
+	@CreatedBy
+	String createdBy;
 
-	@CreatedDate Instant createdDate;
+	@CreatedDate
+	Instant createdDate;
 
-	@LastModifiedBy String lastModifiedBy;
+	@LastModifiedBy
+	String lastModifiedBy;
 
-	@LastModifiedDate Instant lastModifiedDate;
+	@LastModifiedDate
+	Instant lastModifiedDate;
 
 	@Override
 	public String getId() {

@@ -36,7 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 // @ActiveProfiles("jdbc") // Uncomment @ActiveProfiles to enable the JDBC Implementation of the custom repository
 class UserRepositoryCustomizationTests {
 
-	@Autowired UserRepository repository;
+	@Autowired
+	UserRepository repository;
 
 	/**
 	 * Tests inserting a user and asserts it can be loaded again.

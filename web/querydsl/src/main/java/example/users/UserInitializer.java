@@ -79,11 +79,11 @@ public class UserInitializer {
 			user.setNationality(fields.readString("nationality"));
 
 			String city = Arrays.stream(fields.readString("city").split(" "))//
-					.map(StringUtils::capitalize)//
-					.collect(Collectors.joining(" "));
+		.map(StringUtils::capitalize)//
+		.collect(Collectors.joining(" "));
 			String street = Arrays.stream(fields.readString("street").split(" "))//
-					.map(StringUtils::capitalize)//
-					.collect(Collectors.joining(" "));
+		.map(StringUtils::capitalize)//
+		.collect(Collectors.joining(" "));
 
 			try {
 				user.setAddress(new Address(city, street, fields.readString("zip")));
@@ -92,7 +92,7 @@ public class UserInitializer {
 			}
 
 			user.setPicture(
-					new Picture(fields.readString("large"), fields.readString("medium"), fields.readString("thumbnail")));
+		new Picture(fields.readString("large"), fields.readString("medium"), fields.readString("thumbnail")));
 			user.setUsername(fields.readString("username"));
 			user.setPassword(fields.readString("password"));
 

@@ -24,4 +24,5 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
  *
  * @author Oliver Gierke
  */
-public interface ContactRepository extends CrudRepository<Contact, ObjectId>, QueryByExampleExecutor<Contact> {}
+public interface ContactRepository extends CrudRepository<Contact, ObjectId>, QueryByExampleExecutor<Contact> {
+}

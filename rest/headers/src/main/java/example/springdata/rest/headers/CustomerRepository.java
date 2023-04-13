@@ -25,5 +25,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * @author Mark Paluch
  * @soundtrack The Intersphere - Out of phase (Live at Alte Feuerwache Mannheim)
  */
-@CrossOrigin(origins = { "http://localhost", "http://localhost:1234" })
-public interface CustomerRepository extends CrudRepository<Customer, Long> {}
+@CrossOrigin(origins = {"http://localhost", "http://localhost:1234"})
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
+}

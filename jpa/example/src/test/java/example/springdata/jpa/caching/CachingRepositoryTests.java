@@ -37,8 +37,10 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 class CachingRepositoryTests {
 
-	@Autowired CachingUserRepository repository;
-	@Autowired CacheManager cacheManager;
+	@Autowired
+	CachingUserRepository repository;
+	@Autowired
+	CacheManager cacheManager;
 
 	@Test
 	void checkCachedValue() {

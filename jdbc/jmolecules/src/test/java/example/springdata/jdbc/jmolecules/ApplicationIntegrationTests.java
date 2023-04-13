@@ -58,8 +58,8 @@ record ApplicationIntegrationTests(ConfigurableApplicationContext context) {
 		var orders = context.getBean(Orders.class);
 
 		var order = new Order(customer)
-				.addLineItem("Foo")
-				.addLineItem("Bar");
+	.addLineItem("Foo")
+	.addLineItem("Bar");
 
 		var result = orders.save(order);
 

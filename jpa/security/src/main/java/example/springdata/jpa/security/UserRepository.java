@@ -20,4 +20,5 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * @author Thomas Darimont
  */
-public interface UserRepository extends CrudRepository<User, Long> {}
+public interface UserRepository extends CrudRepository<User, Long> {
+}

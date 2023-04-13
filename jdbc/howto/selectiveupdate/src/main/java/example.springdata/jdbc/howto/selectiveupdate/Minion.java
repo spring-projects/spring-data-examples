@@ -31,11 +31,13 @@ import org.springframework.data.annotation.Version;
  */
 class Minion {
 
-	@Id Long id;
+	@Id
+	Long id;
 	String name;
 	Color color = Color.YELLOW;
 	Set<Toy> toys = new HashSet<>();
-	@Version int version;
+	@Version
+	int version;
 
 	Minion(String name) {
 		this.name = name;

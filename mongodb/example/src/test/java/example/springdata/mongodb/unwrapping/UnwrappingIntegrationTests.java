@@ -54,8 +54,10 @@ class UnwrappingIntegrationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired UserRepository repository;
-	@Autowired MongoOperations operations;
+	@Autowired
+	UserRepository repository;
+	@Autowired
+	MongoOperations operations;
 
 	User jane = new User("jane-01", new UserName("jane-villanueva"), new Email("jane@home.com"));
 	User rogelio = new User("rogelio-01", new UserName("rogelio-de-la-vega"), new Email("me@RogelioDeLaVega.com"));
@@ -75,8 +77,8 @@ class UnwrappingIntegrationTests {
 		});
 
 		assertThat(stored).containsAllEntriesOf(new Document("_id", rogelio.getId())
-				.append("username", rogelio.getUserName().getUsername())
-				.append("primary_email", rogelio.getEmail().email())
+	.append("username", rogelio.getUserName().getUsername())
+	.append("primary_email", rogelio.getEmail().email())
 		);
 	}
 

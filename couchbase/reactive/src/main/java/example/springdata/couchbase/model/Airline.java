@@ -31,7 +31,8 @@ import org.springframework.data.couchbase.core.mapping.Document;
 @Document
 public class Airline {
 
-	@Id private String id;
+	@Id
+	private String id;
 
 	private String type;
 

@@ -40,7 +40,8 @@ import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 @EnableJdbcRepositories
 public class CategoryConfiguration extends AbstractJdbcConfiguration {
 
-	@Autowired private DataSource dataSource;
+	@Autowired
+	private DataSource dataSource;
 
 	@Bean
 	public DataSourceConnectionProvider connectionProvider() {

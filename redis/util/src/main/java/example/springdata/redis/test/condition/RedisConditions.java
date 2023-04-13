@@ -45,7 +45,7 @@ class RedisConditions {
 		var result = CommandDetailParser.parse(commands.command());
 
 		this.commands = result.stream()
-				.collect(Collectors.toMap(commandDetail -> commandDetail.getName().toUpperCase(), CommandDetail::getArity));
+	.collect(Collectors.toMap(commandDetail -> commandDetail.getName().toUpperCase(), CommandDetail::getArity));
 
 		var info = commands.info("server");
 

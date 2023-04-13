@@ -21,4 +21,5 @@ package example.springdata.jpa.customall;
  * @author Oliver Gierke
  * @soundtrack Tim Neuhaus - As life found you (The Cabinet)
  */
-public interface UserRepository extends BaseRepository<User> {}
+public interface UserRepository extends BaseRepository<User> {
+}

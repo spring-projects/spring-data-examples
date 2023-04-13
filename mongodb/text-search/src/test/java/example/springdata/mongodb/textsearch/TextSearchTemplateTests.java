@@ -50,7 +50,8 @@ class TextSearchTemplateTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	/**
 	 * Show how to do simple matching. Note that text search is case-insensitive and will also find entries like

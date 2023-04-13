@@ -48,15 +48,17 @@ class ServersideScriptTests {
 
 	@Container //
 	private static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-			DockerImageName.parse("mongo:3.6"));
+DockerImageName.parse("mongo:3.6"));
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired AdvancedRepository repository;
-	@Autowired MongoOperations operations;
+	@Autowired
+	AdvancedRepository repository;
+	@Autowired
+	MongoOperations operations;
 
 	@BeforeEach
 	void setUp() {
@@ -77,7 +79,7 @@ class ServersideScriptTests {
 	void saveAndCallScriptViaName() {
 
 		operations.scriptOps()
-				.register(new NamedMongoScript("echoScript", new ExecutableMongoScript("function(x) { return x; }")));
+	.register(new NamedMongoScript("echoScript", new ExecutableMongoScript("function(x) { return x; }")));
 
 		assertThat(operations.scriptOps().call("echoScript", "Hello echo...!")).isEqualTo("Hello echo...!");
 	}
@@ -102,7 +104,7 @@ class ServersideScriptTests {
 
 		// #3: make sure the entity has not been altered by #2
 		assertThat(repository.findById(ned.getId()))
-				.hasValueSatisfying(it -> assertThat(it.getFirstname()).isEqualTo("Ned"));
+	.hasValueSatisfying(it -> assertThat(it.getFirstname()).isEqualTo("Ned"));
 		assertThat(repository.count()).isEqualTo(1L);
 	}
 
@@ -110,14 +112,14 @@ class ServersideScriptTests {
 
 		var collectionName = operations.getCollectionName(Customer.class);
 		var id = operations.getConverter().getMappingContext().getRequiredPersistentEntity(Customer.class)
-				.getIdentifierAccessor(customer).getIdentifier();
+	.getIdentifierAccessor(customer).getIdentifier();
 
 		var document = new Document();
 		operations.getConverter().write(customer, document);
 
 		var scriptString = String.format(
-				"object  =  db.%1$s.findOne({\"_id\": \"%2$s\"}); if (object == null) { db.%1s.insert(%3$s); return null; } else { return object; }",
-				collectionName, id, document);
+	"object  =  db.%1$s.findOne({\"_id\": \"%2$s\"}); if (object == null) { db.%1s.insert(%3$s); return null; } else { return object; }",
+	collectionName, id, document);
 
 		return new ExecutableMongoScript(scriptString);
 	}

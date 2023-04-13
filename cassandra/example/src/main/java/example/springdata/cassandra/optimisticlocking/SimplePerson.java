@@ -29,7 +29,8 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Table
 public class SimplePerson {
 
-	@Id Long id;
+	@Id
+	Long id;
 
 	String name;
 

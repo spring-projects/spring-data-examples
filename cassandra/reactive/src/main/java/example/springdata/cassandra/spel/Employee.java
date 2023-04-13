@@ -24,6 +24,6 @@ import org.springframework.data.cassandra.core.mapping.Table;
  */
 @Table
 public record Employee(@PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED) String tenantId,
-		@PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED) String name) {
+@PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED) String name) {
 
 }

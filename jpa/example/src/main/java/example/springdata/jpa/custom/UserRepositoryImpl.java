@@ -48,7 +48,8 @@ import jakarta.persistence.PersistenceContext;
  */
 class UserRepositoryImpl implements UserRepositoryCustom {
 
-	@PersistenceContext private EntityManager em;
+	@PersistenceContext
+	private EntityManager em;
 
 	/**
 	 * Configure the entity manager to be used.

@@ -39,7 +39,8 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 public class UserRepositoryInheritanceIntegrationTests {
 
-	@Autowired UserRepository repository;
+	@Autowired
+	UserRepository repository;
 
 	User skyler, walter, flynn;
 

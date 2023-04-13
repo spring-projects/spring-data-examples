@@ -32,9 +32,11 @@ public class Customer {
 
 	private String id, firstname, lastname;
 
-	@ValueConverter(AddressJsonConverter.class) private Address primary;
+	@ValueConverter(AddressJsonConverter.class)
+	private Address primary;
 
-	@ValueConverter(AddressDocumentConverter.class) private Address secondary;
+	@ValueConverter(AddressDocumentConverter.class)
+	private Address secondary;
 
 	/**
 	 * Creates a new {@link Customer} with the given firstname and lastname.

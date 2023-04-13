@@ -50,7 +50,8 @@ class KeyCommandsTests {
 	private static final String PREFIX = KeyCommandsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";
 
-	@Autowired ReactiveRedisConnectionFactory connectionFactory;
+	@Autowired
+	ReactiveRedisConnectionFactory connectionFactory;
 
 	private ReactiveRedisConnection connection;
 	private RedisSerializer<String> serializer = new StringRedisSerializer();
@@ -71,11 +72,11 @@ class KeyCommandsTests {
 		generateRandomKeys(50);
 
 		var keyCount = connection.keyCommands() //
-				.keys(ByteBuffer.wrap(serializer.serialize(KEY_PATTERN))) //
-				.flatMapMany(Flux::fromIterable) //
-				.doOnNext(byteBuffer -> System.out.println(toString(byteBuffer))) //
-				.count() //
-				.doOnSuccess(count -> System.out.println(String.format("Total No. found: %s", count)));
+	.keys(ByteBuffer.wrap(serializer.serialize(KEY_PATTERN))) //
+	.flatMapMany(Flux::fromIterable) //
+	.doOnNext(byteBuffer -> System.out.println(toString(byteBuffer))) //
+	.count() //
+	.doOnSuccess(count -> System.out.println(String.format("Total No. found: %s", count)));
 
 		StepVerifier.create(keyCount).expectNext(50L).verifyComplete();
 	}
@@ -87,16 +88,16 @@ class KeyCommandsTests {
 	void storeToListAndPop() {
 
 		var popResult = connection.listCommands()
-				.brPop(Collections.singletonList(ByteBuffer.wrap("list".getBytes())), Duration.ofSeconds(5));
+	.brPop(Collections.singletonList(ByteBuffer.wrap("list".getBytes())), Duration.ofSeconds(5));
 
 		var llen = connection.listCommands().lLen(ByteBuffer.wrap("list".getBytes()));
 
 		var popAndLlen = connection.listCommands() //
-				.rPush(ByteBuffer.wrap("list".getBytes()), Collections.singletonList(ByteBuffer.wrap("item".getBytes())))
-				.flatMap(l -> popResult) //
-				.doOnNext(result -> System.out.println(toString(result.getValue()))) //
-				.flatMap(result -> llen) //
-				.doOnNext(count -> System.out.println(String.format("Total items in list left: %s", count)));//
+	.rPush(ByteBuffer.wrap("list".getBytes()), Collections.singletonList(ByteBuffer.wrap("item".getBytes())))
+	.flatMap(l -> popResult) //
+	.doOnNext(result -> System.out.println(toString(result.getValue()))) //
+	.flatMap(result -> llen) //
+	.doOnNext(count -> System.out.println(String.format("Total items in list left: %s", count)));//
 
 		StepVerifier.create(popAndLlen).expectNext(0L).verifyComplete();
 	}
@@ -106,8 +107,8 @@ class KeyCommandsTests {
 		var keyFlux = Flux.range(0, nrKeys).map(i -> (PREFIX + "-" + i));
 
 		var generator = keyFlux.map(String::getBytes).map(ByteBuffer::wrap) //
-				.map(key -> SetCommand.set(key) //
-						.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
+	.map(key -> SetCommand.set(key) //
+.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
 
 		StepVerifier.create(connection.stringCommands().set(generator)).expectNextCount(nrKeys).verifyComplete();
 

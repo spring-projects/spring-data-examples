@@ -33,7 +33,8 @@ class ApplicationConfiguration {
 
 	static final String SYSTEM_PROFILE_DB = "system.profile";
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	/**
 	 * Initialize db instance with defaults.

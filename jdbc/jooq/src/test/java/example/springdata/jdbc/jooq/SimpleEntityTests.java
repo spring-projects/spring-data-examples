@@ -39,7 +39,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan
 class SimpleEntityTests {
 
-	@Autowired CategoryRepository repository;
+	@Autowired
+	CategoryRepository repository;
 
 	@Test
 	void exerciseRepositoryForSimpleEntity() {
@@ -63,9 +64,9 @@ class SimpleEntityTests {
 		var categoryList = repository.getCategoriesWithAgeGroup(AgeGroup._3to8);
 
 		assertThat(categoryList) //
-				.extracting(Category::getName, Category::getDescription, Category::getAgeGroup) //
-				.containsExactly( //
-						tuple(cars.getName(), cars.getDescription(), cars.getAgeGroup()) //
-				);
+	.extracting(Category::getName, Category::getDescription, Category::getAgeGroup) //
+	.containsExactly( //
+tuple(cars.getName(), cars.getDescription(), cars.getAgeGroup()) //
+	);
 	}
 }

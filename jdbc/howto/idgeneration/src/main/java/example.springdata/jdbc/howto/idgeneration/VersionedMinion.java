@@ -20,9 +20,11 @@ import org.springframework.data.annotation.Version;
 
 class VersionedMinion {
 
-	@Id Long id;
+	@Id
+	Long id;
 	String name;
-	@Version Integer version;
+	@Version
+	Integer version;
 
 	VersionedMinion(long id, String name) {
 

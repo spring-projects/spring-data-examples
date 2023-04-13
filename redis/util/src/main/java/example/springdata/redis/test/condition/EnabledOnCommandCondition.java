@@ -44,7 +44,7 @@ class EnabledOnCommandCondition implements ExecutionCondition {
 	@Override
 	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
 
-		if(redisAvailable.evaluateExecutionCondition(context).isDisabled()) {
+		if (redisAvailable.evaluateExecutionCondition(context).isDisabled()) {
 			return disabled("Redis not available");
 		}
 
@@ -61,7 +61,7 @@ class EnabledOnCommandCondition implements ExecutionCondition {
 		var conditions = store.getOrComputeIfAbsent(RedisConditions.class, ignore -> {
 
 			var redisClient = RedisClient.create(LettuceTestClientResources.getSharedClientResources(),
-					RedisURI.create(annotation.host(), annotation.port()));
+		RedisURI.create(annotation.host(), annotation.port()));
 
 			var connection = redisClient.connect();
 			var redisConditions = RedisConditions.of(connection);
@@ -73,7 +73,7 @@ class EnabledOnCommandCondition implements ExecutionCondition {
 
 		var hasCommand = conditions.hasCommand(command);
 		return hasCommand ? enabled("Enabled on command " + command)
-				: disabled("Disabled, command " + command + " not available on Redis version " + conditions.getRedisVersion());
+	: disabled("Disabled, command " + command + " not available on Redis version " + conditions.getRedisVersion());
 	}
 
 }

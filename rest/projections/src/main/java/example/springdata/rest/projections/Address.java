@@ -30,7 +30,8 @@ import jakarta.persistence.Id;
 @RequiredArgsConstructor
 public class Address {
 
-	@GeneratedValue @Id //
+	@GeneratedValue
+	@Id //
 	private Long id;
 	private final String street, zipCode, city, state;
 

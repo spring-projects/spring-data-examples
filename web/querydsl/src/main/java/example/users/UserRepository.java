@@ -30,8 +30,7 @@ import com.querydsl.core.types.dsl.StringPath;
  * @author Christoph Strobl
  * @author Oliver Gierke
  */
-public interface UserRepository
-		extends CrudRepository<User, String>, QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
+public interface UserRepositoryextends CrudRepository<User, String>, QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
 
 	/*
 	 * (non-Javadoc)

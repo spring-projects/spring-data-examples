@@ -23,5 +23,5 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Mark Paluch
  */
-public interface UserRepository
-		extends CrudRepository<User, Long>, ContactRepository, EmployeeRepository, FlushOnSaveRepository<User> {}
+public interface UserRepositoryextends CrudRepository<User, Long>, ContactRepository, EmployeeRepository, FlushOnSaveRepository<User> {
+}

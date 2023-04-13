@@ -21,4 +21,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Oliver Gierke
  */
 @SpringBootApplication
-class SimpleConfiguration {}
+class SimpleConfiguration {
+}

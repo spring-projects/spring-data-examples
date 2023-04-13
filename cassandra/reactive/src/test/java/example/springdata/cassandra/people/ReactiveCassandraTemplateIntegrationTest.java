@@ -33,7 +33,8 @@ import reactor.test.StepVerifier;
 @SpringBootTest
 class ReactiveCassandraTemplateIntegrationTest {
 
-	@Autowired ReactiveCassandraTemplate template;
+	@Autowired
+	ReactiveCassandraTemplate template;
 
 	/**
 	 * Truncate table and insert some rows.
@@ -42,11 +43,11 @@ class ReactiveCassandraTemplateIntegrationTest {
 	void setUp() {
 
 		var truncateAndInsert = template.truncate(Person.class) //
-				.thenMany(Flux.just(new Person("Walter", "White", 50), //
-						new Person("Skyler", "White", 45), //
-						new Person("Saul", "Goodman", 42), //
-						new Person("Jesse", "Pinkman", 27))) //
-				.flatMap(template::insert);
+	.thenMany(Flux.just(new Person("Walter", "White", 50), //
+new Person("Skyler", "White", 45), //
+new Person("Saul", "Goodman", 42), //
+new Person("Jesse", "Pinkman", 27))) //
+	.flatMap(template::insert);
 
 		StepVerifier.create(truncateAndInsert).expectNextCount(4).verifyComplete();
 	}
@@ -59,13 +60,13 @@ class ReactiveCassandraTemplateIntegrationTest {
 	void shouldInsertAndCountData() {
 
 		var saveAndCount = template.count(Person.class) //
-				.doOnNext(System.out::println) //
-				.thenMany(Flux.just(new Person("Hank", "Schrader", 43), //
-						new Person("Mike", "Ehrmantraut", 62)))
-				.flatMap(template::insert) //
-				.last() //
-				.flatMap(v -> template.count(Person.class)) //
-				.doOnNext(System.out::println);
+	.doOnNext(System.out::println) //
+	.thenMany(Flux.just(new Person("Hank", "Schrader", 43), //
+new Person("Mike", "Ehrmantraut", 62)))
+	.flatMap(template::insert) //
+	.last() //
+	.flatMap(v -> template.count(Person.class)) //
+	.doOnNext(System.out::println);
 
 		StepVerifier.create(saveAndCount).expectNext(6L).verifyComplete();
 	}

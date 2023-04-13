@@ -38,8 +38,10 @@ import org.springframework.data.cassandra.core.query.Criteria;
 @CassandraKeyspace
 class OptimisticPersonRepositoryTests {
 
-	@Autowired OptimisticPersonRepository repository;
-	@Autowired CassandraOperations operations;
+	@Autowired
+	OptimisticPersonRepository repository;
+	@Autowired
+	CassandraOperations operations;
 
 	@BeforeEach
 	void setUp() {
@@ -97,12 +99,12 @@ class OptimisticPersonRepositoryTests {
 		operations.insert(person);
 
 		var success = operations.update(person,
-				UpdateOptions.builder().ifCondition(Criteria.where("name").is("Walter White")).build());
+	UpdateOptions.builder().ifCondition(Criteria.where("name").is("Walter White")).build());
 
 		assertThat(success.wasApplied()).isTrue();
 
 		var failed = operations.update(person,
-				UpdateOptions.builder().ifCondition(Criteria.where("name").is("Heisenberg")).build());
+	UpdateOptions.builder().ifCondition(Criteria.where("name").is("Heisenberg")).build());
 
 		assertThat(failed.wasApplied()).isFalse();
 	}

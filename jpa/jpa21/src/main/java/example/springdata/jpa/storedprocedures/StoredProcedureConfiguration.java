@@ -22,4 +22,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Oliver Gierke
  */
 @SpringBootApplication
-class StoredProcedureConfiguration {}
+class StoredProcedureConfiguration {
+}

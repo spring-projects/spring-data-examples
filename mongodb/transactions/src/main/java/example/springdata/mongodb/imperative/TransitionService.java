@@ -63,13 +63,13 @@ class TransitionService {
 	private void finish(Process process) {
 
 		template.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
-				.apply(Update.update("state", State.DONE).inc("transitionCount", 1)).first();
+	.apply(Update.update("state", State.DONE).inc("transitionCount", 1)).first();
 	}
 
 	void start(Process process) {
 
 		template.update(Process.class).matching(Query.query(Criteria.where("id").is(process.id())))
-				.apply(Update.update("state", State.ACTIVE).inc("transitionCount", 1)).first();
+	.apply(Update.update("state", State.ACTIVE).inc("transitionCount", 1)).first();
 	}
 
 	Process lookup(Integer id) {

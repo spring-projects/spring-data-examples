@@ -32,6 +32,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @AllArgsConstructor
 public class Person {
 
-	@Id String id;
+	@Id
+	String id;
 	String firstname, lastname;
 }

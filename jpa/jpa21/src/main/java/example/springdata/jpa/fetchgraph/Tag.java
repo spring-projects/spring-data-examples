@@ -30,7 +30,8 @@ import jakarta.persistence.Id;
 @Entity
 public class Tag {
 
-	@Id @GeneratedValue //
+	@Id
+	@GeneratedValue //
 	Long id;
 
 	String name;

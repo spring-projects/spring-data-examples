@@ -23,4 +23,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
-interface BusinessObjectRepository extends CrudRepository<BusinessObject, Long> {}
+interface BusinessObjectRepository extends CrudRepository<BusinessObject, Long> {
+}

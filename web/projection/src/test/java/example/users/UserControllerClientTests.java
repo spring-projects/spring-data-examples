@@ -49,7 +49,8 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UserControllerClientTests {
 
-	@Autowired TestRestTemplate template;
+	@Autowired
+	TestRestTemplate template;
 
 	/**
 	 * Custom configuration for the test to enrich the {@link TestRestTemplate} with the {@link HttpMessageConverter}s for
@@ -64,8 +65,8 @@ class UserControllerClientTests {
 		@Bean
 		RestTemplateBuilder builder() {
 			return new RestTemplateBuilder()//
-					.additionalMessageConverters(new ProjectingJackson2HttpMessageConverter())//
-					.additionalMessageConverters(new XmlBeamHttpMessageConverter());
+		.additionalMessageConverters(new ProjectingJackson2HttpMessageConverter())//
+		.additionalMessageConverters(new XmlBeamHttpMessageConverter());
 		}
 	}
 

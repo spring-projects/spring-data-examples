@@ -22,4 +22,5 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Jens Schauder
  */
-interface CategoryRepository extends CrudRepository<Category, Long>, WithInsert<Category> {}
+interface CategoryRepository extends CrudRepository<Category, Long>, WithInsert<Category> {
+}

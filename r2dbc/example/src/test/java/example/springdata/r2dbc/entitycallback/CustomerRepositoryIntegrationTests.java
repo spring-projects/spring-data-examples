@@ -37,8 +37,10 @@ import org.springframework.r2dbc.core.DatabaseClient;
 @SpringBootTest
 class CustomerRepositoryIntegrationTests {
 
-	@Autowired CustomerRepository customers;
-	@Autowired DatabaseClient database;
+	@Autowired
+	CustomerRepository customers;
+	@Autowired
+	DatabaseClient database;
 
 	@Test
 	void generatesIdOnInsert() throws IOException {
@@ -46,11 +48,11 @@ class CustomerRepositoryIntegrationTests {
 		var dave = new Customer(null, "Dave", "Matthews");
 
 		this.customers.save(dave) //
-				.as(StepVerifier::create) //
-				.assertNext(actual -> {
+	.as(StepVerifier::create) //
+	.assertNext(actual -> {
 
-					assertThat(dave.id()).isNull(); // immutable before save
-					assertThat(actual.id()).isNotNull(); // after save
-				}).verifyComplete();
+		assertThat(dave.id()).isNull(); // immutable before save
+		assertThat(actual.id()).isNotNull(); // after save
+	}).verifyComplete();
 	}
 }

@@ -39,7 +39,8 @@ import org.springframework.boot.test.autoconfigure.data.cassandra.DataCassandraT
 @DataCassandraTest
 class ExpressionIntegrationTests {
 
-	@Autowired EmployeeRepository employeeRepository;
+	@Autowired
+	EmployeeRepository employeeRepository;
 
 	@BeforeEach
 	void before() {
@@ -47,21 +48,21 @@ class ExpressionIntegrationTests {
 		employeeRepository.deleteAll().as(StepVerifier::create).verifyComplete();
 
 		employeeRepository
-				.saveAll(Arrays.asList(new Employee("breaking-bad", "Walter"), new Employee("breaking-bad", "Hank"),
-						new Employee("south-park", "Hank"))) //
-				.as(StepVerifier::create) //
-				.expectNextCount(3) //
-				.verifyComplete();
+	.saveAll(Arrays.asList(new Employee("breaking-bad", "Walter"), new Employee("breaking-bad", "Hank"),
+new Employee("south-park", "Hank"))) //
+	.as(StepVerifier::create) //
+	.expectNextCount(3) //
+	.verifyComplete();
 	}
 
 	@Test
 	void shouldFindByTenantIdAndName() {
 
 		employeeRepository.findAllByName("Walter") //
-				.contextWrite(Context.of(Tenant.class, new Tenant("breaking-bad"))).as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual.tenantId()).isEqualTo("breaking-bad");
-				}).verifyComplete();
+	.contextWrite(Context.of(Tenant.class, new Tenant("breaking-bad"))).as(StepVerifier::create) //
+	.assertNext(actual -> {
+		assertThat(actual.tenantId()).isEqualTo("breaking-bad");
+	}).verifyComplete();
 
 	}
 }

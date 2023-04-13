@@ -84,8 +84,8 @@ public class AggregateConfiguration extends AbstractJdbcConfiguration {
 				try {
 
 					return Math.toIntExact(clob.length()) == 0 //
-							? "" //
-							: clob.getSubString(1, Math.toIntExact(clob.length()));
+				? "" //
+				: clob.getSubString(1, Math.toIntExact(clob.length()));
 
 				} catch (SQLException e) {
 					throw new IllegalStateException("Failed to convert CLOB to String.", e);

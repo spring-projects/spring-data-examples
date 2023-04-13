@@ -54,7 +54,8 @@ class PersonRepositoryIntegrationTest {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired PersonRepository repository;
+	@Autowired
+	PersonRepository repository;
 
 	private Person dave, oliver, carter, admin;
 
@@ -83,7 +84,7 @@ class PersonRepositoryIntegrationTest {
 	void adminCallingShouldReturnAllUsers() throws Exception {
 
 		var auth = new UsernamePasswordAuthenticationToken(admin, "x",
-				Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
+	Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
 		var persons = repository.findAllForCurrentUserById();

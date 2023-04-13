@@ -24,7 +24,7 @@ import org.springframework.data.repository.CrudRepository;
 interface MinionRepository extends CrudRepository<Minion, Long> {
 
 	@Override
-	@CacheEvict(value="minions",beforeInvocation = false,key = "#result.id")
+	@CacheEvict(value = "minions", beforeInvocation = false, key = "#result.id")
 	<S extends Minion> S save(S s);
 
 	@Override

@@ -35,7 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 class UserRepositoryCustomizationTests {
 
-	@Autowired UserRepository repository;
+	@Autowired
+	UserRepository repository;
 
 	@Test
 	void invokesCustomMethod() {

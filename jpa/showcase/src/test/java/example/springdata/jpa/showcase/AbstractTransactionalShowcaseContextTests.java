@@ -37,10 +37,7 @@ import org.springframework.util.Assert;
 /**
  * @author Divya Srivastava
  */
-@TestExecutionListeners(listeners = { ServletTestExecutionListener.class,
-		DirtiesContextBeforeModesTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-		DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class,
-		SqlScriptsTestExecutionListener.class, EventPublishingTestExecutionListener.class }, inheritListeners = false)
+@TestExecutionListeners(listeners = {ServletTestExecutionListener.class,DirtiesContextBeforeModesTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class,SqlScriptsTestExecutionListener.class, EventPublishingTestExecutionListener.class}, inheritListeners = false)
 @Transactional
 public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseContextTests {
 
@@ -51,7 +48,8 @@ public class AbstractTransactionalShowcaseContextTests extends AbstractShowcaseC
 	 */
 	protected final JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-	@Nullable private String sqlScriptEncoding;
+	@Nullable
+	private String sqlScriptEncoding;
 
 	/**
 	 * Set the {@code DataSource}, typically provided via Dependency Injection.

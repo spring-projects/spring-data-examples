@@ -35,7 +35,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @CassandraKeyspace
 class ReactivePersonRepositoryIntegrationTest {
 
-	@Autowired ReactivePersonRepository repository;
+	@Autowired
+	ReactivePersonRepository repository;
 
 	/**
 	 * Clear table and insert some rows.
@@ -44,10 +45,10 @@ class ReactivePersonRepositoryIntegrationTest {
 	void setUp() {
 
 		var deleteAndInsert = repository.deleteAll() //
-				.thenMany(repository.saveAll(Flux.just(new Person("Walter", "White", 50), //
-						new Person("Skyler", "White", 45), //
-						new Person("Saul", "Goodman", 42), //
-						new Person("Jesse", "Pinkman", 27))));
+	.thenMany(repository.saveAll(Flux.just(new Person("Walter", "White", 50), //
+new Person("Skyler", "White", 45), //
+new Person("Saul", "Goodman", 42), //
+new Person("Jesse", "Pinkman", 27))));
 
 		StepVerifier.create(deleteAndInsert).expectNextCount(4).verifyComplete();
 	}
@@ -59,12 +60,12 @@ class ReactivePersonRepositoryIntegrationTest {
 	void shouldInsertAndCountData() {
 
 		var saveAndCount = repository.count() //
-				.doOnNext(System.out::println) //
-				.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
-						new Person("Mike", "Ehrmantraut", 62)))) //
-				.last() //
-				.flatMap(v -> repository.count()) //
-				.doOnNext(System.out::println);
+	.doOnNext(System.out::println) //
+	.thenMany(repository.saveAll(Flux.just(new Person("Hank", "Schrader", 43), //
+new Person("Mike", "Ehrmantraut", 62)))) //
+	.last() //
+	.flatMap(v -> repository.count()) //
+	.doOnNext(System.out::println);
 
 		StepVerifier.create(saveAndCount).expectNext(6L).verifyComplete();
 	}
@@ -77,8 +78,8 @@ class ReactivePersonRepositoryIntegrationTest {
 	void shouldPerformConversionBeforeResultProcessing() {
 
 		StepVerifier.create(repository.findAll().doOnNext(System.out::println)) //
-				.expectNextCount(4) //
-				.verifyComplete();
+	.expectNextCount(4) //
+	.verifyComplete();
 	}
 
 	/**
@@ -112,8 +113,8 @@ class ReactivePersonRepositoryIntegrationTest {
 	void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
 		StepVerifier.create(repository.findByFirstnameAndLastname(Mono.just("Walter"), "White")) //
-				.expectNextCount(1) //
-				.verifyComplete();
+	.expectNextCount(1) //
+	.verifyComplete();
 	}
 
 }

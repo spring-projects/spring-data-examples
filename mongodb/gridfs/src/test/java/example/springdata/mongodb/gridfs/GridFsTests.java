@@ -60,7 +60,8 @@ class GridFsTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired GridFsOperations gridFsOperations;
+	@Autowired
+	GridFsOperations gridFsOperations;
 
 	@BeforeEach
 	void before() {

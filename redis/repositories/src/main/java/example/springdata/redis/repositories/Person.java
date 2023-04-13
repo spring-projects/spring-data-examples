@@ -53,7 +53,7 @@ import org.springframework.data.redis.core.index.Indexed;
  * @author Christoph Strobl
  */
 @Data
-@EqualsAndHashCode(exclude = { "children" })
+@EqualsAndHashCode(exclude = {"children"})
 @RedisHash("persons")
 @NoArgsConstructor
 class Person {

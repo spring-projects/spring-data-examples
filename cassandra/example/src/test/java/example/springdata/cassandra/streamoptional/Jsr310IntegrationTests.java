@@ -37,7 +37,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = CassandraConfiguration.class)
 class Jsr310IntegrationTests {
 
-	@Autowired OrderRepository repository;
+	@Autowired
+	OrderRepository repository;
 
 	@BeforeEach
 	void setUp() throws Exception {

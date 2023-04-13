@@ -36,9 +36,11 @@ import com.couchbase.client.java.manager.query.CreatePrimaryQueryIndexOptions;
 @RequiredArgsConstructor
 public class CouchbaseMain {
 
-	@Autowired private final CouchbaseTemplate couchbaseTemplate;
+	@Autowired
+	private final CouchbaseTemplate couchbaseTemplate;
 
-	@Autowired private Cluster cluster;
+	@Autowired
+	private Cluster cluster;
 
 	/**
 	 * Add the _class field to all Airline documents
@@ -46,7 +48,7 @@ public class CouchbaseMain {
 	@PostConstruct
 	private void postConstruct() {
 		cluster.queryIndexes().createPrimaryIndex(couchbaseTemplate.getBucketName(),
-				CreatePrimaryQueryIndexOptions.createPrimaryQueryIndexOptions().ignoreIfExists(true));
+	CreatePrimaryQueryIndexOptions.createPrimaryQueryIndexOptions().ignoreIfExists(true));
 
 		// Need to post-process travel data to add _class attribute
 		cluster.query("update `travel-sample` set _class='" + Airline.class.getName() + "' where type = 'airline'");

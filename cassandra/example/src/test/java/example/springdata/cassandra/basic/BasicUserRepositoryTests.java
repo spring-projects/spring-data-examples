@@ -44,8 +44,10 @@ class BasicUserRepositoryTests {
 
 	private final static Version CASSANDRA_3_4 = Version.parse("3.4");
 
-	@Autowired BasicUserRepository repository;
-	@Autowired CqlSession session;
+	@Autowired
+	BasicUserRepository repository;
+	@Autowired
+	CqlSession session;
 	private User user;
 
 	@BeforeEach
@@ -91,8 +93,8 @@ class BasicUserRepositoryTests {
 
 		session.execute("CREATE INDEX IF NOT EXISTS user_username ON users (uname);");
 		/*
-		  Cassandra secondary indexes are created in the background without the possibility to check
-		  whether they are available or not. So we are forced to just wait. *sigh*
+			assandra secondary indexes are created in the background without the possibility to check
+			hether they are available or not. So we are forced to just wait. *sigh*
 		 */
 		Thread.sleep(1000);
 
@@ -111,8 +113,8 @@ class BasicUserRepositoryTests {
 
 		session.execute("CREATE CUSTOM INDEX ON users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex';");
 		/*
-		  Cassandra secondary indexes are created in the background without the possibility to check
-		  whether they are available or not. So we are forced to just wait. *sigh*
+			assandra secondary indexes are created in the background without the possibility to check
+			hether they are available or not. So we are forced to just wait. *sigh*
 		 */
 		Thread.sleep(1000);
 

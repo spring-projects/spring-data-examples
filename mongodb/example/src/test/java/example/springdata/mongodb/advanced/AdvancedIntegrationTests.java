@@ -54,8 +54,10 @@ class AdvancedIntegrationTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired AdvancedRepository repository;
-	@Autowired MongoOperations operations;
+	@Autowired
+	AdvancedRepository repository;
+	@Autowired
+	MongoOperations operations;
 
 	private Customer dave, oliver, carter;
 
@@ -85,7 +87,7 @@ class AdvancedIntegrationTests {
 		repository.findByLastname(dave.getLastname(), Sort.by("firstname"));
 
 		var cursor = operations.getCollection(ApplicationConfiguration.SYSTEM_PROFILE_DB)
-				.find(new BasicDBObject("query.$comment", AdvancedRepository.META_COMMENT));
+	.find(new BasicDBObject("query.$comment", AdvancedRepository.META_COMMENT));
 
 		for (var document : cursor) {
 

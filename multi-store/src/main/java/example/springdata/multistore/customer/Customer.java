@@ -53,5 +53,6 @@ public class Customer {
 	}
 
 	// Required by JPA
-	protected Customer() {}
+	protected Customer() {
+	}
 }

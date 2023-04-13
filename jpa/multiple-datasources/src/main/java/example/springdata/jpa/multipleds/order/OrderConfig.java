@@ -38,8 +38,7 @@ import org.springframework.transaction.PlatformTransactionManager;
  * @author Oliver Gierke
  */
 @Configuration
-@EnableJpaRepositories(entityManagerFactoryRef = "orderEntityManagerFactory",
-		transactionManagerRef = "orderTransactionManager")
+@EnableJpaRepositories(entityManagerFactoryRef = "orderEntityManagerFactory",transactionManagerRef = "orderTransactionManager")
 class OrderConfig {
 
 	@Bean
@@ -66,8 +65,8 @@ class OrderConfig {
 	DataSource orderDataSource() {
 
 		return new EmbeddedDatabaseBuilder().//
-				setType(EmbeddedDatabaseType.HSQL).//
-				setName("orders").//
-				build();
+	setType(EmbeddedDatabaseType.HSQL).//
+	setName("orders").//
+	build();
 	}
 }

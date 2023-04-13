@@ -46,9 +46,9 @@ class UserController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	String index(Model model, //
-			@QuerydslPredicate(root = User.class) Predicate predicate, //
-			@PageableDefault(sort = { "lastname", "firstname" }) Pageable pageable, //
-			@RequestParam MultiValueMap<String, String> parameters) {
+@QuerydslPredicate(root = User.class) Predicate predicate, //
+@PageableDefault(sort = {"lastname", "firstname"}) Pageable pageable, //
+@RequestParam MultiValueMap<String, String> parameters) {
 
 		ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest();
 		builder.replaceQueryParam("page", new Object[0]);

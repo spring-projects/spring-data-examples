@@ -24,9 +24,12 @@ import org.hibernate.annotations.TenantId;
 @Entity
 public class Person {
 
-	@Id @GeneratedValue private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-	@TenantId private String tenant;
+	@TenantId
+	private String tenant;
 
 	private String name;
 

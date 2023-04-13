@@ -52,8 +52,10 @@ class ReactiveCustomerRepositoryTests {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired ReactiveCustomerQuerydslRepository repository;
-	@Autowired MongoOperations operations;
+	@Autowired
+	ReactiveCustomerQuerydslRepository repository;
+	@Autowired
+	MongoOperations operations;
 
 	private Customer dave, oliver, carter;
 
@@ -73,10 +75,10 @@ class ReactiveCustomerRepositoryTests {
 	void findAllByPredicate() {
 
 		repository.findAll(QCustomer.customer.lastname.eq("Matthews")) //
-				.collectList() //
-				.as(StepVerifier::create) //
-				.assertNext(it -> assertThat(it).containsExactlyInAnyOrder(dave, oliver)) //
-				.verifyComplete();
+	.collectList() //
+	.as(StepVerifier::create) //
+	.assertNext(it -> assertThat(it).containsExactlyInAnyOrder(dave, oliver)) //
+	.verifyComplete();
 	}
 
 }

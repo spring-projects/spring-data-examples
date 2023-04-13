@@ -28,8 +28,10 @@ import org.springframework.dao.OptimisticLockingFailureException;
 @SpringBootTest
 class SelectiveUpdateApplicationTests {
 
-	@Autowired MinionRepository minions;
-	@Autowired PlainMinionRepository plainMinions;
+	@Autowired
+	MinionRepository minions;
+	@Autowired
+	PlainMinionRepository plainMinions;
 
 	@Test
 	void renameWithReducedView() {
@@ -43,7 +45,7 @@ class SelectiveUpdateApplicationTests {
 
 		Minion bob2 = minions.findById(bob.id).orElseThrow();
 
-		assertThat(bob2.toys).containsExactly(bob.toys.toArray(new Toy[] {}));
+		assertThat(bob2.toys).containsExactly(bob.toys.toArray(new Toy[]{}));
 		assertThat(bob2.name).isEqualTo("Bob II.");
 		assertThat(bob2.color).isEqualTo(Color.YELLOW);
 	}
@@ -58,7 +60,7 @@ class SelectiveUpdateApplicationTests {
 
 		Minion bob2 = minions.findById(bob.id).orElseThrow();
 
-		assertThat(bob2.toys).containsExactly(bob.toys.toArray(new Toy[] {}));
+		assertThat(bob2.toys).containsExactly(bob.toys.toArray(new Toy[]{}));
 		assertThat(bob2.name).isEqualTo("Bob");
 		assertThat(bob2.color).isEqualTo(Color.PURPLE);
 	}

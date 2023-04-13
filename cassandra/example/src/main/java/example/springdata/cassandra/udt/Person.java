@@ -32,11 +32,13 @@ import com.datastax.oss.driver.api.core.data.UdtValue;
 @Table
 public class Person {
 
-	@Id int id;
+	@Id
+	int id;
 
 	String firstname, lastname;
 	Address current;
 	List<Address> previous;
 
-	@CassandraType(type = CassandraType.Name.UDT, userTypeName = "address") UdtValue alternative;
+	@CassandraType(type = CassandraType.Name.UDT, userTypeName = "address")
+	UdtValue alternative;
 }

@@ -50,7 +50,8 @@ class ImmutableEntityIntegrationTest {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	@BeforeEach
 	void setUp() {

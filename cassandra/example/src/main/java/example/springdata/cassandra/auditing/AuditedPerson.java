@@ -37,17 +37,23 @@ import org.springframework.data.domain.Persistable;
 @Table
 public class AuditedPerson implements Persistable<Long> {
 
-	@Id Long id;
+	@Id
+	Long id;
 
-	@CreatedBy String createdBy;
+	@CreatedBy
+	String createdBy;
 
-	@LastModifiedBy String lastModifiedBy;
+	@LastModifiedBy
+	String lastModifiedBy;
 
-	@CreatedDate Instant createdDate;
+	@CreatedDate
+	Instant createdDate;
 
-	@LastModifiedDate Instant lastModifiedDate;
+	@LastModifiedDate
+	Instant lastModifiedDate;
 
-	@Transient boolean isNew;
+	@Transient
+	boolean isNew;
 
 	@Override
 	public boolean isNew() {

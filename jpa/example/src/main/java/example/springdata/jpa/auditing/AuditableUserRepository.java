@@ -20,4 +20,5 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * @author Oliver Gierke
  */
-public interface AuditableUserRepository extends CrudRepository<AuditableUser, Long> {}
+public interface AuditableUserRepository extends CrudRepository<AuditableUser, Long> {
+}

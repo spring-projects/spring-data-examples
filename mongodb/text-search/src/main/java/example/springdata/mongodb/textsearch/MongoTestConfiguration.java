@@ -37,12 +37,13 @@ import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFacto
 @SpringBootApplication
 public class MongoTestConfiguration {
 
-	@Autowired MongoOperations operations;
+	@Autowired
+	MongoOperations operations;
 
 	public @Bean Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
 
 		var factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
-		factoryBean.setResources(new Resource[] { new ClassPathResource("spring-blog.atom.json") });
+		factoryBean.setResources(new Resource[]{new ClassPathResource("spring-blog.atom.json")});
 		return factoryBean;
 	}
 

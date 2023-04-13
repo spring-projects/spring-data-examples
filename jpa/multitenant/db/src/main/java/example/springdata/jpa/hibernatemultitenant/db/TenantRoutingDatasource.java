@@ -27,7 +27,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TenantRoutingDatasource extends AbstractRoutingDataSource {
 
-	@Autowired private TenantIdentifierResolver tenantIdentifierResolver;
+	@Autowired
+	private TenantIdentifierResolver tenantIdentifierResolver;
 
 	TenantRoutingDatasource() {
 
@@ -47,6 +48,6 @@ public class TenantRoutingDatasource extends AbstractRoutingDataSource {
 	private EmbeddedDatabase createEmbeddedDatabase(String name) {
 
 		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName(name).addScript("manual-schema.sql")
-				.build();
+	.build();
 	}
 }

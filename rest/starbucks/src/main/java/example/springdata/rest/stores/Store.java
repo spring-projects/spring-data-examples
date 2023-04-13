@@ -38,7 +38,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Store {
 
-	@Id UUID id;
+	@Id
+	UUID id;
 	String name;
 	Address address;
 
@@ -51,7 +52,8 @@ public class Store {
 	public static class Address {
 
 		String street, city, zip;
-		@GeoSpatialIndexed(type = GEO_2DSPHERE) Point location;
+		@GeoSpatialIndexed(type = GEO_2DSPHERE)
+		Point location;
 
 		/*
 		 * (non-Javadoc)

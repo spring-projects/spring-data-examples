@@ -33,7 +33,8 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Table
 public class Addressbook {
 
-	@Id String id;
+	@Id
+	String id;
 
 	Contact me;
 	List<Contact> friends;

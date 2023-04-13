@@ -42,9 +42,9 @@ class ApplicationConfiguration {
 			if (customer.id() == null) {
 
 				return databaseClient.sql("SELECT NEXT VALUE FOR primary_key") //
-						.map(row -> row.get(0, Long.class)) //
-						.first() //
-						.map(customer::withId);
+			.map(row -> row.get(0, Long.class)) //
+			.first() //
+			.map(customer::withId);
 			}
 
 			return Mono.just(customer);
@@ -57,9 +57,9 @@ class ApplicationConfiguration {
 		var initializer = new ConnectionFactoryInitializer();
 		initializer.setConnectionFactory(connectionFactory);
 		initializer.setDatabasePopulator(new ResourceDatabasePopulator(new ByteArrayResource(("CREATE SEQUENCE primary_key;"
-				+ "DROP TABLE IF EXISTS customer;"
-				+ "CREATE TABLE customer (id INT PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL);")
-						.getBytes())));
+	+ "DROP TABLE IF EXISTS customer;"
+	+ "CREATE TABLE customer (id INT PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL);")
+	.getBytes())));
 
 		return initializer;
 	}

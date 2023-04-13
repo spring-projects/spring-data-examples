@@ -43,7 +43,7 @@ class CollectingMessageListener<S, T> implements MessageListener<S, T> {
 
 
 		System.out.println(String.format("Received Message in collection %s.\n\trawsource: %s\n\tconverted: %s",
-				message.getProperties().getCollectionName(), message.getRaw(), message.getBody()));
+	message.getProperties().getCollectionName(), message.getRaw(), message.getBody()));
 
 		count.incrementAndGet();
 		messages.add(message);

@@ -50,7 +50,7 @@ class UserController {
 	HttpEntity<String> post(@RequestBody UserPayload user) {
 
 		return ResponseEntity
-				.ok(String.format("Received firstname: %s, lastname: %s", user.getFirstname(), user.getLastname()));
+	.ok(String.format("Received firstname: %s, lastname: %s", user.getFirstname(), user.getLastname()));
 	}
 
 	/**

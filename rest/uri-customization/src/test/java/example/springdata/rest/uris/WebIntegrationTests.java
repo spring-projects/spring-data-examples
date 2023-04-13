@@ -37,7 +37,8 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 class WebIntegrationTests {
 
-	@Autowired WebApplicationContext context;
+	@Autowired
+	WebApplicationContext context;
 
 	private MockMvc mvc;
 
@@ -50,7 +51,7 @@ class WebIntegrationTests {
 	void identifiesResourcesUsingUsername() throws Exception {
 
 		mvc.perform(get("/users/olivergierke")).//
-				andExpect(status().isOk()).//
-				andExpect(jsonPath("$._links.self.href", endsWith("olivergierke")));
+	andExpect(status().isOk()).//
+	andExpect(jsonPath("$._links.self.href", endsWith("olivergierke")));
 	}
 }

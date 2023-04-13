@@ -21,7 +21,8 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("MINION")
 class PersistableMinion implements Persistable<Long> {
-	@Id Long id;
+	@Id
+	Long id;
 	String name;
 
 	PersistableMinion(Long id, String name) {

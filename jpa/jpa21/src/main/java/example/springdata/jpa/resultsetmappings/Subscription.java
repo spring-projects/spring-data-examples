@@ -35,18 +35,14 @@ import jakarta.persistence.SqlResultSetMapping;
  */
 @NamedNativeQueries({
 
-		// A query using a dedicated SQL result set mapping (see below)
-		@NamedNativeQuery(name = "Subscription.findAllSubscriptionSummaries", //
+		// A query using a dedicated SQL result set mapping (see below)@NamedNativeQuery(name = "Subscription.findAllSubscriptionSummaries", //
 				query = "select product_name as productName, count(user_id) as subscriptions from subscription group by product_name order by productName", //
 				resultSetMapping = "subscriptionSummary"),
 
-		// A query using simple projections
-		@NamedNativeQuery(name = "Subscription.findAllSubscriptionProjections", //
-				query = "select product_name as product, count(user_id) as usageCount from subscription group by product_name order by product") })
+		// A query using simple projections@NamedNativeQuery(name = "Subscription.findAllSubscriptionProjections", //
+				query = "select product_name as product, count(user_id) as usageCount from subscription group by product_name order by product")})
 
-@SqlResultSetMapping( //
-		name = "subscriptionSummary", //
-		classes = @ConstructorResult(targetClass = SubscriptionSummary.class, //
+@SqlResultSetMapping( //name = "subscriptionSummary", //classes = @ConstructorResult(targetClass = SubscriptionSummary.class, //
 				columns = { //
 						@ColumnResult(name = "productName", type = String.class), //
 						@ColumnResult(name = "subscriptions", type = long.class) //

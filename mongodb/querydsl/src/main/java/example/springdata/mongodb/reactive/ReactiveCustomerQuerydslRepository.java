@@ -25,7 +25,6 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
  *
  * @author Christoph Strobl
  */
-interface ReactiveCustomerQuerydslRepository
-		extends ReactiveCrudRepository<Customer, String>, ReactiveQuerydslPredicateExecutor<Customer> {
+interface ReactiveCustomerQuerydslRepositoryextends ReactiveCrudRepository<Customer, String>, ReactiveQuerydslPredicateExecutor<Customer> {
 
 }

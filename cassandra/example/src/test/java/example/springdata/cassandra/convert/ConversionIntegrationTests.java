@@ -42,7 +42,8 @@ import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 @SpringBootTest(classes = ConverterConfiguration.class)
 class ConversionIntegrationTests {
 
-	@Autowired CassandraOperations operations;
+	@Autowired
+	CassandraOperations operations;
 
 	@BeforeEach
 	void setUp() {
@@ -110,7 +111,7 @@ class ConversionIntegrationTests {
 		operations.insert(addressbook);
 
 		var loaded = operations.selectOne(QueryBuilder.selectFrom("addressbook").all().asCql(),
-				CustomAddressbook.class);
+	CustomAddressbook.class);
 
 		assertThat(loaded.theId()).isEqualTo(addressbook.getId());
 		assertThat(loaded.myDetailsAsJson()).contains("\"firstname\":\"Walter\"");

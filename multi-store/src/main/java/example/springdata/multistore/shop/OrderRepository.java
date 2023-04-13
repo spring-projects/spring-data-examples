@@ -23,4 +23,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author Thomas Darimont
  * @author Oliver Gierke
  */
-public interface OrderRepository extends CrudRepository<Order, String> {}
+public interface OrderRepository extends CrudRepository<Order, String> {
+}

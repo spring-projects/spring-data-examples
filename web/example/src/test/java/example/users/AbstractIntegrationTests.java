@@ -24,4 +24,5 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author Divya Srivastava
  */
 @SpringBootTest
-abstract class AbstractIntegrationTests {}
+abstract class AbstractIntegrationTests {
+}

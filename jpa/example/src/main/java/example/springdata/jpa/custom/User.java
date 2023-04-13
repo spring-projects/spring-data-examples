@@ -33,7 +33,8 @@ public class User extends AbstractPersistable<Long> {
 
 	private static final long serialVersionUID = -2952735933715107252L;
 
-	@Column(unique = true) private String username;
+	@Column(unique = true)
+	private String username;
 
 	private String firstname;
 	private String lastname;

@@ -36,7 +36,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @AutoConfigureJdbc
 class SimpleEntityTests {
 
-	@Autowired CategoryRepository repository;
+	@Autowired
+	CategoryRepository repository;
 
 	@Test
 	void exerciseRepositoryForSimpleEntity() {

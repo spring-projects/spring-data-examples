@@ -36,10 +36,11 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Autowired CustomerRepository customers;
+	@Autowired
+	CustomerRepository customers;
 
 	public @PostConstruct void init() {
 		customers.save(new Customer("Dave", "Matthews", Gender.MALE, //
-				new Address("4711 Some Place", "54321", "Charlottesville", "VA")));
+	new Address("4711 Some Place", "54321", "Charlottesville", "VA")));
 	}
 }

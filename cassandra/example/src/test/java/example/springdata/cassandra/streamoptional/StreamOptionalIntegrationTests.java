@@ -38,7 +38,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = CassandraConfiguration.class)
 class StreamOptionalIntegrationTests {
 
-	@Autowired PersonRepository repository;
+	@Autowired
+	PersonRepository repository;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -51,7 +52,7 @@ class StreamOptionalIntegrationTests {
 		var homer = repository.save(new Person("1", "Homer", "Simpson"));
 
 		assertThat(repository.findById(homer.id).isPresent()).isTrue();
-		assertThat(repository.findById(homer.id + 1)).isEqualTo(Optional.<Person> empty());
+		assertThat(repository.findById(homer.id + 1)).isEqualTo(Optional.<Person>empty());
 	}
 
 	@Test

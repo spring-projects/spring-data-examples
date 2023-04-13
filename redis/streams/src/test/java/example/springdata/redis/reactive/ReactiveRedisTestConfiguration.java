@@ -31,7 +31,8 @@ import reactor.test.StepVerifier;
 @SpringBootApplication
 public class ReactiveRedisTestConfiguration {
 
-	@Autowired ReactiveRedisConnectionFactory factory;
+	@Autowired
+	ReactiveRedisConnectionFactory factory;
 
 	@Bean
 	StreamReceiver<String, MapRecord<String, String, String>> streamReceiver() {

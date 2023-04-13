@@ -34,8 +34,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class ApplicationIntegrationTests {
 
-	@Autowired PersonRepository personRepository;
-	@Autowired TreasureRepository treasureRepository;
+	@Autowired
+	PersonRepository personRepository;
+	@Autowired
+	TreasureRepository treasureRepository;
 
 	@Test
 	public void useMultipleRepositories() {

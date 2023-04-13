@@ -41,8 +41,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 	public List<Employee> findCoworkers(Employee employee) {
 
 		return entityManager.createQuery("SELECT u from User u where u.manager = :manager") //
-				.setParameter("manager", employee.getManager()) //
-				.getResultList();
+	.setParameter("manager", employee.getManager()) //
+	.getResultList();
 	}
 
 	/*
@@ -54,7 +54,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 	public List<Employee> findSubordinates(Employee manager) {
 
 		return entityManager.createQuery("SELECT u from User u where u.manager = :manager") //
-				.setParameter("manager", manager) //
-				.getResultList();
+	.setParameter("manager", manager) //
+	.getResultList();
 	}
 }

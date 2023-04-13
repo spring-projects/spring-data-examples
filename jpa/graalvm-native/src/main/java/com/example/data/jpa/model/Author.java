@@ -71,7 +71,7 @@ public class Author {
 		}
 		Author author = (Author) o;
 		return Objects.equals(id, author.id) && Objects.equals(name, author.name)
-				&& Objects.equals(books, author.books);
+	&& Objects.equals(books, author.books);
 	}
 
 	@Override

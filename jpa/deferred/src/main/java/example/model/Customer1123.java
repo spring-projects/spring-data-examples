@@ -8,11 +8,14 @@ import jakarta.persistence.Id;
 @Entity
 public class Customer1123 {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO) private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	private String firstName;
 	private String lastName;
 
-	protected Customer1123() {}
+	protected Customer1123() {
+	}
 
 	public Customer1123(String firstName, String lastName) {
 		this.firstName = firstName;

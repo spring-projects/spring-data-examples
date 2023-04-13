@@ -29,7 +29,8 @@ import static org.assertj.core.api.Assertions.*;
  */
 class UserManagementIntegrationTests extends AbstractIntegrationTests {
 
-	@Autowired UserManagement userManagement;
+	@Autowired
+	UserManagement userManagement;
 
 	/**
 	 * @see #65

@@ -27,7 +27,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 @SpringBootApplication
 public class RedisTestConfiguration {
 
-	@Autowired RedisConnectionFactory factory;
+	@Autowired
+	RedisConnectionFactory factory;
 
 	/**
 	 * Clear database before shut down.

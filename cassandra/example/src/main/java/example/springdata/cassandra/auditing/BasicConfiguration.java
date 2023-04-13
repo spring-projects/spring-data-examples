@@ -55,7 +55,7 @@ class BasicConfiguration {
 	 */
 	@Bean
 	public MappingCassandraConverter cassandraConverter(CassandraMappingContext mapping,
-			CassandraCustomConversions conversions, CqlSession session) {
+CassandraCustomConversions conversions, CqlSession session) {
 
 		var converter = new MappingCassandraConverter(mapping);
 

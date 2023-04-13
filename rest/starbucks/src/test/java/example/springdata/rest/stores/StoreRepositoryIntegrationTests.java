@@ -41,7 +41,8 @@ import org.springframework.data.geo.Point;
 @SpringBootTest(classes = Application.class)
 public class StoreRepositoryIntegrationTests {
 
-	@Autowired StoreRepository repository;
+	@Autowired
+	StoreRepository repository;
 
 	@BeforeEach
 	@AfterEach
@@ -58,7 +59,7 @@ public class StoreRepositoryIntegrationTests {
 		store = repository.save(store);
 
 		var stores = repository.findByAddressLocationNear(location, new Distance(1.0, Metrics.KILOMETERS),
-				PageRequest.of(0, 10));
+	PageRequest.of(0, 10));
 
 		assertThat(stores.getContent()).hasSize(1);
 		assertThat(stores.getContent()).contains(store);

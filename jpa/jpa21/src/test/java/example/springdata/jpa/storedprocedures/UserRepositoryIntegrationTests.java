@@ -38,10 +38,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class UserRepositoryIntegrationTests {
 
-	@Autowired UserRepository repository;
+	@Autowired
+	UserRepository repository;
 	// This is what it would look like implemented manually.
 
-	@Autowired EntityManager em;
+	@Autowired
+	EntityManager em;
 
 	/**
 	 * @see DATAJPA-455

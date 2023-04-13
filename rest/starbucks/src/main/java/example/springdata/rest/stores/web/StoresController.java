@@ -48,14 +48,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 class StoresController {
 
 	private static final List<Distance> DISTANCES = Arrays.asList(new Distance(0.5, MILES), new Distance(1, MILES),
-			new Distance(2, MILES));
+new Distance(2, MILES));
 	private static final Distance DEFAULT_DISTANCE = new Distance(1, Metrics.MILES);
 	private static final Map<String, Point> KNOWN_LOCATIONS;
 
 	static {
 
 		KNOWN_LOCATIONS = Map.of("Pivotal SF", new Point(-122.4041764, 37.7819286), "Timesquare NY",
-				new Point(-73.995146, 40.740337));
+	new Point(-73.995146, 40.740337));
 	}
 
 	private final StoreRepository repository;
@@ -72,7 +72,7 @@ class StoresController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	String index(Model model, @RequestParam Optional<Point> location, @RequestParam Optional<Distance> distance,
-			Pageable pageable) {
+Pageable pageable) {
 
 		var point = location.orElse(KNOWN_LOCATIONS.get("Timesquare NY"));
 
@@ -84,7 +84,7 @@ class StoresController {
 		model.addAttribute("location", point);
 		model.addAttribute("locations", KNOWN_LOCATIONS);
 		model.addAttribute("api",
-				entityLinks.linkToSearchResource(Store.class, LinkRelation.of("by-location"), pageable).getHref());
+	entityLinks.linkToSearchResource(Store.class, LinkRelation.of("by-location"), pageable).getHref());
 
 		return "index";
 	}

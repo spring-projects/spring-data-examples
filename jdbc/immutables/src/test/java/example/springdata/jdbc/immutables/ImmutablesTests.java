@@ -32,15 +32,16 @@ import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 @DataJdbcTest
 class ImmutablesTests {
 
-	@Autowired EnigmaRepository repository;
+	@Autowired
+	EnigmaRepository repository;
 
 	@Test
 	void shouldInsertAndRetrieveObject() {
 
 		var enigmaA = ImmutableEnigma.builder().model("A") //
-				.addRotors(Rotor.of("I", "DMTWSILRUYQNKFEJCAZBPGXOHV", 'Q')) //
-				.addRotors(Rotor.of("II", "HQZGPJTMOBLNCIFDYAWVEUSRXL", 'E')) //
-				.build();
+	.addRotors(Rotor.of("I", "DMTWSILRUYQNKFEJCAZBPGXOHV", 'Q')) //
+	.addRotors(Rotor.of("II", "HQZGPJTMOBLNCIFDYAWVEUSRXL", 'E')) //
+	.build();
 
 		var saved = repository.save(enigmaA);
 

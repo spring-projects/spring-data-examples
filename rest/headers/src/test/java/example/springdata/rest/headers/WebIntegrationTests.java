@@ -44,49 +44,49 @@ import org.springframework.web.util.UriTemplate;
 @ExtendWith(RestDocumentationExtension.class)
 public class WebIntegrationTests {
 
-    public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+	public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
 
-    @Autowired
-    WebApplicationContext context;
-    @Autowired
-    CustomerRepository customers;
+	@Autowired
+	WebApplicationContext context;
+	@Autowired
+	CustomerRepository customers;
 
-    private MockMvc mvc;
+	private MockMvc mvc;
 
-    @BeforeEach
-    public void setUp(RestDocumentationContextProvider restDocumentation) {
+	@BeforeEach
+	public void setUp(RestDocumentationContextProvider restDocumentation) {
 
-        this.mvc = MockMvcBuilders.webAppContextSetup(context).//
-                apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)).//
-                build();
-    }
+		this.mvc = MockMvcBuilders.webAppContextSetup(context).//
+	apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)).//
+	build();
+	}
 
-    @Test
-    public void executeConditionalGetRequests() throws Exception {
+	@Test
+	public void executeConditionalGetRequests() throws Exception {
 
-        var customer = customers.findAll().iterator().next();
-        var uri = new UriTemplate("/customers/{id}").expand(customer.getId());
+		var customer = customers.findAll().iterator().next();
+		var uri = new UriTemplate("/customers/{id}").expand(customer.getId());
 
-        var response = mvc.perform(get(uri)).//
-                andExpect(header().string(ETAG, is(notNullValue()))).//
-                andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
-                andReturn().getResponse();
+		var response = mvc.perform(get(uri)).//
+	andExpect(header().string(ETAG, is(notNullValue()))).//
+	andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
+	andReturn().getResponse();
 
-        // ETag-based
+		// ETag-based
 
-        response = mvc.perform(get(uri).header(IF_NONE_MATCH, response.getHeader(ETAG))).//
-                andExpect(status().isNotModified()).//
-                andExpect(header().string(ETAG, is(notNullValue()))).//
-                andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
-                andDo(document("if-none-match")).//
-                andReturn().getResponse();
+		response = mvc.perform(get(uri).header(IF_NONE_MATCH, response.getHeader(ETAG))).//
+	andExpect(status().isNotModified()).//
+	andExpect(header().string(ETAG, is(notNullValue()))).//
+	andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
+	andDo(document("if-none-match")).//
+	andReturn().getResponse();
 
-        // Last-modified-based
+		// Last-modified-based
 
-        mvc.perform(get(uri).header(IF_MODIFIED_SINCE, response.getHeader(LAST_MODIFIED))).//
-                andExpect(status().isNotModified()).//
-                andExpect(header().string(ETAG, is(notNullValue()))).//
-                andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
-                andDo(document("if-modified-since"));
-    }
+		mvc.perform(get(uri).header(IF_MODIFIED_SINCE, response.getHeader(LAST_MODIFIED))).//
+	andExpect(status().isNotModified()).//
+	andExpect(header().string(ETAG, is(notNullValue()))).//
+	andExpect(header().string(LAST_MODIFIED, is(notNullValue()))).//
+	andDo(document("if-modified-since"));
+	}
 }

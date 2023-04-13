@@ -34,7 +34,8 @@ import jakarta.persistence.OneToMany;
 @Data
 public class Order {
 
-	@Id @GeneratedValue //
+	@Id
+	@GeneratedValue //
 	private Long id;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //

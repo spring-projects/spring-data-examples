@@ -55,5 +55,6 @@ public class Customer implements AggregateRoot<Customer, CustomerId> {
 		this.addresses.add(address);
 	}
 
-	public record CustomerId(UUID id) implements Identifier {}
+	public record CustomerId(UUID id) implements Identifier {
+	}
 }

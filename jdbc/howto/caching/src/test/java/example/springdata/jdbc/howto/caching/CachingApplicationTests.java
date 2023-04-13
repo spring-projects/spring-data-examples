@@ -11,7 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class CachingApplicationTests {
 
 	private Long bobsId;
-	@Autowired MinionRepository minions;
+	@Autowired
+	MinionRepository minions;
 
 	@BeforeEach
 	void setup() {

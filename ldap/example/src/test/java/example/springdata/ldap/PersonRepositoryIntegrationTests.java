@@ -34,7 +34,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class PersonRepositoryIntegrationTests {
 
-	@Autowired PersonRepository personRepository;
+	@Autowired
+	PersonRepository personRepository;
 
 	/**
 	 * Find a {@link Person} by its Id that is a full DN.

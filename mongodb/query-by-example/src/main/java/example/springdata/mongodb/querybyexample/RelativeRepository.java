@@ -24,4 +24,5 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
  *
  * @author Mark Paluch
  */
-public interface RelativeRepository extends CrudRepository<Relative, Long>, QueryByExampleExecutor<Relative> {}
+public interface RelativeRepository extends CrudRepository<Relative, Long>, QueryByExampleExecutor<Relative> {
+}

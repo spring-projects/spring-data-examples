@@ -43,9 +43,11 @@ public class AirlineRepositoryIntegrationTests {
 	@ClassRule //
 	public static CouchbaseAvailableRule COUCHBASE = CouchbaseAvailableRule.onLocalhost();
 
-	@Autowired AirlineRepository airlineRepository;
+	@Autowired
+	AirlineRepository airlineRepository;
 
-	@Autowired CouchbaseOperations couchbaseOperations;
+	@Autowired
+	CouchbaseOperations couchbaseOperations;
 
 	@Before
 	public void before() {

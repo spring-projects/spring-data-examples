@@ -36,7 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 class ComposedRepositoryTests {
 
-	@Autowired UserRepository repository;
+	@Autowired
+	UserRepository repository;
 
 	/**
 	 * Tests inserting a user and asserts it can be loaded again.

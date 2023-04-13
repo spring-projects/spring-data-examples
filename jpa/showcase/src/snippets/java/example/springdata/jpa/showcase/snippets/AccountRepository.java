@@ -30,8 +30,7 @@ import org.springframework.data.repository.NoRepositoryBean;
  * @author Oliver Gierke
  */
 @NoRepositoryBean
-public interface AccountRepository
-		extends CrudRepository<Account, Long>, AccountRepositoryCustom, QuerydslPredicateExecutor<Account> {
+public interface AccountRepositoryextends CrudRepository<Account, Long>, AccountRepositoryCustom, QuerydslPredicateExecutor<Account> {
 
 	/**
 	 * Returns all accounts belonging to the given {@link Customer}.

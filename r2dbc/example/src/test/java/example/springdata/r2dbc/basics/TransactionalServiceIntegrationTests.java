@@ -37,9 +37,12 @@ import org.springframework.r2dbc.core.DatabaseClient;
 @SpringBootTest(classes = InfrastructureConfiguration.class)
 class TransactionalServiceIntegrationTests {
 
-	@Autowired TransactionalService service;
-	@Autowired CustomerRepository repository;
-	@Autowired DatabaseClient database;
+	@Autowired
+	TransactionalService service;
+	@Autowired
+	CustomerRepository repository;
+	@Autowired
+	DatabaseClient database;
 
 	@BeforeEach
 	void setUp() {
@@ -47,43 +50,43 @@ class TransactionalServiceIntegrationTests {
 		Hooks.onOperatorDebug();
 
 		var statements = Arrays.asList(//
-				"DROP TABLE IF EXISTS customer;",
-				"CREATE TABLE customer ( id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL);");
+	"DROP TABLE IF EXISTS customer;",
+	"CREATE TABLE customer ( id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL);");
 
 		statements.forEach(it -> database.sql(it) //
-				.fetch() //
-				.rowsUpdated() //
-				.as(StepVerifier::create) //
-				.expectNextCount(1) //
-				.verifyComplete());
+	.fetch() //
+	.rowsUpdated() //
+	.as(StepVerifier::create) //
+	.expectNextCount(1) //
+	.verifyComplete());
 	}
 
 	@Test // #500
 	void exceptionTriggersRollback() {
 
 		service.save(new Customer(null, "Dave", "Matthews")) //
-				.as(StepVerifier::create) //
-				.expectError() // Error because of the exception triggered within the service
-				.verify();
+	.as(StepVerifier::create) //
+	.expectError() // Error because of the exception triggered within the service
+	.verify();
 
 		// No data inserted due to rollback
 		repository.findByLastname("Matthews") //
-				.as(StepVerifier::create) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.verifyComplete();
 	}
 
 	@Test // #500
 	void insertsDataTransactionally() {
 
 		service.save(new Customer(null, "Carter", "Beauford")) //
-				.as(StepVerifier::create) //
-				.expectNextMatches(Customer::hasId) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNextMatches(Customer::hasId) //
+	.verifyComplete();
 
 		// Data inserted due to commit
 		repository.findByLastname("Beauford") //
-				.as(StepVerifier::create) //
-				.expectNextMatches(Customer::hasId) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNextMatches(Customer::hasId) //
+	.verifyComplete();
 	}
 }

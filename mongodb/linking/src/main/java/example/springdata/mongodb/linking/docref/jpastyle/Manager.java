@@ -35,7 +35,7 @@ class Manager {
 	 * that have a matching {@literal managerId} field value.
 	 */
 	@ReadOnlyProperty
-	@DocumentReference(lookup="{'managerId':?#{#self._id} }")
+	@DocumentReference(lookup = "{'managerId':?#{#self._id} }")
 	private List<Employee> employees;
 
 	public Manager() {

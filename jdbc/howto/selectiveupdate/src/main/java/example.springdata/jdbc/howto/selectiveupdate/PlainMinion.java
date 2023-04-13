@@ -26,8 +26,10 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("MINION")
 class PlainMinion {
-	@Id Long id;
+	@Id
+	Long id;
 	String name;
 	Color color;
-	@Version int version;
+	@Version
+	int version;
 }

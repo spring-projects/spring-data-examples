@@ -22,4 +22,5 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Oliver Gierke
  */
-public interface CustomerRepository extends CrudRepository<Customer, Long> {}
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
+}

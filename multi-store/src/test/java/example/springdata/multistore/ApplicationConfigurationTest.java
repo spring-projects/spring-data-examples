@@ -39,7 +39,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class ApplicationConfigurationTest {
 
-	@Autowired ApplicationContext context;
+	@Autowired
+	ApplicationContext context;
 
 	@Test
 	public void repositoriesAreAssignedToAppropriateStores() {

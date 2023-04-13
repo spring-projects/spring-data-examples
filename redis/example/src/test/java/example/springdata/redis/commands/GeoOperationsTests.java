@@ -40,7 +40,8 @@ import org.springframework.data.redis.core.RedisOperations;
 @EnabledOnCommand("GEOADD")
 class GeoOperationsTests {
 
-	@Autowired RedisOperations<String, String> operations;
+	@Autowired
+	RedisOperations<String, String> operations;
 	private GeoOperations<String, String> geoOperations;
 
 	@BeforeEach
@@ -60,12 +61,12 @@ class GeoOperationsTests {
 	void geoRadiusByMember() {
 
 		var byDistance = geoOperations.radius("Sicily", "Palermo",
-				new Distance(100, DistanceUnit.KILOMETERS));
+	new Distance(100, DistanceUnit.KILOMETERS));
 
 		assertThat(byDistance).hasSize(2).extracting("content.name").contains("Arigento", "Palermo");
 
 		var greaterDistance = geoOperations.radius("Sicily", "Palermo",
-				new Distance(200, DistanceUnit.KILOMETERS));
+	new Distance(200, DistanceUnit.KILOMETERS));
 
 		assertThat(greaterDistance).hasSize(3).extracting("content.name").contains("Arigento", "Catania", "Palermo");
 	}
@@ -77,7 +78,7 @@ class GeoOperationsTests {
 	void geoRadius() {
 
 		var circle = new Circle(new Point(13.583333, 37.316667), //
-				new Distance(100, DistanceUnit.KILOMETERS));
+	new Distance(100, DistanceUnit.KILOMETERS));
 		var result = geoOperations.radius("Sicily", circle);
 
 		assertThat(result).hasSize(2).extracting("content.name").contains("Arigento", "Palermo");

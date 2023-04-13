@@ -37,10 +37,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PersonRepositoryIntegrationTests {
 
-	@Autowired PersonRepository people;
+	@Autowired
+	PersonRepository people;
 
 	@SpringBootApplication
-	static class Configuration {}
+	static class Configuration {
+	}
 
 	/**
 	 * @see #231

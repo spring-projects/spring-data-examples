@@ -33,8 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 class AccountServiceIntegrationTest extends AbstractShowcaseTest {
 
-	@Autowired AccountService accountService;
-	@Autowired CustomerService customerService;
+	@Autowired
+	AccountService accountService;
+	@Autowired
+	CustomerService customerService;
 
 	@Test
 	void savesAccount() {

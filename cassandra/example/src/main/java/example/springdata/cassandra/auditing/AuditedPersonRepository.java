@@ -22,4 +22,5 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Mark Paluch
  */
-public interface AuditedPersonRepository extends CrudRepository<AuditedPerson, Long> {}
+public interface AuditedPersonRepository extends CrudRepository<AuditedPerson, Long> {
+}

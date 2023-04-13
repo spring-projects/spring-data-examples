@@ -60,5 +60,6 @@ public class Order implements AggregateRoot<Order, Order.OrderId> {
 		return this;
 	}
 
-	public record OrderId(UUID id) implements Identifier {}
+	public record OrderId(UUID id) implements Identifier {
+	}
 }

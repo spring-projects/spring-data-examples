@@ -24,4 +24,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Oliver Gierke
  */
 @SpringBootApplication
-class CustomRepositoryConfig {}
+class CustomRepositoryConfig {
+}

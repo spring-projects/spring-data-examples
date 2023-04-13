@@ -48,10 +48,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 class UrlLevelSecurityTests {
 
 	private static final String PAYLOAD = "{\"firstName\": \"Saruman\", \"lastName\": \"the White\", "
-			+ "\"title\": \"Wizard\"}";
++ "\"title\": \"Wizard\"}";
 
-	@Autowired WebApplicationContext context;
-	@Autowired FilterChainProxy filterChain;
+	@Autowired
+	WebApplicationContext context;
+	@Autowired
+	FilterChainProxy filterChain;
 
 	private MockMvc mvc;
 
@@ -67,18 +69,18 @@ class UrlLevelSecurityTests {
 	void allowsAccessToRootResource() throws Exception {
 
 		mvc.perform(get("/").//
-				accept(MediaTypes.HAL_JSON)).//
-				andExpect(status().isOk()).//
-				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON));
+	accept(MediaTypes.HAL_JSON)).//
+	andExpect(status().isOk()).//
+	andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON));
 	}
 
 	@Test
 	void rejectsPostAccessToCollectionResource() throws Exception {
 
 		mvc.perform(post("/employees").//
-				content(PAYLOAD).//
-				accept(MediaTypes.HAL_JSON)).//
-				andExpect(status().isUnauthorized());
+	content(PAYLOAD).//
+	accept(MediaTypes.HAL_JSON)).//
+	andExpect(status().isUnauthorized());
 	}
 
 	@Test
@@ -87,16 +89,16 @@ class UrlLevelSecurityTests {
 		var headers = new HttpHeaders();
 		headers.add(HttpHeaders.ACCEPT, MediaTypes.HAL_JSON_VALUE);
 		headers.add(HttpHeaders.AUTHORIZATION,
-				"Basic " + new String(Base64.getEncoder().encodeToString(("greg:turnquist").getBytes())));
+	"Basic " + new String(Base64.getEncoder().encodeToString(("greg:turnquist").getBytes())));
 
 		mvc.perform(get("/employees").//
-				headers(headers)).//
-				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
-				andExpect(status().isOk());
+	headers(headers)).//
+	andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
+	andExpect(status().isOk());
 
 		mvc.perform(post("/employees").//
-				headers(headers)).//
-				andExpect(status().isForbidden());
+	headers(headers)).//
+	andExpect(status().isForbidden());
 	}
 
 	@Test
@@ -105,25 +107,25 @@ class UrlLevelSecurityTests {
 		var headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaTypes.HAL_JSON_VALUE);
 		headers.set(HttpHeaders.AUTHORIZATION,
-				"Basic " + new String(Base64.getEncoder().encodeToString(("ollie:gierke").getBytes())));
+	"Basic " + new String(Base64.getEncoder().encodeToString(("ollie:gierke").getBytes())));
 
 		mvc.perform(get("/employees").//
-				headers(headers)).//
-				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
-				andExpect(status().isOk());
+	headers(headers)).//
+	andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
+	andExpect(status().isOk());
 
 		headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
 		var location = mvc.perform(post("/employees").//
-				content(PAYLOAD).//
-				headers(headers)).//
-				andExpect(status().isCreated()).//
-				andReturn().getResponse().getHeader(HttpHeaders.LOCATION);
+	content(PAYLOAD).//
+	headers(headers)).//
+	andExpect(status().isCreated()).//
+	andReturn().getResponse().getHeader(HttpHeaders.LOCATION);
 
 		var mapper = new ObjectMapper();
 
 		var content = mvc.perform(get(location)).//
-				andReturn().getResponse().getContentAsString();
+	andReturn().getResponse().getContentAsString();
 		var employee = mapper.readValue(content, Employee.class);
 
 		assertThat(employee.getFirstName()).isEqualTo("Saruman");

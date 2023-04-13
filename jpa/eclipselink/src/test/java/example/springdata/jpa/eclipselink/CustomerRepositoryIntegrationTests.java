@@ -34,7 +34,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Transactional
 public class CustomerRepositoryIntegrationTests {
 
-	@Autowired CustomerRepository customers;
+	@Autowired
+	CustomerRepository customers;
 
 	@Test
 	public void createsCustomer() {

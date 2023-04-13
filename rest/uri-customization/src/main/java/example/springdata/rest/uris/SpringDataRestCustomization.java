@@ -32,7 +32,7 @@ public class SpringDataRestCustomization implements RepositoryRestConfigurer {
 	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 		config.withEntityLookup() //
-				.forRepository(UserRepository.class, User::getUsername, UserRepository::findByUsername);
+	.forRepository(UserRepository.class, User::getUsername, UserRepository::findByUsername);
 	}
 
 }

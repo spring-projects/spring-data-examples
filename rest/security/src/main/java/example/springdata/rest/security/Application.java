@@ -40,8 +40,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @SpringBootApplication
 public class Application {
 
-	@Autowired ItemRepository itemRepository;
-	@Autowired EmployeeRepository employeeRepository;
+	@Autowired
+	ItemRepository itemRepository;
+	@Autowired
+	EmployeeRepository employeeRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
@@ -79,7 +81,7 @@ public class Application {
 	@Configuration
 	@EnableGlobalMethodSecurity(prePostEnabled = true)
 	@EnableWebSecurity
-	static class SecurityConfiguration  {
+	static class SecurityConfiguration {
 
 		/**
 		 * This section defines the user accounts which can be used for authentication as well as the roles each user has.
@@ -112,10 +114,10 @@ public class Application {
 		protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
 			return http.httpBasic().and().authorizeRequests().//
-					requestMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN").//
-					requestMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN").//
-					requestMatchers(HttpMethod.PATCH, "/employees/**").hasRole("ADMIN").and().//
-					csrf().disable().build();
+		requestMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN").//
+		requestMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN").//
+		requestMatchers(HttpMethod.PATCH, "/employees/**").hasRole("ADMIN").and().//
+		csrf().disable().build();
 		}
 	}
 }

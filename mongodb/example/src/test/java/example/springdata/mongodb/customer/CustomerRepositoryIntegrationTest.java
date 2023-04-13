@@ -57,8 +57,10 @@ class CustomerRepositoryIntegrationTest {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	@Autowired CustomerRepository repository;
-	@Autowired MongoOperations operations;
+	@Autowired
+	CustomerRepository repository;
+	@Autowired
+	MongoOperations operations;
 
 	private Customer dave, oliver, carter;
 

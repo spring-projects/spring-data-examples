@@ -42,7 +42,8 @@ import org.springframework.data.redis.core.ReactiveRedisOperations;
 @EnabledOnRedisAvailable
 class ValueOperationsTests {
 
-	@Autowired ReactiveRedisOperations<String, String> operations;
+	@Autowired
+	ReactiveRedisOperations<String, String> operations;
 
 	@BeforeEach
 	void before() {
@@ -60,23 +61,23 @@ class ValueOperationsTests {
 		var valueOperations = operations.opsForValue();
 
 		var cachedMono = valueOperations.get(cacheKey) //
-				.switchIfEmpty(cacheValue().flatMap(it -> {
+	.switchIfEmpty(cacheValue().flatMap(it -> {
 
-					return valueOperations.set(cacheKey, it, Duration.ofSeconds(60)).then(Mono.just(it));
-				}));
+		return valueOperations.set(cacheKey, it, Duration.ofSeconds(60)).then(Mono.just(it));
+	}));
 
 		log.info("Initial access (takes a while...)");
 
 		StepVerifier.create(cachedMono).expectSubscription() //
-				.expectNoEvent(Duration.ofSeconds(9)) //
-				.expectNext("Hello, World!") //
-				.verifyComplete();
+	.expectNoEvent(Duration.ofSeconds(9)) //
+	.expectNext("Hello, World!") //
+	.verifyComplete();
 
 		log.info("Subsequent access (use cached value)");
 
 		var duration = StepVerifier.create(cachedMono) //
-				.expectNext("Hello, World!") //
-				.verifyComplete();
+	.expectNext("Hello, World!") //
+	.verifyComplete();
 
 		log.info("Done");
 

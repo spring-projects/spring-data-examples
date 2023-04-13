@@ -37,7 +37,8 @@ class LettuceTestClientResources {
 		ShutdownQueue.INSTANCE.register(() -> SHARED_CLIENT_RESOURCES.shutdown(0, 0, TimeUnit.MILLISECONDS));
 	}
 
-	private LettuceTestClientResources() {}
+	private LettuceTestClientResources() {
+	}
 
 	/**
 	 * @return the client resources.

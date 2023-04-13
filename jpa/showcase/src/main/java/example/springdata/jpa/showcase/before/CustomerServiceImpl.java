@@ -34,7 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class CustomerServiceImpl implements CustomerService {
 
-	@PersistenceContext private EntityManager em;
+	@PersistenceContext
+	private EntityManager em;
 
 	/*
 	 * (non-Javadoc)

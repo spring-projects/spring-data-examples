@@ -27,7 +27,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class InterceptorIntegrationTest {
 
-	@Autowired CustomerRepository repository;
+	@Autowired
+	CustomerRepository repository;
 
 	@Test
 	void foo() {

@@ -23,4 +23,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Mark Paluch
  */
 @SpringBootApplication
-class CompositeRepositoryConfig {}
+class CompositeRepositoryConfig {
+}

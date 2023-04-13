@@ -30,7 +30,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExampleConnectionProvider implements MultiTenantConnectionProvider, HibernatePropertiesCustomizer {
 
-	@Autowired DataSource dataSource;
+	@Autowired
+	DataSource dataSource;
 
 	@Override
 	public Connection getAnyConnection() throws SQLException {

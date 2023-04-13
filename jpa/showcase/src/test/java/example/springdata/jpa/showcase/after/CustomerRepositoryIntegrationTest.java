@@ -35,7 +35,8 @@ import org.springframework.data.domain.PageRequest;
  */
 public class CustomerRepositoryIntegrationTest extends AbstractShowcaseTest {
 
-	@Autowired CustomerRepository repository;
+	@Autowired
+	CustomerRepository repository;
 
 	@Test
 	public void findsAllCustomers() throws Exception {

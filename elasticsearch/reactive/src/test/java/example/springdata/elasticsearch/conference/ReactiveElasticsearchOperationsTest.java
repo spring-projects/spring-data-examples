@@ -52,9 +52,9 @@ class ReactiveElasticsearchOperationsTest {
 
 	@Container //
 	private static ElasticsearchContainer container = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.2")) //
-					.withPassword("foobar") //
-					.withReuse(true);
+DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.2")) //
+.withPassword("foobar") //
+.withReuse(true);
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
@@ -63,7 +63,8 @@ class ReactiveElasticsearchOperationsTest {
 		registry.add("spring.elasticsearch.password", () -> "foobar");
 	}
 
-	@Autowired ReactiveElasticsearchOperations operations;
+	@Autowired
+	ReactiveElasticsearchOperations operations;
 
 	@Test
 	void textSearch() {
@@ -71,14 +72,14 @@ class ReactiveElasticsearchOperationsTest {
 		var expectedDate = "2014-10-29";
 		var expectedWord = "java";
 		var query = new CriteriaQuery(
-				new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
+	new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
 
 		operations.search(query, Conference.class) //
-				.as(StepVerifier::create) //
-				.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
-				.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
-				.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
+	.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
+	.consumeNextWith(it -> verify(it, expectedWord, expectedDate)) //
+	.verifyComplete();
 	}
 
 	private void verify(SearchHit<Conference> hit, String expectedWord, String expectedDate) {

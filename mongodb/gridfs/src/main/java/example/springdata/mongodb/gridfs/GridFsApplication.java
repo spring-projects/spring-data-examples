@@ -24,4 +24,5 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
  * @author Hartmut Lang
  */
 @SpringBootApplication
-public class GridFsApplication {}
+public class GridFsApplication {
+}

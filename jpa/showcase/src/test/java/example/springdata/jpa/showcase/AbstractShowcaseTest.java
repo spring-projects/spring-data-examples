@@ -29,7 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class AbstractShowcaseTest extends AbstractTransactionalShowcaseContextTests {
 
 	@SpringBootApplication
-	static class TestConfig {}
+	static class TestConfig {
+	}
 
 	@BeforeTransaction
 	public void setupData() throws Exception {

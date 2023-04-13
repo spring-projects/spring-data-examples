@@ -31,11 +31,14 @@ import org.hibernate.envers.Audited;
 @Audited
 public class Person {
 
-	@Id @GeneratedValue Long id;
+	@Id
+	@GeneratedValue
+	Long id;
 
 	String name;
 
-	@Version Long version;
+	@Version
+	Long version;
 
 	public Long getId() {
 		return id;

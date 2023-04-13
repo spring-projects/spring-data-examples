@@ -39,7 +39,7 @@ record Person(@Id Integer id, String firstname, String lastname, Integer age) {
 			return false;
 		}
 		return Objects.equals(firstname, person.firstname) && Objects.equals(lastname, person.lastname)
-				&& Objects.equals(age, person.age);
+	&& Objects.equals(age, person.age);
 	}
 
 	@Override

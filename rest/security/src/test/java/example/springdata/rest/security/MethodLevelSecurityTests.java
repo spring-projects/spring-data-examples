@@ -36,7 +36,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @SpringBootTest
 class MethodLevelSecurityTests {
 
-	@Autowired ItemRepository itemRepository;
+	@Autowired
+	ItemRepository itemRepository;
 
 	@BeforeEach
 	void setUp() {

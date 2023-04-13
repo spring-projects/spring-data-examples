@@ -66,9 +66,10 @@ public class Actor {
 		this.roles = roles;
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return "Actor{" +
-			"name='" + name + '\'' +
-			'}';
+	"name='" + name + '\'' +
+	'}';
 	}
 }

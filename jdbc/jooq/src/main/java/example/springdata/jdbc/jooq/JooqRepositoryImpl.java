@@ -15,6 +15,6 @@ public record JooqRepositoryImpl(DSLContext dslContext) implements JooqRepositor
 
 	public List<Category> getCategoriesWithAgeGroup(AgeGroup ageGroup) {
 		return this.dslContext.select().from(CATEGORY).where(CATEGORY.AGE_GROUP.equal(ageGroup.name()))
-				.fetchInto(Category.class);
+	.fetchInto(Category.class);
 	}
 }

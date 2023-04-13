@@ -41,8 +41,8 @@ public class CustomerSpecifications {
 		return (Specification<Customer>) (root, query, cb) -> {
 
 			var accounts = query.from(Account.class);
-			var expiryDate = accounts.<Date> get("expiryDate");
-			var customerIsAccountOwner = cb.equal(accounts.<Customer> get("customer"), root);
+			var expiryDate = accounts.<Date>get("expiryDate");
+			var customerIsAccountOwner = cb.equal(accounts.<Customer>get("customer"), root);
 			var accountExpiryDateBefore = cb.lessThan(expiryDate, java.sql.Date.valueOf(date));
 
 			return cb.and(customerIsAccountOwner, accountExpiryDateBefore);

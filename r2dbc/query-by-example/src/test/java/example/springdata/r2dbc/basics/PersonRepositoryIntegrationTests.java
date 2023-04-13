@@ -42,8 +42,10 @@ import org.springframework.r2dbc.core.DatabaseClient;
 @SpringBootTest(classes = InfrastructureConfiguration.class)
 class PersonRepositoryIntegrationTests {
 
-	@Autowired PersonRepository people;
-	@Autowired DatabaseClient client;
+	@Autowired
+	PersonRepository people;
+	@Autowired
+	DatabaseClient client;
 
 	private Person skyler, walter, flynn, marie, hank;
 
@@ -53,8 +55,8 @@ class PersonRepositoryIntegrationTests {
 		Hooks.onOperatorDebug();
 
 		var statements = Arrays.asList(//
-				"DROP TABLE IF EXISTS person;",
-				"CREATE TABLE person (id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL, age INTEGER NOT NULL);");
+	"DROP TABLE IF EXISTS person;",
+	"CREATE TABLE person (id SERIAL PRIMARY KEY, firstname VARCHAR(100) NOT NULL, lastname VARCHAR(100) NOT NULL, age INTEGER NOT NULL);");
 
 		this.skyler = new Person(null, "Skyler", "White", 45);
 		this.walter = new Person(null, "Walter", "White", 50);
@@ -63,13 +65,13 @@ class PersonRepositoryIntegrationTests {
 		this.hank = new Person(null, "Hank", "Schrader", 43);
 
 		statements.stream().map(client::sql) //
-				.map(DatabaseClient.GenericExecuteSpec::then) //
-				.forEach(it -> it.as(StepVerifier::create).verifyComplete());
+	.map(DatabaseClient.GenericExecuteSpec::then) //
+	.forEach(it -> it.as(StepVerifier::create).verifyComplete());
 
 		people.saveAll(Arrays.asList(skyler, walter, flynn, marie, hank)) //
-				.as(StepVerifier::create) //
-				.expectNextCount(5) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNextCount(5) //
+	.verifyComplete();
 	}
 
 	@Test
@@ -78,79 +80,79 @@ class PersonRepositoryIntegrationTests {
 		var example = Example.of(new Person(null, null, "White", null));
 
 		people.count(example).as(StepVerifier::create) //
-				.expectNext(3L) //
-				.verifyComplete();
+	.expectNext(3L) //
+	.verifyComplete();
 	}
 
 	@Test
 	void ignorePropertiesAndMatchByAge() {
 
 		var example = Example.of(flynn, matching(). //
-				withIgnorePaths("firstname", "lastname"));
+	withIgnorePaths("firstname", "lastname"));
 
 		people.findOne(example) //
-				.as(StepVerifier::create) //
-				.expectNext(flynn) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.expectNext(flynn) //
+	.verifyComplete();
 	}
 
 	@Test
 	void substringMatching() {
 
 		var example = Example.of(new Person(null, "er", null, null), matching(). //
-				withStringMatcher(StringMatcher.ENDING));
+	withStringMatcher(StringMatcher.ENDING));
 
 		people.findAll(example).collectList() //
-				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).containsExactlyInAnyOrder(skyler, walter);
-				}) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.consumeNextWith(actual -> {
+		assertThat(actual).containsExactlyInAnyOrder(skyler, walter);
+	}) //
+	.verifyComplete();
 	}
 
 	@Test
 	void matchStartingStringsIgnoreCase() {
 
 		var example = Example.of(new Person(null, "Walter", "WHITE", null), matching(). //
-				withIgnorePaths("age"). //
-				withMatcher("firstname", startsWith()). //
-				withMatcher("lastname", ignoreCase()));
+	withIgnorePaths("age"). //
+	withMatcher("firstname", startsWith()). //
+	withMatcher("lastname", ignoreCase()));
 
 		people.findAll(example).collectList() //
-				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).containsExactlyInAnyOrder(flynn, walter);
-				}) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.consumeNextWith(actual -> {
+		assertThat(actual).containsExactlyInAnyOrder(flynn, walter);
+	}) //
+	.verifyComplete();
 	}
 
 	@Test
 	void configuringMatchersUsingLambdas() {
 
 		var example = Example.of(new Person(null, "Walter", "WHITE", null), matching(). //
-				withIgnorePaths("age"). //
-				withMatcher("firstname", GenericPropertyMatcher::startsWith). //
-				withMatcher("lastname", GenericPropertyMatcher::ignoreCase));
+	withIgnorePaths("age"). //
+	withMatcher("firstname", GenericPropertyMatcher::startsWith). //
+	withMatcher("lastname", GenericPropertyMatcher::ignoreCase));
 
 		people.findAll(example).collectList() //
-				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).containsExactlyInAnyOrder(flynn, walter);
-				}) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.consumeNextWith(actual -> {
+		assertThat(actual).containsExactlyInAnyOrder(flynn, walter);
+	}) //
+	.verifyComplete();
 	}
 
 	@Test
 	void valueTransformer() {
 
 		var example = Example.of(new Person(null, null, "White", 99), matching(). //
-				withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
+	withMatcher("age", matcher -> matcher.transform(value -> Optional.of(50))));
 
 		people.findAll(example).collectList() //
-				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).containsExactlyInAnyOrder(walter);
-				}) //
-				.verifyComplete();
+	.as(StepVerifier::create) //
+	.consumeNextWith(actual -> {
+		assertThat(actual).containsExactlyInAnyOrder(walter);
+	}) //
+	.verifyComplete();
 	}
 }

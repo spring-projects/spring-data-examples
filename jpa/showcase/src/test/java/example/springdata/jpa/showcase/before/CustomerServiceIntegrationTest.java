@@ -31,7 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 class CustomerServiceIntegrationTest extends AbstractShowcaseTest {
 
-	@Autowired CustomerService repository;
+	@Autowired
+	CustomerService repository;
 
 	@Test
 	void findsAllCustomers() throws Exception {

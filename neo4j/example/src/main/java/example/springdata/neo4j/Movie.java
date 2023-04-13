@@ -46,9 +46,10 @@ public class Movie {
 		return title;
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return "Movie{" +
-			"title='" + title + '\'' +
-			'}';
+	"title='" + title + '\'' +
+	'}';
 	}
 }

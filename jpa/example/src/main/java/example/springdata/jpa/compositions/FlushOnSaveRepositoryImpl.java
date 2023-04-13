@@ -82,13 +82,13 @@ public class FlushOnSaveRepositoryImpl<T> implements FlushOnSaveRepository<T> {
 		return entities;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private <S extends T> EntityInformation<Object, S> getEntityInformation(S entity) {
 
 		var userClass = ClassUtils.getUserClass(entity.getClass());
 
 		if (entity instanceof AbstractPersistable<?>) {
-			return new JpaPersistableEntityInformation(userClass, entityManager.getMetamodel(),entityManager.getEntityManagerFactory().getPersistenceUnitUtil() );
+			return new JpaPersistableEntityInformation(userClass, entityManager.getMetamodel(), entityManager.getEntityManagerFactory().getPersistenceUnitUtil() );
 		}
 
 		return new JpaMetamodelEntityInformation(userClass, entityManager.getMetamodel(), entityManager.getEntityManagerFactory().getPersistenceUnitUtil());

@@ -34,4 +34,5 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 @Configuration
 @EnableJdbcRepositories
 @Import(MyBatisJdbcConfiguration.class)
-public class MyBatisConfiguration {}
+public class MyBatisConfiguration {
+}
