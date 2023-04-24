@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.2</version>
+		<version>3.1.0-RC1</version>
 	</parent>
 
 	<modules>
@@ -35,7 +35,6 @@
 	</modules>
 
 	<properties>
-		<testcontainers.version>1.17.5</testcontainers.version>
 		<apt.version>1.1.3</apt.version>
 		<jvm.enable-preview></jvm.enable-preview>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -156,8 +155,8 @@
 			<url>https://repo1.maven.org/maven2/</url>
 		</repository>
 		<repository>
-			<id>spring-snapshot</id>
-			<url>https://repo.spring.io/snapshot/</url>
+			<id>spring-milestone</id>
+			<url>https://repo.spring.io/milestone</url>
 		</repository>
 	</repositories>
 
@@ -168,8 +167,8 @@
 			<url>https://repo1.maven.org/maven2/</url>
 		</pluginRepository>
 		<pluginRepository>
-			<id>spring-snapshot</id>
-			<url>https://repo.spring.io/snapshot/</url>
+			<id>spring-milestone</id>
+			<url>https://repo.spring.io/milestone/</url>
 		</pluginRepository>
 	</pluginRepositories>
 
