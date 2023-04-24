@@ -16,7 +16,7 @@
 package example.springdata.mongodb.security;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 
 /**
  * An entity to represent a {@link Person}.
@@ -25,7 +25,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
  */
 public record Person(@Id String id, String firstname, String lastname) {
 
-	@PersistenceConstructor
+	@PersistenceCreator
 	public Person {
 	}
 

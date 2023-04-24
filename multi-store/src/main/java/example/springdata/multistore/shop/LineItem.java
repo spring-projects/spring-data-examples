@@ -18,7 +18,7 @@ package example.springdata.multistore.shop;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 
 /**
  * A line item.
@@ -27,7 +27,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
  * @author Oliver Gierke
  */
 @Data
-@RequiredArgsConstructor(onConstructor = @__(@PersistenceConstructor))
+@RequiredArgsConstructor(onConstructor = @__(@PersistenceCreator))
 public class LineItem {
 
 	private final String caption;

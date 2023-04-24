@@ -22,7 +22,7 @@ import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -33,7 +33,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Oliver Gierke
  */
 @Data
-@RequiredArgsConstructor(onConstructor = @__(@PersistenceConstructor))
+@RequiredArgsConstructor(onConstructor = @__(@PersistenceCreator))
 @Document
 public class Order {
 

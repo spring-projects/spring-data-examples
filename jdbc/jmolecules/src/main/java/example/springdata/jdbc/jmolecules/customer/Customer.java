@@ -28,7 +28,7 @@ import java.util.UUID;
 
 import org.jmolecules.ddd.types.AggregateRoot;
 import org.jmolecules.ddd.types.Identifier;
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.util.Assert;
 
 /**
@@ -36,7 +36,7 @@ import org.springframework.util.Assert;
  */
 @Getter
 @ToString
-@AllArgsConstructor(access = AccessLevel.PRIVATE, onConstructor = @__(@PersistenceConstructor))
+@AllArgsConstructor(access = AccessLevel.PRIVATE, onConstructor = @__(@PersistenceCreator))
 public class Customer implements AggregateRoot<Customer, CustomerId> {
 
 	private final CustomerId id;

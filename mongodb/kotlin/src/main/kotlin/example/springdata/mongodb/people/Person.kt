@@ -16,13 +16,13 @@
 package example.springdata.mongodb.people
 
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.PersistenceConstructor
+import org.springframework.data.annotation.PersistenceCreator
 
 /**
  * An entity to represent a Person.
  *
  * @author Mark Paluch
  */
-data class Person @PersistenceConstructor constructor(@Id val id: String?, val firstname: String? = "Walter", val lastname: String = "") {
+data class Person @PersistenceCreator constructor(@Id val id: String?, val firstname: String? = "Walter", val lastname: String = "") {
 	constructor(firstname: String?, lastname: String) : this(null, firstname, lastname);
 }

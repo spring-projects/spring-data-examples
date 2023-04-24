@@ -26,7 +26,7 @@ import lombok.With;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 
 /**
  * Coarse classification for {@link LegoSet}s, like "Car", "Plane", "Building" and so on.
@@ -34,7 +34,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
  * @author Jens Schauder
  */
 @Data
-@AllArgsConstructor(access = AccessLevel.PRIVATE, onConstructor = @__(@PersistenceConstructor))
+@AllArgsConstructor(access = AccessLevel.PRIVATE, onConstructor = @__(@PersistenceCreator))
 public class Category {
 
 	private final @Id @With Long id;

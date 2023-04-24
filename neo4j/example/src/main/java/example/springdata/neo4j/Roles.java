@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.RelationshipProperties;
@@ -47,7 +47,7 @@ public class Roles {
 		this(Collections.emptyList());
 	}
 
-	@PersistenceConstructor
+	@PersistenceCreator
 	public Roles(List<String> roles) {
 		this.roles = new ArrayList<>(roles);
 	}
