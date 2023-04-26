@@ -15,7 +15,7 @@
  */
 package example.springdata.mongodb.aggregation;
 
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 
 /**
  * A line item.
@@ -26,7 +26,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 
 public record LineItem(String caption, double price, int quantity) {
 
-	@PersistenceConstructor
+	@PersistenceCreator
 	public LineItem {
 	}
 

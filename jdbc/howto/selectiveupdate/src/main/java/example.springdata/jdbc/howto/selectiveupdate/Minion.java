@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.annotation.Version;
 
 
@@ -41,7 +41,7 @@ class Minion {
 		this.name = name;
 	}
 
-	@PersistenceConstructor
+	@PersistenceCreator
 	private Minion(Long id, String name, Collection<Toy> toys, int version) {
 
 		this.id = id;

@@ -16,7 +16,7 @@
 package example.springdata.mongodb.people;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -27,7 +27,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public record Person(@Id String id, String firstname, String lastname, int age) {
 
-	@PersistenceConstructor
+	@PersistenceCreator 
 	public Person {
 	}
 
