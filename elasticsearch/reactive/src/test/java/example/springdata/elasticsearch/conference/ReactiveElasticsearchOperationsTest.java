@@ -15,7 +15,8 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import reactor.test.StepVerifier;
 
@@ -23,16 +24,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.client.ClientConfiguration;
+import org.springframework.data.elasticsearch.client.elc.ReactiveElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-
+import org.springframework.util.Assert;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -43,8 +44,10 @@ import org.testcontainers.utility.DockerImageName;
  *
  * @author Christoph Strobl
  * @author Prakhar Gupta
+ * @author Peter-Josef Meisch
  */
-@SpringBootTest(classes = ApplicationConfiguration.class)
+@SpringBootTest(
+		classes = { ApplicationConfiguration.class, ReactiveElasticsearchOperationsTest.TestConfiguration.class })
 @Testcontainers
 class ReactiveElasticsearchOperationsTest {
 
@@ -52,15 +55,21 @@ class ReactiveElasticsearchOperationsTest {
 
 	@Container //
 	private static ElasticsearchContainer container = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:7.17.2")) //
-					.withPassword("foobar") //
-					.withReuse(true);
+			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.7.0")) //
+			.withPassword("foobar");
 
-	@DynamicPropertySource
-	static void setProperties(DynamicPropertyRegistry registry) {
-		registry.add("spring.elasticsearch.uris", () -> "http://" + container.getHttpHostAddress());
-		registry.add("spring.elasticsearch.username", () -> "elastic");
-		registry.add("spring.elasticsearch.password", () -> "foobar");
+	@Configuration
+	static class TestConfiguration extends ReactiveElasticsearchConfiguration {
+		@Override
+		public ClientConfiguration clientConfiguration() {
+
+			Assert.notNull(container, "TestContainer is not initialized!");
+
+			return ClientConfiguration.builder() //
+					.connectedTo(container.getHttpHostAddress()).usingSsl(container.createSslContextFromCa()) //
+					.withBasicAuth("elastic", "foobar") //
+					.build();
+		}
 	}
 
 	@Autowired ReactiveElasticsearchOperations operations;
