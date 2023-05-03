@@ -15,8 +15,7 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.*;
 
 import reactor.test.StepVerifier;
 
@@ -52,7 +51,8 @@ class ReactiveElasticsearchRepositoryTest {
 	@Container //
 	private static ElasticsearchContainer container = new ElasticsearchContainer(
 			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.7.0")) //
-			.withPassword("foobar");
+			.withPassword("foobar") //
+			.withReuse(true);
 
 	@Configuration
 	static class TestConfiguration extends ReactiveElasticsearchConfiguration {
