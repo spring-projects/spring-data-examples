@@ -52,7 +52,7 @@ class ElasticsearchOperationsTest {
 
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	@Container //
-	private static ElasticsearchContainer container = new ElasticsearchContainer(
+	private static final ElasticsearchContainer container = new ElasticsearchContainer(
 			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.7.0")) //
 			.withPassword("foobar") //
 			.withReuse(true);
@@ -65,7 +65,8 @@ class ElasticsearchOperationsTest {
 			Assert.notNull(container, "TestContainer is not initialized!");
 
 			return ClientConfiguration.builder() //
-					.connectedTo(container.getHttpHostAddress()).usingSsl(container.createSslContextFromCa()) //
+					.connectedTo(container.getHttpHostAddress()) //
+					.usingSsl(container.createSslContextFromCa()) //
 					.withBasicAuth("elastic", "foobar") //
 					.build();
 		}
