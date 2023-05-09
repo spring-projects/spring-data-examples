@@ -4,7 +4,7 @@
 
 	<groupId>org.springframework.data.examples</groupId>
 	<artifactId>spring-data-examples-bom</artifactId>
-	<version>1.0.0.BUILD-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 
 	<name>Spring Data - Using the BOM for dependency management</name>
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %5p %40.40c:%4L - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--
+    <logger name="org.springframework.data" level="debug" />
+     -->
+
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+
+    <!-- You can use these logger configurations to log more details:
+     - log the Couchbase queries produced by the framework
+     - log details of geo queries and false positive elimination
+     - log details of the detection of placeholders in N1QL inline queries
+     - log additional debug info during automatic index creation
+    -->
+
+    <logger name="org.springframework.data.couchbase.core" level="info"/>"
+    <logger name="org.springframework.data.couchbase.repository.query" level="info"/>
+    <logger name="com.couchbase.transactions" level="info"/>"
+    <logger name="org.springframework.data.couchbase.transaction" level="info"/>
+
+</configuration>

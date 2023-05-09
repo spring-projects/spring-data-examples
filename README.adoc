@@ -12,6 +12,22 @@ We have separate folders for the samples of individual modules:
 * `kotlin` - Example for using Cassandra with Kotlin.
 * `reactive` - Example project to show reactive template and repository support.
 
+== Spring Data for Couchbase
+
+* `example` - Shows core Spring Data support for Couchbase.
+* `reactive` - Example project to show reactive template and repository support.
+* `transactions` - Example project to show transaction support.
+
+Local Couchbase instance must be running to run the tests.
+One option is to use Docker in a separate terminal:
+
+```
+$ docker run -d --name db -p 8091-8097:8091-8097 -p 11210:11210 -p 11207:11207 -p 18091-18095:18091-18095 -p 18096:18096 -p 18097:18097 couchbase
+```
+
+Make sure to have the required _buckets_ configured.
+Please refer to the readme of the individual samples for more information.
+
 == Spring Data Elasticsearch
 
 * `example` - Example how to use basic text search, geo-spatial search and facets. It uses
