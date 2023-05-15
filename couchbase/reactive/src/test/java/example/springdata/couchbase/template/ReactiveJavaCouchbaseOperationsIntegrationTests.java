@@ -17,21 +17,18 @@ package example.springdata.couchbase.template;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.couchbase.model.Airline;
-import example.springdata.couchbase.util.CouchbaseAvailableRule;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
-
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.couchbase.core.CouchbaseOperations;
 import org.springframework.data.couchbase.core.ReactiveCouchbaseOperations;
-import org.springframework.test.context.junit4.SpringRunner;
+
+import example.springdata.couchbase.model.Airline;
+import example.springdata.couchbase.util.EnabledOnCouchbaseAvailable;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 /**
  * Integration tests showing basic CRUD operations through
@@ -40,61 +37,57 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author Mark Paluch
  * @author Denis Rosa
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@EnabledOnCouchbaseAvailable
 public class ReactiveJavaCouchbaseOperationsIntegrationTests {
 
-	@ClassRule //
-	public static CouchbaseAvailableRule COUCHBASE = CouchbaseAvailableRule.onLocalhost();
+    @Autowired
+    ReactiveCouchbaseOperations operations;
 
-	@Autowired
-	ReactiveCouchbaseOperations operations;
+    @Autowired
+    CouchbaseOperations couchbaseOperations;
 
-	@Autowired
-	CouchbaseOperations couchbaseOperations;
+    @BeforeEach
+    public void before() {
+        if (couchbaseOperations.existsById().one("LH")) {
+            couchbaseOperations.removeById().one("LH");
+        }
+    }
 
-	@Before
-	public void before() {
-		if (couchbaseOperations.existsById().one("LH")) {
-			couchbaseOperations.removeById().one("LH");
-		}
-	}
+    /**
+     * Find all {@link Airline}s applying the _class filter .
+     */
+    @Test
+    public void shouldFindByAll() {
+        operations.findByQuery(Airline.class).all() //
+                .count() //
+                .as(StepVerifier::create) //
+                .assertNext(count -> {
 
-	/**
-	 * Find all {@link Airline}s applying the _class filter .
-	 */
-	@Test
-	public void shouldFindByAll() {
-		operations.findByQuery(Airline.class).all() //
-				.count() //
-				.as(StepVerifier::create) //
-				.assertNext(count -> {
+                    assertThat(count).isGreaterThan(100);
+                }) //
+                .verifyComplete();
+    }
 
-					assertThat(count).isGreaterThan(100);
-				}) //
-				.verifyComplete();
-	}
+    /**
+     * Created elements are emitted by {@link ReactiveCouchbaseOperations#upsertById(Class)} )}.
+     */
+    @Test
+    public void shouldCreateAirline() {
+        Airline airline = new Airline();
 
-	/**
-	 * Created elements are emitted by {@link ReactiveCouchbaseOperations#upsertById(Class)} )}.
-	 */
-	@Test
-	public void shouldCreateAirline() {
-		Airline airline = new Airline();
+        airline.setId("LH");
+        airline.setIata("LH");
+        airline.setIcao("DLH");
+        airline.setCallsign("Lufthansa");
+        airline.setName("Lufthansa");
+        airline.setCountry("Germany");
 
-		airline.setId("LH");
-		airline.setIata("LH");
-		airline.setIcao("DLH");
-		airline.setCallsign("Lufthansa");
-		airline.setName("Lufthansa");
-		airline.setCountry("Germany");
+        Mono<Airline> airlineMono = operations.upsertById(Airline.class).one(airline) //
+                .map(Airline::getId) //
+                .flatMap(id -> operations.findById(Airline.class).one(id));
 
-		Mono<Airline> airlineMono = operations.upsertById(Airline.class)
-				.one(airline) //
-				.map(Airline::getId) //
-				.flatMap(id -> operations.findById(Airline.class).one(id));
-
-		airlineMono.as(StepVerifier::create) //
-				.expectNext(airline).verifyComplete();
-	}
+        airlineMono.as(StepVerifier::create) //
+                .expectNext(airline).verifyComplete();
+    }
 }

@@ -15,24 +15,19 @@
  */
 package com.example.demo;
 
-import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
-import example.springdata.couchbase.util.CouchbaseAvailableRule;
+import example.springdata.couchbase.util.EnabledOnCouchbaseAvailable;
 
 /**
  * @author Michael Reiche
  * @author Christoph Strobl
  */
-@SpringBootTest
-@ContextConfiguration(classes = DemoApplication.class)
+@SpringBootTest(classes = DemoApplication.class)
+@EnabledOnCouchbaseAvailable
 class DemoApplicationTests {
-
-    @ClassRule //
-    public static CouchbaseAvailableRule COUCHBASE = CouchbaseAvailableRule.onLocalhost();
 
     @Test
     void contextLoads() {
