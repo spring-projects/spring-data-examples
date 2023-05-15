@@ -22,7 +22,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @author Christoph Strobl
  */
 @SpringBootApplication
-@EnableJpaRepositories(repositoryBaseClass = BookRepository.class)
-class PagingRepoConfig {
-
-}
+@EnableJpaRepositories(basePackageClasses = BookRepository.class)
+class PagingRepoConfig {}

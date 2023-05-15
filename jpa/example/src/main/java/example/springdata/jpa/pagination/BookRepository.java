@@ -28,9 +28,10 @@ import org.springframework.data.repository.ListCrudRepository;
 public interface BookRepository extends ListCrudRepository<Book, String> {
 
 	/**
-	 * Uses an {@literal offset} based pagination that first sorts the entries by their {@link Book#getPublicationDate() publication_date}
-	 * and then limits the result by dropping the number of rows specified in the {@link Pageable#getOffset() offset} clause.
-	 * To retrieve {@link Page#getTotalElements()} an additional count query is executed.
+	 * Uses an {@literal offset} based pagination that first sorts the entries by their {@link Book#getPublicationDate()
+	 * publication_date} and then limits the result by dropping the number of rows specified in the
+	 * {@link Pageable#getOffset() offset} clause. To retrieve {@link Page#getTotalElements()} an additional count query
+	 * is executed.
 	 *
 	 * @param title
 	 * @param pageable
@@ -39,8 +40,9 @@ public interface BookRepository extends ListCrudRepository<Book, String> {
 	Page<Book> findByTitleContainsOrderByPublicationDate(String title, Pageable pageable);
 
 	/**
-	 * Uses an {@literal offset} based slicing that first sorts the entries by their {@link Book#getPublicationDate() publication_date}
-	 * and then limits the result by dropping the number of rows specified in the {@link Pageable#getOffset() offset} clause.
+	 * Uses an {@literal offset} based slicing that first sorts the entries by their {@link Book#getPublicationDate()
+	 * publication_date} and then limits the result by dropping the number of rows specified in the
+	 * {@link Pageable#getOffset() offset} clause.
 	 *
 	 * @param title
 	 * @param pageable
@@ -49,11 +51,10 @@ public interface BookRepository extends ListCrudRepository<Book, String> {
 	Slice<Book> findBooksByTitleContainsOrderByPublicationDate(String title, Pageable pageable);
 
 	/**
-	 * Depending on the provided {@link ScrollPosition} either {@link org.springframework.data.domain.OffsetScrollPosition offset}
-	 * or {@link org.springframework.data.domain.KeysetScrollPosition keyset} scrolling is possible.
-	 * Scrolling through results requires a stable {@link org.springframework.data.domain.Sort} which is different from
-	 * what {@link Pageable#getSort()} offers.
-	 * The {@literal limit} is defined via the {@literal Top} keyword.
+	 * Depending on the provided {@link ScrollPosition} either {@link org.springframework.data.domain.OffsetScrollPosition
+	 * offset} or {@link org.springframework.data.domain.KeysetScrollPosition keyset} scrolling is possible. Scrolling
+	 * through results requires a stable {@link org.springframework.data.domain.Sort} which is different from what
+	 * {@link Pageable#getSort()} offers. The {@literal limit} is defined via the {@literal Top} keyword.
 	 *
 	 * @param title
 	 * @param scrollPosition

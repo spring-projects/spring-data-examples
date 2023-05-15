@@ -15,7 +15,9 @@
  */
 package example.springdata.jpa.pagination;
 
-import static org.assertj.core.api.AssertionsForClassTypes.*;
+import static org.assertj.core.api.Assertions.*;
+
+import jakarta.persistence.EntityManager;
 
 import java.util.List;
 import java.util.Random;
@@ -24,13 +26,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.github.javafaker.Faker;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.KeysetScrollPosition;
 import org.springframework.data.domain.OffsetScrollPosition;
@@ -40,15 +41,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.ScrollPosition;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Window;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.WindowIterator;
+import org.springframework.data.util.Streamable;
+
+import com.github.javafaker.Faker;
 
 /**
- * Show different types of paging styles using {@link Page}, {@link org.springframework.data.domain.Slice} and {@link Window}
+ * Show different types of paging styles using {@link Page}, {@link Slice} and {@link Window}.
  *
  * @author Christoph Strobl
+ * @author Mark Paluch
  */
-@SpringBootTest
-@Transactional
+@DataJpaTest
 class PaginationTests {
 
 	@Configuration
@@ -57,8 +61,7 @@ class PaginationTests {
 
 	}
 
-	@Autowired
-	BookRepository books;
+	@Autowired BookRepository books;
 
 	@BeforeEach
 	void setUp() {
@@ -71,10 +74,9 @@ class PaginationTests {
 	}
 
 	/**
-	 * Page through the results using an offset/limit approach where the server skips over the number of results
-	 * specified via {@link Pageable#getOffset()}.
-	 * The {@link Page} return type will run an additional {@literal count} query to read the total number of matching rows
-	 * on each request.
+	 * Page through the results using an offset/limit approach where the server skips over the number of results specified
+	 * via {@link Pageable#getOffset()}. The {@link Page} return type will run an additional {@literal count} query to
+	 * read the total number of matching rows on each request.
 	 */
 	@Test
 	void pageThroughResultsWithSkipAndLimit() {
@@ -93,9 +95,9 @@ class PaginationTests {
 
 	/**
 	 * Run through the results using an offset/limit approach where the server skips over the number of results specified
-	 * via {@link Pageable#getOffset()}.
-	 * No additional {@literal count} query to read the total number of matching rows is issued. Still {@link Slice} requests,
-	 * but does not emit, one row more than specified via {@link Page#getSize()} to feed {@link Slice#hasNext()}
+	 * via {@link Pageable#getOffset()}. No additional {@literal count} query to read the total number of matching rows is
+	 * issued. Still {@link Slice} requests, but does not emit, one row more than specified via {@link Page#getSize()} to
+	 * feed {@link Slice#hasNext()}
 	 */
 	@Test
 	void sliceThroughResultsWithSkipAndLimit() {
@@ -134,10 +136,27 @@ class PaginationTests {
 	}
 
 	/**
+	 * Scroll through the results using an offset/limit approach where the server skips over the number of results
+	 * specified via {@link OffsetScrollPosition#getOffset()} using {@link WindowIterator}.
+	 * <p>
+	 * This approach is similar to the {@link #sliceThroughResultsWithSkipAndLimit() slicing one}.
+	 */
+	@Test
+	void scrollThroughResultsUsingWindowIteratorWithSkipAndLimit() {
+
+		WindowIterator<Book> iterator = WindowIterator
+				.of(scrollPosition -> books.findTop2ByTitleContainsOrderByPublicationDate("the-crazy-book-", scrollPosition))
+				.startingAt(OffsetScrollPosition.initial());
+
+		List<Book> allBooks = Streamable.of(() -> iterator).stream().toList();
+		assertThat(allBooks).hasSize(50);
+	}
+
+	/**
 	 * Scroll through the results using an index based approach where the {@link KeysetScrollPosition#getKeys() keyset}
 	 * keeps track of already seen values to resume scrolling by altering the where clause to only return rows after the
-	 * values contained in the keyset.
-	 * Set {@literal logging.level.org.hibernate.SQL=debug} to show the modified query in the log.
+	 * values contained in the keyset. Set {@literal logging.level.org.hibernate.SQL=debug} to show the modified query in
+	 * the log.
 	 */
 	@Test
 	void scrollThroughResultsWithKeyset() {
@@ -155,8 +174,7 @@ class PaginationTests {
 
 	// --> Test Data
 
-	@Autowired
-	EntityManager em;
+	@Autowired EntityManager em;
 
 	private List<Author> createAuthors(Faker faker) {
 
@@ -176,18 +194,17 @@ class PaginationTests {
 	private List<Book> createBooks(Faker faker, List<Author> authors) {
 
 		Random rand = new Random();
-		return IntStream.range(0, 100)
-				.mapToObj(id -> {
+		return IntStream.range(0, 100).mapToObj(id -> {
 
-					Book book = new Book();
-					book.setId("book-%03d".formatted(id));
-					book.setTitle(faker.book().title());
-					book.setIsbn10(UUID.randomUUID().toString().substring(0, 10));
-					book.setPublicationDate(faker.date().past(5000, TimeUnit.DAYS));
-					book.setAuthor(authors.get(rand.nextInt(authors.size())));
+			Book book = new Book();
+			book.setId("book-%03d".formatted(id));
+			book.setTitle((id % 2 == 0 ? "the-crazy-book-" : "") + faker.book().title());
+			book.setIsbn10(UUID.randomUUID().toString().substring(0, 10));
+			book.setPublicationDate(faker.date().past(5000, TimeUnit.DAYS));
+			book.setAuthor(authors.get(rand.nextInt(authors.size())));
 
-					em.persist(book);
-					return book;
-				}).collect(Collectors.toList());
+			em.persist(book);
+			return book;
+		}).collect(Collectors.toList());
 	}
 }

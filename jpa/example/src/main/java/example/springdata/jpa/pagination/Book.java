@@ -15,13 +15,13 @@
  */
 package example.springdata.jpa.pagination;
 
-import java.util.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @author Christoph Strobl
@@ -31,12 +31,10 @@ import lombok.Data;
 @Table(name = "books")
 public class Book {
 
-	@Id
-	private String id;
+	@Id private String id;
 	private String title;
 	private String isbn10;
 	private Date publicationDate;
 
-	@ManyToOne
-	Author author;
+	@ManyToOne Author author;
 }
