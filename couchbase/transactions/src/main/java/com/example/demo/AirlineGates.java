@@ -25,40 +25,37 @@ import org.springframework.data.couchbase.core.mapping.Document;
  */
 @Document
 public class AirlineGates {
-    @Id
-    String id;
-    @Version
-    Long version;
-    @QueryIndexed
-    String name;
-    String iata;
-    Long gates;
+	@Id String id;
+	@Version Long version;
+	@QueryIndexed String name;
+	String iata;
+	Long gates;
 
-    public AirlineGates(String id, String name, String iata, Long gates) {
-        this.id = id;
-        this.name = name;
-        this.iata = iata;
-        this.gates = gates;
-    }
+	public AirlineGates(String id, String name, String iata, Long gates) {
+		this.id = id;
+		this.name = name;
+		this.iata = iata;
+		this.gates = gates;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public Long getGates() {
-        return gates;
-    }
+	public Long getGates() {
+		return gates;
+	}
 
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("{");
-        sb.append("\"id\":" + id);
-        sb.append(", \"name\":" + name);
-        sb.append(", \"iata\":" + iata);
-        sb.append(", \"gates\":" + gates);
-        sb.append("}");
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("{");
+		sb.append("\"id\":" + id);
+		sb.append(", \"name\":" + name);
+		sb.append(", \"iata\":" + iata);
+		sb.append(", \"gates\":" + gates);
+		sb.append("}");
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
 }

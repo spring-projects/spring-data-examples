@@ -22,6 +22,6 @@ import org.springframework.data.couchbase.repository.DynamicProxyable;
  * @author Michael Reiche
  */
 public interface AirlineGatesRepository
-        extends CouchbaseRepository<AirlineGates, String>, DynamicProxyable<AirlineGatesRepository> {
+		extends CouchbaseRepository<AirlineGates, String>, DynamicProxyable<AirlineGatesRepository> {
 
 }
