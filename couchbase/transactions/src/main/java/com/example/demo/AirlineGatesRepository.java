@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.example.demo;
 
 import org.springframework.data.couchbase.repository.CouchbaseRepository;
 import org.springframework.data.couchbase.repository.DynamicProxyable;
-import org.springframework.stereotype.Repository;
 
 /**
  * @author Michael Reiche
  */
-@Repository
 public interface AirlineGatesRepository
-		extends CouchbaseRepository<AirlineGates, String>, DynamicProxyable<AirlineGatesRepository> {
+        extends CouchbaseRepository<AirlineGates, String>, DynamicProxyable<AirlineGatesRepository> {
 
 }

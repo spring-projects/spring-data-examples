@@ -17,17 +17,28 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import java.util.Properties;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.context.annotation.Conditional;
+import org.springframework.core.type.AnnotatedTypeMetadata;
+
+import example.springdata.couchbase.util.CouchbaseAvailableRule;
 
 /**
  * @author Michael Reiche
  */
 @SpringBootApplication
+@Conditional(DemoApplication.CouchbaseAvailable.class)
 public class DemoApplication {
 
-	public static void main(String[] args) {
- 		SpringApplication.run( DemoApplication.class, args );
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 
+    static class CouchbaseAvailable implements Condition {
+        @Override
+        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+            return CouchbaseAvailableRule.onLocalhost().isAvailable();
+        }
+    }
 }

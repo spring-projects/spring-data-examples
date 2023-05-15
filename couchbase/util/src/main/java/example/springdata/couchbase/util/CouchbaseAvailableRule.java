@@ -19,12 +19,13 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.time.Duration;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
 
 import javax.net.SocketFactory;
 
 import org.junit.AssumptionViolatedException;
 import org.junit.rules.ExternalResource;
-
 
 /**
  * Rule to check Couchbase server availability. If Couchbase is not running, tests are skipped.
@@ -33,35 +34,49 @@ import org.junit.rules.ExternalResource;
  */
 public class CouchbaseAvailableRule extends ExternalResource {
 
-	private final String host;
-	private final int port;
-	private final Duration timeout = Duration.ofSeconds(1);
+    private final String host;
+    private final int port;
+    private final Duration timeout = Duration.ofSeconds(1);
 
-	private CouchbaseAvailableRule(String host, int port) {
-		this.host = host;
-		this.port = port;
-	}
+    private CouchbaseAvailableRule(String host, int port) {
+        this.host = host;
+        this.port = port;
+    }
 
-	/**
-	 * Create a new rule requiring Couchbase running on {@code localhost} on {@code 8091}.
-	 *
-	 * @return the test rule.
-	 */
-	public static CouchbaseAvailableRule onLocalhost() {
-		return new CouchbaseAvailableRule("localhost", 8091);
-	}
+    /**
+     * Create a new rule requiring Couchbase running on {@code localhost} on {@code 8091}.
+     *
+     * @return the test rule.
+     */
+    public static CouchbaseAvailableRule onLocalhost() {
+        return new CouchbaseAvailableRule("localhost", 8091);
+    }
 
-	@Override
-	protected void before() throws Throwable {
+    @Override
+    protected void before() throws Throwable {
 
-		Socket socket = SocketFactory.getDefault().createSocket();
-		try {
-			socket.connect(new InetSocketAddress(host, port), Math.toIntExact(timeout.toMillis()));
-		} catch (IOException e) {
-			throw new AssumptionViolatedException(
-					String.format("Couchbase not available on on %s:%d. Skipping tests.", host, port), e);
-		} finally {
-			socket.close();
-		}
-	}
+        check((b, throwable) -> {
+            if (throwable != null) {
+                throw new AssumptionViolatedException(
+                        String.format("Couchbase not available on on %s:%d. Skipping tests.", host, port), throwable);
+            }
+        });
+    }
+
+    public boolean isAvailable() {
+
+        AtomicBoolean b = new AtomicBoolean();
+        check((avail, t) -> b.set(avail));
+        return b.get();
+    }
+
+    private void check(BiConsumer<Boolean, Throwable> c) {
+
+        try (Socket socket = SocketFactory.getDefault().createSocket()) {
+            socket.connect(new InetSocketAddress(host, port), Math.toIntExact(timeout.toMillis()));
+            c.accept(true, null);
+        } catch (IOException e) {
+            c.accept(false, e);
+        }
+    }
 }

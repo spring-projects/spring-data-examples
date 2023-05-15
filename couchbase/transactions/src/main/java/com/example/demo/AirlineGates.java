@@ -16,7 +16,6 @@
 package com.example.demo;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.couchbase.core.index.QueryIndexed;
 import org.springframework.data.couchbase.core.mapping.Document;
@@ -26,37 +25,40 @@ import org.springframework.data.couchbase.core.mapping.Document;
  */
 @Document
 public class AirlineGates {
-	@Id String id;
-	@Version Long version;
-	@QueryIndexed String name;
-	String iata;
-	Long gates;
+    @Id
+    String id;
+    @Version
+    Long version;
+    @QueryIndexed
+    String name;
+    String iata;
+    Long gates;
 
-	@PersistenceConstructor
-	public AirlineGates(String id, String name, String iata, Long gates) {
-		this.id = id;
-		this.name = name;
-		this.iata = iata;
-		this.gates = gates;
-	}
+    public AirlineGates(String id, String name, String iata, Long gates) {
+        this.id = id;
+        this.name = name;
+        this.iata = iata;
+        this.gates = gates;
+    }
 
-	public String getId() {
-		return id;
-	}
-	public Long getGates() {
-		return gates;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String toString(){
-		StringBuffer sb=new StringBuffer();
-		sb.append("{");
-		sb.append("\"id\":"+id);
-		sb.append(", \"name\":"+name);
-		sb.append(", \"iata\":"+iata);
-		sb.append(", \"gates\":"+gates);
-		sb.append("}");
+    public Long getGates() {
+        return gates;
+    }
 
-		return sb.toString();
-	}
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("{");
+        sb.append("\"id\":" + id);
+        sb.append(", \"name\":" + name);
+        sb.append(", \"iata\":" + iata);
+        sb.append(", \"gates\":" + gates);
+        sb.append("}");
+
+        return sb.toString();
+    }
 
 }
