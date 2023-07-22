@@ -28,7 +28,6 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -41,7 +40,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.ScrollPosition;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Window;
-import org.springframework.data.domain.WindowIterator;
+import org.springframework.data.support.WindowIterator;
 import org.springframework.data.util.Streamable;
 
 import com.github.javafaker.Faker;
@@ -124,7 +123,7 @@ class PaginationTests {
 	void scrollThroughResultsWithSkipAndLimit() {
 
 		Window<Book> window;
-		ScrollPosition scrollPosition = OffsetScrollPosition.initial();
+		ScrollPosition scrollPosition = ScrollPosition.offset();
 
 		do {
 
@@ -146,7 +145,7 @@ class PaginationTests {
 
 		WindowIterator<Book> iterator = WindowIterator
 				.of(scrollPosition -> books.findTop2ByTitleContainsOrderByPublicationDate("the-crazy-book-", scrollPosition))
-				.startingAt(OffsetScrollPosition.initial());
+				.startingAt(ScrollPosition.offset());
 
 		List<Book> allBooks = Streamable.of(() -> iterator).stream().toList();
 		assertThat(allBooks).hasSize(50);
@@ -162,7 +161,7 @@ class PaginationTests {
 	void scrollThroughResultsWithKeyset() {
 
 		Window<Book> window;
-		ScrollPosition scrollPosition = KeysetScrollPosition.initial();
+		ScrollPosition scrollPosition = ScrollPosition.keyset();
 		do {
 
 			window = books.findTop2ByTitleContainsOrderByPublicationDate("the", scrollPosition);
