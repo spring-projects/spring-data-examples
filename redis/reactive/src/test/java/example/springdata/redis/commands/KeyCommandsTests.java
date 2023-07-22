@@ -19,6 +19,8 @@ import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import example.springdata.redis.RedisTestConfiguration;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,12 +41,14 @@ import reactor.test.StepVerifier;
  * {@link ReactiveRedisConnectionFactory}.
  *
  * @author Mark Paluch
+ * @author Arooba Shahoor
  */
 @SpringBootTest(classes = RedisTestConfiguration.class)
 class KeyCommandsTests {
 
 	private static final String PREFIX = KeyCommandsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 	@Autowired ReactiveRedisConnectionFactory connectionFactory;
 
@@ -99,15 +103,16 @@ class KeyCommandsTests {
 
 	private void generateRandomKeys(int nrKeys) {
 
-		var keyFlux = Flux.range(0, nrKeys).map(i -> (PREFIX + "-" + i));
+		executor.execute(() -> {
+			var keyFlux = Flux.range(0, nrKeys).map(i -> (PREFIX + "-" + i));
 
-		var generator = keyFlux.map(String::getBytes).map(ByteBuffer::wrap) //
-				.map(key -> SetCommand.set(key) //
-						.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
+			var generator = keyFlux.map(String::getBytes).map(ByteBuffer::wrap) //
+					.map(key -> SetCommand.set(key) //
+							.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
 
-		connection.stringCommands().set(generator).as(StepVerifier::create) //
+			connection.stringCommands().set(generator).as(StepVerifier::create) //
 				.expectNextCount(nrKeys) //
-				.verifyComplete();
+				.verifyComplete();});
 
 	}
 
