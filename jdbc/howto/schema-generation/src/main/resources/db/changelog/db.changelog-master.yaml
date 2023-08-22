@@ -1,0 +1,32 @@
+databaseChangeLog:
+- changeSet:
+    id: '1692725820135'
+    author: Spring Data Relational
+    objectQuotingStrategy: LEGACY
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: true
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+              constraints:
+                  nullable: true
+              name: firstname
+              type: VARCHAR(255 BYTE)
+        - column:
+              constraints:
+                  nullable: true
+              name: lastname
+              type: VARCHAR(255 BYTE)
+        - column:
+              constraints:
+                  nullable: true
+              name: special
+              type: VARCHAR(255 BYTE)
+        tableName: minion
+

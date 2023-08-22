@@ -1,0 +1,5 @@
+== Spring Data JDBC How To Generate the Database Schema.
+
+Spring Data JDBC offers an API to generate Liquibase Changesets from your domain model and optionally an existing database.
+
+This project demonstrates how to do this.

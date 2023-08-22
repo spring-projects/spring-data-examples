@@ -24,6 +24,7 @@
 		<module>caching</module>
 		<module>idgeneration</module>
 		<module>selectiveupdate</module>
+		<module>schema-generation</module>
 	</modules>
 
 </project>
