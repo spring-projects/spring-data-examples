@@ -26,5 +26,12 @@ public class Customer {
 
 	String firstname;
 	String lastname;
-
+	@Override
+	public String toString() {
+		return "Customer{" +
+				"id=" + id +
+				", firstname='" + firstname + '\'' +
+				", lastname='" + lastname + '\'' +
+				'}';
+	}
 }
