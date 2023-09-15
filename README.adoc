@@ -1,4 +1,4 @@
-= Spring Data Examples
+= Spring Data Examples image:https://img.shields.io/badge/Revved%20up%20by-Gradle%20Enterprise-06A0CE?logo=Gradle&labelColor=02303A["Revved up by Gradle Enterprise", link="https://ge.spring.io/scans?search.rootProjectNames=Spring Data - Examples"]
 
 image:https://travis-ci.org/spring-projects/spring-data-examples.svg?branch=main[Build Status,link=https://travis-ci.org/spring-projects/spring-data-examples]
 
