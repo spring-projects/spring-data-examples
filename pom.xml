@@ -186,4 +186,42 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.gradle</groupId>
+					<artifactId>gradle-enterprise-maven-extension</artifactId>
+					<configuration>
+						<gradleEnterprise>
+							<plugins>
+								<plugin>
+									<artifactId>maven-surefire-plugin</artifactId>
+									<outputs>
+										<notCacheableBecause>these tests showcase Spring Data features and should always rerun</notCacheableBecause>
+									</outputs>
+								</plugin>
+							</plugins>
+						</gradleEnterprise>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
