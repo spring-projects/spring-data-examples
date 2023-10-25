@@ -69,6 +69,23 @@ class RepositoryTests {
 	}
 
 	@Test
+	fun `should find one person by email`() {
+
+		repository.save(
+			Person(
+				null,
+				"Walter",
+				"White",
+				EmailAddress("heisenberg@gmail.com")
+			)
+		)
+
+		val walter = repository.findOneByEmail(EmailAddress("heisenberg@gmail.com"))
+
+		assertThat(walter.email?.address).isEqualTo("heisenberg@gmail.com")
+	}
+
+	@Test
 	fun `should return null if no person found`() {
 
 		repository.save(Person("Walter", "White"))

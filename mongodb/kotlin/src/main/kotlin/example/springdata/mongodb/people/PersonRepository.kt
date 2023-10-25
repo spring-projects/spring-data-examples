@@ -38,4 +38,6 @@ interface PersonRepository : CrudRepository<Person, String> {
 	 * Query method requiring a result. Throws [org.springframework.dao.EmptyResultDataAccessException] if no result is found.
 	 */
 	fun findOneByFirstname(firstname: String): Person
+
+	fun findOneByEmail(emailAddress: EmailAddress): Person
 }
