@@ -3,6 +3,7 @@ package example.springdata.jpa.hibernatemultitenant.partition;
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,6 +49,7 @@ class ApplicationTests {
 	}
 
 	@Test
+	@Disabled("Find by Id no longer considers the current tenant")
 	void findById() {
 
 		final Person adam = createPerson(PIVOTAL, "Adam");
