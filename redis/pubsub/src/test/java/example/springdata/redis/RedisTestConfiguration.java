@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package example.springdata.jpa.simple;
+package example.springdata.redis;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * @author Oliver Gierke
+ * @author Mark Paluch
  */
 @SpringBootApplication
-@EnableAsync
-class SimpleConfiguration {}
+public class RedisTestConfiguration {}

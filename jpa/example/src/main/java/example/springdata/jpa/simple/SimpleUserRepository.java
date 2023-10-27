@@ -24,7 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.scheduling.annotation.Async;
 
 /**
@@ -35,7 +35,7 @@ import org.springframework.scheduling.annotation.Async;
  * @author Thomas Darimont
  * @author Christoph Strobl
  */
-public interface SimpleUserRepository extends CrudRepository<User, Long> {
+public interface SimpleUserRepository extends ListCrudRepository<User, Long> {
 
 	/**
 	 * Find the user with the given username. This method will be translated into a query using the

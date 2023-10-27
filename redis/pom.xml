@@ -18,6 +18,7 @@
 	<modules>
 		<module>cluster</module>
 		<module>example</module>
+		<module>pubsub</module>
 		<module>reactive</module>
 		<module>repositories</module>
 		<module>sentinel</module>
