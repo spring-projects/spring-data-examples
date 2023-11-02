@@ -15,6 +15,9 @@
  */
 package example.springdata.mongodb.people;
 
+import java.util.List;
+
+import org.springframework.data.domain.Limit;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -36,6 +39,17 @@ public interface ReactivePersonRepository extends ReactiveCrudRepository<Person,
 	 * @return
 	 */
 	Flux<Person> findByLastname(String lastname);
+
+	/**
+	 * Find at most the number of users defined via maxResults with the given lastname.
+	 * This method will be translated into a query by constructing it directly from the method name as there is no other
+	 * query declared.
+	 *
+	 * @param lastname
+	 * @param maxResults the maximum number of results returned.
+	 * @return
+	 */
+	Flux<Person> findByLastname(String lastname, Limit maxResults);
 
 	/**
 	 * String query selecting one entity.

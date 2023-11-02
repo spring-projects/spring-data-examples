@@ -18,6 +18,7 @@ package example.springdata.mongodb.people;
 import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.mongodb.util.MongoContainers;
+import org.springframework.data.domain.Limit;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -155,6 +156,14 @@ class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	void shouldQueryDataWithQueryDerivation() {
 		repository.findByLastname("White").as(StepVerifier::create).expectNextCount(2).verifyComplete();
+	}
+
+	/**
+	 * Limit result size.
+	 */
+	@Test
+	void shouldLimitResultSize() {
+		repository.findByLastname("White", Limit.of(1)).as(StepVerifier::create).expectNextCount(1).verifyComplete();
 	}
 
 	/**

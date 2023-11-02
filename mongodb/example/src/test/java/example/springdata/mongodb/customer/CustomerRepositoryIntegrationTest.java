@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
@@ -94,6 +95,17 @@ class CustomerRepositoryIntegrationTest {
 		assertThat(result).hasSize(2);
 		assertThat(result.get(0)).isEqualTo(dave);
 		assertThat(result.get(1)).isEqualTo(oliver);
+	}
+
+	/**
+	 * Test case to show how to reduce result size with dynamic {@link Limit}.
+	 */
+	@Test
+	void limitResultSize() {
+
+		var result = repository.findByLastname("Matthews", Limit.of(1));
+
+		assertThat(result).hasSize(1);
 	}
 
 	/**

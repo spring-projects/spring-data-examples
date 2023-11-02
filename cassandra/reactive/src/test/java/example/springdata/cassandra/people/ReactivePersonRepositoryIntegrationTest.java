@@ -16,6 +16,7 @@
 package example.springdata.cassandra.people;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
+import org.springframework.data.domain.Limit;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -87,6 +88,14 @@ class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	void shouldQueryDataWithQueryDerivation() {
 		StepVerifier.create(repository.findByLastname("White")).expectNextCount(2).verifyComplete();
+	}
+
+	/**
+	 * Fetch data limiting result size.
+	 */
+	@Test
+	void limitResultSize() {
+		StepVerifier.create(repository.findByLastname("White", Limit.of(1))).expectNextCount(1).verifyComplete();
 	}
 
 	/**

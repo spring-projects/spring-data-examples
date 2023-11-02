@@ -18,6 +18,7 @@ package example.springdata.mongodb.customer;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -40,6 +41,15 @@ public interface CustomerRepository extends CrudRepository<Customer, String> {
 	 * @return
 	 */
 	List<Customer> findByLastname(String lastname, Sort sort);
+
+	/**
+	 * Derived query reducing result size to a given {@link Limit}.
+	 *
+	 * @param lastname
+	 * @param maxResults the maximum number of results returned.
+	 * @return
+	 */
+	List<Customer> findByLastname(String lastname, Limit maxResults);
 
 	/**
 	 * Showcase for a repository query using geospatial functionality.
