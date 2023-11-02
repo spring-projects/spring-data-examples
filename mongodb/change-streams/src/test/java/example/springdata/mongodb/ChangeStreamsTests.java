@@ -200,28 +200,31 @@ public class ChangeStreamsTests {
 				ChangeStreamOptions.builder().filter(newAggregation(match(where("operationType").is("insert")))).build(),
 				Person.class);
 
-		StepVerifier.create(changeStream) //
+		changeStream.as(StepVerifier::create) //
 				.expectSubscription() //
 				.expectNoEvent(Duration.ofMillis(200)) // wait till change streams becomes active
 
 				// Save documents and await their change events
 				.then(() -> {
-					StepVerifier.create(reactiveTemplate.save(gabriel)).expectNextCount(1).verifyComplete();
-					StepVerifier.create(reactiveTemplate.save(ash)).expectNextCount(1).verifyComplete();
+					reactiveTemplate.save(gabriel).as(StepVerifier::create).expectNextCount(1).verifyComplete();
+					reactiveTemplate.save(ash).as(StepVerifier::create).expectNextCount(1).verifyComplete();
 				}).expectNextCount(2) //
 
 				// Update a document
 				.then(() -> {
 
-					StepVerifier.create(reactiveTemplate.update(Person.class) //
+					reactiveTemplate.update(Person.class) //
 							.matching(query(where("id").is(ash.id()))) //
 							.apply(update("age", 40)) //
-							.first()).expectNextCount(1).verifyComplete();
+							.first() //
+							.as(StepVerifier::create) //
+							.expectNextCount(1) //
+							.verifyComplete();
 				}).expectNoEvent(Duration.ofMillis(200)) // updates are skipped
 
 				// Save another document and await its change event
 				.then(() -> {
-					StepVerifier.create(reactiveTemplate.save(michael)).expectNextCount(1).verifyComplete();
+					reactiveTemplate.save(michael).as(StepVerifier::create).expectNextCount(1).verifyComplete();
 				}).expectNextCount(1) // there we go, all events received.
 
 				.thenCancel() // change streams are infinite streams, at some point we need to unsubscribe

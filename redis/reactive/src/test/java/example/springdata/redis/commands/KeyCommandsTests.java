@@ -77,7 +77,7 @@ class KeyCommandsTests {
 				.count() //
 				.doOnSuccess(count -> System.out.println(String.format("Total No. found: %s", count)));
 
-		StepVerifier.create(keyCount).expectNext(50L).verifyComplete();
+		keyCount.as(StepVerifier::create).expectNext(50L).verifyComplete();
 	}
 
 	/**
@@ -98,7 +98,7 @@ class KeyCommandsTests {
 				.flatMap(result -> llen) //
 				.doOnNext(count -> System.out.println(String.format("Total items in list left: %s", count)));//
 
-		StepVerifier.create(popAndLlen).expectNext(0L).verifyComplete();
+		popAndLlen.as(StepVerifier::create).expectNext(0L).verifyComplete();
 	}
 
 	private void generateRandomKeys(int nrKeys) {
@@ -109,7 +109,9 @@ class KeyCommandsTests {
 				.map(key -> SetCommand.set(key) //
 						.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
 
-		StepVerifier.create(connection.stringCommands().set(generator)).expectNextCount(nrKeys).verifyComplete();
+		connection.stringCommands().set(generator).as(StepVerifier::create) //
+				.expectNextCount(nrKeys) //
+				.verifyComplete();
 
 	}
 

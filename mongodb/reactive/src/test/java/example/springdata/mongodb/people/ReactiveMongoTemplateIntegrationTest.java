@@ -60,7 +60,8 @@ class ReactiveMongoTemplateIntegrationTest {
 	@BeforeEach
 	void setUp() {
 
-		StepVerifier.create(template.dropCollection(Person.class)).verifyComplete();
+		template.dropCollection(Person.class).as(StepVerifier::create) //
+				.verifyComplete();
 
 		var insertAll = template
 				.insertAll(Flux.just(new Person("Walter", "White", 50), //

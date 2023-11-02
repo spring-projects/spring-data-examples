@@ -50,7 +50,9 @@ class ReactivePersonRepositoryIntegrationTest {
 						new Person("Saul", "Goodman", 42), //
 						new Person("Jesse", "Pinkman", 27))));
 
-		StepVerifier.create(deleteAndInsert).expectNextCount(4).verifyComplete();
+		deleteAndInsert.as(StepVerifier::create) //
+				.expectNextCount(4) //
+				.verifyComplete();
 	}
 
 	/**
@@ -67,7 +69,9 @@ class ReactivePersonRepositoryIntegrationTest {
 				.flatMap(v -> repository.count()) //
 				.doOnNext(System.out::println);
 
-		StepVerifier.create(saveAndCount).expectNext(6L).verifyComplete();
+		saveAndCount.as(StepVerifier::create) //
+				.expectNext(6L) //
+				.verifyComplete();
 	}
 
 	/**
@@ -77,7 +81,7 @@ class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	void shouldPerformConversionBeforeResultProcessing() {
 
-		StepVerifier.create(repository.findAll().doOnNext(System.out::println)) //
+		repository.findAll().doOnNext(System.out::println).as(StepVerifier::create) //
 				.expectNextCount(4) //
 				.verifyComplete();
 	}
@@ -87,7 +91,10 @@ class ReactivePersonRepositoryIntegrationTest {
 	 */
 	@Test
 	void shouldQueryDataWithQueryDerivation() {
-		StepVerifier.create(repository.findByLastname("White")).expectNextCount(2).verifyComplete();
+
+		repository.findByLastname("White").as(StepVerifier::create) //
+				.expectNextCount(2) //
+				.verifyComplete();
 	}
 
 	/**
@@ -95,7 +102,10 @@ class ReactivePersonRepositoryIntegrationTest {
 	 */
 	@Test
 	void limitResultSize() {
-		StepVerifier.create(repository.findByLastname("White", Limit.of(1))).expectNextCount(1).verifyComplete();
+
+		repository.findByLastname("White", Limit.of(1)).as(StepVerifier::create) //
+				.expectNextCount(1) //
+				.verifyComplete();
 	}
 
 	/**
@@ -103,7 +113,10 @@ class ReactivePersonRepositoryIntegrationTest {
 	 */
 	@Test
 	void shouldQueryDataWithStringQuery() {
-		StepVerifier.create(repository.findByFirstnameInAndLastname("Walter", "White")).expectNextCount(1).verifyComplete();
+
+		repository.findByFirstnameInAndLastname("Walter", "White").as(StepVerifier::create) //
+				.expectNextCount(1) //
+				.verifyComplete();
 	}
 
 	/**
@@ -111,7 +124,10 @@ class ReactivePersonRepositoryIntegrationTest {
 	 */
 	@Test
 	void shouldQueryDataWithDeferredQueryDerivation() {
-		StepVerifier.create(repository.findByLastname(Mono.just("White"))).expectNextCount(2).verifyComplete();
+
+		repository.findByLastname(Mono.just("White")).as(StepVerifier::create) //
+				.expectNextCount(2) //
+				.verifyComplete();
 	}
 
 	/**
@@ -120,7 +136,7 @@ class ReactivePersonRepositoryIntegrationTest {
 	@Test
 	void shouldQueryDataWithMixedDeferredQueryDerivation() {
 
-		StepVerifier.create(repository.findByFirstnameAndLastname(Mono.just("Walter"), "White")) //
+		repository.findByFirstnameAndLastname(Mono.just("Walter"), "White").as(StepVerifier::create) //
 				.expectNextCount(1) //
 				.verifyComplete();
 	}
