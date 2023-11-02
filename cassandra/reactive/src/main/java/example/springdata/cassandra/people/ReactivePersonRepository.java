@@ -15,6 +15,7 @@
  */
 package example.springdata.cassandra.people;
 
+import org.springframework.data.domain.Limit;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -35,6 +36,15 @@ public interface ReactivePersonRepository extends ReactiveCrudRepository<Person,
 	 * @return
 	 */
 	Flux<Person> findByLastname(String lastname);
+
+	/**
+	 * Derived query selecting by {@code lastname} reducing the result size to a given {@link Limit}.
+	 *
+	 * @param lastname
+	 * @param maxResults the maximum number of results returned.
+	 * @return
+	 */
+	Flux<Person> findByLastname(String lastname, Limit maxResults);
 
 	/**
 	 * String query selecting one entity.

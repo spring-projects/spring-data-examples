@@ -18,6 +18,7 @@ package example.springdata.cassandra.basic;
 import java.util.List;
 
 import org.springframework.data.cassandra.repository.Query;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -55,4 +56,13 @@ public interface BasicUserRepository extends CrudRepository<User, Long> {
 	 * @return
 	 */
 	List<User> findUsersByLastnameStartsWith(String lastnamePrefix);
+
+	/**
+	 * Same as {@link #findUsersByLastnameStartsWith(String)} but reducing the result size to a given {@link Limit}.
+	 *
+	 * @param lastnamePrefix
+	 * @param maxResults the maximum number of results returned.
+	 * @return
+	 */
+	List<User> findUsersByLastnameStartsWith(String lastnamePrefix, Limit maxResults);
 }

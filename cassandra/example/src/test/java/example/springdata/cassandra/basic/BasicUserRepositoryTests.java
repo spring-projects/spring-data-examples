@@ -18,6 +18,8 @@ package example.springdata.cassandra.basic;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assumptions.*;
 
+import java.util.stream.LongStream;
+
 import example.springdata.cassandra.util.CassandraKeyspace;
 import example.springdata.cassandra.util.CassandraVersion;
 
@@ -26,6 +28,7 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.util.Version;
 
 import com.datastax.oss.driver.api.core.CqlSession;
@@ -119,5 +122,25 @@ class BasicUserRepositoryTests {
 		repository.save(user);
 
 		assertThat(repository.findUsersByLastnameStartsWith("last")).contains(user);
+	}
+
+	/**
+	 * Spring Data Cassandra supports {@code Limit} to reduce the number of returned results.
+	 */
+	@Test
+	void limitResultSize() throws InterruptedException {
+
+		assumeThat(CassandraVersion.getReleaseVersion(session).isGreaterThanOrEqualTo(CASSANDRA_3_4)).isTrue();
+
+		session.execute("CREATE CUSTOM INDEX ON users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex';");
+		/*
+		  Cassandra secondary indexes are created in the background without the possibility to check
+		  whether they are available or not. So we are forced to just wait. *sigh*
+		 */
+		Thread.sleep(1000);
+
+		LongStream.range(0, 10).forEach(id -> repository.save(new User(id, user.getFirstname(), user.getLastname())));
+
+		assertThat(repository.findUsersByLastnameStartsWith("last", Limit.of(5))).hasSize(5);
 	}
 }

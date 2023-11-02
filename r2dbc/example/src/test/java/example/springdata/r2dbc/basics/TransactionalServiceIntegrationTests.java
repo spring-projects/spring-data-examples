@@ -15,6 +15,7 @@
  */
 package example.springdata.r2dbc.basics;
 
+import org.springframework.data.domain.Limit;
 import reactor.core.publisher.Hooks;
 import reactor.test.StepVerifier;
 
@@ -69,6 +70,25 @@ class TransactionalServiceIntegrationTests {
 		// No data inserted due to rollback
 		repository.findByLastname("Matthews") //
 				.as(StepVerifier::create) //
+				.verifyComplete();
+	}
+
+	@Test
+	void limitResultSize() {
+
+		service.save(new Customer(null, "Carter", "Matthews")) //
+				.as(StepVerifier::create) //
+				.expectNextMatches(Customer::hasId) //
+				.verifyComplete();
+
+		service.save(new Customer(null, "Evad", "Matthews")) //
+				.as(StepVerifier::create) //
+				.expectNextMatches(Customer::hasId) //
+				.verifyComplete();
+
+		repository.findByLastname("Matthews", Limit.of(1)) //
+				.as(StepVerifier::create) //
+				.expectNextCount(1)
 				.verifyComplete();
 	}
 

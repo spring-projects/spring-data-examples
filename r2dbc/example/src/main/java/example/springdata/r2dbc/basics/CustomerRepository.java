@@ -15,6 +15,7 @@
  */
 package example.springdata.r2dbc.basics;
 
+import org.springframework.data.domain.Limit;
 import reactor.core.publisher.Flux;
 
 import org.springframework.data.r2dbc.repository.Query;
@@ -28,4 +29,6 @@ interface CustomerRepository extends ReactiveCrudRepository<Customer, Long> {
 
 	@Query("select id, firstname, lastname from customer c where c.lastname = :lastname")
 	Flux<Customer> findByLastname(String lastname);
+
+	Flux<Customer> findByLastname(String lastname, Limit limit);
 }

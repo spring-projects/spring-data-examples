@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -36,6 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Propagation;
@@ -81,6 +83,22 @@ class SimpleUserRepositoryTests {
 		user = repository.save(user);
 
 		assertThat(repository.findByLastname("lastname")).contains(user);
+	}
+
+	@Test
+	void findLimitedNumberOfUsersViaDerivedQuery() {
+
+		IntStream.range(0, 10).forEach($ -> repository.save(new User(user.getFirstname(), user.getLastname())));
+
+		assertThat(repository.findByLastname("lastname", Limit.of(5))).hasSize(5);
+	}
+
+	@Test
+	void findLimitedNumberOfUsersViaAnnotatedQuery() {
+
+		IntStream.range(0, 10).forEach($ -> repository.save(new User(user.getFirstname(), user.getLastname())));
+
+		assertThat(repository.findByFirstname(user.getFirstname(), Limit.of(5))).hasSize(5);
 	}
 
 	@Test

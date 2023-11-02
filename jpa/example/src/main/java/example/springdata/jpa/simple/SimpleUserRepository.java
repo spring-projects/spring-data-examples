@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -64,6 +65,17 @@ public interface SimpleUserRepository extends ListCrudRepository<User, Long> {
 	List<User> findByLastname(String lastname);
 
 	/**
+	 * Find at most the number of users defined via maxResults with the given lastname.
+	 * This method will be translated into a query by constructing it directly from the method name as there is no other
+	 * query declared.
+	 *
+	 * @param lastname
+	 * @param maxResults the maximum number of results returned.
+	 * @return
+	 */
+	List<User> findByLastname(String lastname, Limit maxResults);
+
+	/**
 	 * Returns all users with the given firstname. This method will be translated into a query using the one declared in
 	 * the {@link Query} annotation declared one.
 	 *
@@ -72,6 +84,17 @@ public interface SimpleUserRepository extends ListCrudRepository<User, Long> {
 	 */
 	@Query("select u from User u where u.firstname = :firstname")
 	List<User> findByFirstname(String firstname);
+
+	/**
+	 * Returns at most the number of users defined via {@link Limit} with the given firstname. This method will be
+	 * translated into a query using the one declared in the {@link Query} annotation declared one.
+	 *
+	 * @param firstname
+	 * @param maxResults the maximum number of results returned.
+	 * @return
+	 */
+	@Query("select u from User u where u.firstname = :firstname")
+	List<User> findByFirstname(String firstname, Limit maxResults);
 
 	/**
 	 * Returns all users with the given name as first- or lastname. This makes the query to method relation much more
