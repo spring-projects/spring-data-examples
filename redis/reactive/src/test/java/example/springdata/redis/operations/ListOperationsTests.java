@@ -45,7 +45,10 @@ class ListOperationsTests {
 
 	@BeforeEach
 	void before() {
-		StepVerifier.create(operations.execute(it -> it.serverCommands().flushDb())).expectNext("OK").verifyComplete();
+
+		operations.execute(it -> it.serverCommands().flushDb()).as(StepVerifier::create) //
+			.expectNext("OK") //
+			.verifyComplete();
 	}
 
 	/**
@@ -63,7 +66,7 @@ class ListOperationsTests {
 				.log("example.springdata.redis", Level.INFO);
 
 		log.info("Blocking pop...waiting for message");
-		StepVerifier.create(blpop) //
+		blpop.as(StepVerifier::create) //
 				.then(() -> {
 
 					Mono.delay(Duration.ofSeconds(10)).doOnSuccess(it -> {

@@ -48,7 +48,9 @@ class ReactiveCassandraTemplateIntegrationTest {
 						new Person("Jesse", "Pinkman", 27))) //
 				.flatMap(template::insert);
 
-		StepVerifier.create(truncateAndInsert).expectNextCount(4).verifyComplete();
+		truncateAndInsert.as(StepVerifier::create) //
+				.expectNextCount(4) //
+				.verifyComplete();
 	}
 
 	/**
@@ -67,6 +69,8 @@ class ReactiveCassandraTemplateIntegrationTest {
 				.flatMap(v -> template.count(Person.class)) //
 				.doOnNext(System.out::println);
 
-		StepVerifier.create(saveAndCount).expectNext(6L).verifyComplete();
+		saveAndCount.as(StepVerifier::create) //
+				.expectNext(6L) //
+				.verifyComplete();
 	}
 }

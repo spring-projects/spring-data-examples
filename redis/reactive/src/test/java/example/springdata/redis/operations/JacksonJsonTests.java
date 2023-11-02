@@ -56,7 +56,7 @@ class JacksonJsonTests {
 	@Test
 	void shouldWriteAndReadPerson() {
 
-		StepVerifier.create(typedOperations.opsForValue().set("homer", new Person("Homer", "Simpson"))) //
+		typedOperations.opsForValue().set("homer", new Person("Homer", "Simpson")).as(StepVerifier::create) //
 				.expectNext(true) //
 				.verifyComplete();
 

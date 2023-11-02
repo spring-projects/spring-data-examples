@@ -46,7 +46,10 @@ class ValueOperationsTests {
 
 	@BeforeEach
 	void before() {
-		StepVerifier.create(operations.execute(it -> it.serverCommands().flushDb())).expectNext("OK").verifyComplete();
+
+		operations.execute(it -> it.serverCommands().flushDb()).as(StepVerifier::create) //
+			.expectNext("OK") //
+			.verifyComplete();
 	}
 
 	/**
@@ -67,14 +70,14 @@ class ValueOperationsTests {
 
 		log.info("Initial access (takes a while...)");
 
-		StepVerifier.create(cachedMono).expectSubscription() //
+		cachedMono.as(StepVerifier::create).expectSubscription() //
 				.expectNoEvent(Duration.ofSeconds(9)) //
 				.expectNext("Hello, World!") //
 				.verifyComplete();
 
 		log.info("Subsequent access (use cached value)");
 
-		var duration = StepVerifier.create(cachedMono) //
+		var duration = cachedMono.as(StepVerifier::create) //
 				.expectNext("Hello, World!") //
 				.verifyComplete();
 
