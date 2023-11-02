@@ -1,11 +1,11 @@
 /*
- * Copyright 2013-2021 the original author or authors.
+ * Copyright 2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,10 +18,10 @@ package example.springdata.cassandra.basic;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assumptions.*;
 
-import java.util.stream.LongStream;
-
 import example.springdata.cassandra.util.CassandraKeyspace;
 import example.springdata.cassandra.util.CassandraVersion;
+
+import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -112,7 +112,8 @@ class BasicUserRepositoryTests {
 
 		assumeThat(CassandraVersion.getReleaseVersion(session).isGreaterThanOrEqualTo(CASSANDRA_3_4)).isTrue();
 
-		session.execute("CREATE CUSTOM INDEX ON users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex';");
+		session.execute(
+				"CREATE CUSTOM INDEX IF NOT EXISTS users_lname_idx_1 ON users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex';");
 		/*
 		  Cassandra secondary indexes are created in the background without the possibility to check
 		  whether they are available or not. So we are forced to just wait. *sigh*
@@ -132,7 +133,8 @@ class BasicUserRepositoryTests {
 
 		assumeThat(CassandraVersion.getReleaseVersion(session).isGreaterThanOrEqualTo(CASSANDRA_3_4)).isTrue();
 
-		session.execute("CREATE CUSTOM INDEX ON users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex';");
+		session.execute(
+				"CREATE CUSTOM INDEX IF NOT EXISTS users_lname_idx_1 ON users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex';");
 		/*
 		  Cassandra secondary indexes are created in the background without the possibility to check
 		  whether they are available or not. So we are forced to just wait. *sigh*
