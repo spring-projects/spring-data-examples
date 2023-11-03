@@ -187,6 +187,26 @@
 	</pluginRepositories>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.gradle</groupId>
+					<artifactId>gradle-enterprise-maven-extension</artifactId>
+					<configuration>
+						<gradleEnterprise>
+							<plugins>
+								<plugin>
+									<artifactId>maven-surefire-plugin</artifactId>
+									<outputs>
+										<notCacheableBecause>these tests showcase Spring Data features and should always rerun</notCacheableBecause>
+									</outputs>
+								</plugin>
+							</plugins>
+						</gradleEnterprise>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
