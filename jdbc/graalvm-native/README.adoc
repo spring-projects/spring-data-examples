@@ -1,6 +1,6 @@
 == Spring Data JDBC - GraalVM native image
 
-This example compiles a basic Spring Data JDBC appication into a GraalVM native image.
+This example compiles a basic Spring Data JDBC application into a GraalVM native image.
 
 === Install GraalVM & native image tooling
 

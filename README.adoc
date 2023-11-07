@@ -23,8 +23,14 @@ Local Elasticsearch instance must be running to run the tests.
 == Spring Data JDBC
 
 * `basic` - Basic usage of Spring Data JDBC.
+* `graalvm-native` - This example compiles a basic Spring Data JDBC application into a GraalVM native image.
+* `howto` - A collection of projects to go with the https://spring.io/blog/2021/09/09/spring-data-jdbc-how-to-use-custom-id-generation[Spring Data JDBC - How to blog posts].
 * `immutables` - Showing Spring Data JDBC usage
  with https://immutables.github.io/[Immutables]
+* `jmolecules` - Demonstrates the interaction of jMolecules with Spring Data JDBC.
+* `jooq` - Demonstrates how to use jOOQ and Spring Data JDBC together.
+* `mybatis` - Demonstrate how to use MyBatis to generate SQL for Spring Data JDBC.
+* `singlequeryloading` - Demonstrates how to enable Single Query Loading.
 
 == Spring Data JPA
 
