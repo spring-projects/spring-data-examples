@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 the original author or authors.
+ * Copyright 2020-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,9 @@
  */
 package example.springdata.elasticsearch.conference;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -31,9 +32,12 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
  * @author Oliver Gierke
  * @author Christoph Strobl
  * @author Prakhar Gupta
+ * @author Haibo Liu
  */
 @SpringBootApplication
 class ApplicationConfiguration {
+
+	private final DateTimeFormatter FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
 
 	@Autowired ElasticsearchOperations operations;
 	@Autowired ConferenceRepository repository;
@@ -51,16 +55,16 @@ class ApplicationConfiguration {
 		// Save data sample
 
 		var documents = Arrays.asList(
-				Conference.builder().date("2014-11-06").name("Spring eXchange 2014 - London")
+				Conference.builder().date(LocalDate.parse("2014-11-06", FORMAT)).name("Spring eXchange 2014 - London")
 						.keywords(Arrays.asList("java", "spring")).location(new GeoPoint(51.500152D, -0.126236D)).build(), //
-				Conference.builder().date("2014-12-07").name("Scala eXchange 2014 - London")
+				Conference.builder().date(LocalDate.parse("2014-12-07", FORMAT)).name("Scala eXchange 2014 - London")
 						.keywords(Arrays.asList("scala", "play", "java")).location(new GeoPoint(51.500152D, -0.126236D)).build(), //
-				Conference.builder().date("2014-11-20").name("Elasticsearch 2014 - Berlin")
+				Conference.builder().date(LocalDate.parse("2014-11-20", FORMAT)).name("Elasticsearch 2014 - Berlin")
 						.keywords(Arrays.asList("java", "elasticsearch", "kibana")).location(new GeoPoint(52.5234051D, 13.4113999))
 						.build(), //
-				Conference.builder().date("2014-11-12").name("AWS London 2014").keywords(Arrays.asList("cloud", "aws"))
+				Conference.builder().date(LocalDate.parse("2014-11-12", FORMAT)).name("AWS London 2014").keywords(Arrays.asList("cloud", "aws"))
 						.location(new GeoPoint(51.500152D, -0.126236D)).build(), //
-				Conference.builder().date("2014-10-04").name("JDD14 - Cracow").keywords(Arrays.asList("java", "spring"))
+				Conference.builder().date(LocalDate.parse("2014-10-04", FORMAT)).name("JDD14 - Cracow").keywords(Arrays.asList("java", "spring"))
 						.location(new GeoPoint(50.0646501D, 19.9449799)).build());
 
 		repository.saveAll(documents);

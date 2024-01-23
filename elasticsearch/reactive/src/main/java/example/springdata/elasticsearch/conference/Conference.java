@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 the original author or authors.
+ * Copyright 2020-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import static org.springframework.data.elasticsearch.annotations.FieldType.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -29,6 +30,7 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
 /**
  * @author Christoph Strobl
+ * @author Haibo Liu
  */
 @Data
 @Builder
@@ -37,7 +39,7 @@ public class Conference {
 
 	private @Id String id;
 	private String name;
-	private @Field(type = Date) String date;
+	private @Field(type = Date) LocalDate date;
 	private GeoPoint location;
 	private List<String> keywords;
 }

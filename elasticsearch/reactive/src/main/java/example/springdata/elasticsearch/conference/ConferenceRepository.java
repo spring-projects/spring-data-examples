@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 the original author or authors.
+ * Copyright 2019-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,16 @@
  */
 package example.springdata.elasticsearch.conference;
 
+import java.time.LocalDate;
+
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 
 /**
  * @author Christoph Strobl
+ * @author Haibo Liu
  */
 interface ConferenceRepository extends ReactiveCrudRepository<Conference, String> {
 
-	Flux<Conference> findAllByKeywordsContainsAndDateAfter(String keyword, String Date);
+	Flux<Conference> findAllByKeywordsContainsAndDateAfter(String keyword, LocalDate Date);
 }

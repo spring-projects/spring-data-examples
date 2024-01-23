@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 the original author or authors.
+ * Copyright 2020-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,26 +17,15 @@ package example.springdata.elasticsearch.conference;
 
 import static org.assertj.core.api.Assertions.*;
 
-import reactor.test.StepVerifier;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.elc.ReactiveElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.util.Assert;
-import org.testcontainers.elasticsearch.ElasticsearchContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
+import reactor.test.StepVerifier;
 
 /**
  * Test case to show Spring Data Elasticsearch functionality.
@@ -44,41 +33,16 @@ import org.testcontainers.utility.DockerImageName;
  * @author Christoph Strobl
  * @author Prakhar Gupta
  * @author Peter-Josef Meisch
+ * @author Haibo Liu
  */
-@SpringBootTest(
-		classes = { ApplicationConfiguration.class, ReactiveElasticsearchOperationsTest.TestConfiguration.class })
-@Testcontainers
-class ReactiveElasticsearchOperationsTest {
-
-	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-	@Container //
-	private static final ElasticsearchContainer container = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.7.0")) //
-			.withPassword("foobar") //
-			.withReuse(true);
-
-	@Configuration
-	static class TestConfiguration extends ReactiveElasticsearchConfiguration {
-		@Override
-		public ClientConfiguration clientConfiguration() {
-
-			Assert.notNull(container, "TestContainer is not initialized!");
-
-			return ClientConfiguration.builder() //
-					.connectedTo(container.getHttpHostAddress()) //
-					.usingSsl(container.createSslContextFromCa()) //
-					.withBasicAuth("elastic", "foobar") //
-					.build();
-		}
-	}
+class ReactiveElasticsearchOperationsTest extends AbstractContainerBaseTest {
 
 	@Autowired ReactiveElasticsearchOperations operations;
 
 	@Test
 	void textSearch() {
 
-		var expectedDate = "2014-10-29";
+		var expectedDate = LocalDate.parse( "2014-10-29", FORMAT);
 		var expectedWord = "java";
 		var query = new CriteriaQuery(
 				new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));
@@ -91,13 +55,9 @@ class ReactiveElasticsearchOperationsTest {
 				.verifyComplete();
 	}
 
-	private void verify(SearchHit<Conference> hit, String expectedWord, String expectedDate) {
+	private void verify(SearchHit<Conference> hit, String expectedWord, LocalDate expectedDate) {
 
 		assertThat(hit.getContent().getKeywords()).contains(expectedWord);
-		try {
-			assertThat(format.parse(hit.getContent().getDate())).isAfter(format.parse(expectedDate));
-		} catch (ParseException e) {
-			fail("o_O", e);
-		}
+		assertThat(hit.getContent().getDate()).isAfter(expectedDate);
 	}
 }
