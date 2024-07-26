@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 the original author or authors.
+ * Copyright 2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,24 @@
  */
 package example.users;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.devtools.restart.RestartScope;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Bean;
 import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
- * @author Oliver Gierke
- * @author Divya Srivastava
  * @author Tim Sparg
  */
-@Testcontainers
-@SpringBootTest
-class ApplicationTests {
+@TestConfiguration(proxyBeanMethods = false)
+public class TestcontainersConfiguration {
 
-	@Container
-	@ServiceConnection static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:7");
-
-	@Test
-	void contextBootstraps() {}
+	@Bean
+	@ServiceConnection
+	@RestartScope
+	MongoDBContainer mongoDbContainer() {
+		return new MongoDBContainer(DockerImageName.parse("mongo:7"));
+	}
 
 }

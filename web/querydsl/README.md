@@ -4,9 +4,8 @@ This example shows some of the Spring Data Querydsl integration features with Sp
 
 ## Quickstart
 
-1. Install MongoDB (http://www.mongodb.org/downloads, unzip, run `mkdir data`, run `bin/mongod --dbpath=data`)
-2. Build and run the app (`mvn spring-boot:run`)
-4. Access app directly via its UI (`http://localhost:8080/`).
+1. Build and run the app (`mvn spring-boot:test-run`)
+2. Access app directly via its UI (`http://localhost:8080/`).
 
 ## Interesting bits
 
