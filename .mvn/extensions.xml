@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extensions>
 	<extension>
-		<groupId>com.gradle</groupId>
-		<artifactId>gradle-enterprise-maven-extension</artifactId>
-		<version>1.18.1</version>
-	</extension>
-	<extension>
-		<groupId>com.gradle</groupId>
-		<artifactId>common-custom-user-data-maven-extension</artifactId>
-		<version>1.12.3</version>
+		<groupId>io.spring.develocity.conventions</groupId>
+		<artifactId>develocity-conventions-maven-extension</artifactId>
+		<version>0.0.19</version>
 	</extension>
 </extensions>

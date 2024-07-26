@@ -3,7 +3,7 @@
 .springBeans
 .settings/
 target/
-.mvn/.gradle-enterprise
+.mvn/.develocity
 
 #IntelliJ Stuff
 .idea
