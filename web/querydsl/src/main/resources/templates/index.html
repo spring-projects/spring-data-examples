@@ -23,11 +23,11 @@
 
 					<div class="form-group col-sm-6">
 						<label for="firstname" class="control-label">Firstname:</label>
-						<input id="firstname" name="firstname" th:value="${param.firstname}" type="text" class="form-control" autofocus="autofocus" />
+						<input id="firstname" name="firstname" th:value="${param['firstname']}" type="text" class="form-control" autofocus="autofocus" />
 					</div>
 					<div class="form-group col-sm-6">
 						<label for="lastname" class="control-label">Lastname:</label>
-						<input id="lastname" name="lastname" th:value="${param.lastname}" type="text" class="form-control" autofocus="autofocus" />
+						<input id="lastname" name="lastname" th:value="${param['lastname']}" type="text" class="form-control" autofocus="autofocus" />
 					</div>
 					<div class="form-group col-sm-6">
 						<label for="address.city" class="control-label">City:</label>
@@ -42,7 +42,7 @@
 					</div>
 					<div class="form-group col-sm-6">
 						<label for="nationality" class="control-label">Nationality:</label>
-						<input id="nationality" name="nationality" th:value="${param.nationality}" type="text"
+						<input id="nationality" name="nationality" th:value="${param['nationality']}" type="text"
 							   class="form-control" />
 					</div>
 					<div class="form-group col-sm-12">
@@ -73,11 +73,11 @@
 					<th>City</th>
 					<th>Street</th>
 					<th>Email</th>
-				</tr>	
+				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="user : ${users}">
-					<td th:text="${users.number * users.size + userStat.index + 1} + '.'">1.</td>
+					<td th:text="${users.pageable.offset + userStat.index + 1} + '.'">1.</td>
 					<td class="text-center">
 						<img th:src="${user.picture.small}" class="rounded-circle" />
 					</td>

@@ -24,6 +24,7 @@ import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Tim Sparg
+ * @author Oliver Drotbohm
  */
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
@@ -32,7 +33,6 @@ public class TestcontainersConfiguration {
 	@ServiceConnection
 	@RestartScope
 	MongoDBContainer mongoDbContainer() {
-		return new MongoDBContainer(DockerImageName.parse("mongo:7"));
+		return new MongoDBContainer(DockerImageName.parse("mongo:latest"));
 	}
-
 }
