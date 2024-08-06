@@ -40,7 +40,6 @@ class AtlasRepositoryFragment<T> implements AtlasRepository<T> {
     public List<T> vectorSearch(String index, String path, List<Double> vector, Limit limit) {
 
         RepositoryMethodContext metadata = RepositoryMethodContext.currentMethod();
-        Objects.requireNonNull(metadata);
 
         Class<?> domainType = metadata.getRepository().getDomainType();
         System.out.println("domainType: " + domainType);
