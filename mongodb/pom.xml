@@ -35,6 +35,7 @@
 		<module>querydsl</module>
 		<module>linking</module>
 		<module>util</module>
+		<module>fragment-spi</module>
 	</modules>
 
 	<dependencyManagement>
