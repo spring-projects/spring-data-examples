@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>spring-data-mongodb-fragment-spi-usage</artifactId>
-    <name>Spring Data MongoDB - Fragment Usage</name>
+    <name>Spring Data MongoDB - Reusable Fragments - Fragment Usage</name>
 
     <dependencies>
         <dependency>

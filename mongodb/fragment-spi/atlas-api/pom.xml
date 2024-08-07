@@ -9,6 +9,6 @@
     </parent>
 
     <artifactId>spring-data-mongodb-fragment-spi-atlas</artifactId>
-    <name>Spring Data MongoDB - Fragment SPI</name>
+    <name>Spring Data MongoDB - Reusable Fragments - Vector Search Fragment</name>
 
 </project>
