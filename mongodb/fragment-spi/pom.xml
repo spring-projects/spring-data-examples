@@ -21,7 +21,7 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-commons</artifactId>
-                <version>3.4.0-GH-3090-SNAPSHOT</version>
+                <version>3.4.0-METADATA-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

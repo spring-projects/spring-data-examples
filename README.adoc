@@ -112,8 +112,8 @@ WARNING: If you're done using it, don't forget to shut it down!
 
 == Miscellaneous
 
-* `bom` - Example project how to use the Spring Data release train bom in non-Spring-Boot
- scenarios.
+* `mongodb/fragment-spi` - Example project how to use Spring Data Fragment SPI to provide custom extensions.
+* `bom` - Example project how to use the Spring Data release train bom in non-Spring-Boot scenarios.
 * `map` - Example project to show how to use `Map`-backed repositories.
 * `multi-store` - Example project to use both Spring Data MongoDB and Spring Data JPA in
  one project.
