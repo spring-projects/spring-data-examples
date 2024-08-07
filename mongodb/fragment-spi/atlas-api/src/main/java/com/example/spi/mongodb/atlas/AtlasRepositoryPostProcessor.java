@@ -15,34 +15,24 @@
  */
 package com.example.spi.mongodb.atlas;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
 
 /**
  * @author Christoph Strobl
  */
 class AtlasRepositoryPostProcessor implements BeanPostProcessor {
 
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+	@Override
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
-        if (bean instanceof RepositoryFactoryBeanSupport rfbs) {
+		if (bean instanceof RepositoryFactoryBeanSupport rfbs) {
 
-            Field field = ReflectionUtils.findField(RepositoryFactoryBeanSupport.class, "repositoryInterface");
-            ReflectionUtils.makeAccessible(field);
-            if (Arrays.stream(((Class<?>) ReflectionUtils.getField(field, rfbs)).getInterfaces())
-                .anyMatch(iface -> {
-                    return iface.equals(AtlasRepository.class);
-                })) {
-                rfbs.setExposeMetadata(true);
-            }
-        }
-        return bean;
-    }
+			if (AtlasRepository.class.isAssignableFrom(rfbs.getObjectType())) {
+				rfbs.setExposeMetadata(true);
+			}
+		}
+		return bean;
+	}
 }
