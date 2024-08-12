@@ -8,3 +8,5 @@ Each uses a different strategy to separate data by tenant:
 2. Use a separate schema per tenant
 3. Use a separate database per tenant.
 
+_The contained projects are only examples how to use Hibernates Multitenant feature with Spring Data JPA.
+For any real application a decision has to be made how to scope a tenant. Storing it in a singleton as in the examples is for most cases not an appropriate solution._
