@@ -43,14 +43,20 @@ public class ExampleConnectionProvider implements MultiTenantConnectionProvider,
 	}
 
 	@Override
-	public Connection getConnection(String schema) throws SQLException {
+	public Connection getConnection(Object tenantIdentifier) throws SQLException {
+
 		final Connection connection = dataSource.getConnection();
-		connection.setSchema(schema);
+		connection.setSchema(tenantIdentifier.toString());
 		return connection;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider#releaseConnection(java.lang.Object, java.sql.Connection)
+	 */
 	@Override
-	public void releaseConnection(String s, Connection connection) throws SQLException {
+	public void releaseConnection(Object tenantIdentifier, Connection connection) throws SQLException {
+
 		connection.setSchema("PUBLIC");
 		connection.close();
 	}

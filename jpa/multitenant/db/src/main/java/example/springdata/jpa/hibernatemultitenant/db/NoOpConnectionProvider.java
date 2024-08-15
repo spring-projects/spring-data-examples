@@ -43,17 +43,6 @@ public class NoOpConnectionProvider implements MultiTenantConnectionProvider, Hi
 	}
 
 	@Override
-	public Connection getConnection(String schema) throws SQLException {
-
-		return dataSource.getConnection();
-	}
-
-	@Override
-	public void releaseConnection(String s, Connection connection) throws SQLException {
-		connection.close();
-	}
-
-	@Override
 	public boolean supportsAggressiveRelease() {
 		return false;
 	}
@@ -71,5 +60,19 @@ public class NoOpConnectionProvider implements MultiTenantConnectionProvider, Hi
 	@Override
 	public void customize(Map<String, Object> hibernateProperties) {
 		hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, this);
+	}
+
+	@Override
+	public Connection getConnection(Object tenantIdentifier) throws SQLException {
+		return dataSource.getConnection();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider#releaseConnection(java.lang.Object, java.sql.Connection)
+	 */
+	@Override
+	public void releaseConnection(Object tenantIdentifier, Connection connection) throws SQLException {
+		connection.close();
 	}
 }
