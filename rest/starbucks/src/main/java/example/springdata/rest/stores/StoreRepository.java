@@ -24,6 +24,7 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.querydsl.binding.SingleValueBinding;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -36,7 +37,8 @@ import com.querydsl.core.types.dsl.StringPath;
  *
  * @author Oliver Gierke
  */
-public interface StoreRepository extends PagingAndSortingRepository<Store, UUID>, QuerydslPredicateExecutor<Store> {
+public interface StoreRepository
+		extends CrudRepository<Store, UUID>, PagingAndSortingRepository<Store, UUID>, QuerydslPredicateExecutor<Store> {
 
 	@RestResource(rel = "by-location")
 	Page<Store> findByAddressLocationNear(Point location, Distance distance, Pageable pageable);

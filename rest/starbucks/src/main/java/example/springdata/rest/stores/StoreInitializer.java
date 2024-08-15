@@ -28,7 +28,6 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -45,7 +44,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class StoreInitializer {
 
-	@Autowired
 	public StoreInitializer(StoreRepository repository, MongoOperations operations) throws Exception {
 
 		if (repository.count() != 0) {
@@ -64,8 +62,8 @@ public class StoreInitializer {
 	}
 
 	/**
-	 * Reads a file {@code starbucks.csv} from the class path and parses it into {@link Store} instances about to
-	 * be persisted.
+	 * Reads a file {@code starbucks.csv} from the class path and parses it into {@link Store} instances about to be
+	 * persisted.
 	 *
 	 * @return
 	 * @throws Exception

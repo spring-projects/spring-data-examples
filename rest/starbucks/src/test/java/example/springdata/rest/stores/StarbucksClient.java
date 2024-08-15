@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
@@ -126,8 +126,7 @@ class StarbucksClient {
 				return String.format("%s, %s %s - lat: %s, long: %s", street, zip, city, location.y, location.x);
 			}
 
-			record Location(double x, double y) {
-			}
+			record Location(double x, double y) {}
 		}
 	}
 }

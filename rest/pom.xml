@@ -15,7 +15,7 @@
 	<description>Sample projects for Spring Data REST</description>
 
 	<modules>
-		<!-- <module>starbucks</module> -->
+		<module>starbucks</module>
 		<!-- <module>multi-store</module> -->
 		<module>projections</module>
 		<module>security</module>
