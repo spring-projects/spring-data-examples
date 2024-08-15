@@ -16,7 +16,7 @@
 	<inceptionYear>2015</inceptionYear>
 
 	<modules>
-	    <module>example</module>
+		<module>example</module>
 		<module>querydsl</module>
 		<module>projection</module>
 	</modules>
