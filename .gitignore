@@ -1,6 +1,7 @@
 .project
 .classpath
 .springBeans
+.develocity/
 .settings/
 target/
 .mvn/.gradle-enterprise
