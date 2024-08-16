@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 the original author or authors.
+ * Copyright 2014-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,20 +26,17 @@ import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.client.Traverson;
 import org.springframework.hateoas.server.core.TypeReferences.CollectionModelType;
 import org.springframework.hateoas.server.core.TypeReferences.EntityModelType;
 import org.springframework.hateoas.server.core.TypeReferences.PagedModelType;
-import org.springframework.http.RequestEntity;
-import org.springframework.web.client.RestOperations;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 /**
  * A test case to discover the search resource and execute a predefined search with it.
@@ -47,22 +44,12 @@ import org.springframework.web.client.RestTemplate;
  * @author Oliver Gierke
  * @author Divya Srivastava
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Slf4j
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class StarbucksClient {
 
-	@SpringBootApplication
-	static class Config {
-
-		@Bean
-		public RestTemplate restTemplate() {
-			return new RestTemplate();
-		}
-	}
-
 	@LocalServerPort int port;
-
-	@Autowired RestOperations restOperations;
+	@Autowired TestRestTemplate template;
 
 	private static final String SERVICE_URI = "http://localhost:%s/api";
 
@@ -102,17 +89,23 @@ class StarbucksClient {
 
 		// Access root resource
 
-		var uri = URI.create(String.format(SERVICE_URI, port));
-		var request = RequestEntity.get(uri).accept(HAL_JSON).build();
-		var rootLinks = restOperations.exchange(request, new EntityModelType<>() {}).getBody();
-		var links = rootLinks.getLinks();
+		var client = RestClient.create(template.getRestTemplate());
+
+		var links = client.get()
+				.uri(URI.create(String.format(SERVICE_URI, port)))
+				.accept(HAL_JSON)
+				.retrieve()
+				.body(new EntityModelType<>() {})
+				.getLinks();
 
 		// Follow stores link
 
 		var storesLink = links.getRequiredLink("stores").expand();
 
-		request = RequestEntity.get(URI.create(storesLink.getHref())).accept(HAL_JSON).build();
-		var stores = restOperations.exchange(request, new CollectionModelType<Store>() {}).getBody();
+		var stores = client.get().uri(storesLink.toUri())
+				.accept(HAL_JSON)
+				.retrieve()
+				.body(new CollectionModelType<Store>() {});
 
 		stores.getContent().forEach(store -> log.info("{} - {}", store.name, store.address));
 	}
