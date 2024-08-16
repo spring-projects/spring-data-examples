@@ -34,8 +34,7 @@ import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.hateoas.LinkRelation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -70,7 +69,7 @@ class StoresController {
 	 * @param pageable the pagination information
 	 * @return
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping("/")
 	String index(Model model, @RequestParam Optional<Point> location, @RequestParam Optional<Distance> distance,
 			Pageable pageable) {
 
