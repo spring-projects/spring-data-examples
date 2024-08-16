@@ -24,6 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Bean;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test to show the usage of repositories backed by different stores.
@@ -36,6 +41,16 @@ public class ApplicationIntegrationTests {
 
 	@Autowired PersonRepository personRepository;
 	@Autowired TreasureRepository treasureRepository;
+
+	@TestConfiguration
+	static class Infrastructure {
+
+		@Bean
+		@ServiceConnection
+		MongoDBContainer mongoDBContainer() {
+			return new MongoDBContainer(DockerImageName.parse("mongodb/mongodb-community-server"));
+		}
+	}
 
 	@Test
 	public void useMultipleRepositories() {
