@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 the original author or authors.
+ * Copyright 2014-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,34 +15,46 @@
  */
 package example.springdata.multistore;
 
+import static org.assertj.core.api.Assertions.*;
+
 import example.springdata.multistore.customer.Customer;
 import example.springdata.multistore.shop.Order;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.repository.support.Repositories;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test to check repository interfaces are assigned to the correct store modules.
  *
  * @author Oliver Gierke
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class ApplicationConfigurationTest {
+class ApplicationConfigurationTest {
 
 	@Autowired ApplicationContext context;
 
+	@TestConfiguration
+	static class Infrastructure {
+
+		@Bean
+		@ServiceConnection
+		MongoDBContainer mongoDBContainer() {
+			return new MongoDBContainer(DockerImageName.parse("mongodb/mongodb-community-server"));
+		}
+	}
+
 	@Test
-	public void repositoriesAreAssignedToAppropriateStores() {
+	void repositoriesAreAssignedToAppropriateStores() {
 
 		var repositories = new Repositories(context);
 

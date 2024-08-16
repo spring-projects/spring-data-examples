@@ -93,8 +93,9 @@
 			<artifactId>webjars-locator-core</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- Testcontainers -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-testcontainers</artifactId>
