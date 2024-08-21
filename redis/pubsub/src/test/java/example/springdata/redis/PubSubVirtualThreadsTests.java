@@ -22,9 +22,8 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.EnabledForJreRange;
 import org.junit.jupiter.api.condition.JRE;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.task.AsyncTaskExecutor;
@@ -39,7 +38,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
  * @author Mark Paluch
  */
 @SpringBootTest(properties = "spring.threads.virtual.enabled=true")
-@EnabledOnJre(JRE.JAVA_21)
+@EnabledForJreRange(min = JRE.JAVA_21)
 public class PubSubVirtualThreadsTests {
 
 	@Autowired RedisConnectionFactory connectionFactory;

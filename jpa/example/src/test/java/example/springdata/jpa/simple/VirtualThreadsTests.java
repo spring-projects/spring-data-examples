@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.EnabledForJreRange;
 import org.junit.jupiter.api.condition.JRE;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @SpringBootTest(properties = "spring.threads.virtual.enabled=true")
-@EnabledOnJre(JRE.JAVA_21)
+@EnabledForJreRange(min = JRE.JAVA_21)
 class VirtualThreadsTests {
 
 	@Autowired SimpleUserRepository repository;
