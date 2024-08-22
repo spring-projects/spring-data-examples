@@ -18,8 +18,8 @@ package example.springdata.redis.sync;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.redis.connection.stream.StreamOffset.*;
 
+import com.redis.testcontainers.RedisContainer;
 import example.springdata.redis.SensorData;
-import example.springdata.redis.test.condition.EnabledOnCommand;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.connection.stream.MapRecord;
 import org.springframework.data.redis.connection.stream.ReadOffset;
@@ -36,14 +37,21 @@ import org.springframework.data.redis.connection.stream.StreamOffset;
 import org.springframework.data.redis.core.StreamOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Christoph Strobl
  * @author Mark Paluch
  */
+@Testcontainers
 @DataRedisTest
-@EnabledOnCommand("XADD")
 class SyncStreamApiTests {
+
+	@Container
+	@ServiceConnection
+	static RedisContainer redis = new RedisContainer(DockerImageName.parse("redis:7"));
 
 	@Autowired StringRedisTemplate template;
 	@Autowired StreamMessageListenerContainer<String, MapRecord<String, String, String>> messageListenerContainer;

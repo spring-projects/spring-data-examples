@@ -15,28 +15,30 @@
  */
 package example.springdata.redis;
 
-import jakarta.annotation.PreDestroy;
-
+import com.redis.testcontainers.RedisContainer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializationContext.RedisSerializationContextBuilder;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Mark Paluch
+ * @author Christoph Strobl
  */
 @SpringBootApplication
 public class RedisTestConfiguration {
 
 	@Bean
-	public LettuceConnectionFactory redisConnectionFactory() {
-		return new LettuceConnectionFactory();
+	@ServiceConnection(name = "redis")
+	RedisContainer redisContainer() {
+		return new RedisContainer(DockerImageName.parse("redis:7"));
 	}
 
 	/**
@@ -72,10 +74,4 @@ public class RedisTestConfiguration {
 		return new ReactiveRedisTemplate<>(connectionFactory, serializationContext);
 	}
 
-	/**
-	 * Clear database before shut down.
-	 */
-	public @PreDestroy void flushTestDb() {
-		redisConnectionFactory().getConnection().flushDb();
-	}
 }

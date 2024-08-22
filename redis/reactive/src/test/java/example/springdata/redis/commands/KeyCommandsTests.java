@@ -15,19 +15,14 @@
  */
 package example.springdata.redis.commands;
 
-import example.springdata.redis.RedisTestConfiguration;
-import example.springdata.redis.test.condition.EnabledOnRedisAvailable;
-import reactor.core.publisher.Flux;
-import reactor.test.StepVerifier;
-
 import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
 
+import example.springdata.redis.RedisTestConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.ReactiveRedisConnection;
@@ -36,6 +31,8 @@ import org.springframework.data.redis.connection.ReactiveStringCommands.SetComma
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.redis.util.ByteUtils;
+import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
 /**
  * Show usage of reactive operations on Redis keys using low level API provided by
@@ -44,7 +41,6 @@ import org.springframework.data.redis.util.ByteUtils;
  * @author Mark Paluch
  */
 @SpringBootTest(classes = RedisTestConfiguration.class)
-@EnabledOnRedisAvailable
 class KeyCommandsTests {
 
 	private static final String PREFIX = KeyCommandsTests.class.getSimpleName();

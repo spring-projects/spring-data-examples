@@ -15,10 +15,22 @@
  */
 package example.springdata.redis;
 
+import com.redis.testcontainers.RedisContainer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Bean;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Mark Paluch
+ * @author Christoph Strobl
  */
 @SpringBootApplication
-public class RedisTestConfiguration {}
+public class RedisTestConfiguration {
+
+    @Bean
+    @ServiceConnection(name = "redis")
+    RedisContainer redisContainer() {
+        return new RedisContainer(DockerImageName.parse("redis:7"));
+    }
+}

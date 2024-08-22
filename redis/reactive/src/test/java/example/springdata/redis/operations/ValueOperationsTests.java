@@ -18,7 +18,6 @@ package example.springdata.redis.operations;
 import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.redis.RedisTestConfiguration;
-import example.springdata.redis.test.condition.EnabledOnRedisAvailable;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -39,7 +38,6 @@ import org.springframework.data.redis.core.ReactiveRedisOperations;
  */
 @Slf4j
 @SpringBootTest(classes = RedisTestConfiguration.class)
-@EnabledOnRedisAvailable
 class ValueOperationsTests {
 
 	@Autowired ReactiveRedisOperations<String, String> operations;

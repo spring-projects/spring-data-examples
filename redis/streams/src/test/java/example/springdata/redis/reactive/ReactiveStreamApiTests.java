@@ -18,8 +18,12 @@ package example.springdata.redis.reactive;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.redis.connection.stream.StreamOffset.*;
 
+import com.redis.testcontainers.RedisContainer;
 import example.springdata.redis.SensorData;
-import example.springdata.redis.test.condition.EnabledOnCommand;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
@@ -43,10 +47,14 @@ import org.springframework.data.redis.stream.StreamReceiver;
 /**
  * @author Christoph Strobl
  */
+@Testcontainers
 @DataRedisTest
-@EnabledOnCommand("XADD")
 @ImportAutoConfiguration(RedisReactiveAutoConfiguration.class)
 class ReactiveStreamApiTests {
+
+	@Container
+	@ServiceConnection
+	static RedisContainer redis = new RedisContainer(DockerImageName.parse("redis:7"));
 
 	@Autowired ReactiveStringRedisTemplate template;
 	@Autowired StreamReceiver<String, MapRecord<String, String, String>> streamReceiver;

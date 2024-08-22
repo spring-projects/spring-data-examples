@@ -15,11 +15,11 @@
  */
 package example.springdata.redis;
 
-import jakarta.annotation.PreDestroy;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.redis.testcontainers.RedisContainer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Bean;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Christoph Strobl
@@ -27,12 +27,9 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 @SpringBootApplication
 public class RedisTestConfiguration {
 
-	@Autowired RedisConnectionFactory factory;
-
-	/**
-	 * Clear database before shut down.
-	 */
-	public @PreDestroy void flushTestDb() {
-		factory.getConnection().flushDb();
+	@Bean
+	@ServiceConnection(name = "redis")
+	RedisContainer redisContainer() {
+		return new RedisContainer(DockerImageName.parse("redis:7"));
 	}
 }

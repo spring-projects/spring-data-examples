@@ -17,7 +17,7 @@ package example.springdata.redis.repositories;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.redis.test.condition.EnabledOnRedisAvailable;
+import com.redis.testcontainers.RedisContainer;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,15 +41,22 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.index.GeoIndexed;
 import org.springframework.data.redis.core.index.Indexed;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Christoph Strobl
  * @author Oliver Gierke
  * @author Mark Paluch
  */
+@Testcontainers
 @DataRedisTest
-@EnabledOnRedisAvailable
 class PersonRepositoryTests {
+
+	@Container
+	@ServiceConnection
+	static RedisContainer redis = new RedisContainer(DockerImageName.parse("redis:7"));
 
 	/** {@link Charset} for String conversion **/
 	private static final Charset CHARSET = StandardCharsets.UTF_8;

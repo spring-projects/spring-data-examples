@@ -18,7 +18,6 @@ package example.springdata.redis.operations;
 import example.springdata.redis.EmailAddress;
 import example.springdata.redis.Person;
 import example.springdata.redis.RedisTestConfiguration;
-import example.springdata.redis.test.condition.EnabledOnRedisAvailable;
 import lombok.extern.slf4j.Slf4j;
 import reactor.test.StepVerifier;
 
@@ -39,7 +38,6 @@ import org.springframework.data.redis.util.ByteUtils;
  */
 @Slf4j
 @SpringBootTest(classes = RedisTestConfiguration.class)
-@EnabledOnRedisAvailable
 class JacksonJsonTests {
 
 	@Autowired ReactiveRedisOperations<String, Person> typedOperations;
