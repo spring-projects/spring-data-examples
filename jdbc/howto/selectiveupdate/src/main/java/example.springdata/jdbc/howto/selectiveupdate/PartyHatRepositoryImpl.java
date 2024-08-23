@@ -17,6 +17,7 @@ package example.springdata.jdbc.howto.selectiveupdate;
 
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ class PartyHatRepositoryImpl implements PartyHatRepository {
 		this.template = template;
 	}
 
+	@Transactional
 	@Override
 	public void addPartyHat(Minion minion) {
 
