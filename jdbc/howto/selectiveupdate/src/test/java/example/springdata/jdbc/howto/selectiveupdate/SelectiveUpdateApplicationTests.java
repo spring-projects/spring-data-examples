@@ -58,7 +58,7 @@ class SelectiveUpdateApplicationTests {
 
 		Minion bob2 = minions.findById(bob.id).orElseThrow();
 
-		assertThat(bob2.toys).containsExactly(bob.toys.toArray(new Toy[] {}));
+		assertThat(bob2.toys).containsExactlyElementsOf(bob.toys);
 		assertThat(bob2.name).isEqualTo("Bob");
 		assertThat(bob2.color).isEqualTo(Color.PURPLE);
 	}
@@ -79,6 +79,25 @@ class SelectiveUpdateApplicationTests {
 		assertThat(bob2.version).isEqualTo(bob.version + 1);
 
 		assertThatExceptionOfType(OptimisticLockingFailureException.class).isThrownBy(() -> minions.addPartyHat(bob));
+	}
+
+	@Test
+	void cannotGrantPartyHatWhenOutOfSync() {
+
+		Minion bob = new Minion("Bob").addToy(new Toy("Tiger Duck")).addToy(new Toy("Security blanket"));
+		minions.save(bob);
+		minions.turnPurple(bob.id);
+
+		assertThat(bob.color).isEqualTo(Color.YELLOW);
+		assertThat(bob.version).isOne();
+		assertThatExceptionOfType(OptimisticLockingFailureException.class).isThrownBy(() -> minions.addPartyHat(bob));
+
+		Minion bob2 = minions.findById(bob.id).orElseThrow();
+
+		assertThat(bob2.name).isEqualTo("Bob");
+		assertThat(bob2.color).isEqualTo(Color.PURPLE);
+		assertThat(bob2.version).isEqualTo(bob.version + 1);
+		assertThat(bob2.toys).extracting("name").containsExactlyInAnyOrder("Tiger Duck", "Security blanket");
 	}
 
 }
