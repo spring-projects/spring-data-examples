@@ -25,7 +25,7 @@ import org.testcontainers.utility.DockerImageName;
  */
 public class MongoContainers {
 
-	private static final String IMAGE_NAME = "mongo:5.0";
+	private static final String IMAGE_NAME = "mongo:8.0";
 	private static final String IMAGE_NAME_PROPERTY = "mongo.default.image.name";
 
 	public static MongoDBContainer getDefaultContainer() {
