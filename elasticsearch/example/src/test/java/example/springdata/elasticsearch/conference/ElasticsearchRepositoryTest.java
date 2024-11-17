@@ -34,19 +34,17 @@ class ElasticsearchRepositoryTest extends AbstractContainerBaseTest {
 	@Test
 	void textSearch() {
 
-		var expectedDate = LocalDate.parse("2014-10-29", FORMAT);
+		var expectedDate = LocalDate.of(2014, 10, 29);
 		var expectedWord = "java";
 
 		var result = repository.findAllByKeywordsContainsAndDateAfter(expectedWord, expectedDate);
 
 		assertThat(result).hasSize(3);
 
-		result.forEach(it -> verify(it, expectedWord, expectedDate));
+		result.forEach(it -> {
+			assertThat(it.getKeywords()).contains(expectedWord);
+			assertThat(it.getDate()).isAfter(expectedDate);
+		});
 	}
 
-	private void verify(Conference it, String expectedWord, LocalDate expectedDate) {
-
-		assertThat(it.getKeywords()).contains(expectedWord);
-		assertThat(it.getDate()).isAfter(expectedDate);
-	}
 }

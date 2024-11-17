@@ -44,7 +44,7 @@ class ElasticsearchOperationsTest extends AbstractContainerBaseTest {
 	@Test
 	void textSearch() {
 
-		var expectedDate = LocalDate.parse( "2014-10-29", FORMAT);
+		var expectedDate = LocalDate.of(2014, 10, 29);
 		var expectedWord = "java";
 		var query = new CriteriaQuery(
 				new Criteria("keywords").contains(expectedWord).and(new Criteria("date").greaterThanEqual(expectedDate)));

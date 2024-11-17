@@ -15,8 +15,6 @@
  */
 package example.springdata.elasticsearch.conference;
 
-import java.time.format.DateTimeFormatter;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
@@ -34,10 +32,8 @@ import org.testcontainers.utility.DockerImageName;
 @SpringBootTest(classes = {ApplicationConfiguration.class, AbstractContainerBaseTest.TestConfiguration.class})
 public class AbstractContainerBaseTest {
 
-	protected static final DateTimeFormatter FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
-
 	private static final ElasticsearchContainer CONTAINER = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.7.0")) //
+			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.15.3")) //
 			.withPassword("foobar");
 
 	static {

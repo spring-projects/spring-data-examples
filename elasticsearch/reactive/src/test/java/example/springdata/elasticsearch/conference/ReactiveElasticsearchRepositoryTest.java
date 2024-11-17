@@ -38,7 +38,7 @@ class ReactiveElasticsearchRepositoryTest extends AbstractContainerBaseTest {
 	@Test
 	void textSearch() {
 
-		var expectedDate = LocalDate.parse("2014-10-29", FORMAT);
+		var expectedDate = LocalDate.of(2014, 10, 29);
 		var expectedWord = "java";
 
 		repository.findAllByKeywordsContainsAndDateAfter(expectedWord, expectedDate) //

@@ -24,9 +24,6 @@ import org.springframework.util.Assert;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.utility.DockerImageName;
 
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-
 /**
  * singleton container
  *
@@ -35,10 +32,8 @@ import java.time.format.DateTimeFormatter;
 @SpringBootTest(classes = {ApplicationConfiguration.class, AbstractContainerBaseTest.TestConfiguration.class})
 public class AbstractContainerBaseTest {
 
-	protected static final DateTimeFormatter FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
-
 	private static final ElasticsearchContainer CONTAINER = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.7.0")) //
+			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.15.3")) //
 			.withPassword("foobar");
 
 	static {
