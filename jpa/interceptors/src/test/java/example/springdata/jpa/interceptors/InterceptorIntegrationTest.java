@@ -30,12 +30,13 @@ class InterceptorIntegrationTest {
 	@Autowired CustomerRepository repository;
 
 	@Test
-	void foo() {
+	void demonstrateInterceptor() {
 
 		var customer = new Customer();
 		customer.firstname = "Dave";
 		customer.lastname = "Matthews";
 
+		// observer Log output from ApplicationConfiguration.interceptor
 		repository.save(customer);
 	}
 }
