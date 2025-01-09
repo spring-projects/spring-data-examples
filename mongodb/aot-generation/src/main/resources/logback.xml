@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d %5p %40.40c:%4L - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="no-op" class="ch.qos.logback.core.helpers.NOPAppender" />
+
+	<!--
+	<logger name="org.springframework" level="debug" />
+	 -->
+
+	<logger name="org.springframework.data.mongodb.core" level="error"/>
+	<logger name="org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener" level="debug" additivity="false">
+		<appender-ref ref="no-op" />
+	</logger>
+	<logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger" level="warn" />
+	<logger name="org.springframework.data.mongodb.test.util" level="info"/>
+	<logger name="org.springframework.data.repository.aot.generate.RepositoryContributor" level="trace" />
+	<logger name="example.springdata.aot" level="debug" />
+	<root level="warn">
+		<appender-ref ref="console" />
+	</root>
+
+</configuration>

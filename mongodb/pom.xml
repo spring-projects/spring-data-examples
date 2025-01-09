@@ -36,7 +36,8 @@
 		<module>linking</module>
 		<module>util</module>
 		<module>fragment-spi</module>
-	</modules>
+        <module>aot-generation</module>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>
