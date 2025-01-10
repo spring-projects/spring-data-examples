@@ -38,13 +38,29 @@ public class CLR implements CommandLineRunner {
         luke.setLastname("Skywalker");
 
         User leia = new User("id-2", "leia");
+        leia.setFirstname("Leia");
+        leia.setLastname("Organa");
+
         User han = new User("id-3", "han");
+        han.setFirstname("Han");
+        han.setLastname("Solo");
+
         User chewbacca = new User("id-4", "chewbacca");
         User yoda = new User("id-5", "yoda");
         User vader = new User("id-6", "vader");
+        vader.setFirstname("Anakin");
+        vader.setLastname("Skywalker");
 
         repository.saveAll(List.of(luke, leia, han, chewbacca, yoda, vader));
 
+        System.out.println("-------");
         System.out.println(repository.usersWithUsernamesStartingWith("l"));
+        System.out.println("-------");
+        System.out.println(repository.findUserByUsername("yoda"));
+        System.out.println("-------");
+        System.out.println(repository.findUserByLastnameLike("Sky"));
+        System.out.println("-------");
+
+
     }
 }

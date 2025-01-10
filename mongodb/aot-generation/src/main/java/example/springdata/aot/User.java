@@ -78,4 +78,16 @@ public class User {
     public void setLastSeen(Instant lastSeen) {
         this.lastSeen = lastSeen;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+            "id='" + id + '\'' +
+            ", username='" + username + '\'' +
+            ", firstname='" + firstname + '\'' +
+            ", lastname='" + lastname + '\'' +
+            ", registrationDate=" + registrationDate +
+            ", lastSeen=" + lastSeen +
+            '}';
+    }
 }

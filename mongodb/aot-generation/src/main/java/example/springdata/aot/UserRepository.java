@@ -13,4 +13,8 @@ public interface UserRepository extends CrudRepository<User, String> {
 
     @Query("{ 'username' :  { $regex: '?0.*', $options: 'i' } }")
     List<UserProjection> usersWithUsernamesStartingWith(String username);
+
+    User findUserByUsername(String username);
+
+    List<User> findUserByLastnameLike(String name);
 }
