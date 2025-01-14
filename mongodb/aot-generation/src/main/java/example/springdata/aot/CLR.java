@@ -19,6 +19,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
 /**
@@ -47,19 +50,39 @@ public class CLR implements CommandLineRunner {
 
         User chewbacca = new User("id-4", "chewbacca");
         User yoda = new User("id-5", "yoda");
+
         User vader = new User("id-6", "vader");
         vader.setFirstname("Anakin");
         vader.setLastname("Skywalker");
 
-        repository.saveAll(List.of(luke, leia, han, chewbacca, yoda, vader));
+        User kylo = new User("id-7", "kylo");
+        kylo.setFirstname("Ben");
+        kylo.setLastname("Solo");
 
-        System.out.println("-------");
+        repository.saveAll(List.of(luke, leia, han, chewbacca, yoda, vader, kylo));
+
+        System.out.println("------- annotated multi -------");
         System.out.println(repository.usersWithUsernamesStartingWith("l"));
-        System.out.println("-------");
+
+        System.out.println("------- derived single -------");
         System.out.println(repository.findUserByUsername("yoda"));
-        System.out.println("-------");
+
+        System.out.println("------- derived multi-------");
         System.out.println(repository.findUserByLastnameLike("Sky"));
-        System.out.println("-------");
+
+        System.out.println("------- derived page -------");
+        Page<UserProjection> page0 = repository.findUserByLastnameStartingWith("S", PageRequest.of(0, 2));
+        System.out.println("page0: " + page0);
+        System.out.println("page0.content: " + page0.getContent());
+
+        Page<UserProjection> page1 = repository.findUserByLastnameStartingWith("S", PageRequest.of(1, 2));
+        System.out.println("page1: " + page1);
+        System.out.println("page1.content: " + page1.getContent());
+
+        System.out.println("------- derived slice -------");
+        Slice<User> slice0 = repository.findUserByUsernameAfter("luke", PageRequest.of(0, 2));
+        System.out.println("slice0: " + slice0);
+        System.out.println("slice0.content: " + slice0.getContent());
 
 
     }
