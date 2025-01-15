@@ -25,6 +25,8 @@ public interface UserRepository extends CrudRepository<User, String> {
 
     List<User> findUserByLastnameLike(String lastname);
 
+    List<User> findUserByPostsMessageLike(String part);
+
     List<User> findUserByLastnameLikeOrderByFirstname(String lastname);
 
     List<User> findTop2UsersByLastnameLike(String lastname);

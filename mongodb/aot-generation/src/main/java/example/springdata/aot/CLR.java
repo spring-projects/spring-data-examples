@@ -39,6 +39,7 @@ public class CLR implements CommandLineRunner {
         User luke = new User("id-1", "luke");
         luke.setFirstname("Luke");
         luke.setLastname("Skywalker");
+        luke.setPosts(List.of(new Post("I have a bad feeling about this.")));
 
         User leia = new User("id-2", "leia");
         leia.setFirstname("Leia");
@@ -47,13 +48,16 @@ public class CLR implements CommandLineRunner {
         User han = new User("id-3", "han");
         han.setFirstname("Han");
         han.setLastname("Solo");
+        han.setPosts(List.of(new Post("It's the ship that made the Kessel Run in less than 12 Parsecs.")));
 
         User chewbacca = new User("id-4", "chewbacca");
         User yoda = new User("id-5", "yoda");
+        yoda.setPosts(List.of(new Post("Do. Or do not. There is no try."), new Post("Decide you must, how to serve them best. If you leave now, help them you could; but you would destroy all for which they have fought, and suffered.")));
 
         User vader = new User("id-6", "vader");
         vader.setFirstname("Anakin");
         vader.setLastname("Skywalker");
+        vader.setPosts(List.of(new Post("I am your father")));
 
         User kylo = new User("id-7", "kylo");
         kylo.setFirstname("Ben");
@@ -66,6 +70,9 @@ public class CLR implements CommandLineRunner {
 
         System.out.println("------- derived single -------");
         System.out.println(repository.findUserByUsername("yoda"));
+
+        System.out.println("------- derived nested.path -------");
+        System.out.println(repository.findUserByPostsMessageLike("father"));
 
         System.out.println("------- derived optional -------");
         System.out.println(repository.findOptionalUserByUsername("yoda"));
@@ -103,8 +110,5 @@ public class CLR implements CommandLineRunner {
 
         System.out.println("------- derived with fields -------");
         System.out.println(repository.findJustUsernameBy());
-
-
-
     }
 }

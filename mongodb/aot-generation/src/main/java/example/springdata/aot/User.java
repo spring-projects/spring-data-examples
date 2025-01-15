@@ -16,6 +16,7 @@
 package example.springdata.aot;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -30,6 +31,8 @@ public class User {
 
     @Field("first_name") String firstname;
     @Field("last_name") String lastname;
+
+    private List<Post> posts;
 
     Instant registrationDate;
     Instant lastSeen;
@@ -79,6 +82,14 @@ public class User {
         this.lastSeen = lastSeen;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -88,6 +99,7 @@ public class User {
             ", lastname='" + lastname + '\'' +
             ", registrationDate=" + registrationDate +
             ", lastSeen=" + lastSeen +
+            ", posts=" + posts +
             '}';
     }
 }
