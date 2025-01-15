@@ -67,8 +67,22 @@ public class CLR implements CommandLineRunner {
         System.out.println("------- derived single -------");
         System.out.println(repository.findUserByUsername("yoda"));
 
-        System.out.println("------- derived multi-------");
+        System.out.println("------- derived optional -------");
+        System.out.println(repository.findOptionalUserByUsername("yoda"));
+
+        System.out.println("------- derived count -------");
+        Long count = repository.countUsersByLastnameLike("Sky");
+        System.out.println("user count " + count);
+
+        System.out.println("------- derived exists -------");
+        Boolean exists = repository.existsByUsername("vader");
+        System.out.println("user exists " + exists);
+
+        System.out.println("------- derived multi -------");
         System.out.println(repository.findUserByLastnameLike("Sky"));
+
+        System.out.println("------- derived sorted -------");
+        System.out.println(repository.findUserByLastnameLikeOrderByFirstname("Sky"));
 
         System.out.println("------- derived page -------");
         Page<UserProjection> page0 = repository.findUserByLastnameStartingWith("S", PageRequest.of(0, 2));
@@ -83,6 +97,13 @@ public class CLR implements CommandLineRunner {
         Slice<User> slice0 = repository.findUserByUsernameAfter("luke", PageRequest.of(0, 2));
         System.out.println("slice0: " + slice0);
         System.out.println("slice0.content: " + slice0.getContent());
+
+        System.out.println("------- derived top -------");
+        System.out.println(repository.findTop2UsersByLastnameLike("S"));
+
+        System.out.println("------- derived with fields -------");
+        System.out.println(repository.findJustUsernameBy());
+
 
 
     }
