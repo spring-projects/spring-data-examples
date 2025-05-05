@@ -15,13 +15,11 @@
  */
 package example.springdata.aot;
 
-import java.time.Instant;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+
+import java.time.Instant;
 
 /**
  * @author Christoph Strobl

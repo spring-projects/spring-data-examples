@@ -17,7 +17,8 @@
 	<inceptionYear>2011</inceptionYear>
 
 	<modules>
-	    <module>aggregation</module>
+		<module>aot-optimization</module>
+		<module>aggregation</module>
 		<!-- <module>change-streams</module> -->
 		<module>example</module>
 		<module>fluent-api</module>
@@ -36,7 +37,6 @@
 		<module>linking</module>
 		<module>util</module>
 		<module>fragment-spi</module>
-        <module>aot-generation</module>
     </modules>
 
 	<dependencyManagement>

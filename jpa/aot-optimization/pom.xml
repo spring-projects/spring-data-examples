@@ -10,11 +10,12 @@
 	</parent>
 
 	<groupId>org.example</groupId>
-	<artifactId>aot-generation</artifactId>
+	<artifactId>spring-data-jpa-aot-optimization</artifactId>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hibernate.version>7.0.0.Beta5</hibernate.version>
+		<spring-data-bom.version>2025.1.0-SNAPSHOT</spring-data-bom.version>
 	</properties>
 
 	<dependencies>
@@ -22,6 +23,12 @@
 			<groupId>org.jspecify</groupId>
 			<artifactId>jspecify</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.2.0</version>
 		</dependency>
 
 		<dependency>
