@@ -28,85 +28,78 @@ import java.time.Instant;
 @Entity(name = "users")
 public class User {
 
-    @Id
-    private String id;
-    private String username;
+	@Id private String id;
+	private String username;
 
-    @Column(name = "first_name") String firstname;
-    @Column(name = "last_name") String lastname;
+	@Column(name = "first_name") String firstname;
+	@Column(name = "last_name") String lastname;
 
-//    @OneToMany
-//    private List<Post> posts;
+	// @OneToMany
+	// private List<Post> posts;
 
-    Instant registrationDate;
-    Instant lastSeen;
+	Instant registrationDate;
+	Instant lastSeen;
 
-    public User() {
-    }
+	public User() {}
 
-    public User(String id, String username) {
-        this.id = id;
-        this.username = username;
-    }
+	public User(String id, String username) {
+		this.id = id;
+		this.username = username;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public String getFirstname() {
-        return firstname;
-    }
+	public String getFirstname() {
+		return firstname;
+	}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
 
-    public String getLastname() {
-        return lastname;
-    }
+	public String getLastname() {
+		return lastname;
+	}
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
 
-    public Instant getRegistrationDate() {
-        return registrationDate;
-    }
+	public Instant getRegistrationDate() {
+		return registrationDate;
+	}
 
-    public void setRegistrationDate(Instant registrationDate) {
-        this.registrationDate = registrationDate;
-    }
+	public void setRegistrationDate(Instant registrationDate) {
+		this.registrationDate = registrationDate;
+	}
 
-    public Instant getLastSeen() {
-        return lastSeen;
-    }
+	public Instant getLastSeen() {
+		return lastSeen;
+	}
 
-    public void setLastSeen(Instant lastSeen) {
-        this.lastSeen = lastSeen;
-    }
+	public void setLastSeen(Instant lastSeen) {
+		this.lastSeen = lastSeen;
+	}
 
-//    public List<Post> getPosts() {
-//        return posts;
-//    }
-//
-//    public void setPosts(List<Post> posts) {
-//        this.posts = posts;
-//    }
+	// public List<Post> getPosts() {
+	// return posts;
+	// }
+	//
+	// public void setPosts(List<Post> posts) {
+	// this.posts = posts;
+	// }
 
-    @Override
-    public String toString() {
-        return "User{" +
-            "id='" + id + '\'' +
-            ", username='" + username + '\'' +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            ", registrationDate=" + registrationDate +
-            ", lastSeen=" + lastSeen +
-//            ", posts=" + posts +
-            '}';
-    }
+	@Override
+	public String toString() {
+		return "User{" + "id='" + id + '\'' + ", username='" + username + '\'' + ", firstname='" + firstname + '\''
+				+ ", lastname='" + lastname + '\'' + ", registrationDate=" + registrationDate + ", lastSeen=" + lastSeen +
+				// ", posts=" + posts +
+				'}';
+	}
 }

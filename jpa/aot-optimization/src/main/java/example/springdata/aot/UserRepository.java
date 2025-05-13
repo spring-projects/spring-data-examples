@@ -31,27 +31,27 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UserRepository extends CrudRepository<User, String>, QuerydslPredicateExecutor<User> {
 
-    User findUserByUsername(String username);
+	User findUserByUsername(String username);
 
-    Optional<User> findOptionalUserByUsername(String username);
+	Optional<User> findOptionalUserByUsername(String username);
 
-    Long countUsersByLastnameLike(String lastname);
+	Long countUsersByLastnameLike(String lastname);
 
-    Boolean existsByUsername(String username);
+	Boolean existsByUsername(String username);
 
-    List<User> findUserByLastnameLike(String lastname);
+	List<User> findUserByLastnameLike(String lastname);
 
-    List<User> findUserByLastnameStartingWithOrderByFirstname(String lastname);
+	List<User> findUserByLastnameStartingWithOrderByFirstname(String lastname);
 
-    List<User> findTop2UsersByLastnameStartingWith(String lastname);
+	List<User> findTop2UsersByLastnameStartingWith(String lastname);
 
-    Slice<User> findUserByUsernameAfter(String username, Pageable pageable);
+	Slice<User> findUserByUsernameAfter(String username, Pageable pageable);
 
-    List<User> findUserByLastnameStartingWith(String lastname);
+	List<User> findUserByLastnameStartingWith(String lastname);
 
-    Page<User> findUserByLastnameStartingWith(String lastname, Pageable page);
+	Page<User> findUserByLastnameStartingWith(String lastname, Pageable page);
 
-    @Query("SELECT u FROM example.springdata.aot.User u WHERE u.username LIKE ?1%")
-    List<User> usersWithUsernamesStartingWith(String username);
+	@Query("SELECT u FROM example.springdata.aot.User u WHERE u.username LIKE ?1%")
+	List<User> usersWithUsernamesStartingWith(String username);
 
 }

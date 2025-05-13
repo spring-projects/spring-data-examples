@@ -30,39 +30,37 @@ import java.util.Random;
 @Entity
 public class Post {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue private Long id;
 
-    private String message;
-    private Instant date;
+	private String message;
+	private Instant date;
 
-    public Post() {
-    }
+	public Post() {}
 
-    public Post(String message) {
-        this.message = message;
-        this.date = Instant.now().minus(new Random().nextLong(100), ChronoUnit.MINUTES);
-    }
+	public Post(String message) {
+		this.message = message;
+		this.date = Instant.now().minus(new Random().nextLong(100), ChronoUnit.MINUTES);
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
-    public Instant getDate() {
-        return date;
-    }
+	public Instant getDate() {
+		return date;
+	}
 
-    public void setDate(Instant date) {
-        this.date = date;
-    }
+	public void setDate(Instant date) {
+		this.date = date;
+	}
 
-    @Override
-    public String toString() {
-        return message;
-    }
+	@Override
+	public String toString() {
+		return message;
+	}
 }
