@@ -36,7 +36,6 @@
 
 	<properties>
 		<apt.version>1.1.3</apt.version>
-		<hibernate.version>7.1.10.Final</hibernate.version>
 		<jvm.enable-preview></jvm.enable-preview>
 		<maven.compiler.source>25</maven.compiler.source>
 		<maven.compiler.target>25</maven.compiler.target>
@@ -46,14 +45,14 @@
 		<profile>
 			<id>spring-data-next-releasetrain</id>
 			<properties>
-				<spring-data-bom.version>2025.1.0-SNAPSHOT</spring-data-bom.version>
+				<spring-data-bom.version>2026.0.0-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 
 		<profile>
 			<id>spring-data-next</id>
 			<properties>
-				<spring-data-bom.version>2025.0.0-SNAPSHOT</spring-data-bom.version>
+				<spring-data-bom.version>2025.0.1-SNAPSHOT</spring-data-bom.version>
 			</properties>
 		</profile>
 

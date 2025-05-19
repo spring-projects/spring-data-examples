@@ -46,6 +46,7 @@ Contains also examples running on Virtual Threads.
 * `security` - Example of how to integrate Spring Data JPA Repositories with Spring Security.
 * `showcase` - Refactoring show case of how to improve a plain-JPA-based persistence layer by using Spring Data JPA (read: removing close to all of the implementation code).Follow the `demo.txt` file for detailed instructions.
 * `vavr` - Shows the support of https://www.vavr.io[Vavr] collection types as return types for query methods.
+* `vector-search` - Example how to do vector search with a Spring Data JPA repository and `hibernate-vector`.
 
 == Spring Data LDAP
 
