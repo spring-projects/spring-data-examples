@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,48 +29,45 @@ import org.springframework.data.domain.Vector;
 @Table
 public class Comment {
 
-    @Id
-    private String id;
+	private @Id String id;
 
-    private String country;
-    private String description;
+	private String country;
+	private String description;
 
-    @SaiIndexed
-    @VectorType(dimensions = 5)
-    private Vector embedding;
+	@SaiIndexed
+	@VectorType(dimensions = 5) private Vector embedding;
 
-    public Comment() {
-    }
+	public Comment() {}
 
-    public Comment(String country, String description, Vector embedding) {
-        this.id = UUID.randomUUID().toString();
-        this.country = country;
-        this.description = description;
-        this.embedding = embedding;
-    }
+	public Comment(String country, String description, Vector embedding) {
+		this.id = UUID.randomUUID().toString();
+		this.country = country;
+		this.description = description;
+		this.embedding = embedding;
+	}
 
-    public static Comment of(Comment source) {
-        return new Comment(source.getCountry(), source.getDescription(), source.getEmbedding());
-    }
+	public static Comment of(Comment source) {
+		return new Comment(source.getCountry(), source.getDescription(), source.getEmbedding());
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getCountry() {
-        return country;
-    }
+	public String getCountry() {
+		return country;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public Vector getEmbedding() {
-        return embedding;
-    }
+	public Vector getEmbedding() {
+		return embedding;
+	}
 
-    @Override
-    public String toString() {
-        return "%s (%s)".formatted(getDescription(), getCountry());
-    }
+	@Override
+	public String toString() {
+		return "%s (%s)".formatted(getDescription(), getCountry());
+	}
 }

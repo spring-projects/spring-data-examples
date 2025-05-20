@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import org.hibernate.annotations.Array;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -30,47 +31,45 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "jpa_comment")
 public class Comment {
 
-    @Id
-    @GeneratedValue private Long id;
+	@Id
+	@GeneratedValue private Long id;
 
-    private String country;
-    private String description;
+	private String country;
+	private String description;
 
-    @JdbcTypeCode(SqlTypes.VECTOR)
-    @Array(length = 5)
-    private float[] embedding;
+	@JdbcTypeCode(SqlTypes.VECTOR)
+	@Array(length = 5) private float[] embedding;
 
-    public Comment() {
-    }
+	public Comment() {}
 
-    public Comment(String country, String description, float[] embedding) {
-        this.country = country;
-        this.description = description;
-        this.embedding = embedding;
-    }
+	public Comment(String country, String description, float[] embedding) {
+		this.country = country;
+		this.description = description;
+		this.embedding = embedding;
+	}
 
-    public static Comment of(Comment source) {
-        return new Comment(source.getCountry(), source.getDescription(), source.getEmbedding());
-    }
+	public static Comment of(Comment source) {
+		return new Comment(source.getCountry(), source.getDescription(), source.getEmbedding());
+	}
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public String getCountry() {
-        return country;
-    }
+	public String getCountry() {
+		return country;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public float[] getEmbedding() {
-        return embedding;
-    }
+	public float[] getEmbedding() {
+		return embedding;
+	}
 
-    @Override
-    public String toString() {
-        return "%s (%s)".formatted(getDescription(), getCountry());
-    }
+	@Override
+	public String toString() {
+		return "%s (%s)".formatted(getDescription(), getCountry());
+	}
 }

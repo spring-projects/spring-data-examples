@@ -8,31 +8,17 @@
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-mongodb-examples</artifactId>
 		<version>4.0.0-SNAPSHOT</version>
-    </parent>
+	</parent>
 
-    <artifactId>spring-data-mongodb-vector-search</artifactId>
+	<artifactId>spring-data-mongodb-vector-search</artifactId>
+	<name>Spring Data MongoDB - Vector Search</name>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.data.examples</groupId>
 			<artifactId>spring-data-mongodb-example-utils</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+	</dependencies>
 
 </project>

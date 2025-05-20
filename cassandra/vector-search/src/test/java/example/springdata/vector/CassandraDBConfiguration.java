@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,27 +17,42 @@ package example.springdata.vector;
 
 import java.net.InetSocketAddress;
 
-import com.datastax.oss.driver.api.core.CqlSession;
-import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
-import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
+import org.springframework.boot.cassandra.autoconfigure.CassandraConnectionDetails;
+import org.springframework.boot.cassandra.autoconfigure.CassandraProperties;
+import org.springframework.boot.cassandra.autoconfigure.CqlSessionBuilderCustomizer;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import org.testcontainers.cassandra.CassandraContainer;
+import org.testcontainers.utility.DockerImageName;
+
+import com.datastax.oss.driver.api.core.CqlSession;
 
 @Configuration
 public class CassandraDBConfiguration {
 
-    @Bean
-    CqlSessionBuilderCustomizer sessionBuilderCustomizer(CassandraProperties properties) {
-        return sessionBuilder -> {
+	@Bean
+	@ServiceConnection
+	CassandraContainer pgVectorContainer() {
+		return new CassandraContainer(DockerImageName.parse("cassandra:5")).withReuse(true);
+	}
 
-            InetSocketAddress contactPoint = new InetSocketAddress(properties.getContactPoints().iterator().next(), properties.getPort());
+	@Bean
+	CqlSessionBuilderCustomizer sessionBuilderCustomizer(CassandraConnectionDetails connectionDetails,
+			CassandraProperties properties) {
 
-            CqlSession session = CqlSession.builder().addContactPoint(contactPoint)
-                .withLocalDatacenter(properties.getLocalDatacenter()).build();
+		return sessionBuilder -> {
 
-            session.execute("CREATE KEYSPACE IF NOT EXISTS " + properties.getKeyspaceName() + " WITH replication = \n"
-                + "{'class':'SimpleStrategy','replication_factor':'1'};");
-            session.close();
-        };
-    }
+			CqlSession session = CqlSession.builder()
+					.addContactPoints(connectionDetails.getContactPoints().stream()
+							.map(it -> new InetSocketAddress(it.host(), it.port())).toList())
+					.withLocalDatacenter(connectionDetails.getLocalDatacenter()).build();
+
+			session.execute("CREATE KEYSPACE IF NOT EXISTS " + properties.getKeyspaceName() + " WITH replication = \n"
+					+ "{'class':'SimpleStrategy','replication_factor':'1'};");
+			session.close();
+		};
+	}
+
 }
