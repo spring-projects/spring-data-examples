@@ -69,6 +69,7 @@ Contains also examples running on Virtual Threads.
 * `security` - Example project showing usage of Spring Security with MongoDB.
 * `text-search` - Example project showing usage of MongoDB text search feature.
 * `transactions` - Example project for imperative and reactive MongoDB 4.0 transaction support.
+* `vector-search` - Example how to do vector search with a Spring Data MongoDB repository.
 
 == Spring Data Neo4j
 

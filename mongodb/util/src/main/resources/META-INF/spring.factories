@@ -1,0 +1,3 @@
+# Connection Details Factories
+org.springframework.boot.autoconfigure.service.connection.ConnectionDetailsFactory=\
+example.springdata.mongodb.util.AtlasContainerConnectionDetailsFactory
