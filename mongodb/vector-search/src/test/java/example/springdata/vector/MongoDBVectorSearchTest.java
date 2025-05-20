@@ -17,18 +17,25 @@ package example.springdata.vector;
 
 import static org.springframework.data.domain.ScoringFunction.cosine;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Score;
 import org.springframework.data.domain.SearchResult;
 import org.springframework.data.domain.Vector;
 
 @SpringBootTest
-class VectorAppTest {
+class MongoDBVectorSearchTest {
 
     @Autowired
     CommentRepository repository;
+
+    @BeforeEach
+    void beforeAll() throws InterruptedException {
+        Thread.sleep(5000); // a little time to think
+    }
 
     @Test
     void vectorSearchUsingQueryMethod() {
@@ -36,7 +43,7 @@ class VectorAppTest {
         Vector vector = Vector.of(0.2001f, 0.32345f, 0.43456f, 0.54567f, 0.65678f);
 
         repository.searchTop10ByCountryAndEmbeddingNear("de", vector, Score.of(0.5, cosine()))
-            .forEach(VectorAppTest::printResult);
+            .forEach(MongoDBVectorSearchTest::printResult);
     }
 
     @Test
@@ -44,8 +51,8 @@ class VectorAppTest {
 
         Vector vector = Vector.of(0.2001f, 0.32345f, 0.43456f, 0.54567f, 0.65678f);
 
-        repository.searchAnnotated("de", vector, Score.of(0.5, cosine()))
-            .forEach(VectorAppTest::printResult);
+        repository.searchAnnotated("de", vector, Score.of(0.5, cosine()), Limit.of(10))
+            .forEach(MongoDBVectorSearchTest::printResult);
     }
 
     private static void printResult(SearchResult<Comment> result) {

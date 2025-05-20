@@ -17,17 +17,20 @@ package example.springdata.vector;
 
 import static org.springframework.data.domain.ScoringFunction.cosine;
 
+import example.springdata.cassandra.util.CassandraKeyspace;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Score;
+import org.springframework.data.domain.ScoringFunction;
 import org.springframework.data.domain.SearchResult;
 import org.springframework.data.domain.Vector;
 
+@CassandraKeyspace
 @SpringBootTest
-class VectorAppTest {
+class CassandraVectorSearchTest {
 
     @Autowired
     CommentRepository repository;
@@ -42,8 +45,8 @@ class VectorAppTest {
 
         Vector vector = Vector.of(0.2001f, 0.32345f, 0.43456f, 0.54567f, 0.65678f);
 
-        repository.searchTop10ByCountryAndEmbeddingNear("de", vector, Score.of(0.5, cosine()))
-            .forEach(VectorAppTest::printResult);
+        repository.searchTop10ByEmbeddingNear(vector,  ScoringFunction.cosine())
+            .forEach(CassandraVectorSearchTest::printResult);
     }
 
     @Test
@@ -51,8 +54,8 @@ class VectorAppTest {
 
         Vector vector = Vector.of(0.2001f, 0.32345f, 0.43456f, 0.54567f, 0.65678f);
 
-        repository.searchAnnotated("de", vector, Score.of(0.5, cosine()), Limit.of(10))
-            .forEach(VectorAppTest::printResult);
+        repository.searchAnnotated(vector, Score.of(0.5, cosine()), Limit.of(10))
+            .forEach(CassandraVectorSearchTest::printResult);
     }
 
     private static void printResult(SearchResult<Comment> result) {

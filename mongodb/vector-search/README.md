@@ -33,5 +33,4 @@ public interface CommentRepository extends Repository<Comment, String> {
 }
 ```
 
-This example contains a test class to illustrate vector search with a Repository
-in `VectorAppTest`.
+This example contains a test class to illustrate vector search with a Repository in `MongoDBVectorSearchTest`.
