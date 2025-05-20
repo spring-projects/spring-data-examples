@@ -11,6 +11,7 @@ We have separate folders for the samples of individual modules:
 * `example` - Shows core Spring Data support for Apache Cassandra.
 * `kotlin` - Example for using Cassandra with Kotlin.
 * `reactive` - Example project to show reactive template and repository support.
+* `vector-search` - Example how to do vector search with a Spring Data Cassandra repository.
 
 == Spring Data Elasticsearch
 

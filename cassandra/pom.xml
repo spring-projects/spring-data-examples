@@ -23,6 +23,7 @@
 		<module>example</module>
 		<module>kotlin</module>
 		<module>reactive</module>
+		<module>vector-search</module>
 	</modules>
 
 	<dependencies>

@@ -54,6 +54,7 @@ class CassandraExtension implements BeforeAllCallback {
 			CassandraContainer container = runTestcontainer();
 			System.setProperty("spring.cassandra.port", "" + container.getMappedPort(9042));
 			System.setProperty("spring.cassandra.contact-points", "" + container.getHost());
+			System.setProperty("spring.cassandra.local-datacenter", container.getLocalDatacenter());
 
 			return new CassandraServer(container.getHost(), container.getMappedPort(9042),
 					CassandraServer.RuntimeMode.EMBEDDED_IF_NOT_RUNNING);
@@ -109,6 +110,6 @@ class CassandraExtension implements BeforeAllCallback {
 	private String getCassandraDockerImageName() {
 
 		return String.format("cassandra:%s",
-				Optional.ofNullable(System.getenv("CASSANDRA_VERSION")).filter(StringUtils::hasText).orElse("3.11.10"));
+				Optional.ofNullable(System.getenv("CASSANDRA_VERSION")).filter(StringUtils::hasText).orElse("5.0.4"));
 	}
 }
