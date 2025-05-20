@@ -29,6 +29,10 @@
 			<artifactId>mongodb</artifactId>
 			<version>${testcontainers.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-testcontainers</artifactId>
+        </dependency>
 
 	</dependencies>
 

@@ -37,6 +37,7 @@
 		<module>linking</module>
 		<module>util</module>
 		<module>fragment-spi</module>
+		<module>vector-search</module>
     </modules>
 
 	<dependencyManagement>
