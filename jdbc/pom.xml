@@ -18,6 +18,7 @@
 
 	<modules>
 		<module>basics</module>
+		<module>composite-ids</module>
 		<module>howto</module>
 		<module>immutables</module>
 		<module>jmolecules</module>

@@ -1,0 +1,8 @@
+== Spring Data JDBC Composite Id
+
+=== EmployeeTest
+
+Demonstrates saving an entity with composite id.
+
+Once by using a direct insert, via a custom `insert` method in the repository, backed by `JdbcAggregateTemplate.insert` and once by a custom id generating callback.
+See `CompositeConfiguration.idGeneration()`.
