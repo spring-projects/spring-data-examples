@@ -16,7 +16,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-data-bom.version>2025.1.0-M3</spring-data-bom.version>
+        <spring-data-bom.version>2025.1.0-M4</spring-data-bom.version>
     </properties>
 
     <dependencies>

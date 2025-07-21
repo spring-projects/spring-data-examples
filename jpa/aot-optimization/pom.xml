@@ -15,7 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hibernate.version>7.0.0.CR2</hibernate.version>
-		<spring-data-bom.version>2025.1.0-M3</spring-data-bom.version>
+		<spring-data-bom.version>2025.1.0-M4</spring-data-bom.version>
 	</properties>
 
 	<dependencies>
