@@ -50,7 +50,7 @@ class ReactiveElasticsearchRepositoryTest {
 
 	@Container //
 	private static final ElasticsearchContainer container = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.7.0")) //
+			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:9.0.3")) //
 			.withPassword("foobar") //
 			.withReuse(true);
 
