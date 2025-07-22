@@ -44,7 +44,7 @@ class IdGenerationApplicationTests {
 		before.id = 42L;
 
 		// We can't save this because Spring Data JDBC thinks it has to do an update.
-		assertThatThrownBy(() -> minions.save(before)).getRootCause().isInstanceOf(IncorrectUpdateSemanticsDataAccessException.class);
+		assertThatThrownBy(() -> minions.save(before)).isInstanceOf(IncorrectUpdateSemanticsDataAccessException.class);
 	}
 
 	@Test

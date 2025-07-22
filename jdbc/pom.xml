@@ -16,6 +16,11 @@
 	<url>https://projects.spring.io/spring-data-jdbc</url>
 	<inceptionYear>2017</inceptionYear>
 
+	<properties>
+		<spring-framework.version>7.0.0-M7</spring-framework.version>
+		<spring-data-bom.version>2025.1.0-M4</spring-data-bom.version>
+	</properties>
+
 	<modules>
 		<module>basics</module>
 		<module>composite-ids</module>
