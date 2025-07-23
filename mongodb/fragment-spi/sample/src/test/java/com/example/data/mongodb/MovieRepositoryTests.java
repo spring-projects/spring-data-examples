@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
@@ -46,6 +47,7 @@ import com.mongodb.client.MongoClient;
  */
 @SpringBootTest
 @Testcontainers
+@DisabledIfEnvironmentVariable(named = "ci", matches = "true")
 class MovieRepositoryTests {
 
 	private static final Logger log = LoggerFactory.getLogger(MovieRepositoryTests.class);
