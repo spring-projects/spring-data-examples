@@ -24,4 +24,4 @@ jobs:
     - name: Build with Maven
       env:
         DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_SECRET_ACCESS_KEY }}
-      run: ./mvnw clean verify -B
+      run: ./mvnw clean verify -B -Pci
