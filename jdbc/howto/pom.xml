@@ -25,6 +25,7 @@
 		<module>idgeneration</module>
 		<module>selectiveupdate</module>
 		<module>schema-generation</module>
+		<module>multiple-datasources</module>
 	</modules>
 
 </project>
