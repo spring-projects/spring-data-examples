@@ -1,0 +1,9 @@
+== Spring Data JDBC How To use multiple DataSources.
+
+Spring Data JDBC requires special configuration if multiple DataSources are to be present in the ApplicationContext.
+
+Configuration is provided to setup two DataSources, each with their own schema and data files. Review the `DataSourceConfiguration` class for this configuration. Note that the first DataSource configuration utilizes Spring Data JDBC's automatic configuration, whereas the second DataSource explicitly disables the AutoConfiguration so that Beans can be manually created.
+
+The Beans created in `DataSourceConfiguration`, notably, the `NamedParameterJdbcOperations` and `TransactionManager` instances are then referenced in the `@EnableJdbcRepositories` configuration. Specifically, you specify the `jdbcOperationsRef` and `transactionManagerRef`. Please review the `JdbcConfiguration` class.
+
+A sample `Service` is provided to bring together two Spring Data JDBC Repositories that are backed by different DataSources. Review the `EvilEmpire` Component and corresponding `EvilEmpireTests` classes.
