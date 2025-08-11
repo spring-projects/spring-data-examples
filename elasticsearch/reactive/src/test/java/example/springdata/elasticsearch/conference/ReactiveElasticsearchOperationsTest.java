@@ -17,6 +17,7 @@ package example.springdata.elasticsearch.conference;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.springframework.data.elasticsearch.client.elc.ReactiveElasticsearchTemplate;
 import reactor.test.StepVerifier;
 
 import java.text.ParseException;
@@ -43,6 +44,7 @@ import org.testcontainers.utility.DockerImageName;
  *
  * @author Christoph Strobl
  * @author Prakhar Gupta
+ * @author omniCoder77
  * @author Peter-Josef Meisch
  */
 @SpringBootTest(
@@ -74,6 +76,8 @@ class ReactiveElasticsearchOperationsTest {
 	}
 
 	@Autowired ReactiveElasticsearchOperations operations;
+	@Autowired
+    ReactiveElasticsearchTemplate template;
 
 	@Test
 	void textSearch() {
@@ -100,4 +104,39 @@ class ReactiveElasticsearchOperationsTest {
 			fail("o_O", e);
 		}
 	}
+
+    @Test
+    void shouldUpdateConferenceKeywordsReactive() {
+        var conferenceName = "JDD14 - Cracow";
+        var newKeyword = "java-ee";
+
+        var initialQuery = new CriteriaQuery(new Criteria("name").is(conferenceName));
+
+        StepVerifier.create(
+                        template
+                                .search(initialQuery, Conference.class)
+                                .next()
+                                .flatMap(searchHit -> {
+                                    assert searchHit != null;
+                                    Conference conference = searchHit.getContent();
+                                    String conferenceId = searchHit.getId();
+
+                                    int originalKeywordsCount = conference.getKeywords().size();
+                                    assert !conference.getKeywords().contains(newKeyword);
+
+                                    conference.getKeywords().add(newKeyword);
+
+                                    return template.save(conference)
+                                            .then(template.get(conferenceId, Conference.class))
+                                            .map(updatedConference -> {
+                                                assert updatedConference != null;
+                                                assert updatedConference.getKeywords().contains(newKeyword);
+                                                assert updatedConference.getKeywords().size() == originalKeywordsCount + 1;
+                                                return updatedConference;
+                                            });
+                                })
+                ).expectNextCount(1)
+                .verifyComplete();
+    }
+
 }

@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.Criteria;
@@ -43,6 +46,7 @@ import org.testcontainers.utility.DockerImageName;
  * @author Artur Konczak
  * @author Oliver Gierke
  * @author Christoph Strobl
+ * @author omniCoder77
  * @author Prakhar Gupta
  * @author Peter-Josef Meisch
  */
@@ -73,6 +77,8 @@ class ElasticsearchOperationsTest {
 	}
 
 	@Autowired ElasticsearchOperations operations;
+	@Autowired
+    ElasticsearchTemplate template;
 
 	@Test
 	void textSearch() throws ParseException {
@@ -103,4 +109,29 @@ class ElasticsearchOperationsTest {
 
 		assertThat(result).hasSize(2);
 	}
+
+    @Test
+    void shouldUpdateConferenceKeywords() {
+        var conferenceName = "JDD14 - Cracow";
+        var newKeyword = "java-ee";
+
+        var initialQuery = new CriteriaQuery(new Criteria("name").is(conferenceName));
+        SearchHit<Conference> searchHit = template.searchOne(initialQuery, Conference.class);
+        assertThat(searchHit).isNotNull();
+
+        Conference conference = searchHit.getContent();
+        String conferenceId = searchHit.getId();
+
+        int originalKeywordsCount = conference.getKeywords().size();
+        assertThat(conference.getKeywords()).doesNotContain(newKeyword);
+
+        conference.getKeywords().add(newKeyword);
+
+        template.save(conference);
+
+        Conference updatedConference = template.get(conferenceId, Conference.class);
+        assertThat(updatedConference).isNotNull();
+        assertThat(updatedConference.getKeywords()).contains(newKeyword);
+        assertThat(updatedConference.getKeywords()).hasSize(originalKeywordsCount + 1);
+    }
 }
