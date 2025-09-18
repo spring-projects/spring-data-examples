@@ -8,6 +8,7 @@ We have separate folders for the samples of individual modules:
 
 == Spring Data for Apache Cassandra
 
+* `aot-optimization` - Use Ahead-Of-Time Repositories with Spring Data for Apache Cassandra.
 * `example` - Shows core Spring Data support for Apache Cassandra.
 * `kotlin` - Example for using Cassandra with Kotlin.
 * `reactive` - Example project to show reactive template and repository support.
@@ -23,6 +24,7 @@ Local Elasticsearch instance must be running to run the tests.
 
 == Spring Data JDBC
 
+* `aot-optimization` - Use Ahead-Of-Time Repositories with Spring Data JDBC.
 * `basic` - Basic usage of Spring Data JDBC.
 * `graalvm-native` - This example compiles a basic Spring Data JDBC application into a GraalVM native image.
 * `howto` - A collection of projects to go with the https://spring.io/blog/2021/09/09/spring-data-jdbc-how-to-use-custom-id-generation[Spring Data JDBC - How to blog posts].
@@ -35,6 +37,7 @@ Local Elasticsearch instance must be running to run the tests.
 
 == Spring Data JPA
 
+* `aot-optimization` - Use Ahead-Of-Time Repositories with Spring Data JPA.
 * `eclipselink` - Sample project to show how to use Spring Data JPA with Spring Boot and https://www.eclipse.org/eclipselink/[Eclipselink].
 * `example` - Probably the project you want to have a look at first.
 Contains a variety of sample packages, showcasing the different levels at which you can use Spring Data JPA.
@@ -55,6 +58,7 @@ Contains also examples running on Virtual Threads.
 
 == Spring Data MongoDB
 
+* `aot-optimization` - Use Ahead-Of-Time Repositories with Spring Data MongoDB.
 * `aggregation` - Example project to showcase the MongoDB aggregation framework support.
 * `example` - Example project for general repository functionality (including geo-spatial functionality), Querydsl integration and advanced topics.
 * `fluent-api` - Example project to show the new fluent API (`MongoTemplate`-alternative) to interact with MongoDB.
