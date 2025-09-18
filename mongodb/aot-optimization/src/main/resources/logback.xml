@@ -19,7 +19,8 @@
 	</logger>
 	<logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger" level="warn" />
 	<logger name="org.springframework.data.mongodb.test.util" level="info"/>
-	<logger name="org.springframework.data.repository.aot.generate.RepositoryContributor" level="trace" />
+	<logger name="org.springframework.data.repository.aot.generate.RepositoryContributor"
+	        level="warn"/>
 	<logger name="example.springdata.aot" level="debug" />
 	<root level="warn">
 		<appender-ref ref="console" />

@@ -11,19 +11,16 @@
 
 	<groupId>org.example</groupId>
 	<artifactId>spring-data-jpa-aot-optimization</artifactId>
+	<name>Spring Data JPA - AOT Optimization Example</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<hibernate.version>7.0.0.CR2</hibernate.version>
-		<spring-data-bom.version>2025.1.0-M3</spring-data-bom.version>
+		<hibernate.version>7.1.0.Final</hibernate.version>
+		<spring-data-bom.version>2025.1.0-M6</spring-data-bom.version>
+		<spring-framework.version>7.0.0-M9</spring-framework.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.jspecify</groupId>
-			<artifactId>jspecify</artifactId>
-			<version>1.0.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>jakarta.persistence</groupId>
@@ -44,10 +41,12 @@
 			<version>5.1.0</version>
 			<classifier>jakarta</classifier>
 		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -79,6 +78,7 @@
 					</generatedSourcesDirectory>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -91,6 +91,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
 

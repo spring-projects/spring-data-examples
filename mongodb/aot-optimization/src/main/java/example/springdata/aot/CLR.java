@@ -19,9 +19,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
 /**
@@ -65,50 +62,18 @@ public class CLR implements CommandLineRunner {
 
         repository.saveAll(List.of(luke, leia, han, chewbacca, yoda, vader, kylo));
 
-        System.out.println("------- annotated multi -------");
-        System.out.println(repository.usersWithUsernamesStartingWith("l"));
+				repository.usersWithUsernamesStartingWith("l");
 
-        System.out.println("------- derived single -------");
-        System.out.println(repository.findUserByUsername("yoda"));
+				repository.findUserByUsername("yoda");
 
-        System.out.println("------- derived nested.path -------");
-        System.out.println(repository.findUserByPostsMessageLike("father"));
+				repository.findUserByPostsMessageLike("father");
 
-        System.out.println("------- derived optional -------");
-        System.out.println(repository.findOptionalUserByUsername("yoda"));
+				repository.findOptionalUserByUsername("yoda");
 
-        System.out.println("------- derived count -------");
         Long count = repository.countUsersByLastnameLike("Sky");
-        System.out.println("user count " + count);
 
-        System.out.println("------- derived exists -------");
         Boolean exists = repository.existsByUsername("vader");
-        System.out.println("user exists " + exists);
+				repository.findUserByLastnameLike("Sky");
 
-        System.out.println("------- derived multi -------");
-        System.out.println(repository.findUserByLastnameLike("Sky"));
-
-        System.out.println("------- derived sorted -------");
-        System.out.println(repository.findUserByLastnameLikeOrderByFirstname("Sky"));
-
-        System.out.println("------- derived page -------");
-        Page<UserProjection> page0 = repository.findUserByLastnameStartingWith("S", PageRequest.of(0, 2));
-        System.out.println("page0: " + page0);
-        System.out.println("page0.content: " + page0.getContent());
-
-        Page<UserProjection> page1 = repository.findUserByLastnameStartingWith("S", PageRequest.of(1, 2));
-        System.out.println("page1: " + page1);
-        System.out.println("page1.content: " + page1.getContent());
-
-        System.out.println("------- derived slice -------");
-        Slice<User> slice0 = repository.findUserByUsernameAfter("luke", PageRequest.of(0, 2));
-        System.out.println("slice0: " + slice0);
-        System.out.println("slice0.content: " + slice0.getContent());
-
-        System.out.println("------- derived top -------");
-        System.out.println(repository.findTop2UsersByLastnameLike("S"));
-
-        System.out.println("------- derived with fields -------");
-        System.out.println(repository.findJustUsernameBy());
     }
 }
