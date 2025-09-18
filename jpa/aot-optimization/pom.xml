@@ -14,7 +14,6 @@
 	<name>Spring Data JPA - AOT Optimization Example</name>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hibernate.version>7.1.0.Final</hibernate.version>
 		<spring-data-bom.version>2025.1.0-M6</spring-data-bom.version>
 		<spring-framework.version>7.0.0-M9</spring-framework.version>

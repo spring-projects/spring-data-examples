@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,8 +25,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CommentRepository extends CrudRepository<Comment, String> {
 
-    SearchResults<Comment> searchTop10ByEmbeddingNear(Vector embedding, ScoringFunction function);
+	SearchResults<Comment> searchTop10ByEmbeddingNear(Vector embedding, ScoringFunction function);
 
-    @Query("SELECT id, description, country, similarity_cosine(embedding,:embedding) AS score FROM comment ORDER BY embedding ANN OF :embedding LIMIT :limit")
-    SearchResults<Comment> searchAnnotated(Vector embedding, Score distance, Limit limit);
+	@Query("SELECT id, description, country, similarity_cosine(embedding,:embedding) AS score FROM comment ORDER BY embedding ANN OF :embedding LIMIT :limit")
+	SearchResults<Comment> searchAnnotated(Vector embedding, Score distance, Limit limit);
 }

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,35 +15,37 @@
  */
 package example.springdata.mongodb.util;
 
-import com.mongodb.ConnectionString;
 import org.springframework.boot.autoconfigure.mongo.MongoConnectionDetails;
 import org.springframework.boot.ssl.SslBundle;
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionDetailsFactory;
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionSource;
 
-public class AtlasContainerConnectionDetailsFactory extends ContainerConnectionDetailsFactory<AtlasContainer, MongoConnectionDetails> {
+import com.mongodb.ConnectionString;
 
-    AtlasContainerConnectionDetailsFactory() {
-        super(ANY_CONNECTION_NAME, new String[]{"com.mongodb.ConnectionString"});
-    }
+public class AtlasContainerConnectionDetailsFactory
+		extends ContainerConnectionDetailsFactory<AtlasContainer, MongoConnectionDetails> {
 
-    protected MongoConnectionDetails getContainerConnectionDetails(ContainerConnectionSource<AtlasContainer> source) {
-        return new MongoContainerConnectionDetails(source);
-    }
+	AtlasContainerConnectionDetailsFactory() {
+		super(ANY_CONNECTION_NAME, new String[] { "com.mongodb.ConnectionString" });
+	}
 
-    private static final class MongoContainerConnectionDetails extends ContainerConnectionDetailsFactory.ContainerConnectionDetails<AtlasContainer> implements MongoConnectionDetails {
+	protected MongoConnectionDetails getContainerConnectionDetails(ContainerConnectionSource<AtlasContainer> source) {
+		return new MongoContainerConnectionDetails(source);
+	}
 
-        private MongoContainerConnectionDetails(ContainerConnectionSource<AtlasContainer> source) {
-            super(source);
-        }
+	private static final class MongoContainerConnectionDetails extends
+			ContainerConnectionDetailsFactory.ContainerConnectionDetails<AtlasContainer> implements MongoConnectionDetails {
 
-        public ConnectionString getConnectionString() {
-            return new ConnectionString(this.getContainer().getConnectionString());
-        }
+		private MongoContainerConnectionDetails(ContainerConnectionSource<AtlasContainer> source) {
+			super(source);
+		}
 
-        public SslBundle getSslBundle() {
-            return super.getSslBundle();
-        }
-    }
+		public ConnectionString getConnectionString() {
+			return new ConnectionString(this.getContainer().getConnectionString());
+		}
+
+		public SslBundle getSslBundle() {
+			return super.getSslBundle();
+		}
+	}
 }
-
