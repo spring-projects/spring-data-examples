@@ -17,11 +17,12 @@
 	<inceptionYear>2017</inceptionYear>
 
 	<properties>
-		<spring-framework.version>7.0.0-M7</spring-framework.version>
-		<spring-data-bom.version>2025.1.0-M4</spring-data-bom.version>
+		<spring-data-bom.version>2025.1.0-SNAPSHOT</spring-data-bom.version>
+		<spring-framework.version>7.0.0-M9</spring-framework.version>
 	</properties>
 
 	<modules>
+		<module>aot-optimization</module>
 		<module>basics</module>
 		<module>composite-ids</module>
 		<module>howto</module>
@@ -36,14 +37,15 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jdbc</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jdbc</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 		</dependency>
+
 	</dependencies>
 
 </project>

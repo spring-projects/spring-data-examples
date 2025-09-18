@@ -18,6 +18,7 @@
 
 	<modules>
 		<module>util</module>
+		<module>aot-optimization</module>
 		<module>example</module>
 		<module>kotlin</module>
 		<module>reactive</module>
