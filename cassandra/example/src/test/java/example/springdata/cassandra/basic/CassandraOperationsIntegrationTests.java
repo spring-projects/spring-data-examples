@@ -1,11 +1,11 @@
 /*
- * Copyright 2016-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,10 +19,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import example.springdata.cassandra.util.CassandraKeyspace;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,12 +30,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.AsyncCassandraTemplate;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.CassandraTemplate;
-import org.springframework.util.concurrent.ListenableFuture;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
-import com.datastax.oss.driver.api.querybuilder.insert.Insert;
 
 /**
  * Integration test showing the basic usage of {@link CassandraTemplate}.
@@ -48,12 +44,11 @@ import com.datastax.oss.driver.api.querybuilder.insert.Insert;
 @CassandraKeyspace
 class CassandraOperationsIntegrationTests {
 
-
 	@Autowired CqlSession session;
 	@Autowired CassandraOperations template;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		template.getCqlOperations().execute("TRUNCATE users");
 	}
 
@@ -121,7 +116,7 @@ class CassandraOperationsIntegrationTests {
 
 		var future = asyncTemplate.insert(user);
 
-		future.whenComplete((it,ex) -> {
+		future.whenComplete((it, ex) -> {
 			var loaded = template.selectOneById(it.getId(), User.class);
 			assertThat(loaded).isEqualTo(it);
 		});

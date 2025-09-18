@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-rest-multi-store</artifactId>
-
-	<name>Spring Data REST - Multi-store example</name>
-	<description>Spring Data REST example mixing Spring Data JPA and Spring Data MongoDB</description>
-
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-rest-examples</artifactId>
-		<version>2.0.0.BUILD-SNAPSHOT</version>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
+
+	<artifactId>spring-data-rest-multi-store</artifactId>
+	<name>Spring Data REST - Multi-store example</name>
+	<description>Spring Data REST example mixing Spring Data JPA and Spring Data MongoDB
+	</description>
 
 	<dependencies>
 
@@ -40,7 +40,7 @@
 			<artifactId>spring-boot-testcontainers</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>mongodb</artifactId>

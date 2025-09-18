@@ -2,21 +2,25 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-rest-starbucks</artifactId>
-
-	<name>Spring Data REST - Starbucks Example</name>
-
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-rest-examples</artifactId>
-		<version>2.0.0.BUILD-SNAPSHOT</version>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
+
+	<artifactId>spring-data-rest-starbucks</artifactId>
+	<name>Spring Data REST - Starbucks Example</name>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-restclient</artifactId>
 		</dependency>
 
 		<dependency>
@@ -101,7 +105,7 @@
 			<artifactId>spring-boot-testcontainers</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>mongodb</artifactId>

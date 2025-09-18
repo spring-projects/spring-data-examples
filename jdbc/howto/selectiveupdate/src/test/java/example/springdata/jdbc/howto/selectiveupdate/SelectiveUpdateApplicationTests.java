@@ -1,11 +1,11 @@
 /*
- * Copyright 2022 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,14 +18,17 @@ package example.springdata.jdbc.howto.selectiveupdate;
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Tests demonstrating various was for partial updates of an aggregate.
  */
-@SpringBootTest
+@DataJdbcTest
 class SelectiveUpdateApplicationTests {
 
 	@Autowired MinionRepository minions;
@@ -82,6 +85,7 @@ class SelectiveUpdateApplicationTests {
 	}
 
 	@Test
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	void cannotGrantPartyHatWhenOutOfSync() {
 
 		Minion bob = new Minion("Bob").addToy(new Toy("Tiger Duck")).addToy(new Toy("Security blanket"));

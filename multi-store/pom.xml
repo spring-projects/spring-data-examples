@@ -2,15 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-multi-store-example</artifactId>
-
-	<name>Spring Data - Multi-store example</name>
-
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-examples</artifactId>
-		<version>2.0.0.BUILD-SNAPSHOT</version>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
+
+	<artifactId>spring-data-multi-store-example</artifactId>
+	<name>Spring Data - Multi-store example</name>
 
 	<dependencies>
 
@@ -37,7 +36,7 @@
 			<artifactId>spring-boot-testcontainers</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>mongodb</artifactId>

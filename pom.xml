@@ -5,7 +5,7 @@
 
 	<groupId>org.springframework.data.examples</groupId>
 	<artifactId>spring-data-examples</artifactId>
-	<version>2.0.0.BUILD-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Spring Data - Examples</name>
@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0-RC1</version>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -37,9 +37,11 @@
 	<properties>
 		<apt.version>1.1.3</apt.version>
 		<jvm.enable-preview></jvm.enable-preview>
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
+		<maven.compiler.source>25</maven.compiler.source>
+		<maven.compiler.target>25</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-data-bom.version>2025.1.0-SNAPSHOT</spring-data-bom.version>
+		<spring-framework.version>7.0.0-M9</spring-framework.version>
 	</properties>
 
 	<profiles>
@@ -149,21 +151,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.github.javafaker</groupId>
 			<artifactId>javafaker</artifactId>
 			<version>1.0.2</version>
@@ -182,13 +169,6 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>spring-milestone</id>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>spring-snapshot</id>
 			<url>https://repo.spring.io/snapshot</url>
 			<releases>
@@ -202,13 +182,6 @@
 			<id>central</id>
 			<name>Maven Central</name>
 			<url>https://repo1.maven.org/maven2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestone</id>
-			<url>https://repo.spring.io/milestone/</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
@@ -248,6 +221,14 @@
 							<version>${lombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 				</configuration>
 			</plugin>
 		</plugins>

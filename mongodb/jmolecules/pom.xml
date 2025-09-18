@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-mongodb-examples</artifactId>
-		<version>2.0.0.BUILD-SNAPSHOT</version>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
 
 	<name>Spring Data MongoDB - jMolecules Example</name>
@@ -17,7 +17,7 @@
 			<dependency>
 				<groupId>org.jmolecules</groupId>
 				<artifactId>jmolecules-bom</artifactId>
-				<version>2023.0.0</version>
+				<version>2025.0.0-RC4</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
