@@ -1,11 +1,11 @@
 /*
- * Copyright 2016-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,16 +15,19 @@
  */
 package example.springdata.redis.commands;
 
+import example.springdata.redis.RedisTestConfiguration;
+import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
+import reactor.test.StepVerifier;
+
 import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import example.springdata.redis.RedisTestConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.ReactiveRedisConnection;
@@ -33,8 +36,6 @@ import org.springframework.data.redis.connection.ReactiveStringCommands.SetComma
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.redis.util.ByteUtils;
-import reactor.core.publisher.Flux;
-import reactor.test.StepVerifier;
 
 /**
  * Show usage of reactive operations on Redis keys using low level API provided by
@@ -48,7 +49,6 @@ class KeyCommandsTests {
 
 	private static final String PREFIX = KeyCommandsTests.class.getSimpleName();
 	private static final String KEY_PATTERN = PREFIX + "*";
-	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 	@Autowired ReactiveRedisConnectionFactory connectionFactory;
 
@@ -75,7 +75,7 @@ class KeyCommandsTests {
 				.flatMapMany(Flux::fromIterable) //
 				.doOnNext(byteBuffer -> System.out.println(toString(byteBuffer))) //
 				.count() //
-				.doOnSuccess(count -> System.out.println(String.format("Total No. found: %s", count)));
+				.doOnSuccess(count -> System.out.printf("Total No. found: %s%n", count));
 
 		keyCount.as(StepVerifier::create).expectNext(50L).verifyComplete();
 	}
@@ -86,8 +86,8 @@ class KeyCommandsTests {
 	@Test
 	void storeToListAndPop() {
 
-		var popResult = connection.listCommands()
-				.brPop(Collections.singletonList(ByteBuffer.wrap("list".getBytes())), Duration.ofSeconds(5));
+		var popResult = connection.listCommands().brPop(Collections.singletonList(ByteBuffer.wrap("list".getBytes())),
+				Duration.ofSeconds(5));
 
 		var llen = connection.listCommands().lLen(ByteBuffer.wrap("list".getBytes()));
 
@@ -96,23 +96,21 @@ class KeyCommandsTests {
 				.flatMap(l -> popResult) //
 				.doOnNext(result -> System.out.println(toString(result.getValue()))) //
 				.flatMap(result -> llen) //
-				.doOnNext(count -> System.out.println(String.format("Total items in list left: %s", count)));//
+				.doOnNext(count -> System.out.printf("Total items in list left: %s%n", count));//
 
 		popAndLlen.as(StepVerifier::create).expectNext(0L).verifyComplete();
 	}
 
 	private void generateRandomKeys(int nrKeys) {
 
-		executor.execute(() -> {
-			var keyFlux = Flux.range(0, nrKeys).map(i -> (PREFIX + "-" + i));
+		var keyFlux = Flux.range(0, nrKeys).map(i -> (PREFIX + "-" + i)) //
+				.publishOn(Schedulers.single()) //
+				.map(it -> SetCommand.set(ByteBuffer.wrap(it.getBytes())) //
+						.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
 
-			var generator = keyFlux.map(String::getBytes).map(ByteBuffer::wrap) //
-					.map(key -> SetCommand.set(key) //
-							.value(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes())));
-
-			connection.stringCommands().set(generator).as(StepVerifier::create) //
+		connection.stringCommands().set(keyFlux).as(StepVerifier::create) //
 				.expectNextCount(nrKeys) //
-				.verifyComplete();});
+				.verifyComplete();
 
 	}
 
