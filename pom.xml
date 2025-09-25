@@ -39,7 +39,6 @@
 		<jvm.enable-preview></jvm.enable-preview>
 		<maven.compiler.source>25</maven.compiler.source>
 		<maven.compiler.target>25</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring-data-bom.version>2025.1.0-SNAPSHOT</spring-data-bom.version>
 		<spring-framework.version>7.0.0-M9</spring-framework.version>
 	</properties>
@@ -124,6 +123,12 @@
 				<groupId>org.awaitility</groupId>
 				<artifactId>awaitility</artifactId>
 				<version>4.0.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-commons</artifactId>
+				<version>4.0.0-GH-3267-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
