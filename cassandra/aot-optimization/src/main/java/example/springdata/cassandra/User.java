@@ -24,7 +24,6 @@ import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
-import org.springframework.data.geo.Point;
 
 import com.datastax.oss.driver.api.core.data.UdtValue;
 
@@ -48,7 +47,6 @@ public class User {
 
 	Address current;
 	List<Address> previous;
-	Point point;
 
 	@CassandraType(type = CassandraType.Name.UDT, userTypeName = "address") UdtValue alternative;
 

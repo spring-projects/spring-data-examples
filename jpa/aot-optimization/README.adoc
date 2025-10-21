@@ -1,0 +1,89 @@
+= Spring Data JPA - Ahead of Time Repository Optimization Example
+
+The project shows the usage of AOT Repositories.
+Ahead of Time Repositories implement query methods through code contribution and allow for debugging queries during runtime.
+Additionally, AOT repositories improve startup time and reduce memory consumption because AOT optimized query methods do not require reflective introspection.
+Each AOT repository is documented with a JSON file that describes the queries implemented by the repository.
+
+== Using AOT Repositories
+
+Repository AOT processing is enabled by default when using Spring Boot's AOT processing (see `pom.xml` for `spring-boot-maven-plugin` usage).
+AOT processing generates AOT artifacts to `target/spring-aot` and through the regular build.
+When using the JVM mode (not Graal Native Images), then you need to enable AOT mode on the JVM when running your application through `-Dspring.aot.enabled=true`.
+
+[source,bash]
+----
+$ mvn clean package
+$ java -Dspring.aot.enabled=true -jar target/spring-data-jpa-aot-optimization-4.0.0-SNAPSHOT.jar
+----
+
+You can find more details about AOT processing in the https://docs.spring.io/spring-data/jpa/reference/4.0/jpa/aot.html#aot.repositories[Spring Data JPA Reference Documentation].
+
+== AOT Repository
+
+**`UserRepositoryImpl__AotRepository`**
+
+Excerpt from: `target/spring-aot/main/sources/example/springdata/aot/UserRepositoryImpl__AotRepository.java`
+
+[source,java]
+----
+@Generated
+public class UserRepositoryImpl__AotRepository extends AotRepositoryFragmentSupport {
+  private final RepositoryFactoryBeanSupport.FragmentCreationContext context;
+
+  private final EntityManager entityManager;
+
+  public UserRepositoryImpl__AotRepository(EntityManager entityManager,
+      RepositoryFactoryBeanSupport.FragmentCreationContext context) {
+    // …
+  }
+
+  public Long countUsersByLastnameLike(String lastname) {
+    String queryString = "SELECT COUNT(u) FROM users u WHERE u.lastname LIKE :lastname ESCAPE '\\'";
+    Query query = this.entityManager.createQuery(queryString);
+    query.setParameter("lastname", lastname);
+
+    return (Long) convertOne(query.getSingleResultOrNull(), false, Long.class);
+  }
+}
+----
+
+== Metadata
+
+**`UserRepository.json`**
+
+Excerpt from: `target/spring-aot/main/resources/example/springdata/aot/UserRepository.json`
+
+[source,json]
+----
+{
+  "name": "example.springdata.aot.UserRepository",
+  "module": "JPA",
+  "type": "IMPERATIVE",
+  "methods": [
+    {
+      "name": "countUsersByLastnameLike",
+      "signature": "public abstract java.lang.Long example.springdata.aot.UserRepository.countUsersByLastnameLike(java.lang.String)",
+      "query": {
+        "query": "SELECT COUNT(u) FROM users u WHERE u.lastname LIKE :lastname ESCAPE '\\'"
+      }
+    },
+    {
+      "name": "count",
+      "signature": "org.springframework.data.jpa.repository.support.QuerydslJpaPredicateExecutor",
+      "fragment": {
+        "interface": "org.springframework.data.jpa.repository.support.QuerydslJpaPredicateExecutor",
+        "fragment": "org.springframework.data.jpa.repository.support.QuerydslJpaPredicateExecutor"
+      }
+    },
+    {
+      "name": "save",
+      "signature": "org.springframework.data.jpa.repository.support.SimpleJpaRepository",
+      "fragment": {
+        "interface": "org.springframework.data.jpa.repository.support.SimpleJpaRepository",
+        "fragment": "org.springframework.data.jpa.repository.support.SimpleJpaRepository"
+      }
+    }
+  ]
+}
+----
