@@ -31,6 +31,12 @@
 			<artifactId>spring-boot-starter-data-cassandra</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-data-cassandra-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 </project>

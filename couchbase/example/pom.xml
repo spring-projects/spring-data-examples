@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>spring-data-couchbase-example</artifactId>
-	<name>Basic sample for Spring Data Couchbase</name>
+	<name>Spring Data Couchbase - Basic sample</name>
 	<description>Small sample project showing the usage of Spring Data Couchbase.</description>
 
 	<dependencies>

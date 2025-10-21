@@ -1,11 +1,11 @@
 /*
- * Copyright 2017-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,8 +46,7 @@ class JacksonJsonTests {
 
 	/**
 	 * {@link ReactiveRedisOperations} using {@link String} keys and {@link Person} values serialized via
-	 * {@link org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer} to JSON without additional type
-	 * hints.
+	 * {@link org.springframework.data.redis.serializer.JacksonJsonRedisSerializer} to JSON without additional type hints.
 	 *
 	 * @see RedisTestConfiguration#reactiveJsonPersonRedisTemplate(ReactiveRedisConnectionFactory)
 	 */
@@ -73,8 +72,8 @@ class JacksonJsonTests {
 
 	/**
 	 * {@link ReactiveRedisOperations} using {@link String} keys and {@link Object} values serialized via
-	 * {@link org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer} to JSON with additional type
-	 * hints. This example uses the non-final type {@link Person} using its FQCN as type identifier.
+	 * {@link org.springframework.data.redis.serializer.JacksonJsonRedisSerializer} to JSON with additional type hints.
+	 * This example uses the non-final type {@link Person} using its FQCN as type identifier.
 	 *
 	 * @see RedisTestConfiguration#reactiveJsonObjectRedisTemplate(ReactiveRedisConnectionFactory)
 	 */
@@ -101,8 +100,8 @@ class JacksonJsonTests {
 
 	/**
 	 * {@link ReactiveRedisOperations} using {@link String} keys and {@link Object} values serialized via
-	 * {@link org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer} to JSON with additional type
-	 * hints. This example uses the final type {@link example.springdata.redis.EmailAddress} using configuration from
+	 * {@link org.springframework.data.redis.serializer.JacksonJsonRedisSerializer} to JSON with additional type hints.
+	 * This example uses the final type {@link example.springdata.redis.EmailAddress} using configuration from
 	 * {@link com.fasterxml.jackson.annotation.JsonTypeInfo} as type identifier.
 	 *
 	 * @see RedisTestConfiguration#reactiveJsonObjectRedisTemplate(ReactiveRedisConnectionFactory)

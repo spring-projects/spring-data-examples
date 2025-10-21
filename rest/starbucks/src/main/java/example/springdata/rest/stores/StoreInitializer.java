@@ -1,11 +1,11 @@
 /*
- * Copyright 2014-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
-import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.infrastructure.item.ExecutionContext;
+import org.springframework.batch.infrastructure.item.file.FlatFileItemReader;
+import org.springframework.batch.infrastructure.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.infrastructure.item.file.separator.DefaultRecordSeparatorPolicy;
+import org.springframework.batch.infrastructure.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -53,7 +53,7 @@ public class StoreInitializer {
 		var indexDefinitions = IndexResolver.create(operations.getConverter().getMappingContext())
 				.resolveIndexFor(Store.class);
 
-		indexDefinitions.forEach(operations.indexOps(Store.class)::ensureIndex);
+		indexDefinitions.forEach(operations.indexOps(Store.class)::createIndex);
 
 		var stores = readStores();
 		log.info("Importing {} stores into MongoDB…", stores.size());
@@ -75,8 +75,6 @@ public class StoreInitializer {
 		var line = scanner.nextLine();
 		scanner.close();
 
-		var itemReader = new FlatFileItemReader<Store>();
-		itemReader.setResource(resource);
 
 		// DelimitedLineTokenizer defaults to comma as its delimiter
 		var tokenizer = new DelimitedLineTokenizer();
@@ -92,6 +90,9 @@ public class StoreInitializer {
 
 			return new Store(UUID.randomUUID(), fields.readString("Name"), address);
 		});
+
+		var itemReader = new FlatFileItemReader<>(lineMapper);
+		itemReader.setResource(resource);
 
 		lineMapper.setLineTokenizer(tokenizer);
 		itemReader.setLineMapper(lineMapper);

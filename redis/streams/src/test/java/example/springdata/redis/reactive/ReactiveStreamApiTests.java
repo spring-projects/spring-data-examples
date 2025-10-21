@@ -28,8 +28,8 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.data.redis.autoconfigure.RedisReactiveAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisReactiveAutoConfiguration;
+import org.springframework.boot.data.redis.test.autoconfigure.DataRedisTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.connection.stream.MapRecord;
@@ -51,7 +51,7 @@ import com.redis.testcontainers.RedisContainer;
  */
 @Testcontainers
 @DataRedisTest
-@ImportAutoConfiguration(RedisReactiveAutoConfiguration.class)
+@ImportAutoConfiguration(DataRedisReactiveAutoConfiguration.class)
 class ReactiveStreamApiTests {
 
 	@Container

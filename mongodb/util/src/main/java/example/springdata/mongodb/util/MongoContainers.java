@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 package example.springdata.mongodb.util;
 
-import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.mongodb.MongoDBAtlasLocalContainer;
+import org.testcontainers.mongodb.MongoDBContainer;
 import org.testcontainers.utility.DockerImageName;
 
 /**
@@ -37,7 +38,8 @@ public class MongoContainers {
             .withReuse(true);
     }
 
-    public static AtlasContainer getAtlasContainer() {
-        return new AtlasContainer(System.getProperty(ATLAS_IMAGE_NAME_PROPERTY, ATLAS_IMAGE_NAME)).withReuse(true);
+		public static MongoDBAtlasLocalContainer getAtlasContainer() {
+			return new MongoDBAtlasLocalContainer(System.getProperty(ATLAS_IMAGE_NAME_PROPERTY, ATLAS_IMAGE_NAME))
+					.withReuse(true);
     }
 }

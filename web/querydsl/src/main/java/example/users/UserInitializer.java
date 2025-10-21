@@ -1,11 +1,11 @@
 /*
- * Copyright 2015-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
-import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.infrastructure.item.ExecutionContext;
+import org.springframework.batch.infrastructure.item.file.FlatFileItemReader;
+import org.springframework.batch.infrastructure.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.infrastructure.item.file.separator.DefaultRecordSeparatorPolicy;
+import org.springframework.batch.infrastructure.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
@@ -61,8 +61,7 @@ public class UserInitializer {
 		String line = scanner.nextLine();
 		scanner.close();
 
-		FlatFileItemReader<User> reader = new FlatFileItemReader<User>();
-		reader.setResource(resource);
+
 
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
 		tokenizer.setNames(line.split(","));
@@ -101,7 +100,9 @@ public class UserInitializer {
 
 		lineMapper.setLineTokenizer(tokenizer);
 
-		reader.setLineMapper(lineMapper);
+		FlatFileItemReader<User> reader = new FlatFileItemReader<User>(lineMapper);
+		reader.setResource(resource);
+
 		reader.setRecordSeparatorPolicy(new DefaultRecordSeparatorPolicy());
 		reader.setLinesToSkip(1);
 		reader.open(new ExecutionContext());
