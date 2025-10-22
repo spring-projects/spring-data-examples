@@ -1,11 +1,11 @@
 /*
- * Copyright 2014-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Base64;
 
@@ -35,7 +37,6 @@ import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test cases that verify the URL level of security by using the Spring MVC test framework.
@@ -91,8 +92,8 @@ class UrlLevelSecurityTests {
 
 		mvc.perform(get("/employees").//
 				headers(headers)).//
-				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).//
-				andExpect(status().isOk());
+				andExpect(status().isOk()). //
+				andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON));
 
 		mvc.perform(post("/employees").//
 				headers(headers)).//

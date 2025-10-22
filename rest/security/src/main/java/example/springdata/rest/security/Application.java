@@ -1,11 +1,11 @@
 /*
- * Copyright 2014-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,9 +23,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -56,7 +58,7 @@ public class Application {
 		employeeRepository.save(new Employee("Frodo", "Baggins", "ring bearer"));
 		employeeRepository.save(new Employee("Gandalf", "the Wizard", "servant of the Secret Fire"));
 
-		/**
+		/*
 		 * Due to method-level protections on {@link example.company.ItemRepository}, the security context must be loaded
 		 * with an authentication token containing the necessary privileges.
 		 */
@@ -70,14 +72,13 @@ public class Application {
 
 	/**
 	 * This application is secured at both the URL level for some parts, and the method level for other parts. The URL
-	 * security is shown inside this code, while method-level annotations are enabled at by
-	 * {@link EnableGlobalMethodSecurity}.
+	 * security is shown inside this code, while method-level annotations are enabled at by {@link EnableMethodSecurity}.
 	 *
 	 * @author Greg Turnquist
 	 * @author Oliver Gierke
 	 */
 	@Configuration
-	@EnableGlobalMethodSecurity(prePostEnabled = true)
+	@EnableMethodSecurity(prePostEnabled = true)
 	@EnableWebSecurity
 	static class SecurityConfiguration  {
 
@@ -111,11 +112,14 @@ public class Application {
 		@Bean
 		protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
-			return http.httpBasic().and().authorizeRequests().//
-					requestMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN").//
-					requestMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN").//
-					requestMatchers(HttpMethod.PATCH, "/employees/**").hasRole("ADMIN").and().//
-					csrf().disable().build();
+			return http.authorizeHttpRequests((authorize) -> {
+
+				authorize //
+						.requestMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN") //
+						.requestMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN") //
+						.requestMatchers(HttpMethod.PATCH, "/employees/**").hasRole("ADMIN") //
+						.anyRequest().permitAll();
+			}).httpBasic(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable).build();
 		}
 	}
 }
