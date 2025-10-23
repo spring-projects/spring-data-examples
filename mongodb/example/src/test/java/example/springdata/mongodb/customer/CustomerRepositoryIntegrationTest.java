@@ -129,7 +129,7 @@ class CustomerRepositoryIntegrationTest {
 		indexDefinition.getIndexOptions().put("min", -180);
 		indexDefinition.getIndexOptions().put("max", 180);
 
-		operations.indexOps(Customer.class).ensureIndex(indexDefinition);
+		operations.indexOps(Customer.class).createIndex(indexDefinition);
 
 		var ollie = new Customer("Oliver", "Gierke");
 		ollie.setAddress(new Address(new Point(52.52548, 13.41477)));
