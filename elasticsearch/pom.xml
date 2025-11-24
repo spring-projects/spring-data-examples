@@ -12,6 +12,7 @@
 	</parent>
 
 	<name>Spring Data Elasticsearch - Examples</name>
+
 	<description>Sample projects for Spring Data Elasticsearch</description>
 	<url>https://github.com/spring-projects/spring-data-elasticsearch</url>
 

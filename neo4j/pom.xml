@@ -4,15 +4,15 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-neo4j-examples</artifactId>
-	<packaging>pom</packaging>
-
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-examples</artifactId>
 		<version>4.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
+
+	<artifactId>spring-data-neo4j-examples</artifactId>
+	<packaging>pom</packaging>
 
 	<name>Spring Data Neo4j - Examples</name>
 	<description>Sample projects for Spring Data Neo4j</description>

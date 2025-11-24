@@ -10,8 +10,9 @@
 	</parent>
 
 	<artifactId>spring-data-mongodb-fragment-spi</artifactId>
-	<name>Spring Data MongoDB - Reusable Fragments</name>
 	<packaging>pom</packaging>
+
+	<name>Spring Data MongoDB - Reusable Fragments</name>
 
 	<modules>
 		<module>atlas-api</module>

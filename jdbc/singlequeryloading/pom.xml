@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>singlequeryloading</artifactId>
-
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-jdbc-examples</artifactId>
 		<version>4.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
+
+	<artifactId>singlequeryloading</artifactId>
 
 	<name>Spring Data JDBC - Demonstration of Single Query Loading</name>
 	<description>Sample project demonstrating Single Query Loading with Spring Data JDBC

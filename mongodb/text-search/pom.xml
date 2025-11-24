@@ -2,15 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-mongodb-text-search</artifactId>
-
-	<name>Spring Data MongoDB - Text Search</name>
-
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-mongodb-examples</artifactId>
 		<version>4.0.0-SNAPSHOT</version>
 	</parent>
+
+	<artifactId>spring-data-mongodb-text-search</artifactId>
+	<name>Spring Data MongoDB - Text Search</name>
 
 	<dependencies>
 
