@@ -21,15 +21,15 @@
 		<module>deferred</module>
 		<module>envers</module>
 		<module>example</module>
+		<module>graalvm-native</module>
 		<module>interceptors</module>
-		<!-- <module>jpa21</module> -->
+		<module>jpa21</module>
+		<module>multitenant</module>
 		<module>multiple-datasources</module>
 		<module>query-by-example</module>
 		<module>security</module>
 		<module>showcase</module>
 		<module>vavr</module>
-		<module>multitenant</module>
-		<module>graalvm-native</module>
 	</modules>
 
 	<dependencies>
