@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 the original author or authors.
+ * Copyright 2014-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,43 +15,48 @@
  */
 package example.springdata.mongodb.customer;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.data.Offset.offset;
-
 import example.springdata.mongodb.util.MongoContainers;
-
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.mongodb.test.autoconfigure.DataMongoTest;
 import org.springframework.data.domain.Limit;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
+import org.springframework.data.geo.Polygon;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.querydsl.QSort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-
+import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.mongodb.MongoDBContainer;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.Offset.offset;
 
 /**
  * Integration test for {@link CustomerRepository}.
  *
  * @author Oliver Gierke
+ * @author Rishabh Saraswat
  */
 @Testcontainers
 @DataMongoTest
 class CustomerRepositoryIntegrationTest {
 
 	@Container //
-	private static MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
+	private static final MongoDBContainer mongoDBContainer = MongoContainers.getDefaultContainer();
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
@@ -60,17 +65,23 @@ class CustomerRepositoryIntegrationTest {
 
 	@Autowired CustomerRepository repository;
 	@Autowired MongoOperations operations;
+	@Autowired StoreRepository storeRepository;
 
 	private Customer dave, oliver, carter;
+	private Store store;
 
 	@BeforeEach
 	void setUp() {
 
 		repository.deleteAll();
 
+		GeoJsonPolygon polygon = new GeoJsonPolygon(new Point(0.0, 0.0), new Point(0.0, 1.0), new Point(1.0, 1.0), new Point(1.0, 0.0), new Point(0.0, 0.0));
+
 		dave = repository.save(new Customer("Dave", "Matthews"));
 		oliver = repository.save(new Customer("Oliver August", "Matthews"));
 		carter = repository.save(new Customer("Carter", "Beauford"));
+
+		store = storeRepository.save(new Store("store-1", polygon));
 	}
 
 	/**
@@ -145,5 +156,29 @@ class CustomerRepositoryIntegrationTest {
 		var distanceToFirstStore = result.getContent().get(0).getDistance();
 		assertThat(distanceToFirstStore.getMetric()).isEqualTo(Metrics.KILOMETERS);
 		assertThat(distanceToFirstStore.getValue()).isCloseTo(0.862, offset(0.001));
+	}
+
+	/**
+	 * Test case to show the usage of the geospatial operator {@code $geoIntersects}.
+	 */
+	@Test
+	void supportsGeoIntersectsPointInside() {
+		operations.indexOps(Store.class).createIndex(new GeospatialIndex("serviceArea"));
+		GeoJsonPoint pointInside = new GeoJsonPoint(0.5, 0.5);
+		Query pointInsideQuery = Query.query(Criteria.where("serviceArea").intersects(pointInside));
+
+		List<Store> stores = operations.find(pointInsideQuery, Store.class);
+		assertThat(stores).hasSize(1);
+		assertThat(stores.get(0).getName()).isEqualTo("store-1");
+	}
+
+	@Test
+	void supportsGeoIntersectsPointOutside() {
+		operations.indexOps(Store.class).createIndex(new GeospatialIndex("serviceArea"));
+		GeoJsonPoint pointOutside = new GeoJsonPoint(0.5, 0.5);
+		Query pointOutsideQuery = Query.query(Criteria.where("serviceArea").intersects(pointOutside));
+
+		List<Store> stores = operations.find(pointOutsideQuery, Store.class);
+		assertThat(stores).isEmpty();
 	}
 }
