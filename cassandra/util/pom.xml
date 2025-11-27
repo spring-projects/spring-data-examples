@@ -27,7 +27,7 @@
 
 		<dependency>
 			<groupId>org.testcontainers</groupId>
-			<artifactId>cassandra</artifactId>
+			<artifactId>testcontainers-cassandra</artifactId>
 		</dependency>
 
 		<dependency>

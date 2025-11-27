@@ -41,7 +41,6 @@ public class CategoryConfiguration {
 
 		return (ApplicationListener<ApplicationEvent>) event -> {
 			if (event instanceof RelationalEvent) {
-				new Exception().printStackTrace();
 				System.out.println("Received an event: " + event);
 			}
 		};

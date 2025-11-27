@@ -26,8 +26,7 @@
 
 		<dependency>
 			<groupId>org.testcontainers</groupId>
-			<artifactId>mongodb</artifactId>
-			<version>${testcontainers.version}</version>
+			<artifactId>testcontainers-mongodb</artifactId>
 		</dependency>
 
 	</dependencies>

@@ -1,0 +1,94 @@
+= Spring Data Cassandra - Ahead of Time Repository Optimization Example
+
+The project shows the usage of AOT Repositories.
+Ahead of Time Repositories implement query methods through code contribution and allow for debugging queries during runtime.
+Additionally, AOT repositories improve startup time and reduce memory consumption because AOT optimized query methods do not require reflective introspection.
+Each AOT repository is documented with a JSON file that describes the queries implemented by the repository.
+
+== Using AOT Repositories
+
+Repository AOT processing is enabled by default when using Spring Boot's AOT processing (see `pom.xml` for `spring-boot-maven-plugin` usage).
+AOT processing generates AOT artifacts to `target/spring-aot` and through the regular build.
+When using the JVM mode (not Graal Native Images), then you need to enable AOT mode on the JVM when running your application through `-Dspring.aot.enabled=true`.
+
+[source,bash]
+----
+$ mvn clean package
+$ java -Dspring.aot.enabled=true -jar target/spring-data-cassandra-aot-optimization-4.0.0-SNAPSHOT.jar
+----
+
+You can find more details about AOT processing in the https://docs.spring.io/spring-data/cassandra/reference/5.0/cassandra/repositories/aot.html#aot.repositories[Spring Data Cassandra Reference Documentation].
+
+== AOT Repository
+
+**`UserRepositoryImpl__AotRepository`**
+
+Excerpt from: `target/spring-aot/main/sources/example/springdata/cassandra/UserRepositoryImpl__AotRepository.java`
+
+[source,java]
+----
+@Generated
+public class UserRepositoryImpl__AotRepository extends AotRepositoryFragmentSupport {
+  private final CassandraOperations operations;
+
+  public UserRepositoryImpl__AotRepository(CassandraOperations operations,
+      RepositoryFactoryBeanSupport.FragmentCreationContext context) {
+    // …
+  }
+
+  public User findUserByIdIn(long id) {
+    Object[] args = new Object[1];
+    args[0] = potentiallyConvertBindingValue(id);
+    SimpleStatement query = SimpleStatement.newInstance("SELECT * from users where user_id in(?)", args);
+
+    ExecutableSelectOperation.TerminatingResults<User> select = operations.query(query).as(User.class);
+    return select.oneValue();
+  }
+
+  public User findUserByUsername(String username) {
+    Query query = Query.query(Criteria.where("username").is(username));
+
+    ExecutableSelectOperation.TerminatingSelect<User> select = operations.query(User.class).matching(query);
+    return select.oneValue();
+  }
+}
+----
+
+== Metadata
+
+**`UserRepository.json`**
+
+Excerpt from: `target/spring-aot/main/resources/example/springdata/cassandra/UserRepository.json`
+
+[source,json]
+----
+{
+  "name": "example.springdata.cassandra.UserRepository",
+  "module": "Cassandra",
+  "type": "IMPERATIVE",
+  "methods": [
+    {
+      "name": "findUserByIdIn",
+      "signature": "public abstract example.springdata.cassandra.User example.springdata.cassandra.UserRepository.findUserByIdIn(long)",
+      "query": {
+        "query": "SELECT * from users where user_id in(?)"
+      }
+    },
+    {
+      "name": "findUserByUsername",
+      "signature": "public abstract example.springdata.cassandra.User example.springdata.cassandra.UserRepository.findUserByUsername(java.lang.String)",
+      "query": {
+        "query": "SELECT * FROM users WHERE uname=?"
+      }
+    },
+    {
+      "name": "save",
+      "signature": "org.springframework.data.cassandra.repository.support.SimpleCassandraRepository",
+      "fragment": {
+        "interface": "org.springframework.data.cassandra.repository.support.SimpleCassandraRepository",
+        "fragment": "org.springframework.data.cassandra.repository.support.SimpleCassandraRepository"
+      }
+    }
+  ]
+}
+----

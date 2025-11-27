@@ -1,0 +1,97 @@
+= Spring Data JDBC - Ahead of Time Repository Optimization Example
+
+The project shows the usage of AOT Repositories.
+Ahead of Time Repositories implement query methods through code contribution and allow for debugging queries during runtime.
+Additionally, AOT repositories improve startup time and reduce memory consumption because AOT optimized query methods do not require reflective introspection.
+Each AOT repository is documented with a JSON file that describes the queries implemented by the repository.
+
+== Using AOT Repositories
+
+Repository AOT processing is enabled by default when using Spring Boot's AOT processing (see `pom.xml` for `spring-boot-maven-plugin` usage).
+AOT processing generates AOT artifacts to `target/spring-aot` and through the regular build.
+When using the JVM mode (not Graal Native Images), then you need to enable AOT mode on the JVM when running your application through `-Dspring.aot.enabled=true`.
+
+[source,bash]
+----
+$ mvn clean package
+$ java -Dspring.aot.enabled=true -jar target/spring-data-jdbc-aot-optimization-4.0.0-SNAPSHOT.jar
+----
+
+You can find more details about AOT processing in the https://docs.spring.io/spring-data/relational/reference/4.0/jdbc/aot.html[Spring Data JDBC Reference Documentation].
+
+== AOT Repository
+
+**`CategoryRepositoryImpl__AotRepository`**
+
+Excerpt from: `target/spring-aot/main/sources/example/springdata/aot/CategoryRepositoryImpl__AotRepository.java`
+
+[source,java]
+----
+@Generated
+public class CategoryRepositoryImpl__AotRepository extends AotRepositoryFragmentSupport {
+  public CategoryRepositoryImpl__AotRepository(JdbcAggregateOperations operations,
+      RowMapperFactory rowMapperFactory,
+      RepositoryFactoryBeanSupport.FragmentCreationContext context) {
+    super(operations, rowMapperFactory, context);
+  }
+
+  public List<Category> findAllByNameContaining(String name) {
+    Criteria criteria = Criteria.where("name").like("%" + escape(name) + "%");
+    StatementFactory.SelectionBuilder builder = getStatementFactory().select(Category.class).filter(criteria);
+
+    RowMapper rowMapper = getRowMapperFactory().create(Category.class);
+    List result = (List) builder.executeWith((sql, paramSource) -> getJdbcOperations().query(sql, paramSource, new RowMapperResultSetExtractor<>(rowMapper)));
+    return (List<Category>) convertMany(result, Category.class);
+  }
+
+  public List<Category> findWithDeclaredQuery(String name) {
+    class ExpressionMarker{};
+    String query = "SELECT * FROM category WHERE name = :name";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    getBindableValue(ExpressionMarker.class.getEnclosingMethod(), name, 0).bind("name", parameterSource);
+
+    RowMapper rowMapper = getRowMapperFactory().create(Category.class);
+    List result = (List) getJdbcOperations().query(query, parameterSource, new RowMapperResultSetExtractor<>(rowMapper));
+    return (List<Category>) convertMany(result, Category.class);
+  }
+}
+----
+
+== Metadata
+
+**`CategoryRepository.json`**
+
+Excerpt from: `target/spring-aot/main/resources/example/springdata/aot/CategoryRepository.json`
+
+[source,json]
+----
+{
+  "name": "example.springdata.aot.CategoryRepository",
+  "module": "JDBC",
+  "type": "IMPERATIVE",
+  "methods": [
+    {
+      "name": "findProjectedByNameContaining",
+      "signature": "public abstract java.util.List<example.springdata.aot.CategoryProjection> example.springdata.aot.CategoryRepository.findProjectedByNameContaining(java.lang.String)",
+      "query": {
+        "query": "SELECT \"CATEGORY\".\"NAME\" AS \"NAME\", \"CATEGORY\".\"DESCRIPTION\" AS \"DESCRIPTION\" FROM \"CATEGORY\" WHERE \"CATEGORY\".\"NAME\" LIKE :name"
+      }
+    },
+    {
+      "name": "findWithDeclaredQuery",
+      "signature": "public abstract java.util.List<example.springdata.aot.Category> example.springdata.aot.CategoryRepository.findWithDeclaredQuery(java.lang.String)",
+      "query": {
+        "query": "SELECT * FROM category WHERE name = :name"
+      }
+    },
+    {
+      "name": "save",
+      "signature": "org.springframework.data.jdbc.repository.support.SimpleJdbcRepository",
+      "fragment": {
+        "interface": "org.springframework.data.jdbc.repository.support.SimpleJdbcRepository",
+        "fragment": "org.springframework.data.jdbc.repository.support.SimpleJdbcRepository"
+      }
+    }
+  ]
+}
+----

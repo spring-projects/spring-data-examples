@@ -1,0 +1,92 @@
+= Spring Data MongoDB - Ahead of Time Repository Optimization Example
+
+The project shows the usage of AOT Repositories.
+Ahead of Time Repositories implement query methods through code contribution and allow for debugging queries during runtime.
+Additionally, AOT repositories improve startup time and reduce memory consumption because AOT optimized query methods do not require reflective introspection.
+Each AOT repository is documented with a JSON file that describes the queries implemented by the repository.
+
+== Using AOT Repositories
+
+Repository AOT processing is enabled by default when using Spring Boot's AOT processing (see `pom.xml` for `spring-boot-maven-plugin` usage).
+AOT processing generates AOT artifacts to `target/spring-aot` and through the regular build.
+When using the JVM mode (not Graal Native Images), then you need to enable AOT mode on the JVM when running your application through `-Dspring.aot.enabled=true`.
+
+[source,bash]
+----
+$ mvn clean package
+$ java -Dspring.aot.enabled=true -jar target/spring-data-mongodb-aot-optimization-4.0.0-SNAPSHOT.jar
+----
+
+You can find more details about AOT processing in the https://docs.spring.io/spring-data/mongodb/reference/5.0/mongodb/aot.html#aot.repositories[Spring Data MongoDB Reference Documentation].
+
+== AOT Repository
+
+**`UserRepositoryImpl__AotRepository`**
+
+Excerpt from: `target/spring-aot/main/sources/example/springdata/aot/UserRepositoryImpl__AotRepository.java`
+
+[source,java]
+----
+@Generated
+public class UserRepositoryImpl__AotRepository extends MongoAotRepositoryFragmentSupport {
+  private final MongoOperations operations;
+
+  public UserRepositoryImpl__AotRepository(MongoOperations operations,
+      RepositoryFactoryBeanSupport.FragmentCreationContext context) {
+      // …
+  }
+
+  public Boolean existsByUsername(String username) {
+    class ExpressionMarker{};
+
+    BasicQuery filterQuery = createQuery(ExpressionMarker.class.getEnclosingMethod(), "{\"username\": ?0}", username);
+
+    ExecutableFindOperation.FindWithQuery<User> finder = operations.query(User.class);
+    return finder.matching(filterQuery).exists();
+  }
+
+  public List<User> findJustUsernameBy() {
+
+    BasicQuery filterQuery = new BasicQuery(new Document());
+    Document fields = parse("{ 'username' :  1 }");
+    filterQuery.setFieldsObject(fields);
+    Document sort = parse("{ 'username' :  -1 }");
+    filterQuery.setSortObject(sort);
+
+    ExecutableFindOperation.FindWithQuery<User> finder = operations.query(User.class);
+    return finder.matching(filterQuery).all();
+  }
+}
+----
+
+== Metadata
+
+**`UserRepository.json`**
+
+Excerpt from: `target/spring-aot/main/resources/example/springdata/aot/UserRepository.json`
+
+[source,json]
+----
+{
+  "name": "example.springdata.aot.UserRepository",
+  "module": "MongoDB",
+  "type": "IMPERATIVE",
+  "methods": [
+    {
+      "name": "countUsersByLastnameLike",
+      "signature": "public abstract java.lang.Long example.springdata.aot.UserRepository.countUsersByLastnameLike(java.lang.String)",
+      "query": {
+        "filter": "{\"lastname\": ?0}"
+      }
+    },
+    {
+      "name": "save",
+      "signature": "org.springframework.data.mongodb.repository.support.SimpleMongoRepository",
+      "fragment": {
+        "interface": "org.springframework.data.mongodb.repository.support.SimpleMongoRepository",
+        "fragment": "org.springframework.data.mongodb.repository.support.SimpleMongoRepository"
+      }
+    }
+  ]
+}
+----

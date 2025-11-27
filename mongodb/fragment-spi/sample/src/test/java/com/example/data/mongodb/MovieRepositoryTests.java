@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package com.example.data.mongodb;
 
-import example.springdata.mongodb.util.AtlasContainer;
 import example.springdata.mongodb.util.MongoContainers;
 
 import java.util.List;
@@ -31,12 +30,12 @@ import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.core.io.Resource;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.mongodb.MongoDBAtlasLocalContainer;
 
 import com.mongodb.client.MongoClient;
 
@@ -52,12 +51,8 @@ class MovieRepositoryTests {
 
 	private static final Logger log = LoggerFactory.getLogger(MovieRepositoryTests.class);
 
-	private static @Container AtlasContainer atlasLocal = MongoContainers.getAtlasContainer();
-
-	@DynamicPropertySource
-	static void setProperties(DynamicPropertyRegistry registry) {
-		registry.add("spring.data.mongodb.uri", atlasLocal::getConnectionString);
-	}
+	private static @ServiceConnection @Container MongoDBAtlasLocalContainer atlasLocal = MongoContainers
+			.getAtlasContainer();
 
 	@Value("classpath:/mflix.embedded_movies.json.gz") Resource moviesResource;
 	@Autowired MovieRepository repository;

@@ -3,8 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-data-jpa-graalvm-native</artifactId>
-
 	<parent>
 		<groupId>org.springframework.data.examples</groupId>
 		<artifactId>spring-data-examples</artifactId>
@@ -12,6 +10,7 @@
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
+	<artifactId>spring-data-jpa-graalvm-native</artifactId>
 	<name>Spring Data JPA - GraalVM Native Image</name>
 
 	<dependencies>
