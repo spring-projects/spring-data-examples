@@ -1,11 +1,11 @@
 /*
- * Copyright 2011-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,19 +17,24 @@ package example.springdata.jpa.showcase.before;
 
 import static org.assertj.core.api.Assertions.*;
 
-import example.springdata.jpa.showcase.AbstractShowcaseTest;
-
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration test for {@link CustomerService}.
  *
  * @author Oliver Gierke
  * @author Divya Srivastava
+ * @author Mark Paluch
  */
-class CustomerServiceIntegrationTest extends AbstractShowcaseTest {
+@SpringBootTest
+@Transactional
+@Sql("classpath:import.sql")
+class CustomerServiceIntegrationTest {
 
 	@Autowired CustomerService repository;
 
