@@ -39,6 +39,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.ScrollPosition;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Window;
 import org.springframework.data.support.WindowIterator;
 import org.springframework.data.util.Streamable;
@@ -86,6 +87,27 @@ class PaginationTests {
 		do {
 
 			page = books.findByTitleContainsOrderByPublicationDate("the", pageRequest);
+			assertThat(page.getContent().size()).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+
+			pageRequest = page.nextPageable();
+		} while (page.hasNext());
+	}
+
+	/**
+	 * Page through the results using an offset/limit approach where the server skips over the number of results specified
+	 * via {@link Pageable#getOffset()}. The {@link Page} return type will run an additional {@literal count} query to
+	 * read the total number of matching rows on each request using a book projection.
+	 */
+	@Test
+	void pageThroughResultsWithSpecificationAndProjectionUsingSkipAndLimit() {
+
+		Page<BookProjection> page;
+		Pageable pageRequest = PageRequest.of(0, 2, Sort.by("publicationDate"));
+
+		do {
+			Pageable pageRequestToUse = pageRequest;
+			page = books.findBy((from, cb) -> cb.like(from.get("title"), "%the%"),
+					it -> it.as(BookProjection.class).page(pageRequestToUse));
 			assertThat(page.getContent().size()).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 
 			pageRequest = page.nextPageable();
