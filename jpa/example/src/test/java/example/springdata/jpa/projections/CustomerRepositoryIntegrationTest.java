@@ -17,6 +17,10 @@ package example.springdata.jpa.projections;
 
 import static org.assertj.core.api.Assertions.*;
 
+import jakarta.persistence.EntityManager;
+
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +30,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.PredicateSpecification;
 import org.springframework.data.projection.TargetAware;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +54,7 @@ class CustomerRepositoryIntegrationTest {
 	static class Config {}
 
 	@Autowired CustomerRepository customers;
+	@Autowired EntityManager entityManager;
 
 	private Customer dave;
 	private Customer carter;
@@ -96,7 +103,7 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void projectsIndividualDynamically() {
 
-		var result = customers.findProjectedById(dave.getId(), CustomerSummary.class);
+		CustomerSummary result = customers.findProjectedById(dave.getId(), CustomerSummary.class);
 
 		assertThat(result.getFullName()).isEqualTo("Dave Matthews");
 
@@ -108,7 +115,7 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void projectIndividualInstance() {
 
-		var projectedDave = customers.findProjectedById(dave.getId());
+		CustomerProjection projectedDave = customers.findProjectedById(dave.getId());
 
 		assertThat(projectedDave.getFirstname()).isEqualTo("Dave");
 		assertThat(projectedDave).isInstanceOfSatisfying(TargetAware.class,
@@ -118,7 +125,7 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void projectsDtoUsingConstructorExpression() {
 
-		var result = customers.findDtoWithConstructorExpression("Dave");
+		Collection<CustomerDto> result = customers.findDtoWithConstructorExpression("Dave");
 
 		assertThat(result).hasSize(1);
 		assertThat(result.iterator().next().firstname()).isEqualTo("Dave");
@@ -127,7 +134,8 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void supportsProjectionInCombinationWithPagination() {
 
-		var page = customers.findPagedProjectedBy(PageRequest.of(0, 1, Sort.by(Direction.ASC, "lastname")));
+		Page<CustomerProjection> page = customers
+				.findPagedProjectedBy(PageRequest.of(0, 1, Sort.by(Direction.ASC, "lastname")));
 
 		assertThat(page.getContent().get(0).getFirstname()).isEqualTo("Carter");
 	}
@@ -140,10 +148,13 @@ class CustomerRepositoryIntegrationTest {
 	@Test
 	void projectsWithSpecification() {
 
-		var result = customers.findBy((query, cb) -> cb.equal(query.get("firstname"), "Dave"),
-				it -> it.as(CustomerDto.class).all());
+		PredicateSpecification<Customer> isFirstName = (from, cb) -> cb.equal(from.get("firstname"), "Dave");
+		PredicateSpecification<Customer> isLastName = (from, cb) -> cb.equal(from.get("lastname"), "Matthews");
+
+		List<CustomerDto> result = customers.findBy(isFirstName.and(isLastName), it -> it.as(CustomerDto.class).all());
 
 		assertThat(result).hasSize(1);
 		assertThat(result).extracting(CustomerDto::firstname).containsOnly("Dave");
 	}
+
 }

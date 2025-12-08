@@ -1,11 +1,11 @@
 /*
- * Copyright 2013-2021 the original author or authors.
+ * Copyright 2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,7 @@ import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.scheduling.annotation.Async;
@@ -36,7 +37,7 @@ import org.springframework.scheduling.annotation.Async;
  * @author Thomas Darimont
  * @author Christoph Strobl
  */
-public interface SimpleUserRepository extends ListCrudRepository<User, Long> {
+public interface SimpleUserRepository extends ListCrudRepository<User, Long>, JpaSpecificationExecutor<User> {
 
 	/**
 	 * Find the user with the given username. This method will be translated into a query using the
