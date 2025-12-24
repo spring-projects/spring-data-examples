@@ -15,15 +15,14 @@
  */
 package example.springdata.jpa.fetchgraph;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.util.Collections;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import jakarta.persistence.EntityManager;
-
+import java.util.Collections;
+import java.util.stream.IntStream;
 import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +46,13 @@ class FetchGraphIntegrationTests {
 	void shouldFetchAssociationMarkedAsLazyViaNamedEntityFetchGraph() {
 
 		var xps = new Product("Dell XPS 15");
-		Collections.addAll(xps.getTags(), new Tag("cool"), new Tag("macbook-killer"), new Tag("speed"));
+		var expectedSize = 10;
+
+		Tag[] arr = IntStream.range(0, expectedSize)
+			.mapToObj(Tag::createTestTag)
+			.toArray(Tag[]::new);
+
+		Collections.addAll(xps.getTags(), arr);
 
 		xps = repository.save(xps);
 		repository.flush();
@@ -64,7 +69,7 @@ class FetchGraphIntegrationTests {
 		// here we use the findWithNamedEntityGraphById that uses a NamedEntityGraph
 		var loadedXpsWithFetchGraph = repository.findWithNamedEntityGraphById(xps.getId());
 
-		assertThat(loadedXpsWithFetchGraph.getTags()).hasSize(3);
+		assertThat(loadedXpsWithFetchGraph.getTags()).hasSize(expectedSize);
 	}
 
 	@Test

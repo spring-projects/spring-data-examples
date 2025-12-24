@@ -15,27 +15,35 @@
  */
 package example.springdata.jpa.fetchgraph;
 
+import jakarta.persistence.GenerationType;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Setter;
 
 /**
  * @author Thomas Darimont
  */
-@Data
+
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
 public class Tag {
 
-	@Id @GeneratedValue //
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
 	String name;
 
 	public Tag(String name) {
 		this.name = name;
+	}
+	public static Tag createTestTag(int num){
+		return new Tag(String.format("Tag%d", num));
 	}
 }

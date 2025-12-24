@@ -15,7 +15,9 @@
  */
 package example.springdata.jpa.fetchgraph;
 
+import jakarta.persistence.GenerationType;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
@@ -30,17 +32,19 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedEntityGraphs;
+import lombok.Setter;
 
 /**
  * @author Thomas Darimont
  */
-@Data
 @NoArgsConstructor
 @Entity
 @NamedEntityGraphs(@NamedEntityGraph(name = "product-with-tags", attributeNodes = { @NamedAttributeNode("tags") }))
+@Getter
+@Setter
 public class Product {
 
-	@Id @GeneratedValue //
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
 	String name;
