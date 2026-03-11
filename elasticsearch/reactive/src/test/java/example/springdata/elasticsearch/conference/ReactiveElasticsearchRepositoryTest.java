@@ -49,8 +49,7 @@ class ReactiveElasticsearchRepositoryTest {
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Container //
-	private static final ElasticsearchContainer container = new ElasticsearchContainer(
-			DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:9.2.3")) //
+	private static final ElasticsearchContainer container = new ElasticsearchContainer("elasticsearch:9.3.1")
 			.withPassword("foobar") //
 			.withReuse(true);
 
