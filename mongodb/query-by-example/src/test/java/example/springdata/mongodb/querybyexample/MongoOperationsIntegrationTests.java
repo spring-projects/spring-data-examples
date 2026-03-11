@@ -57,7 +57,7 @@ class MongoOperationsIntegrationTests {
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
-		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+		registry.add("spring.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
 	@Autowired MongoOperations operations;

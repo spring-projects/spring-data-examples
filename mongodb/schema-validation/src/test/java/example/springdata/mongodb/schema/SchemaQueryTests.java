@@ -48,7 +48,7 @@ class SchemaQueryTests {
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
-		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+		registry.add("spring.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
 	private static final String COLLECTION = "star-wars";

@@ -62,7 +62,7 @@ public class TransitionServiceTests {
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
-		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+		registry.add("spring.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
 	static final String DB_NAME = "spring-data-tx-examples";
