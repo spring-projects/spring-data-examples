@@ -20,7 +20,7 @@ This example demonstrates various ways to bend what the standard mapping of Spri
 
 * The `minimumAge` and `maximumAge` properties show a way to use types which don't have direct mapping to a SQL type, by marking them with `@Transient` and having converted properties for Spring Data JDBC to use.
 
-* The `models` attribute demonstrate mapping of a `Map<simple type, entity>`. It does work out of the box, but in this case the the key of the map should be one attribute of the entity.
+* The `models` attribute demonstrate mapping of a `Map<simple type, entity>`. It does work out of the box, but in this case the key of the map should be one attribute of the entity.
 This is achieved by providing a custom `NamingStrategy` which maps both to the same database column.
 
 * When the database returns a data type for query which Spring Data JDBC doesn't map out of the box a custom conversion can be registered using a `ConversionCustomizer` as demonstrated in `AggregateContext.conversionCustomizer()`.
