@@ -17,8 +17,12 @@ package example.springdata.elasticsearch.conference;
 
 import static org.assertj.core.api.Assertions.*;
 
+import example.springdata.elasticsearch.speaker.Speaker;
+import example.springdata.elasticsearch.talk.Talk;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,5 +106,39 @@ class ElasticsearchOperationsTest {
 		var result = operations.search(query, Conference.class, IndexCoordinates.of("conference-index"));
 
 		assertThat(result).hasSize(2);
+	}
+
+	@Test
+	void criteriaQueryOnNestedSpeakers() {
+
+		String speakerName = "Ali";
+		var speaker = Speaker.builder()
+				.name(speakerName)
+				.position("Developer")
+				.build();
+
+		var talkWithSpeaker = Talk.builder()
+				.id("1")
+				.title("Spring & Elasticsearch")
+				.speakers(List.of(speaker))
+				.build();
+
+		var talkWithoutSpeaker = Talk.builder()
+				.id("2")
+				.title("No Speakers Here")
+				.build();
+
+		operations.save(talkWithSpeaker);
+		operations.save(talkWithoutSpeaker);
+
+		var criteria = new Criteria("speakers.name").is(speakerName);
+		var query = new CriteriaQuery(criteria);
+
+		var result = operations.search(query, Talk.class);
+
+		assertThat(result).hasSize(1);
+		assertThat(result.getSearchHits().get(0).getContent()
+				.getSpeakers().get(0).getName())
+				.isEqualTo(speakerName);
 	}
 }
