@@ -1,0 +1,113 @@
+= Spring Data REST - Associations example
+
+This example shows how to create an entity and its association with another entity in a single HTTP call.
+
+For example, given parent entity "Parent" and child entity "Child", you can create both records with a single HTTP call, like this:
+
+.Sample HTTP Call to create parent and child records:
+====
+[source,bash]
+----
+curl -X POST http://localhost:8080/api/parents \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "children": [
+      { "name": "Jane Doe" },
+      { "name": "Jimmy Doe" }
+    ]
+  }'
+----
+====
+
+== Details
+
+To add a parent and a child record in a single API call using Spring Data REST, you must configure a cascading relationship (cascade = CascadeType.ALL) on your JPA entity and send a nested JSON payload to the parent’s repository endpoint.
+
+By default, Spring Data REST exposes repositories as individual HATEOAS endpoints and expects associations to be linked via URIs. To force it to accept and save a child nested inside a parent object in a single POST request, implement the configuration below.
+
+== Configure the JPA Entities
+
+You must use a bidirectional relationship or an explicitly managed unidirectional relationship with CascadeType.ALL or CascadeType.PERSIST
+
+[source,java]
+----
+@Entity
+public class Parent {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // The cascade attribute ensures the child is saved when the parent is saved
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Child> children = new ArrayList<>();
+
+    // Helper method to keep both sides of the relationship in sync
+    public void addChild(Child child) {
+        children.add(child);
+        child.setParent(this);
+    }
+
+    // Getters and setters
+}
+
+@Entity
+public class Child {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Parent parent;
+
+    // Getters and setters
+}
+----
+
+== Expose Only the Parent Repository
+
+For Spring Data REST to seamlessly deserialize the nested collection instead of treating it as a resource link, the cleanest approach is to not export the child repository. If you do not export the child repository, Spring Data REST automatically falls back to standard Jackson serialization, embedding the child elements directly.
+
+[source,java]
+----
+@RepositoryRestResource(collectionResourceRel = "parents", path = "parents")
+public interface ParentRepository extends CrudRepository<Parent, Long> {
+}
+
+// Keep exported = false so Spring Data REST processes children inline
+@RepositoryRestResource(exported = false)
+public interface ChildRepository extends CrudRepository<Child, Long> {
+}
+----
+
+== Send the HTTP API Request
+
+Issue a POST request to the parent collection endpoint with the nested child records inside the JSON body.
+
+- HTTP Method: POST
+- URL: /api/parents (or your configured root path)
+- Headers: Content-Type: application/json
+
+Payload:
+
+[source,json]
+----
+{
+  "name": "John Doe",
+  "children": [
+    {
+      "name": "Jane Doe"
+    },
+    {
+      "name": "Jimmy Doe"
+    }
+  ]
+}
+----
+
+This example uses Spring JPA to manage associations between entities.

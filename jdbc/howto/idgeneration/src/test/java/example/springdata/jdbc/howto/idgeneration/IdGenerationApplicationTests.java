@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jdbc.test.autoconfigure.DataJdbcTest;
-import org.springframework.dao.IncorrectUpdateSemanticsDataAccessException;
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
 
 @DataJdbcTest
@@ -59,8 +58,20 @@ class IdGenerationApplicationTests {
 		Minion before = new Minion("Stuart");
 		before.id = 42L;
 
-		// We can't save this because Spring Data JDBC thinks it has to do an update.
-		assertThatThrownBy(() -> minions.save(before)).isInstanceOf(IncorrectUpdateSemanticsDataAccessException.class);
+		// Spring Data JDBC 4.x no longer throws IncorrectUpdateSemanticsDataAccessException
+		// when saving an entity with a preset non-null ID. Instead it silently attempts an
+		// UPDATE (which affects 0 rows) and returns without error. Use template.insert()
+		// to explicitly insert a new aggregate with a user-supplied ID.
+		//
+		// The recommended workaround is to use template.insert() as shown in
+		// insertNewAggregateWithPresetIdUsingTemplate(), or to implement Persistable
+		// as shown in determineIsNewPerPersistable().
+		Minion result = minions.save(before);
+
+		// The save silently does an UPDATE (0 rows affected) and returns the entity unchanged.
+		// The record is NOT actually persisted — verify it is absent from the database.
+		assertThat(minions.findById(42L)).isEmpty();
+		assertThat(result.id).isEqualTo(42L);
 	}
 
 	@Test

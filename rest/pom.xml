@@ -15,6 +15,7 @@
 	<description>Sample projects for Spring Data REST</description>
 
 	<modules>
+		<module>associations</module>
 		<module>starbucks</module>
 		<module>multi-store</module>
 		<module>projections</module>
