@@ -15,6 +15,14 @@
  */
 package example.springdata.rest.associations;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +34,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 /**
- * Integration tests for the associations example.
+ * Integration tests for the associations example. Demonstrates creating a parent and one or more child records in a
+ * single HTTP POST call.
  *
- * Demonstrates creating a parent and one or more child records in a single HTTP POST call.
+ * @author Steve Rutherford
  */
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -54,8 +55,8 @@ class AssociationsIntegrationTests {
 	}
 
 	/**
-	 * Verifies that the application bootstraps correctly and the sample data
-	 * seeded in {@link Application#init()} is present in the repository.
+	 * Verifies that the application bootstraps correctly and the sample data seeded in {@link Application#init()} is
+	 * present in the repository.
 	 */
 	@Test
 	@Transactional
@@ -72,25 +73,17 @@ class AssociationsIntegrationTests {
 	}
 
 	/**
-	 * Verifies that a single HTTP POST to /parents creates both the parent record
-	 * and its nested child records in one call, leveraging JPA cascade persistence.
-	 *
-	 * The child repository is not exported, so Spring Data REST falls back to
-	 * standard Jackson deserialization and accepts the children inline in the JSON body.
-	 * The response body is returned because {@code spring.data.rest.return-body-on-create=true}.
-	 *
-	 * NOTE: Spring Data REST deserializes the children list from JSON but does NOT
-	 * automatically set the back-reference (child.parent). The parent entity must
-	 * wire up the relationship before saving. This is handled by the {@code addChild}
-	 * helper on {@link Parent}. However, when Spring Data REST deserializes the JSON
-	 * directly into the entity, it bypasses {@code addChild} and the back-reference
-	 * is not set, so children are saved without a parent_id FK and the collection
-	 * remains empty on re-fetch.
-	 *
-	 * The correct approach is to verify the HTTP response body (which reflects what
-	 * was saved) and then verify the parent was persisted — the children assertion
-	 * is intentionally omitted here because Spring Data REST does not cascade-wire
-	 * the bidirectional relationship automatically from JSON.
+	 * Verifies that a single HTTP POST to /parents creates both the parent record and its nested child records in one
+	 * call, leveraging JPA cascade persistence. The child repository is not exported, so Spring Data REST falls back to
+	 * standard Jackson deserialization and accepts the children inline in the JSON body. The response body is returned
+	 * because {@code spring.data.rest.return-body-on-create=true}. NOTE: Spring Data REST deserializes the children list
+	 * from JSON but does NOT automatically set the back-reference (child.parent). The parent entity must wire up the
+	 * relationship before saving. This is handled by the {@code addChild} helper on {@link Parent}. However, when Spring
+	 * Data REST deserializes the JSON directly into the entity, it bypasses {@code addChild} and the back-reference is
+	 * not set, so children are saved without a parent_id FK and the collection remains empty on re-fetch. The correct
+	 * approach is to verify the HTTP response body (which reflects what was saved) and then verify the parent was
+	 * persisted — the children assertion is intentionally omitted here because Spring Data REST does not cascade-wire the
+	 * bidirectional relationship automatically from JSON.
 	 */
 	@Test
 	void createsParentAndChildrenInSingleHttpPost() throws Exception {
@@ -109,13 +102,8 @@ class AssociationsIntegrationTests {
 		// The response body contains the created parent (return-body-on-create=true).
 		// Spring Data REST serializes the children inline because there is no exported
 		// ChildRepository, so the children collection is rendered as embedded JSON.
-		var result = mvc.perform(post("/parents")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
-				.andDo(print())
-				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.name", is("John Doe")))
-				.andReturn();
+		var result = mvc.perform(post("/parents").contentType(MediaType.APPLICATION_JSON).content(payload)).andDo(print())
+				.andExpect(status().isCreated()).andExpect(jsonPath("$.name", is("John Doe"))).andReturn();
 
 		// The Location header points to the newly created parent resource
 		var location = result.getResponse().getHeader("Location");
@@ -139,11 +127,8 @@ class AssociationsIntegrationTests {
 				}
 				""";
 
-		mvc.perform(post("/parents")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
-				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.name", is("Solo Parent")));
+		mvc.perform(post("/parents").contentType(MediaType.APPLICATION_JSON).content(payload))
+				.andExpect(status().isCreated()).andExpect(jsonPath("$.name", is("Solo Parent")));
 
 		var solo = findParentByName("Solo Parent");
 		assertThat(solo).isNotNull();
@@ -156,8 +141,7 @@ class AssociationsIntegrationTests {
 	@Test
 	void getParentsReturnsCollection() throws Exception {
 
-		mvc.perform(get("/parents").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
+		mvc.perform(get("/parents").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(jsonPath("$._embedded.parents").isArray());
 	}
 
@@ -177,19 +161,13 @@ class AssociationsIntegrationTests {
 				""";
 
 		// Create the parent and capture the Location header
-		var location = mvc.perform(post("/parents")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
-				.andExpect(status().isCreated())
-				.andReturn()
-				.getResponse()
-				.getHeader("Location");
+		var location = mvc.perform(post("/parents").contentType(MediaType.APPLICATION_JSON).content(payload))
+				.andExpect(status().isCreated()).andReturn().getResponse().getHeader("Location");
 
 		assertThat(location).isNotNull();
 
 		// Fetch the created parent by its self-link
-		mvc.perform(get(location).accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
+		mvc.perform(get(location).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", is("Fetch Me")));
 	}
 
@@ -198,9 +176,7 @@ class AssociationsIntegrationTests {
 	 */
 	@Transactional
 	Parent findParentByName(String name) {
-		return ((java.util.List<Parent>) repository.findAll()).stream()
-				.filter(p -> name.equals(p.getName()))
-				.findFirst()
+		return ((java.util.List<Parent>) repository.findAll()).stream().filter(p -> name.equals(p.getName())).findFirst()
 				.orElse(null);
 	}
 }

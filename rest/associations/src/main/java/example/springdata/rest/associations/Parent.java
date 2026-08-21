@@ -15,9 +15,6 @@
  */
 package example.springdata.rest.associations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,21 +22,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Aggregate root representing a parent with a one-to-many relationship to {@link Child} entities.
+ *
+ * @author Steve Rutherford
  */
 @Entity
 public class Parent {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
 	private String name;
 
 	// The cascade attribute ensures children are saved when the parent is saved
-	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = jakarta.persistence.FetchType.EAGER)
-	private List<Child> children = new ArrayList<>();
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true,
+			fetch = jakarta.persistence.FetchType.EAGER) private List<Child> children = new ArrayList<>();
 
 	Parent() {}
 

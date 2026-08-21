@@ -19,11 +19,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
- * Spring Data repository interface to manage {@link Parent} instances.
+ * Spring Data repository interface to manage {@link Parent} instances. Exposed as a REST resource so that Spring Data
+ * REST handles the parent endpoint. The child repository is intentionally not exported so that Spring Data REST falls
+ * back to standard Jackson serialization and accepts nested children inline.
  *
- * Exposed as a REST resource so that Spring Data REST handles the parent endpoint.
- * The child repository is intentionally not exported so that Spring Data REST
- * falls back to standard Jackson serialization and accepts nested children inline.
+ * @author Steve Rutherford
  */
 @RepositoryRestResource(collectionResourceRel = "parents", path = "parents")
 public interface ParentRepository extends CrudRepository<Parent, Long> {}

@@ -22,8 +22,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Sample application that demonstrates how to create a parent and child record
- * with a single HTTP POST call using Spring Data REST and JPA cascade.
+ * Sample application that demonstrates how to create a parent and child record with a single HTTP POST call using
+ * Spring Data REST and JPA cascade.
+ *
+ * @author Steve Rutherford
  */
 @SpringBootApplication
 public class Application {

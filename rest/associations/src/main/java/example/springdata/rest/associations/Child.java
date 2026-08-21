@@ -26,20 +26,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Child entity associated with a given {@link Parent}.
+ *
+ * @author Steve Rutherford
  */
 @Entity
 public class Child {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
 	private String name;
 
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
-	@JsonIgnore
-	private Parent parent;
+	@JsonIgnore private Parent parent;
 
 	Child() {}
 
