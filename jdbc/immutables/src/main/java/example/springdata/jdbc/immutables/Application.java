@@ -69,7 +69,7 @@ class Application {
 		 */
 //		@Override
 		public JdbcConverter jdbcConverter(JdbcMappingContext mappingContext, NamedParameterJdbcOperations operations,
-										   @Lazy RelationResolver relationResolver, JdbcCustomConversions conversions, Dialect dialect) {
+				@Lazy RelationResolver relationResolver, JdbcCustomConversions conversions, Dialect dialect) {
 
 			var jdbcTypeFactory = new DefaultJdbcTypeFactory(operations.getJdbcOperations());
 
@@ -78,7 +78,7 @@ class Application {
 				@Override
 				@SuppressWarnings("all")
 				protected <S> S readAggregate(ConversionContext context, RowDocumentAccessor documentAccessor,
-											  TypeInformation<? extends S> typeHint) {
+						TypeInformation<? extends S> typeHint) {
 
 					RelationalPersistentEntity<?> implementationEntity = getImplementationEntity(mappingContext,
 							mappingContext.getRequiredPersistentEntity(typeHint));
@@ -94,7 +94,7 @@ class Application {
 		 */
 		@SuppressWarnings("unchecked")
 		private <T> RelationalPersistentEntity<T> getImplementationEntity(JdbcMappingContext mappingContext,
-																		  RelationalPersistentEntity<T> entity) {
+				RelationalPersistentEntity<T> entity) {
 
 			Class<T> type = entity.getType();
 			if (type.isInterface()) {
