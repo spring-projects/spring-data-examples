@@ -81,7 +81,7 @@ Issue a POST request to the parent collection endpoint with the nested child rec
 
 [source,bash]
 ----
-curl -X POST http://localhost:8080/api/parents \
+curl -X POST http://localhost:8080/parents \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Doe",
