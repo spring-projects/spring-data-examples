@@ -1,0 +1,189 @@
+= Spring Data REST - Entity Lookup Example
+
+Sample application that demonstrates how to configure a custom entity lookup in Spring Data REST, allowing resources to be addressed by a meaningful business identifier (e.g. `username`) instead of the default database-generated primary key (`id`).
+
+== Overview
+
+By default, Spring Data REST exposes entities at URIs that include the entity's primary key, for example:
+
+----
+GET /users/1
+----
+
+This example shows how to override that behaviour so that a `User` can be looked up by its `username` field instead:
+
+----
+GET /users/jdoe
+----
+
+== Project Structure
+
+[source]
+----
+src/main/java/example/springdata/rest/entitylookup/
+├── Application.java                  # Spring Boot entry point; seeds an initial User on startup
+├── User.java                         # JPA entity mapped to the "app_user" table
+├── UserRepo.java                     # Spring Data JPA repository exposed via Spring Data REST
+└── SpringDataRestCustomization.java  # RepositoryRestConfigurer that registers the custom lookup
+----
+
+== Key Components
+
+=== `User` Entity
+
+The `User` entity is a standard JPA entity mapped to the `app_user` table. It carries three fields:
+
+* `id` – auto-assigned primary key (`Long`)
+* `username` – the business identifier used for REST lookups
+* `fullName` – display name of the user
+
+[source,java]
+----
+@Entity
+@Table(name = "app_user")
+public class User {
+    @Id
+    private Long id;
+    private String username;
+    private String fullName;
+}
+----
+
+=== `UserRepo` Repository
+
+`UserRepo` extends `JpaRepository` and is exported as a REST resource via `@RepositoryRestResource`. It also declares a `findByUsername` query method that the custom lookup delegates to.
+
+[source,java]
+----
+@RepositoryRestResource(exported = true)
+public interface UserRepo extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+}
+----
+
+=== `SpringDataRestCustomization` Configuration
+
+This is the heart of the example. By implementing `RepositoryRestConfigurer`, the application registers a custom entity lookup that:
+
+1. Extracts the `username` from a `User` instance (used to build the URI).
+2. Resolves a `username` path segment back to a `User` entity (used when handling incoming requests).
+
+[source,java]
+----
+@Configuration
+public class SpringDataRestCustomization implements RepositoryRestConfigurer {
+
+    @Override
+    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
+        config.withEntityLookup()
+                .forRepository(UserRepo.class, User::getUsername, UserRepo::findByUsername);
+    }
+}
+----
+
+The two method references passed to `forRepository` are:
+
+[cols="1,3"]
+|===
+| Method reference | Purpose
+
+| `User::getUsername`
+| Extracts the lookup value from an entity instance (used when generating `_links`).
+
+| `UserRepo::findByUsername`
+| Resolves the lookup value from the URL path back to an entity (used when handling `GET /users/{username}`).
+|===
+
+== Running the Application
+
+The application uses an in-memory H2 database, so no external infrastructure is required.
+
+[source,bash]
+----
+./mvnw spring-boot:run -pl rest/entitylookup
+----
+
+On startup, `Application.init()` saves a single `User` to the database so there is data to query immediately.
+
+== Example Requests
+
+Once the application is running, you can interact with the REST API.
+
+=== 1. POST a new user
+
+Create a new `User` by posting a JSON body to the collection resource.
+The `id` field must be supplied because the entity does not use auto-generation in this example.
+
+[source,bash]
+----
+curl -X POST http://localhost:8080/users \
+     -H "Content-Type: application/json" \
+     -d '{"id": 42, "username": "jdoe", "fullName": "John Doe"}'
+----
+
+=== 2. GET the user by ID
+
+Retrieve the newly created user using its numeric primary key.
+
+[source,bash]
+----
+curl http://localhost:8080/users/42
+----
+
+NOTE: Without the custom entity lookup configured in `SpringDataRestCustomization`, this would be the *only* way to address the resource.
+
+=== 3. PUT an update to the user by ID
+
+Replace the user's data using the numeric primary key as the path segment.
+
+[source,bash]
+----
+curl -X PUT http://localhost:8080/users/42 \
+     -H "Content-Type: application/json" \
+     -d '{"id": 42, "username": "jdoe", "fullName": "Jonathan Doe"}'
+----
+
+=== 4. PUT an update to the user by username
+
+Thanks to the custom entity lookup, the same update can be performed using the `username` as the path segment instead of the numeric ID.
+
+[source,bash]
+----
+curl -X PUT http://localhost:8080/users/jdoe \
+     -H "Content-Type: application/json" \
+     -d '{"id": 42, "username": "jdoe", "fullName": "Jonathan Doe"}'
+----
+
+=== 5. PUT an update by username — omitting the `id` field
+
+Because the custom entity lookup resolves the record from the `username` in the URL, the `id` field does not need to be included in the request body.
+Spring Data REST identifies the target entity from the path segment and merges the supplied fields, so the following request is equivalent to example 4:
+
+[source,bash]
+----
+curl -X PUT http://localhost:8080/users/jdoe \
+     -H "Content-Type: application/json" \
+     -d '{"username": "jdoe", "fullName": "Jonathan Doe"}'
+----
+
+NOTE: This is one of the practical advantages of a custom entity lookup — clients can work with natural business identifiers and are not required to track or transmit internal database IDs.
+
+=== 6. GET the user by username
+
+Retrieve the user using the human-readable `username` identifier — the primary benefit of the custom entity lookup.
+
+[source,bash]
+----
+curl http://localhost:8080/users/jdoe
+----
+
+Without the custom lookup, this request would return a `404 Not Found` because Spring Data REST would try to parse `jdoe` as a `Long` primary key. With the customization in place, Spring Data REST uses `username` as the resource identifier in both directions — when building hypermedia `_links` and when resolving incoming requests.
+
+== Technologies Used
+
+* https://spring.io/projects/spring-boot[Spring Boot]
+* https://spring.io/projects/spring-data-jpa[Spring Data JPA]
+* https://spring.io/projects/spring-data-rest[Spring Data REST]
+* https://jakarta.ee/specifications/persistence/[Jakarta Persistence (JPA)]
+* https://www.h2database.com[H2 In-Memory Database]
+* https://projectlombok.org[Lombok]

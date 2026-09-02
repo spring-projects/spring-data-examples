@@ -21,6 +21,7 @@
 		<module>security</module>
 		<module>headers</module>
 		<module>uri-customization</module>
+		<module>entitylookup</module>
 	</modules>
 
 	<dependencies>
