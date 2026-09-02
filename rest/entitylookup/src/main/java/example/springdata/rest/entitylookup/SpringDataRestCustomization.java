@@ -1,14 +1,13 @@
-package example.springdata.rest.associations;
-
-// Source - https://stackoverflow.com/q/54651741
-// Posted by undef, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-09-02, License - CC BY-SA 4.0
+package example.springdata.rest.entitylookup;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+/**
+ * @author Steve Rutherford
+ */
 @Configuration
 public class SpringDataRestCustomization implements RepositoryRestConfigurer {
 	@Override
