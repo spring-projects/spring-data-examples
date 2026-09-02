@@ -38,6 +38,9 @@ public class Application {
 	@PostConstruct
 	public void init() {
 		var user = new User();
+		user.setId(1L);
+		user.setUsername("admin");
+		user.setFullName("Admin User");
 		users.save(user);
 	}
 }

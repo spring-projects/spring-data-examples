@@ -111,6 +111,7 @@ WARNING: If you're done using it, don't forget to shut it down!
 * `security` - A sample REST web-service secured using Spring Security.
 * `starbucks` - A sample REST web-service built with Spring Data REST and MongoDB.
 * `uri-customizations` - Example project to show URI customization capabilities.
+* `entitylookup` - Example project to show how to.
 
 == Spring Data web support
 
