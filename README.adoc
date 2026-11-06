@@ -48,7 +48,7 @@ Contains also examples running on Virtual Threads.
 * `multiple-datasources` - Examples of how to use Spring Data JPA with multiple `DataSource`s.
 * `query-by-example` - Example project showing usage of Query by Example with Spring Data JPA.
 * `security` - Example of how to integrate Spring Data JPA Repositories with Spring Security.
-* `showcase` - Refactoring show case of how to improve a plain-JPA-based persistence layer by using Spring Data JPA (read: removing close to all of the implementation code).Follow the `demo.txt` file for detailed instructions.
+* `showcase` - Refactoring show case of how to improve a plain-JPA-based persistence layer by using Spring Data JPA (read: removing close to all of the implementation code). Follow the `demo.txt` file for detailed instructions.
 * `vavr` - Shows the support of https://www.vavr.io[Vavr] collection types as return types for query methods.
 * `vector-search` - Example how to do vector search with a Spring Data JPA repository and `hibernate-vector`.
 
@@ -135,5 +135,5 @@ WARNING: If you're done using it, don't forget to shut it down!
  a https://projectlombok.org/download[download] for Eclipse-based IDEs.
 * The code makes use of Java 16 language features therefore you need Java 16 or newer to
  run and compile the examples.
-* Most store modules examples start their database via Testcontainers or as
+* Most store module examples start their database via Testcontainers or as
  embedded/in-memory server unless stated otherwise.
